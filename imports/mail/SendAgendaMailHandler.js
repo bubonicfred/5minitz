@@ -18,8 +18,11 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
     
     _sendMail() {
-        super._sendMail(this._getEmailData());
-    }    
+        let ms = new MeetingSeries(this._meetingSeries._id);
+        i18n.runWithLocale(ms.getMailLanguage(), () => {
+            super._sendMail(this._getEmailData());
+        });
+    }
 
     _getSubject() {
         return this._getSubjectPrefix() + ' (' + i18n.__('Minutes.agenda') + ')';
