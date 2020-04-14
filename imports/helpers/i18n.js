@@ -20,6 +20,23 @@ const approvedLocales = {
     'zh-cn':    true,
 };
 
+// We translate the 4Minitz UI with the help of CrowdIn:
+// https://crowdin.com/project/4minitz
+// For each language we start with a machine translation of English base texts
+// These machine translations always need native speaker approval / corrections
+// Below we list
+//       ****>>> languages with >90% strings approved <<<<****
+// So we can mark all other languages in the UI as "W-I-P" / Help wanted
+const approvedLocales = {
+    'de':       true,
+    'de-fr':    true,
+    'el':       true,
+    'it':       true,
+    'nl':       true,
+    'pl':       true,
+    'zh-cn':    true,
+};
+
 // Only server can provide all available languages via server-side method
 Meteor.methods({
     getAvailableLocales: function () {
