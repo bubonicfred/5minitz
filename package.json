@@ -86,7 +86,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/register": "^7.15.3",
     "@wdio/spec-reporter": "^5.22.4",
-    "@wdio/sync": "^5.20.1",
+    "@wdio/sync": "^7.10.1",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "chai": "^4.1.2",
