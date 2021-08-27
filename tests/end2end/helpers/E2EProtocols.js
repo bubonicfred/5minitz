@@ -1,13 +1,13 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
+import { E2EGlobal } from "./E2EGlobal";
 
-const fs = require('fs-extra');
+const fs = require("fs-extra");
 
 export class E2EProtocols {
   static setSettingsForProtocolGeneration(format) {
     // Set on server
-    server.call('e2e.setSettingsForProtocolGeneration', format);
+    server.call("e2e.setSettingsForProtocolGeneration", format);
     // Set on client
     browser.execute((format) => {
       Meteor.settings.public.docGeneration.enabled = !!format;
@@ -19,27 +19,30 @@ export class E2EProtocols {
   }
 
   static countProtocolsInMongoDB() {
-    return server.call('e2e.countProtocolsInMongoDB');
+    return server.call("e2e.countProtocolsInMongoDB");
   }
 
   static checkProtocolFileForMinuteExits(minuteId) {
-    let path = server.call('e2e.getProtocolStoragePathForMinute', minuteId);
+    let path = server.call("e2e.getProtocolStoragePathForMinute", minuteId);
 
-    if (!path) { // no protocol record in MongoDB
+    if (!path) {
+      // no protocol record in MongoDB
       return false;
     }
     return fs.existsSync(path);
   }
 
-  static downloadButtonExists() { return browser.isVisible('.btn-download'); }
+  static downloadButtonExists() {
+    return browser.isVisible(".btn-download");
+  }
 
   static checkDownloadOpensConfirmationDialog() {
-    browser.click('.btn-download');
+    browser.click(".btn-download");
     E2EGlobal.waitSomeTime(750);
-    return browser.isVisible('#confirmationDialogOK');
+    return browser.isVisible("#confirmationDialogOK");
   }
 
   static getDownloadLinkForProtocolOfMinute(minuteId) {
-    return server.call('e2e.getProtocolLinkForMinute', minuteId);
+    return server.call("e2e.getProtocolLinkForMinute", minuteId);
   }
 }

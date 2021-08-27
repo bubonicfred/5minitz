@@ -1,7 +1,7 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
-import {E2EApp} from './E2EApp';
+import { E2EGlobal } from "./E2EGlobal";
+import { E2EApp } from "./E2EApp";
 
 export class E2EMeetingSeries {
   static countMeetingSeries(gotToStartPage = true) {
@@ -9,11 +9,11 @@ export class E2EMeetingSeries {
       E2EApp.gotoStartPage();
     }
     try {
-      browser.waitForExist('li.meeting-series-item');
+      browser.waitForExist("li.meeting-series-item");
     } catch (e) {
       return 0; // we have no meeting series <li> => "zero" result
     }
-    const elements = browser.elements('li.meeting-series-item');
+    const elements = browser.elements("li.meeting-series-item");
     return elements.length;
   }
 
@@ -22,7 +22,7 @@ export class E2EMeetingSeries {
 
     // is "create MeetingSeries dialog" closed?
     if (!browser.isVisible('input[id="id_meetingproject"]')) {
-      E2EGlobal.clickWithRetry('#btnNewMeetingSeries'); // open
+      E2EGlobal.clickWithRetry("#btnNewMeetingSeries"); // open
       E2EGlobal.waitSomeTime();
       browser.waitForVisible('input[id="id_meetingproject"]');
     }
@@ -40,32 +40,31 @@ export class E2EMeetingSeries {
     this.editMeetingSeriesForm(aProj, aName, switchInput);
     E2EGlobal.waitSomeTime();
 
-    E2EGlobal.clickWithRetry('#btnAddInvite');
-    E2EGlobal.logTimestamp('will open MS Editor');
+    E2EGlobal.clickWithRetry("#btnAddInvite");
+    E2EGlobal.logTimestamp("will open MS Editor");
     try {
-      browser.waitForVisible('#btnMeetinSeriesEditCancel',
-                             5000); // will check every 500ms
-      E2EGlobal.logTimestamp('is open: MS Editor');
+      browser.waitForVisible("#btnMeetinSeriesEditCancel", 5000); // will check every 500ms
+      E2EGlobal.logTimestamp("is open: MS Editor");
     } catch (e) {
-      E2EGlobal.logTimestamp('could not open: MS Editor');
+      E2EGlobal.logTimestamp("could not open: MS Editor");
       if (keepOpenMSEditor) {
         throw e;
       }
     }
     E2EGlobal.waitSomeTime(1000); // additional time for panel switch!
     let meetingSeriesID = browser.getUrl();
-    meetingSeriesID = meetingSeriesID.replace(/^.*\//, '');
-    meetingSeriesID = meetingSeriesID.replace(/\?.*$/, '');
+    meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
+    meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
     if (!keepOpenMSEditor) {
-      if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
-        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+      if (browser.isVisible("#btnMeetinSeriesEditCancel")) {
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel");
         // browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); //
         // will check for IN-VISIBLE!
       } else {
         // if for miracoulous reasons the MS editor is already gone - we will
         // try to continue...
-        E2EGlobal.logTimestamp('MS Editor is closed by miracle. Continue.');
+        E2EGlobal.logTimestamp("MS Editor is closed by miracle. Continue.");
       }
       E2EApp.gotoStartPage();
     }
@@ -73,45 +72,46 @@ export class E2EMeetingSeries {
   }
 
   static getMeetingSeriesId(aProj, aName) {
-    const link = $('=' + aProj + ': ' + aName);
+    const link = $("=" + aProj + ": " + aName);
     if (!link.isExisting()) {
-      console.log('Could not find MSId for', aProj, aName);
-      return '';
+      console.log("Could not find MSId for", aProj, aName);
+      return "";
     }
-    let linkTarget = link.getAttribute('href');
-    return linkTarget.slice(linkTarget.lastIndexOf('/') + 1);
+    let linkTarget = link.getAttribute("href");
+    return linkTarget.slice(linkTarget.lastIndexOf("/") + 1);
   }
 
   static gotoMeetingSeries(aProj, aName) {
     E2EApp.gotoStartPage();
     E2EGlobal.waitSomeTime();
 
-    let selector = 'li.meeting-series-item a';
+    let selector = "li.meeting-series-item a";
     try {
       browser.waitForExist(selector);
     } catch (e) {
       return false; // we have no meeting series at all!
     }
-    let compareText = aProj + ': ' + aName;
+    let compareText = aProj + ": " + aName;
 
-    const element = $('=' + compareText);
+    const element = $("=" + compareText);
     if (!element.isExisting()) {
-      throw new Error('Could not find Meeting Series \'' + compareText + '\'');
+      throw new Error("Could not find Meeting Series '" + compareText + "'");
     }
     element.scrollIntoView();
     E2EGlobal.waitSomeTime(100);
     element.click();
     E2EGlobal.waitSomeTime(500);
     let currentURL = browser.getUrl();
-    if (!currentURL.includes('meetingseries')) {
-      throw new Error('Could not switch to Meeting Series \'' + compareText +
-                      '\'');
+    if (!currentURL.includes("meetingseries")) {
+      throw new Error(
+        "Could not switch to Meeting Series '" + compareText + "'"
+      );
     }
     return true;
   }
 
   static gotoTabMinutes() {
-    let selector = '#tab_minutes';
+    let selector = "#tab_minutes";
     try {
       browser.waitForExist(selector);
     } catch (e) {
@@ -122,7 +122,7 @@ export class E2EMeetingSeries {
   }
 
   static gotoTabTopics() {
-    let selector = '#tab_topics';
+    let selector = "#tab_topics";
     try {
       browser.waitForExist(selector);
     } catch (e) {
@@ -133,7 +133,7 @@ export class E2EMeetingSeries {
   }
 
   static gotoTabItems() {
-    let selector = '#tab_items';
+    let selector = "#tab_items";
     try {
       browser.waitForExist(selector);
     } catch (e) {

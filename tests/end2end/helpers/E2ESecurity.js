@@ -1,26 +1,26 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
-import {E2EMinutes} from './E2EMinutes';
-import {E2EMeetingSeriesEditor} from './E2EMeetingSeriesEditor';
-import {E2EMeetingSeries} from './E2EMeetingSeries';
+import { E2EGlobal } from "./E2EGlobal";
+import { E2EMinutes } from "./E2EMinutes";
+import { E2EMeetingSeriesEditor } from "./E2EMeetingSeriesEditor";
+import { E2EMeetingSeries } from "./E2EMeetingSeries";
 
 export class E2ESecurity {
-  static insertMeetingSeriesMethod = 'meetingseries.insert';
-  static updateMinutes = 'minutes.update';
-  static addMinutes = 'workflow.addMinutes';
-  static removeMinute = 'workflow.removeMinute';
-  static finalizeMinute = 'workflow.finalizeMinute';
-  static unfinalizeMinute = 'workflow.unfinalizeMinute';
-  static removeMeetingSeriesMethod = 'workflow.removeMeetingSeries';
-  static updateMeetingSeriesMethod = 'meetingseries.update';
-  static addTopic = 'minutes.addTopic';
-  static updateTopic = 'minutes.updateTopic';
-  static removeTopic = 'minutes.removeTopic';
-  static reopenTopic = 'workflow.reopenTopicFromMeetingSeries';
-  static saveRoleForMeetingSeries = 'userroles.saveRoleForMeetingSeries';
+  static insertMeetingSeriesMethod = "meetingseries.insert";
+  static updateMinutes = "minutes.update";
+  static addMinutes = "workflow.addMinutes";
+  static removeMinute = "workflow.removeMinute";
+  static finalizeMinute = "workflow.finalizeMinute";
+  static unfinalizeMinute = "workflow.unfinalizeMinute";
+  static removeMeetingSeriesMethod = "workflow.removeMeetingSeries";
+  static updateMeetingSeriesMethod = "meetingseries.update";
+  static addTopic = "minutes.addTopic";
+  static updateTopic = "minutes.updateTopic";
+  static removeTopic = "minutes.removeTopic";
+  static reopenTopic = "workflow.reopenTopicFromMeetingSeries";
+  static saveRoleForMeetingSeries = "userroles.saveRoleForMeetingSeries";
   static removeAllRolesForMeetingSeries =
-      'userroles.removeAllRolesForMeetingSeries';
+    "userroles.removeAllRolesForMeetingSeries";
 
   // Many of the security-e2e-tests will simulate a hacker-attack by calling
   // meteor methods directly. Thus the names of the called meteor methods are
@@ -30,19 +30,15 @@ export class E2ESecurity {
   // case, the test will fail and by this give a hint for the dev, which test
   // cases have yet to be updated with the new method name.
   static expectMethodToExist(methodName) {
-    let methodExists =
-        browser
-            .execute(
-                function(methodName) {
-                  // The methodHandlers-Dictionary will contain all meteor
-                  // methods known to the client. By default it will contain
-                  // exactly the same methods as the server
-                  return typeof Meteor.connection
-                             ._methodHandlers[methodName] === 'function';
-                },
-                methodName)
-            .value;
-    expect(methodExists, 'Method ' + methodName + ' exists').to.be.true;
+    let methodExists = browser.execute(function (methodName) {
+      // The methodHandlers-Dictionary will contain all meteor
+      // methods known to the client. By default it will contain
+      // exactly the same methods as the server
+      return (
+        typeof Meteor.connection._methodHandlers[methodName] === "function"
+      );
+    }, methodName).value;
+    expect(methodExists, "Method " + methodName + " exists").to.be.true;
   }
 
   // Due too Meteor's nature most method calls will result in an execution both
@@ -55,13 +51,14 @@ export class E2ESecurity {
   // the server-side security mechanisms remain which should of course still stop
   // unauthorized actions.
   static replaceMethodOnClientSide(methodName) {
-    browser.execute(function(methodName) {
+    browser.execute(function (methodName) {
       // The methodHandlers-Dictionary contains the client's copy of the meteor
       // methods. By changing the function for a specific meteor method all
       // future calls of this method for this session will execute the changed
       // function.
-      Meteor.connection._methodHandlers[methodName] =
-          function() { console.log('Modified Client Method: ' + methodName); };
+      Meteor.connection._methodHandlers[methodName] = function () {
+        console.log("Modified Client Method: " + methodName);
+      };
     }, methodName);
   }
 
@@ -71,193 +68,280 @@ export class E2ESecurity {
   // for an emulated synchronous usage of these methods.
   static executeMethod(methodName, ...methodParameters) {
     E2ESecurity.expectMethodToExist(methodName);
-    browser.timeouts('script', 5000);
+    browser.timeouts("script", 5000);
     try {
-      let result =
-          browser.executeAsync((methodName, methodParameters, done) => {
-            Meteor.apply(methodName, methodParameters, _ => {},
-                         (error, result) => { done({error, result}); });
-          }, methodName, methodParameters);
+      let result = browser.executeAsync(
+        (methodName, methodParameters, done) => {
+          Meteor.apply(
+            methodName,
+            methodParameters,
+            (_) => {},
+            (error, result) => {
+              done({ error, result });
+            }
+          );
+        },
+        methodName,
+        methodParameters
+      );
       // console.log(`Results are in: error = ${result.value.error}, result =
       // ${result.value.result}`);
     } catch (e) {
-      console.log('Exception in executeMethod(): ' + e.message);
+      console.log("Exception in executeMethod(): " + e.message);
     }
   }
 
   static countRecordsInMiniMongo(collectionName) {
-    return browser
-        .execute(
-            (collectionName) => {
-              let collectionpointer = Meteor.Collection.get(collectionName);
-              return collectionpointer ? collectionpointer.find().count() : 0;
-            },
-            collectionName)
-        .value;
+    return browser.execute((collectionName) => {
+      let collectionpointer = Meteor.Collection.get(collectionName);
+      return collectionpointer ? collectionpointer.find().count() : 0;
+    }, collectionName).value;
   }
 
   static returnMeteorId() {
-    return browser.execute(function() { return Random.id(); }).value;
+    return browser.execute(function () {
+      return Random.id();
+    }).value;
   }
 
   static createMeetingSeriesAndMinute = (name) => {
-    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod,
-                              {project : name, name : name});
+    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
+      project: name,
+      name: name,
+    });
     let msID = E2EMeetingSeries.getMeetingSeriesId(name, name);
     E2EMinutes.addMinutesToMeetingSeries(name, name);
     E2EMinutes.gotoLatestMinutes();
     return {
-      min_id : E2EMinutes.getCurrentMinutesId(),
-      ms_id : msID,
-      date : E2EMinutes.getCurrentMinutesDate(),
+      min_id: E2EMinutes.getCurrentMinutesId(),
+      ms_id: msID,
+      date: E2EMinutes.getCurrentMinutesDate(),
     };
   };
 
   static tryFinalizeMinute = (minuteID, expectToBeFinalized) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.finalizeMinute);
     E2ESecurity.executeMethod(E2ESecurity.finalizeMinute, minuteID);
-    expect((server.call('e2e.findMinute', minuteID)).isFinalized)
-        .to.equal(expectToBeFinalized);
+    expect(server.call("e2e.findMinute", minuteID).isFinalized).to.equal(
+      expectToBeFinalized
+    );
   };
 
   static createMeetingSeries = (name) => {
-    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod,
-                              {project : name, name : name});
+    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
+      project: name,
+      name: name,
+    });
     return E2EMeetingSeries.getMeetingSeriesId(name, name);
   };
 
-  static tryUpdateCurrentMinuteDate =
-      (minuteID, newDate, expectToEqualDate) => {
-        E2ESecurity.replaceMethodOnClientSide(E2ESecurity.updateMinutes);
-        E2ESecurity.executeMethod(E2ESecurity.updateMinutes,
-                                  {_id : minuteID, date : newDate});
-        expect((server.call('e2e.findMinute', minuteID)).date)
-            .to.equal(expectToEqualDate);
-      };
+  static tryUpdateCurrentMinuteDate = (
+    minuteID,
+    newDate,
+    expectToEqualDate
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(E2ESecurity.updateMinutes);
+    E2ESecurity.executeMethod(E2ESecurity.updateMinutes, {
+      _id: minuteID,
+      date: newDate,
+    });
+    expect(server.call("e2e.findMinute", minuteID).date).to.equal(
+      expectToEqualDate
+    );
+  };
 
-  static tryAddNewMinute =
-      (meetingSeriesID, date, expectToEqualNumberMinutes, userIdex) => {
-        const userid = server.call('e2e.getUserId', userIdex);
-        E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addMinutes);
-        E2ESecurity.executeMethod(E2ESecurity.addMinutes, {
-          meetingSeries_id : meetingSeriesID,
-          date : date,
-          visibleFor : [ userid ]
-        });
-        expect((server.call('e2e.countMinutesInMongoDB')))
-            .to.equal(expectToEqualNumberMinutes);
-      };
+  static tryAddNewMinute = (
+    meetingSeriesID,
+    date,
+    expectToEqualNumberMinutes,
+    userIdex
+  ) => {
+    const userid = server.call("e2e.getUserId", userIdex);
+    E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addMinutes);
+    E2ESecurity.executeMethod(E2ESecurity.addMinutes, {
+      meetingSeries_id: meetingSeriesID,
+      date: date,
+      visibleFor: [userid],
+    });
+    expect(server.call("e2e.countMinutesInMongoDB")).to.equal(
+      expectToEqualNumberMinutes
+    );
+  };
 
   static tryRemoveMinute = (minuteID, expectToEqualNumberMinutes) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.removeMinute);
     E2ESecurity.executeMethod(E2ESecurity.removeMinute, minuteID);
-    expect((server.call('e2e.countMinutesInMongoDB')))
-        .to.equal(expectToEqualNumberMinutes);
+    expect(server.call("e2e.countMinutesInMongoDB")).to.equal(
+      expectToEqualNumberMinutes
+    );
   };
 
   static tryUnfinalizeMinute = (minuteID, expectToBeUnfinalized) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.unfinalizeMinute);
     E2ESecurity.executeMethod(E2ESecurity.unfinalizeMinute, minuteID);
-    expect((server.call('e2e.findMinute', minuteID)).isFinalized)
-        .to.equal(expectToBeUnfinalized);
+    expect(server.call("e2e.findMinute", minuteID).isFinalized).to.equal(
+      expectToBeUnfinalized
+    );
   };
 
   static inviteUserToMeetingSerie = (MSname, role, userIndex) => {
-    E2EMeetingSeriesEditor.openMeetingSeriesEditor(MSname, MSname, 'invited');
+    E2EMeetingSeriesEditor.openMeetingSeriesEditor(MSname, MSname, "invited");
     let user = E2EGlobal.SETTINGS.e2eTestUsers[userIndex];
-    if (role === 'Invited')
+    if (role === "Invited")
       E2EMeetingSeriesEditor.addUserToMeetingSeries(
-          user, E2EGlobal.USERROLES.Invited);
+        user,
+        E2EGlobal.USERROLES.Invited
+      );
     else
       E2EMeetingSeriesEditor.addUserToMeetingSeries(
-          user, E2EGlobal.USERROLES.Informed);
+        user,
+        E2EGlobal.USERROLES.Informed
+      );
     E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
   };
 
   static tryInsertMeetingSeries = (name, expectToEqual, testName) => {
     E2ESecurity.replaceMethodOnClientSide(
-        E2ESecurity.insertMeetingSeriesMethod);
-    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod,
-                              {project : name, name : name});
-    expect(server.call('e2e.countMeetingSeriesInMongDB'), testName)
-        .to.equal(expectToEqual);
+      E2ESecurity.insertMeetingSeriesMethod
+    );
+    E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
+      project: name,
+      name: name,
+    });
+    expect(server.call("e2e.countMeetingSeriesInMongDB"), testName).to.equal(
+      expectToEqual
+    );
   };
 
-  static tryDeleteMeetingSeries =
-      (meetingSeriesID, expectToEqual, testName) => {
-        E2ESecurity.replaceMethodOnClientSide(
-            E2ESecurity.removeMeetingSeriesMethod);
-        E2ESecurity.executeMethod(E2ESecurity.removeMeetingSeriesMethod,
-                                  meetingSeriesID);
-        expect(server.call('e2e.countMeetingSeriesInMongDB'), testName)
-            .to.equal(expectToEqual);
-      };
+  static tryDeleteMeetingSeries = (
+    meetingSeriesID,
+    expectToEqual,
+    testName
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(
+      E2ESecurity.removeMeetingSeriesMethod
+    );
+    E2ESecurity.executeMethod(
+      E2ESecurity.removeMeetingSeriesMethod,
+      meetingSeriesID
+    );
+    expect(server.call("e2e.countMeetingSeriesInMongDB"), testName).to.equal(
+      expectToEqual
+    );
+  };
 
-  static tryUpdateMeetingSeriesName =
-      (meetingSeriesID, newName, expectToEqual, testName) => {
-        E2ESecurity.replaceMethodOnClientSide(
-            E2ESecurity.updateMeetingSeriesMethod);
-        E2ESecurity.executeMethod(E2ESecurity.updateMeetingSeriesMethod,
-                                  {_id : meetingSeriesID, name : newName});
-        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name,
-               testName)
-            .to.equal(expectToEqual);
-      };
+  static tryUpdateMeetingSeriesName = (
+    meetingSeriesID,
+    newName,
+    expectToEqual,
+    testName
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(
+      E2ESecurity.updateMeetingSeriesMethod
+    );
+    E2ESecurity.executeMethod(E2ESecurity.updateMeetingSeriesMethod, {
+      _id: meetingSeriesID,
+      name: newName,
+    });
+    expect(
+      server.call("e2e.findMeetingSeries", meetingSeriesID).name,
+      testName
+    ).to.equal(expectToEqual);
+  };
 
-  static tryAddNewTopic =
-      (subject, topic_id, min_id, expectToEqual, testName) => {
-        E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addTopic);
-        E2ESecurity.executeMethod(
-            E2ESecurity.addTopic, min_id,
-            {subject : subject, labels : Array(0), _id : topic_id});
-        expect((server.call('e2e.countTopicsInMongoDB', min_id)), testName)
-            .to.equal(expectToEqual);
-      };
+  static tryAddNewTopic = (
+    subject,
+    topic_id,
+    min_id,
+    expectToEqual,
+    testName
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addTopic);
+    E2ESecurity.executeMethod(E2ESecurity.addTopic, min_id, {
+      subject: subject,
+      labels: Array(0),
+      _id: topic_id,
+    });
+    expect(server.call("e2e.countTopicsInMongoDB", min_id), testName).to.equal(
+      expectToEqual
+    );
+  };
 
-  static tryUpdateTopicSubject =
-      (newSubject, topic_id, min_id, expectToEqual, testName) => {
-        E2ESecurity.replaceMethodOnClientSide(E2ESecurity.updateTopic);
-        E2ESecurity.executeMethod(E2ESecurity.updateTopic, topic_id,
-                                  {subject : newSubject});
-        expect((server.call('e2e.getTopics', min_id))[0].subject, testName)
-            .to.equal(expectToEqual);
-      };
+  static tryUpdateTopicSubject = (
+    newSubject,
+    topic_id,
+    min_id,
+    expectToEqual,
+    testName
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(E2ESecurity.updateTopic);
+    E2ESecurity.executeMethod(E2ESecurity.updateTopic, topic_id, {
+      subject: newSubject,
+    });
+    expect(server.call("e2e.getTopics", min_id)[0].subject, testName).to.equal(
+      expectToEqual
+    );
+  };
 
   static tryRemoveTopic = (topic_id, min_id, expectToEqual, testName) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.removeTopic);
     E2ESecurity.executeMethod(E2ESecurity.removeTopic, topic_id);
-    expect((server.call('e2e.countTopicsInMongoDB', min_id)), testName)
-        .to.equal(expectToEqual);
+    expect(server.call("e2e.countTopicsInMongoDB", min_id), testName).to.equal(
+      expectToEqual
+    );
   };
 
-  static tryReopenTopic =
-      (topicID, meetingSeriesID, expectToBeOpened, testName) => {
-        E2ESecurity.replaceMethodOnClientSide(E2ESecurity.reopenTopic);
-        E2ESecurity.executeMethod(E2ESecurity.reopenTopic, meetingSeriesID,
-                                  topicID);
-        E2EGlobal.waitSomeTime();
-        const topicsOfSeries =
-            server.call('e2e.getTopicsOfMeetingSeries', meetingSeriesID);
-        expect(topicsOfSeries[0].isOpen, testName).to.equal(expectToBeOpened);
-      };
+  static tryReopenTopic = (
+    topicID,
+    meetingSeriesID,
+    expectToBeOpened,
+    testName
+  ) => {
+    E2ESecurity.replaceMethodOnClientSide(E2ESecurity.reopenTopic);
+    E2ESecurity.executeMethod(
+      E2ESecurity.reopenTopic,
+      meetingSeriesID,
+      topicID
+    );
+    E2EGlobal.waitSomeTime();
+    const topicsOfSeries = server.call(
+      "e2e.getTopicsOfMeetingSeries",
+      meetingSeriesID
+    );
+    expect(topicsOfSeries[0].isOpen, testName).to.equal(expectToBeOpened);
+  };
 
-  static tryUpdateRole = (meetingSeriesID, userIndex, newRole,
-                          expectToEqual) => {
-    const userID = server.call('e2e.getUserId', userIndex);
+  static tryUpdateRole = (
+    meetingSeriesID,
+    userIndex,
+    newRole,
+    expectToEqual
+  ) => {
+    const userID = server.call("e2e.getUserId", userIndex);
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.saveRoleForMeetingSeries);
-    E2ESecurity.executeMethod(E2ESecurity.saveRoleForMeetingSeries, userID,
-                              meetingSeriesID, newRole);
-    expect((server.call('e2e.getUserRole', meetingSeriesID, userIndex)))
-        .to.equal(expectToEqual);
+    E2ESecurity.executeMethod(
+      E2ESecurity.saveRoleForMeetingSeries,
+      userID,
+      meetingSeriesID,
+      newRole
+    );
+    expect(server.call("e2e.getUserRole", meetingSeriesID, userIndex)).to.equal(
+      expectToEqual
+    );
   };
 
   static tryRemoveRole = (meetingSeriesID, userIndex, expectToEqual) => {
-    const userID = server.call('e2e.getUserId', userIndex);
+    const userID = server.call("e2e.getUserId", userIndex);
     E2ESecurity.replaceMethodOnClientSide(
-        E2ESecurity.removeAllRolesForMeetingSeries);
-    E2ESecurity.executeMethod(E2ESecurity.removeAllRolesForMeetingSeries,
-                              userID, meetingSeriesID);
-    expect((server.call('e2e.getUserRole', meetingSeriesID, userIndex)))
-        .to.equal(expectToEqual);
+      E2ESecurity.removeAllRolesForMeetingSeries
+    );
+    E2ESecurity.executeMethod(
+      E2ESecurity.removeAllRolesForMeetingSeries,
+      userID,
+      meetingSeriesID
+    );
+    expect(server.call("e2e.getUserRole", meetingSeriesID, userIndex)).to.equal(
+      expectToEqual
+    );
   };
 }
