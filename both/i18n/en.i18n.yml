@@ -1,6 +1,6 @@
 ---
-_splitKey: ':'
-_locale: 'en'
+_splitKey: ":"
+_locale: "en"
 Accounts:
   usernamePlaceholder: "(min. 3 chars)"
   nameDisplayName: "Name, Company"
@@ -49,7 +49,7 @@ Dialog:
     questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Confirm Creating New Minutes"
-    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
+    content: 'Do you really want to create new minutes for the meeting series "{$project}: {$name}"?'
   confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
   confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
   ConfirmDeleteItem:
@@ -134,9 +134,10 @@ Dialog:
     title2: "Mark topic as discussed?"
     button2: "Close topic and actions"
     errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a
-        previous minutes. The selected topic is already closed and has no open action items,
-        so it won't be copied to the following minutes."
+    errorcontent:
+      "It is not possible to delete this topic because it was created in a
+      previous minutes. The selected topic is already closed and has no open action items,
+      so it won't be copied to the following minutes."
   ItemDeleteError:
     title: "Cannot delete item"
     body1: "It is not possible to delete this item because it was created in a previous minutes."
@@ -449,7 +450,7 @@ Login:
   signIn: "Sign In"
   ldap: "LDAP"
   standard: "Standard"
-  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  demoHint: 'Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the "Register" link below.'
   Login4MinitzInfo:
     header: "4Minitz: Collaborative Meeting Minutes."
     subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
@@ -570,24 +571,24 @@ Mail:
   UserRoleChange:
     subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
     body: |
-     Hello {$userName}
+      Hello {$userName}
 
-     Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
-     ({$meetingSeriesURL})
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
 
-        Your old role was           : {$roleOld}
-        Your new role is            : {$roleNew}
-        The change was performed by : {$moderatorName}
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
 
-     For a comprehensive list of rights for each role see:
-     {$urlRoleDocu}
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
 
-     Have fun!
-       Your Admin.
+      Have fun!
+        Your Admin.
 
-     ---
-     4Minitz is free open source developed by the 4Minitz team.
-     Source is available at {$url4Minitz}
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
   VerifyEmailAddress:
     subject: "[{$sitename}] Verify Your Email Address"
     body: |
