@@ -5,6 +5,7 @@ develop/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%2
 [![Docker Pulls](https://img.shields.io/docker/pulls/4minitz/4minitz.svg)](https://hub.docker.com/r/4minitz/4minitz/)
 [![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
 [![Crowdin](https://badges.crowdin.net/4minitz/localized.svg)](https://crowdin.com/project/4minitz)
+[![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/5minitz?project_id=30798)
 
 # 4Minitz!
 
