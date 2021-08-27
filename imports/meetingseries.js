@@ -1,31 +1,32 @@
-import './helpers/promisedMethods';
-import './collections/meetingseries_private';
+import "./helpers/promisedMethods";
+import "./collections/meetingseries_private";
 
-import {formatDateISO8601} from '/imports/helpers/date';
-import {subElementsHelper} from '/imports/helpers/subElements';
-import {MinutesFinder} from '/imports/services/minutesFinder';
-import {$} from 'meteor/jquery';
-import {Meteor} from 'meteor/meteor';
-import {Random} from 'meteor/random';
-import {_} from 'meteor/underscore';
-import moment from 'moment/moment';
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { MinutesFinder } from "/imports/services/minutesFinder";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { _ } from "meteor/underscore";
+import moment from "moment/moment";
 
-import {MeetingSeriesSchema} from './collections/meetingseries.schema';
-import {GlobalSettings} from './config/GlobalSettings';
-import {Minutes} from './minutes';
-import {TopicsFinder} from './services/topicsFinder';
-import {UserRoles} from './userroles';
+import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
+import { GlobalSettings } from "./config/GlobalSettings";
+import { Minutes } from "./minutes";
+import { TopicsFinder } from "./services/topicsFinder";
+import { UserRoles } from "./userroles";
 
 export class MeetingSeries {
-  constructor(source) { // constructs obj from Mongo ID or Mongo document
-    if (!source)
-      return;
+  constructor(source) {
+    // constructs obj from Mongo ID or Mongo document
+    if (!source) return;
 
-    if (typeof source === 'string') { // we may have an ID here.
+    if (typeof source === "string") {
+      // we may have an ID here.
       source = MeetingSeriesSchema.getCollection().findOne(source);
     }
-    if (typeof source ===
-        'object') { // inject class methods in plain collection document
+    if (typeof source === "object") {
+      // inject class methods in plain collection document
       _.extend(this, source);
     }
   }
@@ -40,27 +41,34 @@ export class MeetingSeries {
   }
 
   static async remove(meetingSeries) {
-    return Meteor.callPromise('workflow.removeMeetingSeries',
-                              meetingSeries._id);
+    return Meteor.callPromise(
+      "workflow.removeMeetingSeries",
+      meetingSeries._id
+    );
   }
 
   static async leave(meetingSeries) {
-    return Meteor.callPromise('workflow.leaveMeetingSeries', meetingSeries._id);
+    return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
   }
 
   static getAllVisibleIDsForUser(userId) {
     // we return an array with just a list of visible meeting series IDs
-    return MeetingSeriesSchema
-        .find({visibleFor : {$in : [ userId ]}}, {_id : 1})
-        .map(function(item) { return item._id; });
+    return MeetingSeriesSchema.find(
+      { visibleFor: { $in: [userId] } },
+      { _id: 1 }
+    ).map(function (item) {
+      return item._id;
+    });
   }
 
   // ################### object methods
 
-  getRecord() { return MeetingSeriesSchema.findOne(this._id); }
+  getRecord() {
+    return MeetingSeriesSchema.findOne(this._id);
+  }
 
   async removeMinutesWithId(minutesId) {
-    console.log('removeMinutesWithId: ' + minutesId);
+    console.log("removeMinutesWithId: " + minutesId);
 
     await Minutes.remove(minutesId);
     return this.updateLastMinutesFieldsAsync();
@@ -69,10 +77,13 @@ export class MeetingSeries {
   save(optimisticUICallback) {
     let doc = this;
     if (this._id) {
-      return Meteor.callPromise('meetingseries.update', doc);
+      return Meteor.callPromise("meetingseries.update", doc);
     } else {
-      return Meteor.callPromise('meetingseries.insert', doc,
-                                optimisticUICallback);
+      return Meteor.callPromise(
+        "meetingseries.insert",
+        doc,
+        optimisticUICallback
+      );
     }
   }
 
@@ -80,33 +91,37 @@ export class MeetingSeries {
     await this.save(optimisticUICallback);
   }
 
-  toString() { return 'MeetingSeries: ' + JSON.stringify(this, null, 4); }
+  toString() {
+    return "MeetingSeries: " + JSON.stringify(this, null, 4);
+  }
 
-  log() { console.log(this.toString()); }
+  log() {
+    console.log(this.toString());
+  }
 
   addNewMinutes(optimisticUICallback, serverCallback) {
-    console.log('addNewMinutes()');
+    console.log("addNewMinutes()");
 
     // The new Minutes object should be dated after the latest existing one
     let newMinutesDate = new Date();
     let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
     if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
       let lastMinDate = moment(lastMinutes.date);
-      newMinutesDate = lastMinDate.add(1, 'days').toDate();
+      newMinutesDate = lastMinDate.add(1, "days").toDate();
     }
     // Transfer global note from last minutes if set sticky
     const globalNotePinned = lastMinutes && lastMinutes.globalNotePinned;
-    let globalNote = (globalNotePinned) ? lastMinutes.globalNote : '';
+    let globalNote = globalNotePinned ? lastMinutes.globalNote : "";
 
     let min = new Minutes({
-      meetingSeries_id : this._id,
-      date : formatDateISO8601(newMinutesDate),
-      visibleFor : this.visibleFor,       // freshly created minutes inherit
-                                          // visibility of their series
-      informedUsers : this.informedUsers, // freshly created minutes inherit
-                                          // informedUsers of their series
-      globalNotePinned : globalNotePinned,
-      globalNote : globalNote,
+      meetingSeries_id: this._id,
+      date: formatDateISO8601(newMinutesDate),
+      visibleFor: this.visibleFor, // freshly created minutes inherit
+      // visibility of their series
+      informedUsers: this.informedUsers, // freshly created minutes inherit
+      // informedUsers of their series
+      globalNotePinned: globalNotePinned,
+      globalNote: globalNote,
     });
 
     min.generateNewParticipants();
@@ -134,7 +149,7 @@ export class MeetingSeries {
   }
 
   async updateLastMinutesFields(callback) {
-    callback = callback || function() {};
+    callback = callback || function () {};
 
     try {
       let result = await this.updateLastMinutesFieldsAsync();
@@ -145,23 +160,24 @@ export class MeetingSeries {
   }
 
   async updateLastMinutesFieldsAsync(lastMinuteDoc) {
-    let updateInfo = {_id : this._id};
+    let updateInfo = { _id: this._id };
 
     let lastMinutes = lastMinuteDoc
-                          ? lastMinuteDoc
-                          : MinutesFinder.lastMinutesOfMeetingSeries(this);
+      ? lastMinuteDoc
+      : MinutesFinder.lastMinutesOfMeetingSeries(this);
 
-    updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : '';
+    updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : "";
     updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
-    updateInfo.lastMinutesFinalized =
-        lastMinutes ? lastMinutes.isFinalized : false;
+    updateInfo.lastMinutesFinalized = lastMinutes
+      ? lastMinutes.isFinalized
+      : false;
 
-    return Meteor.callPromise('meetingseries.update', updateInfo);
+    return Meteor.callPromise("meetingseries.update", updateInfo);
   }
 
   addNewMinutesAllowed() {
     let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
-    return (!lastMinutes || lastMinutes.isFinalized);
+    return !lastMinutes || lastMinutes.isFinalized;
   }
 
   _getDateOfLatestMinute() {
@@ -177,15 +193,16 @@ export class MeetingSeries {
     // done directly in the find call on the collection
 
     let latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
-      return {_id : minute._id, date : minute.date};
+      return { _id: minute._id, date: minute.date };
     });
 
     if (!latestMinutes) {
       return;
     }
 
-    let firstNonMatchingMinute =
-        latestMinutes.find((minute) => minute._id !== minuteId);
+    let firstNonMatchingMinute = latestMinutes.find(
+      (minute) => minute._id !== minuteId
+    );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
     }
@@ -216,7 +233,7 @@ export class MeetingSeries {
   }
 
   isMinutesDateAllowed(minutesId, date) {
-    if (typeof date === 'string') {
+    if (typeof date === "string") {
       date = new Date(date);
     }
 
@@ -225,7 +242,7 @@ export class MeetingSeries {
 
     let firstPossibleDate = this.getMinimumAllowedDateForMinutes(minutesId);
     // if no firstPossibleDate is given, all dates are allowed
-    return (!firstPossibleDate || date > firstPossibleDate);
+    return !firstPossibleDate || date > firstPossibleDate;
   }
 
   /**
@@ -236,11 +253,13 @@ export class MeetingSeries {
    */
   setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
     if (!this._id) {
-      throw new Meteor.Error('MeetingSeries not saved.',
-                             'Call save() before using addVisibleUser()');
+      throw new Meteor.Error(
+        "MeetingSeries not saved.",
+        "Call save() before using addVisibleUser()"
+      );
     }
     if (!$.isArray(newVisibleForArray)) {
-      throw new Meteor.Error('setVisibleUsers()', 'must provide an array!');
+      throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
     }
 
     // Clean-up roles
@@ -254,8 +273,9 @@ export class MeetingSeries {
     let newUserArray = newVisibleForArray;
     newUserArray = newUserArray.concat(newInformedUsersArray);
 
-    let removedUserIDs = oldUserArray.filter(
-        (usrID) => { return newUserArray.indexOf(usrID) === -1; });
+    let removedUserIDs = oldUserArray.filter((usrID) => {
+      return newUserArray.indexOf(usrID) === -1;
+    });
     removedUserIDs.forEach((removedUserID) => {
       let ur = new UserRoles(removedUserID);
       ur.removeAllRolesForMeetingSeries(this._id);
@@ -286,15 +306,18 @@ export class MeetingSeries {
   }
 
   findLabelByName(labelName) {
-    return subElementsHelper.getElementById(labelName, this.availableLabels,
-                                            'name');
+    return subElementsHelper.getElementById(
+      labelName,
+      this.availableLabels,
+      "name"
+    );
   }
 
   findLabelContainingSubstr(name, caseSensitive) {
-    caseSensitive = (caseSensitive === undefined) ? true : caseSensitive;
-    return this.availableLabels.filter(label => {
-      let left = (caseSensitive) ? label.name : label.name.toUpperCase();
-      let right = (caseSensitive) ? name : name.toUpperCase();
+    caseSensitive = caseSensitive === undefined ? true : caseSensitive;
+    return this.availableLabels.filter((label) => {
+      let left = caseSensitive ? label.name : label.name.toUpperCase();
+      let right = caseSensitive ? name : name.toUpperCase();
       return left.indexOf(right) !== -1;
     });
   }
@@ -310,14 +333,15 @@ export class MeetingSeries {
 
   upsertLabel(labelDoc) {
     let i = undefined;
-    if (!labelDoc._id) { // brand-new label
+    if (!labelDoc._id) {
+      // brand-new label
       labelDoc._id = Random.id();
     } else {
-      i = subElementsHelper.findIndexById(
-          labelDoc._id, this.availableLabels); // try to find it
+      i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
     }
 
-    if (i === undefined) { // label not in array
+    if (i === undefined) {
+      // label not in array
       this.availableLabels.unshift(labelDoc);
     } else {
       this.availableLabels[i] = labelDoc; // overwrite in place
@@ -348,7 +372,9 @@ export class MeetingSeries {
     this.additionalResponsibles.unshift(newResponsible);
   }
 
-  findTopic(topicId) { return TopicsFinder.getTopicById(topicId, this._id); }
+  findTopic(topicId) {
+    return TopicsFinder.getTopicById(topicId, this._id);
+  }
 
   getMailLanguage() {
     if (this.mailLanguage) {
