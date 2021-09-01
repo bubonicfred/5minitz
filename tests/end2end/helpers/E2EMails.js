@@ -1,14 +1,15 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
+import { E2EGlobal } from "./E2EGlobal";
 
 export class E2EMails {
-
-  static resetSentMailsDb() { server.call('e2e.resetTestMailDB'); }
+  static resetSentMailsDb() {
+    server.call("e2e.resetTestMailDB");
+  }
 
   static getAllSentMails() {
     E2EGlobal.waitSomeTime(700);
-    return server.call('e2e.findSentMails');
+    return server.call("e2e.findSentMails");
   }
 
   /**
@@ -17,7 +18,9 @@ export class E2EMails {
   static getAllRecipients() {
     let mails = E2EMails.getAllSentMails();
     let recipients = [];
-    mails.forEach(mail => { recipients = recipients.concat(mail.to); });
+    mails.forEach((mail) => {
+      recipients = recipients.concat(mail.to);
+    });
     return recipients;
   }
 }

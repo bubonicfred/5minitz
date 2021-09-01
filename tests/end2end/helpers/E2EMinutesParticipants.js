@@ -1,42 +1,46 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
+import { E2EGlobal } from "./E2EGlobal";
 
 export class E2EMinutesParticipants {
-
-  constructor() { this.updateUsersAndPresence(); }
+  constructor() {
+    this.updateUsersAndPresence();
+  }
 
   // ******************** STATIC Methods
   static isExpanded() {
     E2EGlobal.waitSomeTime(750);
-    return browser.isExisting('#edtParticipantsAdditional');
+    return browser.isExisting("#edtParticipantsAdditional");
   }
 
-  static isCollapsed() { return !E2EMinutesParticipants.isExpanded(); }
+  static isCollapsed() {
+    return !E2EMinutesParticipants.isExpanded();
+  }
 
   static expand() {
     if (E2EMinutesParticipants.isCollapsed()) {
-      E2EGlobal.clickWithRetry('#btnParticipantsExpand');
-      browser.waitForVisible('#id_participants');
+      E2EGlobal.clickWithRetry("#btnParticipantsExpand");
+      browser.waitForVisible("#id_participants");
     }
   }
 
   static collapse() {
     if (E2EMinutesParticipants.isExpanded()) {
-      E2EGlobal.clickWithRetry('#btnParticipantsExpand');
+      E2EGlobal.clickWithRetry("#btnParticipantsExpand");
 
       const waitForInvisible = true;
-      browser.waitForVisible('#id_participants', 10000, waitForInvisible);
+      browser.waitForVisible("#id_participants", 10000, waitForInvisible);
     }
   }
 
   static getPresentParticipantsFromServer(minutesId) {
     try {
-      return server.call('e2e.getPresentParticipantNames', minutesId);
+      return server.call("e2e.getPresentParticipantNames", minutesId);
     } catch (e) {
-      console.log('Exception: ' + e);
+      console.log("Exception: " + e);
       console.log(
-          'Did you forget to run the server with \'--settings settings-test-end2end.json\'?');
+        "Did you forget to run the server with '--settings settings-test-end2end.json'?"
+      );
     }
     return undefined;
   }
@@ -68,25 +72,29 @@ export class E2EMinutesParticipants {
 
     this._participantsAndPresence = {};
     try {
-      this._participantsAndPresence['##additional participants##'] =
-          $('#edtParticipantsAdditional').getValue();
+      this._participantsAndPresence["##additional participants##"] = $(
+        "#edtParticipantsAdditional"
+      ).getValue();
     } catch (e) {
-      this._participantsAndPresence['##additional participants##'] = '';
+      this._participantsAndPresence["##additional participants##"] = "";
     }
 
-    const participants = $$('.js-participant-checkbox #id_username');
-    const presence = $$('input.js-toggle-present');
+    const participants = $$(".js-participant-checkbox #id_username");
+    const presence = $$("input.js-toggle-present");
 
-    for (let participantIndex = 0; participantIndex < participants.length;
-         participantIndex++) {
+    for (
+      let participantIndex = 0;
+      participantIndex < participants.length;
+      participantIndex++
+    ) {
       let username = participants[participantIndex].getText();
       let userElem = participants[participantIndex];
       let checkboxElem = presence[participantIndex];
 
       this._participantsAndPresence[username] = {
-        present : checkboxElem.isSelected(),
-        checkboxElem : checkboxElem,
-        userElem : userElem
+        present: checkboxElem.isSelected(),
+        checkboxElem: checkboxElem,
+        userElem: userElem,
       };
     }
   }
@@ -101,7 +109,7 @@ export class E2EMinutesParticipants {
   }
 
   getAdditionalParticipants() {
-    return this._participantsAndPresence['##additional participants##'];
+    return this._participantsAndPresence["##additional participants##"];
   }
 
   setUserPresence(username, presence) {
@@ -109,9 +117,9 @@ export class E2EMinutesParticipants {
       return false;
     }
     let currentSelectState =
-        this._participantsAndPresence[username].checkboxElem.isSelected();
+      this._participantsAndPresence[username].checkboxElem.isSelected();
     if (currentSelectState !== presence) {
-      browser.scroll('#id_participants');
+      browser.scroll("#id_participants");
       this._participantsAndPresence[username].userElem.click();
     }
     this.updateUsersAndPresence();

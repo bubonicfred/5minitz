@@ -1,34 +1,37 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
-import {E2EGlobal} from './E2EGlobal';
-import {E2EMeetingSeries} from './E2EMeetingSeries';
+import { E2EGlobal } from "./E2EGlobal";
+import { E2EMeetingSeries } from "./E2EMeetingSeries";
 
 export class E2EMeetingSeriesEditor {
-
-  static openMeetingSeriesEditor(aProj, aName, panelName = 'base',
-                                 skipGotoMeetingSeries) {
+  static openMeetingSeriesEditor(
+    aProj,
+    aName,
+    panelName = "base",
+    skipGotoMeetingSeries
+  ) {
     // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
     if (!skipGotoMeetingSeries) {
       E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
     }
 
     // Open dialog
-    browser.waitForVisible('#btnEditMeetingSeries', 1000);
-    E2EGlobal.clickWithRetry('#btnEditMeetingSeries', 3000);
+    browser.waitForVisible("#btnEditMeetingSeries", 1000);
+    E2EGlobal.clickWithRetry("#btnEditMeetingSeries", 3000);
 
     // Check if dialog is there?
-    browser.waitForVisible('#btnMeetingSeriesSave', 3000);
-    E2EGlobal.clickWithRetry('#btnShowHideBaseConfig', 3000);
+    browser.waitForVisible("#btnMeetingSeriesSave", 3000);
+    E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
     E2EGlobal.waitSomeTime(); // give dialog animation time
 
-    if (panelName && panelName !== 'base') {
-      let panelSelector = '';
-      if (panelName === 'invited') {
-        panelSelector = '#btnShowHideInvitedUsers';
-      } else if (panelName === 'labels') {
-        panelSelector = '#btnShowHideLabels';
+    if (panelName && panelName !== "base") {
+      let panelSelector = "";
+      if (panelName === "invited") {
+        panelSelector = "#btnShowHideInvitedUsers";
+      } else if (panelName === "labels") {
+        panelSelector = "#btnShowHideLabels";
       } else {
-        throw 'Unsupported panelName: ' + panelName;
+        throw "Unsupported panelName: " + panelName;
       }
       browser.waitForExist(panelSelector);
       E2EGlobal.clickWithRetry(panelSelector);
@@ -38,30 +41,25 @@ export class E2EMeetingSeriesEditor {
 
   // assumes an open meeting series editor
   static addUserToMeetingSeries(username, role) {
-    browser.setValue('#edt_AddUser', username);
-    browser.keys([ 'Enter' ]);
+    browser.setValue("#edt_AddUser", username);
+    browser.keys(["Enter"]);
 
     if (role) {
       // Get Index of user's row in table
-      let index =
-          browser
-              .execute(
-                  (username) => {
-                    return $('tr:contains(\'' + username + '\')').index();
-                  },
-                  username)
-              .value;
+      let index = browser.execute((username) => {
+        return $("tr:contains('" + username + "')").index();
+      }, username).value;
       index += 1; // increase by one since nth-child will start by 1 whereas
-                  // index starts by 0
-      let selector = 'tr:nth-child(' + index + ')' +
-                     ' select.user-role-select';
+      // index starts by 0
+      let selector = "tr:nth-child(" + index + ")" + " select.user-role-select";
       browser.selectByValue(selector, role);
     }
   }
 
   static closeMeetingSeriesEditor(save = true) {
-    let selector =
-        (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
+    let selector = save
+      ? "#btnMeetingSeriesSave"
+      : "#btnMeetinSeriesEditCancel";
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.waitSomeTime(save ? 750 : 300);
   }
@@ -90,10 +88,10 @@ export class E2EMeetingSeriesEditor {
    */
   static getUsersAndRoles(colNumUser, colNumRole, colNumDelete) {
     // grab all user rows
-    const elementsUserRows = browser.elements('#id_userRow');
+    const elementsUserRows = browser.elements("#id_userRow");
     let usersAndRoles = {};
 
-    let selector = 'select.user-role-select'; // selects *all* <selects>
+    let selector = "select.user-role-select"; // selects *all* <selects>
     // browser.getValue(selector) delivers *all* current selections => e.g.
     // ["Moderator","Invited","Invited"] except for the current user, who has no
     // <select>
@@ -102,27 +100,31 @@ export class E2EMeetingSeriesEditor {
     // getValue()!
     try {
       usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector));
-    } catch (e) {
-    }
+    } catch (e) {}
 
     let selectNum = 0;
     // the "current user" is read-only and has no <select>
     // we must skip this user in the above usrRoleSelected
     for (let rowIndex in elementsUserRows.value) {
       let elemTRId = elementsUserRows.value[rowIndex].ELEMENT;
-      let elementsTD = browser.elementIdElements(elemTRId, 'td');
-      let usrName =
-          browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
+      let elementsTD = browser.elementIdElements(elemTRId, "td");
+      let usrName = browser.elementIdText(
+        elementsTD.value[colNumUser].ELEMENT
+      ).value;
       let elementsDelete = browser.elementIdElements(
-          elementsTD.value[colNumDelete].ELEMENT, '#btnDeleteUser');
+        elementsTD.value[colNumDelete].ELEMENT,
+        "#btnDeleteUser"
+      );
       let usrIsDeletable = elementsDelete.value.length === 1;
-      let usrDeleteElemId =
-          usrIsDeletable ? elementsDelete.value[0].ELEMENT : '0';
+      let usrDeleteElemId = usrIsDeletable
+        ? elementsDelete.value[0].ELEMENT
+        : "0";
 
       // for the current user usrRole already contains his read-only role string
       // "Moderator"
-      let usrRole =
-          browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
+      let usrRole = browser.elementIdText(
+        elementsTD.value[colNumRole].ELEMENT
+      ).value;
       let usrIsReadOnly = true;
 
       // For all other users we must get their role from the usrRoleSelected
@@ -131,17 +133,17 @@ export class E2EMeetingSeriesEditor {
       // Phantom.js: Has no linebreaks between <option>s, it just concatenates
       // like "InvitedModerator" so we go for "usrRole.length>10" to detect a
       // non-possible role text...
-      if (usrRole.indexOf('\n') >= 0 || usrRole.length > 10) {
+      if (usrRole.indexOf("\n") >= 0 || usrRole.length > 10) {
         usrRole = usrRoleSelected[selectNum];
         usrIsReadOnly = false;
         selectNum += 1;
       }
 
       usersAndRoles[usrName] = {
-        role : usrRole,
-        isReadOnly : usrIsReadOnly,
-        isDeletable : usrIsDeletable,
-        deleteElemId : usrDeleteElemId
+        role: usrRole,
+        isReadOnly: usrIsReadOnly,
+        isDeletable: usrIsDeletable,
+        deleteElemId: usrDeleteElemId,
       };
     }
     // console.log(usersAndRoles);
@@ -149,22 +151,28 @@ export class E2EMeetingSeriesEditor {
     return usersAndRoles;
   }
 
-  static changeLabel(labelName, newLabelName, newLabelColor,
-                     autoSaveLabelChange = true) {
+  static changeLabel(
+    labelName,
+    newLabelName,
+    newLabelColor,
+    autoSaveLabelChange = true
+  ) {
     let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
-    let selLabelRow = '#row-label-' + labelId;
+    let selLabelRow = "#row-label-" + labelId;
 
     // open label editor for labelId
-    E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
+    E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-label");
 
-    browser.setValue(selLabelRow + ' [name=\'labelName\']', newLabelName);
+    browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
     if (newLabelColor) {
-      browser.setValue(selLabelRow + ' [name=\'labelColor-' + labelId + '\']',
-                       newLabelColor);
+      browser.setValue(
+        selLabelRow + " [name='labelColor-" + labelId + "']",
+        newLabelColor
+      );
     }
 
     if (autoSaveLabelChange) {
-      E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-save');
+      E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-save");
 
       E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
     }
@@ -174,19 +182,19 @@ export class E2EMeetingSeriesEditor {
 
   static getLabelId(labelName) {
     // get all label elements
-    browser.waitForExist('#table-edit-labels .label');
-    let elements = browser.elements('#table-edit-labels .label').value;
+    browser.waitForExist("#table-edit-labels .label");
+    let elements = browser.elements("#table-edit-labels .label").value;
 
     for (let elementID of elements) {
       let element = browser.elementIdText(elementID.ELEMENT);
       if (labelName === element.value) {
-        return browser.elementIdAttribute(elementID.ELEMENT, 'id').value;
+        return browser.elementIdAttribute(elementID.ELEMENT, "id").value;
       }
     }
   }
 
   static disableEmailForRoleChange() {
-    browser.waitForVisible('#labelRoleChange');
-    E2EGlobal.clickWithRetry('#labelRoleChange');
+    browser.waitForVisible("#labelRoleChange");
+    E2EGlobal.clickWithRetry("#labelRoleChange");
   }
 }

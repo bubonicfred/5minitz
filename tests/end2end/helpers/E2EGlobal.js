@@ -1,23 +1,24 @@
-require('./wdio_v4_to_v5');
+require("./wdio_v4_to_v5");
 
 export class E2EGlobal {
   static getTestSpecFilename() {
     if (!driver || !driver.config || !driver.config.spec) {
-      return 'Unknown Test Spec Filename';
+      return "Unknown Test Spec Filename";
     }
     let specfile = driver.config.spec;
     if (Array.isArray(specfile)) {
       specfile = specfile[0];
     }
-    return specfile.replace(/^.*[\\\/]/, '');
+    return specfile.replace(/^.*[\\\/]/, "");
   }
 
   static setValueSafe(selector, string, retries = 5) {
-    let currentValue = browser.getValue(selector), isInteractable = true,
-        count = 0;
+    let currentValue = browser.getValue(selector),
+      isInteractable = true,
+      count = 0;
 
-    if (string.includes('\n')) {
-      throw new Error('Entering newlines with setValueSafe is not supported.');
+    if (string.includes("\n")) {
+      throw new Error("Entering newlines with setValueSafe is not supported.");
     }
 
     browser.waitForVisible(selector);
@@ -28,9 +29,10 @@ export class E2EGlobal {
         browser.setValue(selector, string); // !!!
       } catch (e) {
         const message = e.toString(),
-              notInteractable = message.includes(
-                  'Element is not currently interactable and may not be manipulated'),
-              cannotFocusElement = message.includes('Cannot focus element');
+          notInteractable = message.includes(
+            "Element is not currently interactable and may not be manipulated"
+          ),
+          cannotFocusElement = message.includes("Cannot focus element");
 
         if (notInteractable || cannotFocusElement) {
           isInteractable = false;
@@ -57,13 +59,12 @@ export class E2EGlobal {
       try {
         predicate();
         return;
-      } catch (e) {
-      }
+      } catch (e) {}
       browser.pause(E2EGlobal.pollingInterval);
       current = new Date();
     }
 
-    throw new Error('waitUntil timeout');
+    throw new Error("waitUntil timeout");
   }
 
   static clickWithRetry(selector, timeout = 10000) {
@@ -80,9 +81,9 @@ export class E2EGlobal {
         return;
       } catch (e) {
         const message = e.toString(),
-              retryMakesSense =
-                  message.includes('Other element would receive the click') ||
-                  message.includes('Element is not clickable at point');
+          retryMakesSense =
+            message.includes("Other element would receive the click") ||
+            message.includes("Element is not clickable at point");
 
         if (!retryMakesSense) {
           console.log(`Unexpected exception: ${e}`);
@@ -105,7 +106,7 @@ export class E2EGlobal {
 
     try {
       let max = 100;
-      while (browser.isVisible('#loading-container') && max > 0) {
+      while (browser.isVisible("#loading-container") && max > 0) {
         // E2EGlobal.saveScreenshot('loading');
         browser.pause(100);
         max--;
@@ -124,49 +125,54 @@ export class E2EGlobal {
     let mm = aDate.getMonth() + 1; // January is 0!
     let yyyy = aDate.getFullYear();
     if (dd < 10) {
-      dd = '0' + dd;
+      dd = "0" + dd;
     }
     if (mm < 10) {
-      mm = '0' + mm;
+      mm = "0" + mm;
     }
-    return yyyy + '-' + mm + '-' + dd;
+    return yyyy + "-" + mm + "-" + dd;
   }
 
   static formatTimeISO8601(aDate) {
-    let isoString = '';
+    let isoString = "";
 
     try {
       let tzoffset = aDate.getTimezoneOffset() * 60000; // offset in
-                                                        // milliseconds
-      isoString = (new Date(aDate - tzoffset))
-                      .toISOString()
-                      .substr(0, 19)
-                      .replace('T', ' '); // YYYY-MM-DD hh:mm:ss
+      // milliseconds
+      isoString = new Date(aDate - tzoffset)
+        .toISOString()
+        .substr(0, 19)
+        .replace("T", " "); // YYYY-MM-DD hh:mm:ss
     } catch (e) {
-      isoString = 'NaN-NaN-NaN 00:00:00';
+      isoString = "NaN-NaN-NaN 00:00:00";
     }
     return isoString;
   }
 
   static browserName() {
-    if (browser && browser._original && browser._original.desiredCapabilities &&
-        browser._original.desiredCapabilities.browserName) {
+    if (
+      browser &&
+      browser._original &&
+      browser._original.desiredCapabilities &&
+      browser._original.desiredCapabilities.browserName
+    ) {
       return browser._original.desiredCapabilities.browserName;
     }
     console.error(
-        'Error: E2EGlobal.browserName() could not determine browserName!');
-    return 'unknown';
+      "Error: E2EGlobal.browserName() could not determine browserName!"
+    );
+    return "unknown";
   }
 
   static browserIsPhantomJS() {
-    return (E2EGlobal.browserName() === 'phantomjs');
+    return E2EGlobal.browserName() === "phantomjs";
   }
 
   static isChrome() {
     if (browser && browser.options && browser.options.desiredCapabilities) {
-      return browser.options.desiredCapabilities.browserName === 'chrome';
+      return browser.options.desiredCapabilities.browserName === "chrome";
     }
-    console.error('Error: Could not determine if the browser used is chrome!');
+    console.error("Error: Could not determine if the browser used is chrome!");
     return false;
   }
 
@@ -174,7 +180,7 @@ export class E2EGlobal {
     if (browser && browser.options && browser.options.desiredCapabilities) {
       return browser.options.desiredCapabilities.isHeadless;
     }
-    console.error('Error: Could not determine headlessness of browser!');
+    console.error("Error: Could not determine headlessness of browser!");
     return false;
   }
 
@@ -195,21 +201,27 @@ export class E2EGlobal {
    * @param filename
    */
   static saveScreenshot(filename) {
-    let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, '') + '_';
-    filename = E2EGlobal.getTestSpecFilename() + '_' + dateStr +
-               (filename ? '_' : '') + filename;
-    let fullpath = './tests/snapshots/' + filename + '.png';
+    let dateStr = new Date().toISOString().replace(/[^0-9]/g, "") + "_";
+    filename =
+      E2EGlobal.getTestSpecFilename() +
+      "_" +
+      dateStr +
+      (filename ? "_" : "") +
+      filename;
+    let fullpath = "./tests/snapshots/" + filename + ".png";
     browser.saveScreenshot(fullpath);
-    console.log('Screenshot taken: ', fullpath);
+    console.log("Screenshot taken: ", fullpath);
     return fullpath;
   }
 
   static sendKeysWithPause(...keysAndPauses) {
-    function isOdd(num) { return num % 2; }
+    function isOdd(num) {
+      return num % 2;
+    }
 
     const keys = keysAndPauses.filter((_, index) => !isOdd(index)),
-          pauses = keysAndPauses.filter((_, index) => isOdd(index)),
-          numberOfKeys = keys.length;
+      pauses = keysAndPauses.filter((_, index) => isOdd(index)),
+      numberOfKeys = keys.length;
 
     for (let i = 0; i < numberOfKeys; ++i) {
       browser.keys(keys[i]);
@@ -219,17 +231,17 @@ export class E2EGlobal {
   }
 
   static logTimestamp(text) {
-    console.log('---', E2EGlobal.formatTimeISO8601(new Date()), text);
+    console.log("---", E2EGlobal.formatTimeISO8601(new Date()), text);
   }
 }
 
 // Configure some static fields
 
-E2EGlobal.SETTINGS = require('../../../settings-test-end2end.json');
+E2EGlobal.SETTINGS = require("../../../settings-test-end2end.json");
 
 E2EGlobal.USERROLES = {
-  Moderator : 'Moderator',
-  Uploader : 'Uploader',
-  Invited : 'Invited',
-  Informed : 'Informed'
+  Moderator: "Moderator",
+  Uploader: "Uploader",
+  Invited: "Invited",
+  Informed: "Informed",
 };
