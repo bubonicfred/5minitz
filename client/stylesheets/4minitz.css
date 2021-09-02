@@ -1,188 +1,185 @@
-
 .meetingListItem {
-    padding: 2px;
+  padding: 2px;
 }
 
 .version-info {
-    position:absolute;
-    top:0;
-    right:0;
-    margin-top: 5px;
-    margin-right: 5px;
-    text-align: right;
-    color: #c7c7c7;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 5px;
+  margin-right: 5px;
+  text-align: right;
+  color: #c7c7c7;
+  pointer-events: none;
 }
 
 .connection-info {
-    position: fixed;
-    top: 13px;
-    right: 10px;
-    text-align: right;
-    padding-top:5px;
-    width: 250px;
-    color: yellow;
-    z-index: 1000;
+  position: fixed;
+  top: 13px;
+  right: 10px;
+  text-align: right;
+  padding-top: 5px;
+  width: 250px;
+  color: yellow;
+  z-index: 1000;
 
-    /* fallback color for browsers that don't understand rgba */
-    background-color: rgb(148, 0, 0);
-    background-color: rgba(255, 0, 0, 0.7);
+  /* fallback color for browsers that don't understand rgba */
+  background-color: rgb(148, 0, 0);
+  background-color: rgba(255, 0, 0, 0.7);
 }
 
 .btn-warning-expand {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 134%;
-    cursor: pointer;
-    cursor: hand;
-    margin-top: 6px;
-    padding: 2px 6px 2px 1px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  font-size: 134%;
+  cursor: pointer;
+  cursor: hand;
+  margin-top: 6px;
+  padding: 2px 6px 2px 1px;
 }
 
 .topic-element {
-    border: 2px dashed transparent !important;
+  border: 2px dashed transparent !important;
 }
 
 .focus {
-    border: 2px dashed #00bbbb !important;
+  border: 2px dashed #00bbbb !important;
 }
 
 .remove-symbol {
-    padding: 3px 2px 2px 6px;
-    font-size:93%;
+  padding: 3px 2px 2px 6px;
+  font-size: 93%;
 }
 
 .connection-warning-text {
-    margin-top: 37px;
-    padding: 5px;
-    text-align: justify;
-    width: 250px;
+  margin-top: 37px;
+  padding: 5px;
+  text-align: justify;
+  width: 250px;
 }
 
 .btn-reconnect {
-    padding: 30px;
+  padding: 30px;
 }
 
 .panel-dropper {
-    color: grey;
+  color: grey;
 }
 .panel-dropper:hover {
-    color: teal;
+  color: teal;
 }
 
 .panel-link {
-    padding: 0.5em 0 !important;
-    margin-left: 0;
+  padding: 0.5em 0 !important;
+  margin-left: 0;
 }
 
-.panel-link:hover, .panel-link:link {
-    color: inherit;
+.panel-link:hover,
+.panel-link:link {
+  color: inherit;
 }
 
 .panel-link:hover {
-    background: #eee !important;
+  background: #eee !important;
 }
 
 .panel-link.disabled {
-    color: #CCCCCC !important;
+  color: #cccccc !important;
 }
 
 .panel-link.disabled:hover {
-    cursor: default;
+  cursor: default;
 }
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
-    background-color: transparent;
-    border-bottom: .333rem solid transparent;
+  background-color: transparent;
+  border-bottom: 0.333rem solid transparent;
 }
 ul.nav-tabs li.active {
-    border-bottom: .333rem solid teal;
-    color: grey;
+  border-bottom: 0.333rem solid teal;
+  color: grey;
 }
 ul.nav-tabs li a,
-ul.nav-tabs li a:focus
-{
-    color: grey !important;
+ul.nav-tabs li a:focus {
+  color: grey !important;
 }
 ul.nav-tabs li a:hover {
-    color: black !important;
+  color: black !important;
 }
-
 
 /* remove dotted outline on clicked menu / tab items */
 a:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 /* for panel lists of topics/action items */
 /* .panel-heading sets the default background which can only be
    overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #88dddd !important;
+  background-color: #88dddd !important;
 }
 .panel-heading.actionitem-open-due-today {
-    background-color: #ffffcc !important;
+  background-color: #ffffcc !important;
 }
 .panel-heading.actionitem-open-due-over {
-    background-color: #ffdddd !important;
+  background-color: #ffdddd !important;
 }
 .panel-heading.actionitem-closed {
-    background-color: #DDDDDD !important;
+  background-color: #dddddd !important;
 }
 
 .panel-heading.infoitem {
-    background-color: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 .panel-heading.bright {
-    background-color: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 .username-label {
-    font-size: 120%;
-    line-height: 250%;
-    background-color: #DDDDDD;
-    padding: .5em;
-    margin-right: .5em;
-    font-weight: 100;
-    color: black;
+  font-size: 120%;
+  line-height: 250%;
+  background-color: #dddddd;
+  padding: 0.5em;
+  margin-right: 0.5em;
+  font-weight: 100;
+  color: black;
 }
 
 .label-large {
-    font-size: 110% !important;
+  font-size: 110% !important;
 }
 
-
 @media screen and (max-width: 799px) {
-    .version-info {
-        display:none;
-    }
+  .version-info {
+    display: none;
+  }
 }
 
 .sticky-item {
-    -webkit-transform: rotate(315deg); /* Safari and Chrome */
-    -moz-transform: rotate(315deg);   /* Firefox */
-    -ms-transform: rotate(315deg);   /* IE 9 */
-    -o-transform: rotate(315deg);   /* Opera */
-    transform: rotate(315deg);
+  -webkit-transform: rotate(315deg); /* Safari and Chrome */
+  -moz-transform: rotate(315deg); /* Firefox */
+  -ms-transform: rotate(315deg); /* IE 9 */
+  -o-transform: rotate(315deg); /* Opera */
+  transform: rotate(315deg);
 }
 
 .active-icon {
-    color: blue;
+  color: blue;
 }
 
 .grey-icon {
-    color: grey;
+  color: grey;
 }
 
 /* glyphicon menu buttons */
 .pull-right-icons .glyphicon {
-    padding: 0.3em;
-    margin-left: 0.5em;
-    font-size: 16px;
+  padding: 0.3em;
+  margin-left: 0.5em;
+  font-size: 16px;
 }
 
 .pull-right-icons a,
@@ -190,155 +187,155 @@ a:focus {
 .pull-right-icons a:visited,
 .pull-right-icons a:hover,
 .pull-right-icons a:active {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .dragDropHandle {
-    color: grey;
+  color: grey;
 }
 
 .dragDropHandle:link {
-    color: grey;
+  color: grey;
 }
 
 .dragDropHandle:hover {
-    cursor: move; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-    color: black;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  color: black;
 }
 
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */
 .dragDropHandle:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
 
 .form-inline .form-control {
-    margin-top: -20px;
+  margin-top: -20px;
 }
 
 /* Format tables in MarkDown details */
 .detailText table {
-    border-collapse:separate;
-    border:solid darkgray 1px;
-    border-radius:6px;
-    padding: 10px;
+  border-collapse: separate;
+  border: solid darkgray 1px;
+  border-radius: 6px;
+  padding: 10px;
 }
 
-.detailText td, .detailText th {
-    padding: 10px;
-    border-bottom: solid black 1px;
+.detailText td,
+.detailText th {
+  padding: 10px;
+  border-bottom: solid black 1px;
 }
 
 .detailText th {
-    background: #DDDDDD;
+  background: #dddddd;
 }
 
-
 @media screen and (max-width: 739px), screen and (min-width: 992px) {
-    .minutes-action-buttons .btn-raised {
-        width: 100%
-    }
+  .minutes-action-buttons .btn-raised {
+    width: 100%;
+  }
 }
 
 /* the pick-a-color preview box is not in-line with the input field */
 input.pick-a-color {
-    margin-bottom: -40px !important;
+  margin-bottom: -40px !important;
 }
 
 /* prevent adding empty space between color-items of the color picker */
 .pick-a-color-markup .color-menu li {
-    height: 31px;
+  height: 31px;
 }
 
 .align-with-input {
-    bottom: -25px;
+  bottom: -25px;
 }
 
 @media (min-width: 768px) {
-    /* used to indent topic content like infoitems / action items */
-    .leftIndent-desktop {
-        margin-left: 20px;
-        padding-left: 5px;
-    }
+  /* used to indent topic content like infoitems / action items */
+  .leftIndent-desktop {
+    margin-left: 20px;
+    padding-left: 5px;
+  }
 
-    .multicolumn {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
+  .multicolumn {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
 
-    .padding-for-collabsable {
-        padding-left: 1.5em
-    }
+  .padding-for-collabsable {
+    padding-left: 1.5em;
+  }
 }
 
 .force-no-padding-top {
-    padding-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .text-black {
-    color: black;
+  color: black;
 }
 
 .large-font {
-    font-size: 125%;
+  font-size: 125%;
 }
 
 .default-margin-top {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 /* used for skipped topics */
 .strikethrough {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
-.linkItemContext{
-    color: grey;
-    font-size: 80%;
-    vertical-align: sub;
+.linkItemContext {
+  color: grey;
+  font-size: 80%;
+  vertical-align: sub;
 }
 
 a.linkItemContext:hover {
-    color: black;
+  color: black;
 }
 
-.meetingSeriesSearchbar input{
-    margin: 5px 0 0 1px;
-    width: 233px;
-    height: 30px;
+.meetingSeriesSearchbar input {
+  margin: 5px 0 0 1px;
+  width: 233px;
+  height: 30px;
 }
-@media (min-width: 600px){
-    .meetingSeriesSearchbar{
-        float: right;
-        margin: 10px 15px 0 0;
-    }
+@media (min-width: 600px) {
+  .meetingSeriesSearchbar {
+    float: right;
+    margin: 10px 15px 0 0;
+  }
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* td-ellipsis will prevent line break in <td> and shorten the text with ellipsis instead */
 /* see https://stackoverflow.com/a/30362531/2580805 */
 .td-ellipsis {
-    position: relative;
+  position: relative;
 }
 .td-ellipsis:before {
-    content: '&nbsp;';
-    visibility: hidden;
+  content: "&nbsp;";
+  visibility: hidden;
 }
 .td-ellipsis span {
-    position: absolute;
-    left: 0;
-    right: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  position: absolute;
+  left: 0;
+  right: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /*
@@ -348,7 +345,11 @@ a {
 
     See also related issue https://github.com/FezVrasta/bootstrap-material-design/issues/1189
 */
-.checkbox input[type=checkbox]:checked + .checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check {
-    background-color: #009688;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+.checkbox input[type="checkbox"]:checked + .checkbox-material .check,
+label.checkbox-inline
+  input[type="checkbox"]:checked
+  + .checkbox-material
+  .check {
+  background-color: #009688;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 }
