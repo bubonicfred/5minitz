@@ -2,13 +2,13 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let Meteor = {};
+const Meteor = {};
 
-let MinutesSchemaCollection = { find: sinon.stub(), update: sinon.spy() };
-let MinutesSchema = { getCollection: sinon.stub() };
+const MinutesSchemaCollection = { find: sinon.stub(), update: sinon.spy() };
+const MinutesSchema = { getCollection: sinon.stub() };
 
-let TopicSchemaCollection = { find: sinon.stub(), update: sinon.spy() };
-let TopicSchema = { getCollection: sinon.stub() };
+const TopicSchemaCollection = { find: sinon.stub(), update: sinon.spy() };
+const TopicSchema = { getCollection: sinon.stub() };
 
 const { MigrateV23 } = proxyquire("../../../../server/migrations/migrate_v23", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
@@ -18,8 +18,8 @@ const { MigrateV23 } = proxyquire("../../../../server/migrations/migrate_v23", {
 
 describe("MigrateV23", function () {
   describe("#up", function () {
-    const topicWithResponsiblesNull = { responsibles: null },
-      topicsWithResponsiblesDefined = { responsibles: [1, 2, 3] };
+    const topicWithResponsiblesNull = { responsibles: null };
+    const topicsWithResponsiblesDefined = { responsibles: [1, 2, 3] };
 
     beforeEach(function () {
       TopicSchemaCollection.find.returns([]);
