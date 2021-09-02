@@ -5,17 +5,17 @@ import _ from "underscore";
 
 import * as DateHelpers from "../../../../../imports/helpers/date";
 
-let MinutesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MinutesSchema = { update: sinon.stub(), findOne: sinon.stub() };
 
-let MeetingSeriesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MeetingSeriesSchema = { update: sinon.stub(), findOne: sinon.stub() };
 
-let ms1 = {
+const ms1 = {
   getMailLanguage: () => {
     return "en";
   },
 };
-let MeetingSeries = sinon.stub().returns(ms1);
-let Minutes = sinon.stub();
+const MeetingSeries = sinon.stub().returns(ms1);
+const Minutes = sinon.stub();
 
 const Topics = sinon.stub();
 const check = sinon.stub();
@@ -28,7 +28,7 @@ const MeteorError = (err, details) => {
 };
 const MeteorMethods = {};
 
-let Meteor = {
+const Meteor = {
   userId: sinon.stub(),
   user: sinon.stub(),
   defer: sinon.stub().callsArg(0),
@@ -39,7 +39,7 @@ let Meteor = {
   settings: { public: { docGeneration: { enabled: true } } },
 };
 
-let PromisedMethods = {};
+const PromisedMethods = {};
 DateHelpers["@noCallThru"] = true;
 
 const GlobalSettings = {
@@ -66,7 +66,7 @@ const User = {
   PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-let i18n = {
+const i18n = {
   setLocale: sinon.stub(),
   getLocale: sinon.stub(),
   runWithLocale: (locale, callback) => {
@@ -127,13 +127,13 @@ function verifyPropertyOfMinutesUpdate(minutes, property, value) {
 }
 
 describe("workflow.finalizeMinute", function () {
-  const finalizeMeteorMethod = MeteorMethods["workflow.finalizeMinute"],
-    fakeMeetingSeries = {
-      openTopics: [],
-      topics: [],
-      updateLastMinutesFieldsAsync: sinon.stub(),
-    },
-    user = { username: "me" };
+  const finalizeMeteorMethod = MeteorMethods["workflow.finalizeMinute"];
+  const fakeMeetingSeries = {
+    openTopics: [],
+    topics: [],
+    updateLastMinutesFieldsAsync: sinon.stub(),
+  };
+  const user = { username: "me" };
   let minutes, secondToLastMinutes;
 
   beforeEach(function () {
@@ -261,8 +261,8 @@ describe("workflow.finalizeMinute", function () {
 });
 
 describe("workflow.unfinalizeMinute", function () {
-  const unfinalizeMeteorMethod = MeteorMethods["workflow.unfinalizeMinute"],
-    user = { username: "me" };
+  const unfinalizeMeteorMethod = MeteorMethods["workflow.unfinalizeMinute"];
+  const user = { username: "me" };
   let minutes, secondToLastMinutes, meetingSeries;
 
   beforeEach(function () {
