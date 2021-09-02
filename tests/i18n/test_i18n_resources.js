@@ -12,8 +12,7 @@
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const IGNOREKEYS = {
-  "UserRoles.role" :
-      true, // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
+  "UserRoles.role": true, // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
 };
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -28,8 +27,9 @@ let globalWarningCount = 0;
 console.log("Test_I18N_Resources");
 console.log("-------------------");
 console.log(
-    "Test if all needed string resources used in code are present in YAML: " +
-    en_yaml);
+  "Test if all needed string resources used in code are present in YAML: " +
+    en_yaml
+);
 
 const dictKeysFromYaml = {};
 let dictKeysFromCode = {};
@@ -39,16 +39,22 @@ let count = 0;
 function collectFilesRecursive(dir, extension) {
   let results = [];
   const list = fs.readdirSync(dir);
-  list.forEach(function(file) {
+  list.forEach(function (file) {
     file = dir + "/" + file;
     const stat = fs.statSync(file);
     if (stat && stat.isDirectory()) {
       /* Recurse into a subdirectory */
       const aDir = file;
-      if (!aDir.endsWith("/node_modules") && !aDir.endsWith("/.deploy") &&
-          !aDir.endsWith("/.docker") && !aDir.endsWith("/.meteor") &&
-          !aDir.endsWith("/migrations") && !aDir.endsWith("/packages") &&
-          !aDir.endsWith("/doc") && !aDir.endsWith("/tests")) {
+      if (
+        !aDir.endsWith("/node_modules") &&
+        !aDir.endsWith("/.deploy") &&
+        !aDir.endsWith("/.docker") &&
+        !aDir.endsWith("/.meteor") &&
+        !aDir.endsWith("/migrations") &&
+        !aDir.endsWith("/packages") &&
+        !aDir.endsWith("/doc") &&
+        !aDir.endsWith("/tests")
+      ) {
         results = results.concat(collectFilesRecursive(aDir, extension));
       }
     } else {
@@ -107,8 +113,9 @@ function checkCodeUsage(extension, keyPattern) {
   // Check if needed keys from code exist in YAML
   for (const keyFromCode in dictKeysFromCode) {
     if (dictKeysFromYaml[keyFromCode] === undefined) {
-      console.log("I18N-ERROR: >" + keyFromCode +
-                  "< not found in YAML needed by:");
+      console.log(
+        "I18N-ERROR: >" + keyFromCode + "< not found in YAML needed by:"
+      );
       console.log(dictKeysFromCode[keyFromCode] + "\n");
       anyErrorExitCodeToShell = 1;
       localErrorCount++;
@@ -155,8 +162,9 @@ checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 // Warnings
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
-    console.log("I18N-Warning: >" + keyFromYaml +
-                "< from YAML never used in code.");
+    console.log(
+      "I18N-Warning: >" + keyFromYaml + "< from YAML never used in code."
+    );
     globalWarningCount++;
   }
 }
