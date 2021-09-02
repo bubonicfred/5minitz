@@ -89,7 +89,8 @@ function checkCodeUsage(extension, keyPattern) {
   let localErrorCount = 0;
   const files_js = collectFilesRecursive(__dirname + "/../..", extension);
 
-  // Find all i18n __ keys used in this file, according to regexp key pattern provided
+  // Find all i18n __ keys used in this file, according to regexp key pattern
+  // provided
   files_js.forEach((jsFile) => {
     const content = fs.readFileSync(jsFile, "utf8");
     const re = keyPattern;
@@ -137,7 +138,8 @@ try {
   console.log(e);
   anyErrorExitCodeToShell = 10;
 }
-// Recursively walk the YAML JS object, build key pathes like: 'Admin.Users.State.column'
+// Recursively walk the YAML JS object, build key pathes like:
+// 'Admin.Users.State.column'
 if (yaml_doc) {
   buildFullPathes(yaml_doc, ""); // ==> results in dictKeysFromYaml
 } else {
@@ -152,10 +154,12 @@ console.log("");
 // js: i18n.__('Admin.Users.State.inactive'); => Admin.Users.State.inactive
 checkCodeUsage(".js", /i18n\.__\s*\(\s*["']([^"']+)/gm);
 
-// html: {{__ 'Dialog.ConfirmDeleteTopic.allowed'}} => Dialog.ConfirmDeleteTopic.allowed
+// html: {{__ 'Dialog.ConfirmDeleteTopic.allowed'}} =>
+// Dialog.ConfirmDeleteTopic.allowed
 checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 
-// ---------------------------------------------------------------  YAML Warnings
+// ---------------------------------------------------------------  YAML
+// Warnings
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
     console.log(
