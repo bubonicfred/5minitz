@@ -25,8 +25,8 @@ export class ColorHelper {
     }
 
     static isValidHexColorString(hexString) {
-        if (null === hexString || hexString === '' || hexString === '#') return false;
-        return (null !== ColorHelper.hex2rgb(hexString));
+        if (hexString === null || hexString === '' || hexString === '#') return false;
+        return (ColorHelper.hex2rgb(hexString) !== null);
     }
 
 }

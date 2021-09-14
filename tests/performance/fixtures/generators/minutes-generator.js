@@ -14,7 +14,7 @@ export class MinutesGenerator {
      * @param nextMinutesDate
      */
     constructor(config, parentSeriesId, user, nextMinutesDate = null) {
-        if (null === nextMinutesDate) {
+        if (nextMinutesDate === null) {
             nextMinutesDate = new Date();
         }
         this.config = config;

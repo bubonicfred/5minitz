@@ -87,7 +87,7 @@ export class FlashMessage {
      * Hides the current FlashMessage object immediately.
      */
     hideMe() {
-        if (null === this.currentNotification) return;
+        if (this.currentNotification === null) return;
         this.currentNotification.close();
     }
 }
