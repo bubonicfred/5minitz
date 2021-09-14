@@ -142,9 +142,9 @@ Template.meetingSeriesEdit.events({
             }
         );
 
-        Meteor.setTimeout(() => {
+        Meteor.defer(() => {
             confirmationDialog.show();
-        }, 0);
+        } );
 
     },
 
