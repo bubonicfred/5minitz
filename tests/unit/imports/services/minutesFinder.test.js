@@ -3,8 +3,8 @@ import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
 
-let MinutesSchema = {};
-let Minutes = sinon.spy();
+const MinutesSchema = {};
+const Minutes = sinon.spy();
 
 const { MinutesFinder } = proxyquire(
   "../../../../imports/services/minutesFinder",
@@ -28,9 +28,9 @@ const clearAll = function () {
 describe("MinutesFinder", function () {
   beforeEach(clearAll);
 
-  const FakeMinutes = [{ _id: "123" }, { _id: "abc" }],
-    EmptyMinutesCollection = { find: sinon.stub().returns([]) },
-    MinutesCollection = { find: sinon.stub().returns(FakeMinutes) };
+  const FakeMinutes = [{ _id: "123" }, { _id: "abc" }];
+  const EmptyMinutesCollection = { find: sinon.stub().returns([]) };
+  const MinutesCollection = { find: sinon.stub().returns(FakeMinutes) };
   let MeetingSeries;
 
   const setupNonEmptySeries = function () {
@@ -53,7 +53,7 @@ describe("MinutesFinder", function () {
     });
 
     it("returns all minutes of a meeting series", function () {
-      let result = MinutesFinder.allMinutesOfMeetingSeries(MeetingSeries);
+      const result = MinutesFinder.allMinutesOfMeetingSeries(MeetingSeries);
 
       // number of minutes found equals number of fake minutes
       const expectedLength = FakeMinutes.length;
