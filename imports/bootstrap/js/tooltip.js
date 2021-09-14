@@ -266,7 +266,7 @@
 
     for (const dataAttr in dataAttributes) {
       if (
-        dataAttributes.hasOwnProperty(dataAttr) &&
+        Object.prototype.hasOwnProperty.call(dataAttributes, dataAttr) &&
         $.inArray(dataAttr, DISALLOWED_ATTRIBUTES) !== -1
       ) {
         delete dataAttributes[dataAttr];
