@@ -1,6 +1,7 @@
 // Configuration for WebDriver.IO TestRunner for End2End tests
 
-const headless = process.env.HEADLESS; // export HEADLESS=1 on shell to trigger headless chrome testing
+const headless = process.env.HEADLESS; // export HEADLESS=1 on shell to trigger
+// headless chrome testing
 
 exports.config = {
   //
@@ -8,7 +9,8 @@ exports.config = {
   // Runner Configuration
   // ====================
   //
-  // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
+  // WebdriverIO allows it to run your tests in arbitrary locations (e.g.
+  // locally or
   // on a remote machine).
   runner: "local",
   outputDir: "./tests/end2end/logs",
@@ -19,10 +21,14 @@ exports.config = {
   // ==================
   // Specify Test Files
   // ==================
-  // Define which test specs should run. The pattern is relative to the directory
-  // from which `wdio` was called. Notice that, if you are calling `wdio` from an
-  // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
-  // directory is where your package.json resides, so `wdio` will be called from there.
+  // Define which test specs should run. The pattern is relative to the
+  // directory
+  // from which `wdio` was called. Notice that, if you are calling `wdio` from
+  // an
+  // NPM script (see https://docs.npmjs.com/cli/run-script) then the current
+  // working
+  // directory is where your package.json resides, so `wdio` will be called from
+  // there.
   //
   specs: ["./tests/end2end/**/*-test.js"],
   // Patterns to exclude.
@@ -37,28 +43,40 @@ exports.config = {
   // ============
   // Capabilities
   // ============
-  // Define your capabilities here. WebdriverIO can run multiple capabilities at the same
-  // time. Depending on the number of capabilities, WebdriverIO launches several test
-  // sessions. Within your capabilities you can overwrite the spec and exclude options in
+  // Define your capabilities here. WebdriverIO can run multiple capabilities at
+  // the same
+  // time. Depending on the number of capabilities, WebdriverIO launches several
+  // test
+  // sessions. Within your capabilities you can overwrite the spec and exclude
+  // options in
   // order to group specific specs to a specific capability.
   //
-  // First, you can define how many instances should be started at the same time. Let's
-  // say you have 3 different capabilities (Chrome, Firefox, and Safari) and you have
-  // set maxInstances to 1; wdio will spawn 3 processes. Therefore, if you have 10 spec
-  // files and you set maxInstances to 10, all spec files will get tested at the same time
-  // and 30 processes will get spawned. The property handles how many capabilities
+  // First, you can define how many instances should be started at the same
+  // time. Let's
+  // say you have 3 different capabilities (Chrome, Firefox, and Safari) and you
+  // have
+  // set maxInstances to 1; wdio will spawn 3 processes. Therefore, if you have
+  // 10 spec
+  // files and you set maxInstances to 10, all spec files will get tested at the
+  // same time
+  // and 30 processes will get spawned. The property handles how many
+  // capabilities
   // from the same test should run tests.
   //
   maxInstances: 1,
   //
-  // If you have trouble getting all important capabilities together, check out the
-  // Sauce Labs platform configurator - a great tool to configure your capabilities:
+  // If you have trouble getting all important capabilities together, check out
+  // the
+  // Sauce Labs platform configurator - a great tool to configure your
+  // capabilities:
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
   capabilities: [
     {
-      // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-      // grid with only 5 firefox instances available you can make sure that not more than
+      // maxInstances can get overwritten per capability. So if you have an
+      // in-house Selenium
+      // grid with only 5 firefox instances available you can make sure that not
+      // more than
       // 5 instances get started at a time.
       maxInstances: 5,
       //
@@ -67,7 +85,8 @@ exports.config = {
         prefs: {
           "profile.default_content_settings.popups": 0,
           // "download.default_directory" is for Attachments E2E tests to
-          // suppress the download pop up and directly save download files to disk
+          // suppress the download pop up and directly save download files to
+          // disk
           "download.default_directory": "tests/e2e_downloads",
         },
         args: [headless ? "--headless" : "--empty", "--window-size=1920x1080"],
@@ -75,7 +94,8 @@ exports.config = {
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
-      // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
+      // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session
+      // logs
       // excludeDriverLogs: ['bugreport', 'server'],
     },
   ],
@@ -91,7 +111,8 @@ exports.config = {
   // Set specific log levels per logger
   // loggers:
   // - webdriver, webdriverio
-  // - @wdio/applitools-service, @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
+  // - @wdio/applitools-service, @wdio/browserstack-service, @wdio/devtools-service,
+  // @wdio/sauce-service
   // - @wdio/mocha-framework, @wdio/jasmine-framework
   // - @wdio/local-runner, @wdio/lambda-runner
   // - @wdio/sumologic-reporter
@@ -102,13 +123,17 @@ exports.config = {
   //     '@wdio/applitools-service': 'info'
   // },
   //
-  // If you only want to run your tests until a specific amount of tests have failed use
+  // If you only want to run your tests until a specific amount of tests have
+  // failed use
   // bail (default is 0 - don't bail, run all tests).
   bail: 0,
   //
-  // Set a base URL in order to shorten url command calls. If your `url` parameter starts
-  // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
-  // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
+  // Set a base URL in order to shorten url command calls. If your `url`
+  // parameter starts
+  // with `/`, the base url gets prepended, not including the path portion of
+  // your baseUrl.
+  // If your `url` parameter starts without a scheme or `/` (like `some/path`),
+  // the base url
   // gets prepended directly.
   baseUrl: "http://localhost",
   //
@@ -123,7 +148,8 @@ exports.config = {
   connectionRetryCount: 3,
   //
   // Test runner services
-  // Services take over a specific job you don't want to take care of. They enhance
+  // Services take over a specific job you don't want to take care of. They
+  // enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   services: ["chromedriver"],
@@ -132,7 +158,8 @@ exports.config = {
   // The following are supported: Mocha, Jasmine, and Cucumber
   // see also: https://webdriver.io/docs/frameworks.html
   //
-  // Make sure you have the wdio adapter package for the specific framework installed
+  // Make sure you have the wdio adapter package for the specific framework
+  // installed
   // before running any tests.
   framework: "mocha",
   //
@@ -157,9 +184,12 @@ exports.config = {
   // =====
   // Hooks
   // =====
-  // WebdriverIO provides several hooks you can use to interfere with the test process in order to enhance
-  // it and to build services around it. You can either apply a single function or an array of
-  // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
+  // WebdriverIO provides several hooks you can use to interfere with the test
+  // process in order to enhance
+  // it and to build services around it. You can either apply a single function
+  // or an array of
+  // methods to it. If one of them returns with a promise, WebdriverIO will wait
+  // until that promise got
   // resolved to continue.
   /**
    * Gets executed once before all workers get launched.
@@ -169,8 +199,9 @@ exports.config = {
   // onPrepare: function (config, capabilities) {
   // },
   /**
-   * Gets executed just before initialising the webdriver session and test framework. It allows you
-   * to manipulate configurations depending on the capability or spec.
+   * Gets executed just before initialising the webdriver session and test
+   * framework. It allows you to manipulate configurations depending on the
+   * capability or spec.
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that are to be run
@@ -178,18 +209,20 @@ exports.config = {
   // beforeSession: function (config, capabilities, specs) {
   // },
   /**
-   * Gets executed before test execution begins. At this point you can access to all global
-   * variables like `browser`. It is the perfect place to define custom commands.
+   * Gets executed before test execution begins. At this point you can access to
+   * all global variables like `browser`. It is the perfect place to define
+   * custom commands.
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that are to be run
    */
   before: function (capabilities, specs) {
     const chai = require("chai");
     global.expect = chai.expect;
-    // chai.should();   // to extend Object.prototype() with the should() function.
+    // chai.should();   // to extend Object.prototype() with the should()
+    // function.
 
-    // console.log(browser.sessionId); // outputs: "57b15c6ea81d0edb9e5b372da3d9ce28"
-    // console.log(browser.capabilities);
+    // console.log(browser.sessionId); // outputs:
+    // "57b15c6ea81d0edb9e5b372da3d9ce28" console.log(browser.capabilities);
 
     // const server = require('tests/end2end/helpers/Server');
     // global.server = server.server;
@@ -214,21 +247,23 @@ exports.config = {
   // beforeTest: function (test, context) {
   // },
   /**
-   * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
-   * beforeEach in Mocha)
+   * Hook that gets executed _before_ a hook within the suite starts (e.g. runs
+   * before calling beforeEach in Mocha)
    */
   // beforeHook: function (test, context) {
   // },
   /**
-   * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
-   * afterEach in Mocha)
+   * Hook that gets executed _after_ a hook within the suite starts (e.g. runs
+   * after calling afterEach in Mocha)
    */
-  // afterHook: function (test, context, { error, result, duration, passed, retries }) {
+  // afterHook: function (test, context, { error, result, duration, passed,
+  // retries }) {
   // },
   /**
    * Function to be executed after a test (in Mocha/Jasmine).
    */
-  // afterTest: function(test, context, { error, result, duration, passed, retries }) {
+  // afterTest: function(test, context, { error, result, duration, passed,
+  // retries }) {
   // },
 
   /**
@@ -247,8 +282,8 @@ exports.config = {
   // afterCommand: function (commandName, args, result, error) {
   // },
   /**
-   * Gets executed after all tests are done. You still have access to all global variables from
-   * the test.
+   * Gets executed after all tests are done. You still have access to all global
+   * variables from the test.
    * @param {Number} result 0 - test pass, 1 - test fail
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
@@ -265,8 +300,9 @@ exports.config = {
   // afterSession: function (config, capabilities, specs) {
   // },
   /**
-   * Gets executed after all workers got shut down and the process is about to exit. An error
-   * thrown in the onComplete hook will result in the test run failing.
+   * Gets executed after all workers got shut down and the process is about to
+   * exit. An error thrown in the onComplete hook will result in the test run
+   * failing.
    * @param {Object} exitCode 0 - success, 1 - fail
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
