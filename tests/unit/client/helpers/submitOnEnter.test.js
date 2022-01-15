@@ -1,86 +1,86 @@
-import { expect } from 'chai';
-import proxyquire from 'proxyquire';
-import sinon from 'sinon';
-import _ from 'underscore';
+import { expect } from 'chai'
+import proxyquire from 'proxyquire'
+import sinon from 'sinon'
+import _ from 'underscore'
 
-let jQueryOnStub = sinon.stub();
-let $ = sinon.stub().returns({
-    on: jQueryOnStub
-});
+const jQueryOnStub = sinon.stub()
+const $ = sinon.stub().returns({
+  on: jQueryOnStub
+})
 
 const submitOnEnter = proxyquire('../../../../client/helpers/submitOnEnter', {
-    'meteor/jquery': { $, '@noCallThru': true},
-    'meteor/underscore': { _, '@noCallThru': true}
-}).default;
+  'meteor/jquery': { $, '@noCallThru': true },
+  'meteor/underscore': { _, '@noCallThru': true }
+}).default
 
 describe('submitOnEnter', function () {
-    let action = sinon.stub();
+  const action = sinon.stub()
 
-    function fakeEnterPressed(controlPressed) {
-        return {
-            keyCode: 13,
-                key: 'Enter',
-            ctrlKey: controlPressed,
-            preventDefault: sinon.stub()
-        };
+  function fakeEnterPressed (controlPressed) {
+    return {
+      keyCode: 13,
+      key: 'Enter',
+      ctrlKey: controlPressed,
+      preventDefault: sinon.stub()
     }
+  }
 
-    beforeEach(function () {
-        jQueryOnStub.resetHistory();
-        $.resetHistory();
-        action.resetHistory();
-    });
+  beforeEach(function () {
+    jQueryOnStub.resetHistory()
+    $.resetHistory()
+    action.resetHistory()
+  })
 
-    it('attaches event handlers to the given textareas', function () {
-        let textareas = ['one', 'two'],
-            numberOfTextareas = textareas.length;
+  it('attaches event handlers to the given textareas', function () {
+    const textareas = ['one', 'two']
+    const numberOfTextareas = textareas.length
 
-        submitOnEnter(textareas, action);
+    submitOnEnter(textareas, action)
 
-        sinon.assert.callCount($, numberOfTextareas);
-        sinon.assert.callCount(jQueryOnStub, numberOfTextareas);
-        sinon.assert.alwaysCalledWith(jQueryOnStub, 'keyup');
+    sinon.assert.callCount($, numberOfTextareas)
+    sinon.assert.callCount(jQueryOnStub, numberOfTextareas)
+    sinon.assert.alwaysCalledWith(jQueryOnStub, 'keyup')
 
-        sinon.assert.calledWith($, 'one');
-        sinon.assert.calledWith($, 'two');
-    });
+    sinon.assert.calledWith($, 'one')
+    sinon.assert.calledWith($, 'two')
+  })
 
-    it('action is not triggered when control is not pressed for textarea', function () {
-        let input = ['one'],
-            event = fakeEnterPressed(false);
+  it('action is not triggered when control is not pressed for textarea', function () {
+    const input = ['one']
+    const event = fakeEnterPressed(false)
 
-        submitOnEnter(input, action);
+    submitOnEnter(input, action)
 
-        let handler = jQueryOnStub.getCall(0).args[1];
-        handler(event);
+    const handler = jQueryOnStub.getCall(0).args[1]
+    handler(event)
 
-        expect(action.calledOnce).to.be.false;
-    });
+    expect(action.calledOnce).to.be.false
+  })
 
-    it('action is triggered when control is pressed for textareas', function () {
-        let input = ['one'],
-            event = fakeEnterPressed(true);
+  it('action is triggered when control is pressed for textareas', function () {
+    const input = ['one']
+    const event = fakeEnterPressed(true)
 
-        submitOnEnter(input, action);
+    submitOnEnter(input, action)
 
-        let handler = jQueryOnStub.getCall(0).args[1];
-        handler(event);
+    const handler = jQueryOnStub.getCall(0).args[1]
+    handler(event)
 
-        expect(action.calledOnce).to.be.true;
-    });
+    expect(action.calledOnce).to.be.true
+  })
 
-    it('action is not triggered for textareas when something other than enter is entered', function () {
-        let input = ['one'],
-            event = fakeEnterPressed(true);
+  it('action is not triggered for textareas when something other than enter is entered', function () {
+    const input = ['one']
+    const event = fakeEnterPressed(true)
 
-        event.key = 'Something Else';
-        event.keyCode = 15;
+    event.key = 'Something Else'
+    event.keyCode = 15
 
-        submitOnEnter(input, action);
+    submitOnEnter(input, action)
 
-        let handler = jQueryOnStub.getCall(0).args[1];
-        handler(event);
+    const handler = jQueryOnStub.getCall(0).args[1]
+    handler(event)
 
-        expect(action.calledOnce).to.be.false;
-    });
-});
+    expect(action.calledOnce).to.be.false
+  })
+})

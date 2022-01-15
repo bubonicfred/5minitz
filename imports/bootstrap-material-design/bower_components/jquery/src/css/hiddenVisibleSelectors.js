@@ -1,7 +1,7 @@
-define(["../core", "../selector"], function (jQuery) {
+define(['../core', '../selector'], function (jQuery) {
   jQuery.expr.filters.hidden = function (elem) {
-    return !jQuery.expr.filters.visible(elem);
-  };
+    return !jQuery.expr.filters.visible(elem)
+  }
   jQuery.expr.filters.visible = function (elem) {
     // Support: Opera <= 12.12
     // Opera reports offsetWidths and offsetHeights less than zero on some elements
@@ -11,6 +11,6 @@ define(["../core", "../selector"], function (jQuery) {
       elem.offsetWidth > 0 ||
       elem.offsetHeight > 0 ||
       elem.getClientRects().length > 0
-    );
-  };
-});
+    )
+  }
+})

@@ -1,22 +1,22 @@
-define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
+define(['../core', '../var/rnotwhite', './var/acceptData'], function (
   jQuery,
   rnotwhite,
   acceptData
 ) {
-  function Data() {
-    this.expando = jQuery.expando + Data.uid++;
+  function Data () {
+    this.expando = jQuery.expando + Data.uid++
   }
 
-  Data.uid = 1;
+  Data.uid = 1
 
   Data.prototype = {
     register: function (owner, initial) {
-      const value = initial || {};
+      const value = initial || {}
 
       // If it is a node unlikely to be stringify-ed or looped over
       // use plain assignment
       if (owner.nodeType) {
-        owner[this.expando] = value;
+        owner[this.expando] = value
 
         // Otherwise secure it in a non-enumerable, non-writable property
         // configurability must be true to allow the property to be
@@ -25,25 +25,25 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
         Object.defineProperty(owner, this.expando, {
           value: value,
           writable: true,
-          configurable: true,
-        });
+          configurable: true
+        })
       }
-      return owner[this.expando];
+      return owner[this.expando]
     },
     cache: function (owner) {
       // We can accept data for non-element nodes in modern browsers,
       // but we should not, see #8335.
       // Always return an empty object.
       if (!acceptData(owner)) {
-        return {};
+        return {}
       }
 
       // Check if the owner object already has a cache
-      let value = owner[this.expando];
+      let value = owner[this.expando]
 
       // If not, create one
       if (!value) {
-        value = {};
+        value = {}
 
         // We can accept data for non-element nodes in modern browsers,
         // but we should not, see #8335.
@@ -52,7 +52,7 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
           // If it is a node unlikely to be stringify-ed or looped over
           // use plain assignment
           if (owner.nodeType) {
-            owner[this.expando] = value;
+            owner[this.expando] = value
 
             // Otherwise secure it in a non-enumerable property
             // configurable must be true to allow the property to be
@@ -60,38 +60,38 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
           } else {
             Object.defineProperty(owner, this.expando, {
               value: value,
-              configurable: true,
-            });
+              configurable: true
+            })
           }
         }
       }
 
-      return value;
+      return value
     },
     set: function (owner, data, value) {
-      let prop;
-      const cache = this.cache(owner);
+      let prop
+      const cache = this.cache(owner)
 
       // Handle: [ owner, key, value ] args
-      if (typeof data === "string") {
-        cache[data] = value;
+      if (typeof data === 'string') {
+        cache[data] = value
 
         // Handle: [ owner, { properties } ] args
       } else {
         // Copy the properties one-by-one to the cache object
         for (prop in data) {
-          cache[prop] = data[prop];
+          cache[prop] = data[prop]
         }
       }
-      return cache;
+      return cache
     },
     get: function (owner, key) {
       return key === undefined
         ? this.cache(owner)
-        : owner[this.expando] && owner[this.expando][key];
+        : owner[this.expando] && owner[this.expando][key]
     },
     access: function (owner, key, value) {
-      let stored;
+      let stored
 
       // In cases where either:
       //
@@ -106,13 +106,13 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
       //
       if (
         key === undefined ||
-        (key && typeof key === "string" && value === undefined)
+        (key && typeof key === 'string' && value === undefined)
       ) {
-        stored = this.get(owner, key);
+        stored = this.get(owner, key)
 
         return stored !== undefined
           ? stored
-          : this.get(owner, jQuery.camelCase(key));
+          : this.get(owner, jQuery.camelCase(key))
       }
 
       // When the key is not a string, or both a key and value
@@ -121,24 +121,24 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
       //   1. An object of properties
       //   2. A key and value
       //
-      this.set(owner, key, value);
+      this.set(owner, key, value)
 
       // Since the "set" path can have two possible entry points
       // return the expected data based on which path was taken[*]
-      return value !== undefined ? value : key;
+      return value !== undefined ? value : key
     },
     remove: function (owner, key) {
-      let i;
-      let name;
-      let camel;
-      const cache = owner[this.expando];
+      let i
+      let name
+      let camel
+      const cache = owner[this.expando]
 
       if (cache === undefined) {
-        return;
+        return
       }
 
       if (key === undefined) {
-        this.register(owner);
+        this.register(owner)
       } else {
         // Support array or space separated string of keys
         if (jQuery.isArray(key)) {
@@ -148,25 +148,25 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
           // Since there is no way to tell _how_ a key was added, remove
           // both plain key and camelCase key. #12786
           // This will only penalize the array argument path.
-          name = key.concat(key.map(jQuery.camelCase));
+          name = key.concat(key.map(jQuery.camelCase))
         } else {
-          camel = jQuery.camelCase(key);
+          camel = jQuery.camelCase(key)
 
           // Try the string as a key before any manipulation
           if (key in cache) {
-            name = [key, camel];
+            name = [key, camel]
           } else {
             // If a key with the spaces exists, use it.
             // Otherwise, create an array by matching non-whitespace
-            name = camel;
-            name = name in cache ? [name] : name.match(rnotwhite) || [];
+            name = camel
+            name = name in cache ? [name] : name.match(rnotwhite) || []
           }
         }
 
-        i = name.length;
+        i = name.length
 
         while (i--) {
-          delete cache[name[i]];
+          delete cache[name[i]]
         }
       }
 
@@ -177,17 +177,17 @@ define(["../core", "../var/rnotwhite", "./var/acceptData"], function (
         // from DOM nodes, so set to undefined instead
         // https://code.google.com/p/chromium/issues/detail?id=378607
         if (owner.nodeType) {
-          owner[this.expando] = undefined;
+          owner[this.expando] = undefined
         } else {
-          delete owner[this.expando];
+          delete owner[this.expando]
         }
       }
     },
     hasData: function (owner) {
-      const cache = owner[this.expando];
-      return cache !== undefined && !jQuery.isEmptyObject(cache);
-    },
-  };
+      const cache = owner[this.expando]
+      return cache !== undefined && !jQuery.isEmptyObject(cache)
+    }
+  }
 
-  return Data;
-});
+  return Data
+})

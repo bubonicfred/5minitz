@@ -1,50 +1,50 @@
-define(["../var/support", "../var/document"], function (support, document) {
+define(['../var/support', '../var/document'], function (support, document) {
   (function () {
-    let shrinkWrapBlocksVal;
+    let shrinkWrapBlocksVal
 
     support.shrinkWrapBlocks = function () {
       if (shrinkWrapBlocksVal != null) {
-        return shrinkWrapBlocksVal;
+        return shrinkWrapBlocksVal
       }
 
       // Will be changed later if needed.
-      shrinkWrapBlocksVal = false;
+      shrinkWrapBlocksVal = false
 
       // Minified: var b,c,d
-      let div, body, container;
+      let div, body, container
 
-      body = document.getElementsByTagName("body")[0];
+      body = document.getElementsByTagName('body')[0]
       if (!body || !body.style) {
         // Test fired too early or in an unsupported environment, exit.
-        return;
+        return
       }
 
       // Setup
-      div = document.createElement("div");
-      container = document.createElement("div");
+      div = document.createElement('div')
+      container = document.createElement('div')
       container.style.cssText =
-        "position:absolute;border:0;width:0;height:0;top:0;left:-9999px";
-      body.appendChild(container).appendChild(div);
+        'position:absolute;border:0;width:0;height:0;top:0;left:-9999px'
+      body.appendChild(container).appendChild(div)
 
       // Support: IE6
       // Check if elements with layout shrink-wrap their children
-      if (typeof div.style.zoom !== "undefined") {
+      if (typeof div.style.zoom !== 'undefined') {
         // Reset CSS: box-sizing; display; margin; border
         div.style.cssText =
           // Support: Firefox<29, Android 2.3
           // Vendor-prefix box-sizing
-          "-webkit-box-sizing:content-box;-moz-box-sizing:content-box;" +
-          "box-sizing:content-box;display:block;margin:0;border:0;" +
-          "padding:1px;width:1px;zoom:1";
-        div.appendChild(document.createElement("div")).style.width = "5px";
-        shrinkWrapBlocksVal = div.offsetWidth !== 3;
+          '-webkit-box-sizing:content-box;-moz-box-sizing:content-box;' +
+          'box-sizing:content-box;display:block;margin:0;border:0;' +
+          'padding:1px;width:1px;zoom:1'
+        div.appendChild(document.createElement('div')).style.width = '5px'
+        shrinkWrapBlocksVal = div.offsetWidth !== 3
       }
 
-      body.removeChild(container);
+      body.removeChild(container)
 
-      return shrinkWrapBlocksVal;
-    };
-  })();
+      return shrinkWrapBlocksVal
+    }
+  })()
 
-  return support;
-});
+  return support
+})

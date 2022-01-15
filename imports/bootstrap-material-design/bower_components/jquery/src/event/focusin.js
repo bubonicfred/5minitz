@@ -1,10 +1,10 @@
 define([
-  "../core",
-  "../data/var/dataPriv",
-  "./support",
+  '../core',
+  '../data/var/dataPriv',
+  './support',
 
-  "../event",
-  "./trigger",
+  '../event',
+  './trigger'
 ], function (jQuery, dataPriv, support) {
   // Support: Firefox
   // Firefox doesn't have focus(in | out) events
@@ -15,36 +15,36 @@ define([
   // which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
   // Related ticket - https://code.google.com/p/chromium/issues/detail?id=449857
   if (!support.focusin) {
-    jQuery.each({ focus: "focusin", blur: "focusout" }, function (orig, fix) {
+    jQuery.each({ focus: 'focusin', blur: 'focusout' }, function (orig, fix) {
       // Attach a single capturing handler on the document while someone wants focusin/focusout
       const handler = function (event) {
-        jQuery.event.simulate(fix, event.target, jQuery.event.fix(event));
-      };
+        jQuery.event.simulate(fix, event.target, jQuery.event.fix(event))
+      }
 
       jQuery.event.special[fix] = {
         setup: function () {
-          const doc = this.ownerDocument || this;
-          const attaches = dataPriv.access(doc, fix);
+          const doc = this.ownerDocument || this
+          const attaches = dataPriv.access(doc, fix)
 
           if (!attaches) {
-            doc.addEventListener(orig, handler, true);
+            doc.addEventListener(orig, handler, true)
           }
-          dataPriv.access(doc, fix, (attaches || 0) + 1);
+          dataPriv.access(doc, fix, (attaches || 0) + 1)
         },
         teardown: function () {
-          const doc = this.ownerDocument || this;
-          const attaches = dataPriv.access(doc, fix) - 1;
+          const doc = this.ownerDocument || this
+          const attaches = dataPriv.access(doc, fix) - 1
 
           if (!attaches) {
-            doc.removeEventListener(orig, handler, true);
-            dataPriv.remove(doc, fix);
+            doc.removeEventListener(orig, handler, true)
+            dataPriv.remove(doc, fix)
           } else {
-            dataPriv.access(doc, fix, attaches);
+            dataPriv.access(doc, fix, attaches)
           }
-        },
-      };
-    });
+        }
+      }
+    })
   }
 
-  return jQuery;
-});
+  return jQuery
+})

@@ -1,6 +1,6 @@
-import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
-import { ConfirmationDialogFactory } from "../../../helpers/confirmationDialogFactory";
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ConfirmationDialogFactory } from '../../../helpers/confirmationDialogFactory'
 
 export class FilterControlConfig {
   /**
@@ -18,130 +18,130 @@ export class FilterControlConfig {
    * @param filterName
    * @param defaultFilter
    */
-  constructor(callback, filters, filterKeywords, filterName, defaultFilter) {
-    this.callback = callback;
-    this.filters = filters;
-    this.filterKeywords = filterKeywords;
-    this.filterName = filterName;
-    this.defaultFilter = defaultFilter;
+  constructor (callback, filters, filterKeywords, filterName, defaultFilter) {
+    this.callback = callback
+    this.filters = filters
+    this.filterKeywords = filterKeywords
+    this.filterName = filterName
+    this.defaultFilter = defaultFilter
   }
 }
 
-const MATCH_CASE = "do:match-case ";
-const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`, "g");
+const MATCH_CASE = 'do:match-case '
+const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`, 'g')
 
 const toggleMatchCase = function (enable, input) {
   if (enable) {
-    input.value = MATCH_CASE + input.value;
+    input.value = MATCH_CASE + input.value
   } else {
-    input.value = input.value.replace(MATCH_CASE_RE, "");
+    input.value = input.value.replace(MATCH_CASE_RE, '')
   }
-};
+}
 
 const performSearch = function (query, tmpl) {
-  tmpl.data.config.callback(query);
+  tmpl.data.config.callback(query)
 
   if (!tmpl.view.isRendered) {
-    return;
+    return
   }
 
   // toogle Match Case Checkbox
   const caseSensitive =
-    query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length - 1)) !== -1;
-  tmpl.$("#cbCaseSensitiveFilter").prop("checked", caseSensitive);
+    query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length - 1)) !== -1
+  tmpl.$('#cbCaseSensitiveFilter').prop('checked', caseSensitive)
 
   // change filters dropdown
   if (tmpl.data.config.filters) {
-    const matchingFilter = tmpl.find(`#filters option[value='${query}']`);
+    const matchingFilter = tmpl.find(`#filters option[value='${query}']`)
     if (matchingFilter) {
-      matchingFilter.selected = true;
+      matchingFilter.selected = true
     } else {
-      tmpl.find("#noFilter").selected = true;
+      tmpl.find('#noFilter').selected = true
     }
   }
-};
+}
 
 const appendSpace = function (string) {
-  if (string !== "") {
-    string = string.trim() + " ";
+  if (string !== '') {
+    string = string.trim() + ' '
   }
-  return string;
-};
+  return string
+}
 
 const focusInputField = function (tmpl) {
   if (!tmpl.view.isRendered) {
-    return;
+    return
   }
-  const input = tmpl.find("#inputFilter");
-  input.value = appendSpace(input.value);
-  input.focus();
-};
+  const input = tmpl.find('#inputFilter')
+  input.value = appendSpace(input.value)
+  input.focus()
+}
 
-Template.filterControl.onCreated(function () {});
+Template.filterControl.onCreated(function () {})
 
 Template.filterControl.onRendered(function () {
-  const tmpl = Template.instance();
+  const tmpl = Template.instance()
   Meteor.setTimeout(() => {
-    focusInputField(tmpl);
-  }, 1);
+    focusInputField(tmpl)
+  }, 1)
 
   if (tmpl.data.config.defaultFilter) {
-    performSearch(tmpl.data.config.defaultFilter, tmpl);
+    performSearch(tmpl.data.config.defaultFilter, tmpl)
   }
-});
+})
 
 Template.filterControl.helpers({
   hasFilters: function () {
-    return Boolean(Template.instance().data.config.filters);
+    return Boolean(Template.instance().data.config.filters)
   },
 
   filters: function () {
-    return Template.instance().data.config.filters;
-  },
-});
+    return Template.instance().data.config.filters
+  }
+})
 
 Template.filterControl.events({
-  "keyup #inputFilter": function (evt, tmpl) {
-    evt.preventDefault();
-    const query = tmpl.find("#inputFilter").value;
-    performSearch(query, tmpl);
+  'keyup #inputFilter': function (evt, tmpl) {
+    evt.preventDefault()
+    const query = tmpl.find('#inputFilter').value
+    performSearch(query, tmpl)
   },
 
-  "change #cbCaseSensitiveFilter": function (evt, tmpl) {
-    evt.preventDefault();
-    const input = tmpl.find("#inputFilter");
-    toggleMatchCase(evt.target.checked, input);
-    performSearch(input.value, tmpl);
-    focusInputField(tmpl);
+  'change #cbCaseSensitiveFilter': function (evt, tmpl) {
+    evt.preventDefault()
+    const input = tmpl.find('#inputFilter')
+    toggleMatchCase(evt.target.checked, input)
+    performSearch(input.value, tmpl)
+    focusInputField(tmpl)
   },
 
-  "change #filters": function (evt, tmpl) {
-    evt.preventDefault();
-    const input = tmpl.find("#inputFilter");
-    input.value = evt.target.value;
-    toggleMatchCase(tmpl.find("#cbCaseSensitiveFilter").checked, input);
-    performSearch(input.value, tmpl);
-    focusInputField(tmpl);
+  'change #filters': function (evt, tmpl) {
+    evt.preventDefault()
+    const input = tmpl.find('#inputFilter')
+    input.value = evt.target.value
+    toggleMatchCase(tmpl.find('#cbCaseSensitiveFilter').checked, input)
+    performSearch(input.value, tmpl)
+    focusInputField(tmpl)
   },
 
-  "click #filter-usage": function (evt, tmpl) {
-    evt.preventDefault();
-    const keywords = tmpl.data.config.filterKeywords;
+  'click #filter-usage': function (evt, tmpl) {
+    evt.preventDefault()
+    const keywords = tmpl.data.config.filterKeywords
     const keywordArray = Object.keys(keywords)
-      .filter((key) => typeof keywords[key] !== "function")
+      .filter((key) => typeof keywords[key] !== 'function')
       .map((key) => {
-        const object = keywords[key];
-        if (object.values === "*") {
-          object.values = "any text";
+        const object = keywords[key]
+        if (object.values === '*') {
+          object.values = 'any text'
         }
-        return object;
-      });
+        return object
+      })
     ConfirmationDialogFactory.makeInfoDialog(
       `Usage for ${tmpl.data.config.filterName}`
     )
-      .setTemplate("filterUsage", {
-        keywords: keywordArray,
+      .setTemplate('filterUsage', {
+        keywords: keywordArray
       })
-      .show();
-  },
-});
+      .show()
+  }
+})

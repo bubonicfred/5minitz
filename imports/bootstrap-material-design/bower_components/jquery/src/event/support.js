@@ -1,5 +1,5 @@
-define(["../var/support"], function (support) {
-  support.focusin = "onfocusin" in window;
+define(['../var/support'], function (support) {
+  support.focusin = 'onfocusin' in window
 
-  return support;
-});
+  return support
+})

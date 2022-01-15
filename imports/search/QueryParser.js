@@ -1,8 +1,8 @@
-import { Meteor } from "meteor/meteor";
+import { Meteor } from 'meteor/meteor'
 
-const TOKEN_TYPE_SEARCH = 1;
-const TOKEN_TYPE_FILTER = 2;
-const TOKEN_TYPE_LABEL = 3;
+const TOKEN_TYPE_SEARCH = 1
+const TOKEN_TYPE_FILTER = 2
+const TOKEN_TYPE_LABEL = 3
 
 export class QueryParser {
   /**
@@ -17,68 +17,68 @@ export class QueryParser {
    * @property {string[]} ids The matching label ids.
    */
 
-  constructor(keywords, queryLabelIdsByName, queryUserIdsByName) {
+  constructor (keywords, queryLabelIdsByName, queryUserIdsByName) {
     if (!keywords) {
-      throw new Meteor.Error("invalid-state", "Please inject keywords object");
+      throw new Meteor.Error('invalid-state', 'Please inject keywords object')
     }
 
-    this.reset();
-    this.queryLabelIdsByName = queryLabelIdsByName;
-    this.queryUserIdsByName = queryUserIdsByName;
-    this.keywords = keywords;
+    this.reset()
+    this.queryLabelIdsByName = queryLabelIdsByName
+    this.queryUserIdsByName = queryUserIdsByName
+    this.keywords = keywords
   }
 
-  reset() {
-    this.query = null;
-    this.matchCase = false;
+  reset () {
+    this.query = null
+    this.matchCase = false
     /** @var {FilterToken[]} */
-    this.filterTokens = [];
+    this.filterTokens = []
     /** @var {LabelToken[]} */
-    this.labelTokens = [];
+    this.labelTokens = []
     /** @var {string[]} */
-    this.searchTokens = [];
-    this.isLabelToken = false;
-    this.newLabel = false;
-    this.currentLabel = null;
-    this.queryParsed = false;
+    this.searchTokens = []
+    this.isLabelToken = false
+    this.newLabel = false
+    this.currentLabel = null
+    this.queryParsed = false
   }
 
-  parse(query) {
-    this.query = query;
-    this.tokens = query.split(/\s/);
+  parse (query) {
+    this.query = query
+    this.tokens = query.split(/\s/)
     this.tokens.forEach((token) => {
-      this._parseToken(token);
-    });
+      this._parseToken(token)
+    })
     // add last label
     if (this.currentLabel !== null) {
-      this._addCompleteLabelToken();
+      this._addCompleteLabelToken()
     }
-    this.queryParsed = true;
+    this.queryParsed = true
   }
 
-  isCaseSensitive() {
+  isCaseSensitive () {
     if (this.queryParsed) {
-      return this.matchCase;
+      return this.matchCase
     } else {
-      return this.query.indexOf("do:match-case") !== -1;
+      return this.query.indexOf('do:match-case') !== -1
     }
   }
 
-  hasKeyword(key, value) {
-    const keywords = this.findKeywordsByKey(key, value);
-    return keywords.length > 0;
+  hasKeyword (key, value) {
+    const keywords = this.findKeywordsByKey(key, value)
+    return keywords.length > 0
   }
 
-  findKeywordsByKey(key, value) {
-    const keywords = [];
-    key = typeof key === "string" ? key : key.key;
+  findKeywordsByKey (key, value) {
+    const keywords = []
+    key = typeof key === 'string' ? key : key.key
     for (let i = 0; i < this.filterTokens.length; i++) {
-      const token = this.filterTokens[i];
+      const token = this.filterTokens[i]
       if (token.key === key && ((value && value === token.value) || !value)) {
-        keywords.push(token);
+        keywords.push(token)
       }
     }
-    return keywords;
+    return keywords
   }
 
   /**
@@ -88,8 +88,8 @@ export class QueryParser {
    *
    * @returns {FilterToken[]}
    */
-  getFilterTokens() {
-    return this.filterTokens;
+  getFilterTokens () {
+    return this.filterTokens
   }
 
   /**
@@ -99,8 +99,8 @@ export class QueryParser {
    *
    * @returns {LabelToken[]}
    */
-  getLabelTokens() {
-    return this.labelTokens;
+  getLabelTokens () {
+    return this.labelTokens
   }
 
   /**
@@ -109,67 +109,67 @@ export class QueryParser {
    *
    * @returns {string[]}
    */
-  getSearchTokens() {
-    return this.searchTokens;
+  getSearchTokens () {
+    return this.searchTokens
   }
 
-  _parseToken(token) {
-    const tokenType = this._getTokenType(token);
+  _parseToken (token) {
+    const tokenType = this._getTokenType(token)
     switch (tokenType) {
       case TOKEN_TYPE_FILTER: {
-        this._addFilterToken(token);
-        break;
+        this._addFilterToken(token)
+        break
       }
 
       case TOKEN_TYPE_LABEL: {
-        const result = this._addLabelToken(token);
+        const result = this._addLabelToken(token)
         if (!result) {
-          this.searchTokens.push(token);
+          this.searchTokens.push(token)
         }
-        break;
+        break
       }
       case TOKEN_TYPE_SEARCH: {
-        this.searchTokens.push(token);
-        break;
+        this.searchTokens.push(token)
+        break
       }
       default:
         throw new Meteor.Error(
-          "illegal-state",
+          'illegal-state',
           `Unknown token type ${tokenType}`
-        );
+        )
     }
   }
 
-  _getTokenType(token) {
+  _getTokenType (token) {
     if (this._isFilterKeyword(token)) {
-      return TOKEN_TYPE_FILTER;
+      return TOKEN_TYPE_FILTER
     }
 
     if (this._isLabelToken(token)) {
-      return TOKEN_TYPE_LABEL;
+      return TOKEN_TYPE_LABEL
     }
 
-    return TOKEN_TYPE_SEARCH;
+    return TOKEN_TYPE_SEARCH
   }
 
-  _isFilterKeyword(token) {
-    const arr = token.split(":");
-    const res = this.keywords.isKeyword(token);
+  _isFilterKeyword (token) {
+    const arr = token.split(':')
+    const res = this.keywords.isKeyword(token)
     if (
-      this.keywords.hasOwnProperty("DO") &&
+      this.keywords.hasOwnProperty('DO') &&
       res &&
       arr[0] === this.keywords.DO.key &&
-      arr[1] === "match-case"
+      arr[1] === 'match-case'
     ) {
-      this.matchCase = true;
+      this.matchCase = true
     }
-    return res;
+    return res
   }
 
-  _addFilterToken(token) {
+  _addFilterToken (token) {
     this.filterTokens.push(
       this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName)
-    );
+    )
   }
 
   /**
@@ -178,59 +178,59 @@ export class QueryParser {
    * @param token
    * @private
    */
-  _addLabelToken(token) {
-    let completeLabel;
+  _addLabelToken (token) {
+    let completeLabel
     if (this.newLabel) {
       if (this.currentLabel !== null) {
-        this._addCompleteLabelToken();
+        this._addCompleteLabelToken()
       }
-      this.currentLabel = token.substr(1);
+      this.currentLabel = token.substr(1)
     } else {
-      completeLabel = this.currentLabel + ` ${token}`; // prepend whitespace!
+      completeLabel = this.currentLabel + ` ${token}` // prepend whitespace!
       const matchingIds = this.queryLabelIdsByName
         ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
-        : true;
+        : true
       if (
         matchingIds === true ||
         (matchingIds !== null && matchingIds.length > 0)
       ) {
-        this.currentLabel = completeLabel;
+        this.currentLabel = completeLabel
       } else {
         // the current token does not match any labels
         // this means the given token is a simple search token
         // so we add the previously concatenated label token-parts as
         // a new label token
-        this.isLabelToken = false;
-        this._addCompleteLabelToken();
-        this.currentLabel = null;
+        this.isLabelToken = false
+        this._addCompleteLabelToken()
+        this.currentLabel = null
 
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   }
 
-  _addCompleteLabelToken() {
-    const token = this.currentLabel;
+  _addCompleteLabelToken () {
+    const token = this.currentLabel
     const ids = this.queryLabelIdsByName
       ? this.queryLabelIdsByName(token, this.isCaseSensitive())
-      : [token];
+      : [token]
     this.labelTokens.push({
       token: token,
-      ids: ids,
-    });
+      ids: ids
+    })
   }
 
-  _isLabelToken(token) {
-    if (token.substr(0, 1) === "#") {
-      this.isLabelToken = true;
-      this.newLabel = true;
-      return true;
+  _isLabelToken (token) {
+    if (token.substr(0, 1) === '#') {
+      this.isLabelToken = true
+      this.newLabel = true
+      return true
     } else if (this.isLabelToken) {
-      this.newLabel = false;
-      return true;
+      this.newLabel = false
+      return true
     } else {
-      return false;
+      return false
     }
   }
 }

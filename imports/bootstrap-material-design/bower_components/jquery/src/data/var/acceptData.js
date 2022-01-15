@@ -10,6 +10,6 @@ define(function () {
     //  - Object
     //    - Any
     /* jshint -W018 */
-    return owner.nodeType === 1 || owner.nodeType === 9 || !+owner.nodeType;
-  };
-});
+    return owner.nodeType === 1 || owner.nodeType === 9 || !+owner.nodeType
+  }
+})

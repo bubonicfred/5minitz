@@ -1,18 +1,18 @@
-define(["../var/document", "../var/support"], function (document, support) {
+define(['../var/document', '../var/support'], function (document, support) {
   (function () {
-    let div = document.createElement("div");
+    let div = document.createElement('div')
 
     // Support: IE<9
-    support.deleteExpando = true;
+    support.deleteExpando = true
     try {
-      delete div.test;
+      delete div.test
     } catch (e) {
-      support.deleteExpando = false;
+      support.deleteExpando = false
     }
 
     // Null elements to avoid leaks in IE.
-    div = null;
-  })();
+    div = null
+  })()
 
-  return support;
-});
+  return support
+})
