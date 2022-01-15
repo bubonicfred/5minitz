@@ -1,3 +1,3 @@
 define(function () {
-  return ["Top", "Right", "Bottom", "Left"];
-});
+  return ['Top', 'Right', 'Bottom', 'Left']
+})

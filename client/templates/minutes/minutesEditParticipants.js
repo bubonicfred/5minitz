@@ -1,252 +1,252 @@
-import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
-import { Session } from "meteor/session";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { i18n } from 'meteor/universe:i18n'
+import { Session } from 'meteor/session'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 
-import { Minutes } from "/imports/minutes";
-import { UserRoles } from "/imports/userroles";
-import { ReactiveVar } from "meteor/reactive-var";
-import { handleError } from "/client/helpers/handleError";
-import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
-import "/imports/collections/onlineusers_private";
+import { Minutes } from '/imports/minutes'
+import { UserRoles } from '/imports/userroles'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { handleError } from '/client/helpers/handleError'
+import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema'
+import '/imports/collections/onlineusers_private'
 
-let _minutesID; // the ID of these minutes
+let _minutesID // the ID of these minutes
 
 const isEditable = function () {
-  const min = new Minutes(_minutesID);
-  return min.isCurrentUserModerator() && !min.isFinalized;
-};
-
-const isModeratorOfParentSeries = function (userId) {
-  const aMin = new Minutes(_minutesID);
-  const usrRole = new UserRoles(userId);
-  return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
-};
-
-const userNameForId = function (userId) {
-  const usr = Meteor.users.findOne(userId);
-  if (usr) {
-    let showName = usr.username;
-    // If we have a long name for the user: prepend it!
-    if (usr.profile && usr.profile.name && usr.profile.name !== "") {
-      showName = usr.profile.name + " (" + showName + ")";
-    }
-    return showName;
-  } else {
-    return "Unknown User (" + userId + ")";
-  }
-};
-
-function countParticipantsMarked() {
-  const aMin = new Minutes(_minutesID);
-  return aMin.participants.filter((p) => {
-    return p.present;
-  }).length;
+  const min = new Minutes(_minutesID)
+  return min.isCurrentUserModerator() && !min.isFinalized
 }
 
-function allParticipantsMarked() {
-  const aMin = new Minutes(_minutesID);
+const isModeratorOfParentSeries = function (userId) {
+  const aMin = new Minutes(_minutesID)
+  const usrRole = new UserRoles(userId)
+  return usrRole.isModeratorOf(aMin.parentMeetingSeriesID())
+}
+
+const userNameForId = function (userId) {
+  const usr = Meteor.users.findOne(userId)
+  if (usr) {
+    let showName = usr.username
+    // If we have a long name for the user: prepend it!
+    if (usr.profile && usr.profile.name && usr.profile.name !== '') {
+      showName = usr.profile.name + ' (' + showName + ')'
+    }
+    return showName
+  } else {
+    return 'Unknown User (' + userId + ')'
+  }
+}
+
+function countParticipantsMarked () {
+  const aMin = new Minutes(_minutesID)
+  return aMin.participants.filter((p) => {
+    return p.present
+  }).length
+}
+
+function allParticipantsMarked () {
+  const aMin = new Minutes(_minutesID)
   return (
     aMin.participants.findIndex((p) => {
-      return !p.present;
+      return !p.present
     }) === -1
-  );
+  )
 }
 
 Template.minutesEditParticipants.onCreated(function () {
-  _minutesID = FlowRouter.getParam("_id");
+  _minutesID = FlowRouter.getParam('_id')
   console.log(
-    "Template minutesEditParticipants created with minutesID " + _minutesID
-  );
+    'Template minutesEditParticipants created with minutesID ' + _minutesID
+  )
 
   this.autorun(() => {
-    this.subscribe("onlineUsersForRoute", FlowRouter.current().path);
-  });
+    this.subscribe('onlineUsersForRoute', FlowRouter.current().path)
+  })
 
   // Calculate initial expanded/collapsed state
-  Session.set("participants.expand", false);
+  Session.set('participants.expand', false)
   if (isEditable()) {
-    Session.set("participants.expand", true);
+    Session.set('participants.expand', true)
   }
-  this.markedAll = new ReactiveVar(allParticipantsMarked());
-});
+  this.markedAll = new ReactiveVar(allParticipantsMarked())
+})
 
 Template.minutesEditParticipants.helpers({
-  countParticipantsText() {
-    const count = countParticipantsMarked();
+  countParticipantsText () {
+    const count = countParticipantsMarked()
     if (count === 1) {
-      return i18n.__("Minutes.Participants.solo");
+      return i18n.__('Minutes.Participants.solo')
     } else {
-      return String(count) + " " + i18n.__("Minutes.Participants.title");
+      return String(count) + ' ' + i18n.__('Minutes.Participants.title')
     }
   },
 
-  countAdditionalParticipantsText() {
-    const aMin = new Minutes(_minutesID);
-    let count = 0;
+  countAdditionalParticipantsText () {
+    const aMin = new Minutes(_minutesID)
+    let count = 0
     if (aMin.participantsAdditional && aMin.participantsAdditional.length > 0) {
       count = aMin.participantsAdditional
-        .split(";")
+        .split(';')
         .map((p) => {
-          return p.trim();
+          return p.trim()
         })
         .filter((p) => {
-          return p.length > 0;
-        }).length;
+          return p.length > 0
+        }).length
     }
     if (count === 0) {
-      return "";
+      return ''
     }
     if (count === 1) {
-      return ", " + i18n.__("Minutes.Participants.additionalSolo");
+      return ', ' + i18n.__('Minutes.Participants.additionalSolo')
     }
-    return ", " + count + " " + i18n.__("Minutes.Participants.additional");
+    return ', ' + count + ' ' + i18n.__('Minutes.Participants.additional')
   },
 
-  countInformedText() {
-    const aMin = new Minutes(_minutesID);
-    const count = aMin.informedUsers ? aMin.informedUsers.length : 0;
+  countInformedText () {
+    const aMin = new Minutes(_minutesID)
+    const count = aMin.informedUsers ? aMin.informedUsers.length : 0
     if (count === 0) {
-      return "";
+      return ''
     }
     if (count === 1) {
-      return ", " + i18n.__("Minutes.Participants.informedSolo");
+      return ', ' + i18n.__('Minutes.Participants.informedSolo')
     }
-    return ", " + count + " " + i18n.__("Minutes.Participants.informed");
+    return ', ' + count + ' ' + i18n.__('Minutes.Participants.informed')
   },
 
-  participantsSorted() {
-    const aMin = new Minutes(_minutesID);
-    let partSorted = aMin.participants;
+  participantsSorted () {
+    const aMin = new Minutes(_minutesID)
+    let partSorted = aMin.participants
     partSorted.forEach((p) => {
-      p.displayName = userNameForId(p.userId);
-    });
+      p.displayName = userNameForId(p.userId)
+    })
     partSorted = partSorted.sort(function (a, b) {
       return a.displayName > b.displayName
         ? 1
         : b.displayName > a.displayName
-        ? -1
-        : 0;
-    });
-    return partSorted;
+          ? -1
+          : 0
+    })
+    return partSorted
   },
 
-  getUserDisplayName(userId) {
-    return userNameForId(userId);
+  getUserDisplayName (userId) {
+    return userNameForId(userId)
   },
 
-  isUserRemotelyConnected(userId) {
+  isUserRemotelyConnected (userId) {
     return Boolean(
       OnlineUsersSchema.findOne({
         userId: userId,
-        activeRoute: FlowRouter.current().path,
+        activeRoute: FlowRouter.current().path
       })
-    );
+    )
   },
 
-  isModeratorOfParentSeries(userId) {
-    return isModeratorOfParentSeries(userId);
+  isModeratorOfParentSeries (userId) {
+    return isModeratorOfParentSeries(userId)
   },
 
-  isParticipantsExpanded() {
-    return Session.get("participants.expand");
+  isParticipantsExpanded () {
+    return Session.get('participants.expand')
   },
 
-  collapsedParticipantsNames() {
-    const aMin = new Minutes(_minutesID);
-    return aMin.getPresentParticipantNames();
+  collapsedParticipantsNames () {
+    const aMin = new Minutes(_minutesID)
+    return aMin.getPresentParticipantNames()
   },
 
-  checkedStatePresent() {
+  checkedStatePresent () {
     if (this.present) {
-      return { checked: "checked" };
+      return { checked: 'checked' }
     }
-    return {};
+    return {}
   },
 
-  disableUIControl() {
+  disableUIControl () {
     if (isEditable()) {
-      return "";
+      return ''
     } else {
-      return { disabled: "disabled" };
+      return { disabled: 'disabled' }
     }
   },
 
-  hasInformedUsers() {
-    const aMin = new Minutes(_minutesID);
-    return aMin.informedUsers && aMin.informedUsers.length > 0;
+  hasInformedUsers () {
+    const aMin = new Minutes(_minutesID)
+    return aMin.informedUsers && aMin.informedUsers.length > 0
   },
 
-  getInformedUsers() {
-    const aMin = new Minutes(_minutesID);
-    let informedNames = "";
+  getInformedUsers () {
+    const aMin = new Minutes(_minutesID)
+    let informedNames = ''
     if (aMin.informedUsers && aMin.informedUsers.length > 0) {
       aMin.informedUsers.forEach((id) => {
-        informedNames = informedNames + userNameForId(id) + ", ";
-      });
-      informedNames = informedNames.slice(0, -2); // remove last ", "
+        informedNames = informedNames + userNameForId(id) + ', '
+      })
+      informedNames = informedNames.slice(0, -2) // remove last ", "
     }
-    return informedNames;
+    return informedNames
   },
 
-  switch2MultiColumn() {
-    const aMin = new Minutes(_minutesID);
+  switch2MultiColumn () {
+    const aMin = new Minutes(_minutesID)
 
     if (aMin.participants.length > 7) {
-      return "multicolumn";
+      return 'multicolumn'
     }
   },
 
-  enoughParticipants() {
-    const aMin = new Minutes(_minutesID);
-    return aMin.participants.length > 2;
+  enoughParticipants () {
+    const aMin = new Minutes(_minutesID)
+    return aMin.participants.length > 2
   },
 
-  isChecked() {
-    return Template.instance().markedAll.get();
+  isChecked () {
+    return Template.instance().markedAll.get()
   },
 
-  isEditable() {
-    return isEditable();
+  isEditable () {
+    return isEditable()
   },
 
-  parentMeetingSeries() {
-    const aMin = new Minutes(_minutesID);
-    return aMin.parentMeetingSeries();
-  },
-});
+  parentMeetingSeries () {
+    const aMin = new Minutes(_minutesID)
+    return aMin.parentMeetingSeries()
+  }
+})
 
 Template.minutesEditParticipants.events({
-  "click .js-toggle-present"(evt, tmpl) {
-    const min = new Minutes(_minutesID);
-    const userId = evt.target.dataset.userid;
-    const checkedState = evt.target.checked;
-    min.updateParticipantPresent(userId, checkedState);
-    tmpl.markedAll.set(allParticipantsMarked());
+  'click .js-toggle-present' (evt, tmpl) {
+    const min = new Minutes(_minutesID)
+    const userId = evt.target.dataset.userid
+    const checkedState = evt.target.checked
+    min.updateParticipantPresent(userId, checkedState)
+    tmpl.markedAll.set(allParticipantsMarked())
   },
-  "change #edtParticipantsAdditional"(evt, tmpl) {
-    const aMin = new Minutes(_minutesID);
-    const theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-    aMin.update({ participantsAdditional: theParticipant });
-  },
-
-  "click #btnParticipantsExpand"() {
-    Session.set("participants.expand", !Session.get("participants.expand"));
+  'change #edtParticipantsAdditional' (evt, tmpl) {
+    const aMin = new Minutes(_minutesID)
+    const theParticipant = tmpl.find('#edtParticipantsAdditional').value
+    aMin.update({ participantsAdditional: theParticipant })
   },
 
-  "click #btnToggleMarkAllNone"(evt, tmpl) {
-    const aMin = new Minutes(_minutesID);
+  'click #btnParticipantsExpand' () {
+    Session.set('participants.expand', !Session.get('participants.expand'))
+  },
+
+  'click #btnToggleMarkAllNone' (evt, tmpl) {
+    const aMin = new Minutes(_minutesID)
     if (allParticipantsMarked()) {
-      aMin.changeParticipantsStatus(false).catch(handleError);
-      tmpl.markedAll.set(false);
+      aMin.changeParticipantsStatus(false).catch(handleError)
+      tmpl.markedAll.set(false)
     } else {
-      aMin.changeParticipantsStatus(true).catch(handleError);
-      tmpl.markedAll.set(true);
+      aMin.changeParticipantsStatus(true).catch(handleError)
+      tmpl.markedAll.set(true)
     }
   },
 
-  "click #btnEditParticipants"() {
-    Session.set("meetingSeriesEdit.showUsersPanel", true);
-  },
-});
+  'click #btnEditParticipants' () {
+    Session.set('meetingSeriesEdit.showUsersPanel', true)
+  }
+})

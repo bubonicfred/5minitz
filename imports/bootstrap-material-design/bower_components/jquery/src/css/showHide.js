@@ -1,30 +1,30 @@
-define(["../data/var/dataPriv"], function (dataPriv) {
-  function showHide(elements, show) {
-    let display;
-    let elem;
-    const values = [];
-    let index = 0;
-    const length = elements.length;
+define(['../data/var/dataPriv'], function (dataPriv) {
+  function showHide (elements, show) {
+    let display
+    let elem
+    const values = []
+    let index = 0
+    const length = elements.length
 
     // Determine new display value for elements that need to change
     for (; index < length; index++) {
-      elem = elements[index];
+      elem = elements[index]
       if (!elem.style) {
-        continue;
+        continue
       }
 
-      display = elem.style.display;
+      display = elem.style.display
       if (show) {
-        if (display === "none") {
+        if (display === 'none') {
           // Restore a pre-hide() value if we have one
-          values[index] = dataPriv.get(elem, "display") || "";
+          values[index] = dataPriv.get(elem, 'display') || ''
         }
       } else {
-        if (display !== "none") {
-          values[index] = "none";
+        if (display !== 'none') {
+          values[index] = 'none'
 
           // Remember the value we're replacing
-          dataPriv.set(elem, "display", display);
+          dataPriv.set(elem, 'display', display)
         }
       }
     }
@@ -33,12 +33,12 @@ define(["../data/var/dataPriv"], function (dataPriv) {
     // to avoid the constant reflow
     for (index = 0; index < length; index++) {
       if (values[index] != null) {
-        elements[index].style.display = values[index];
+        elements[index].style.display = values[index]
       }
     }
 
-    return elements;
+    return elements
   }
 
-  return showHide;
-});
+  return showHide
+})

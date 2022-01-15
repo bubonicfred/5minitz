@@ -1,86 +1,86 @@
 define([
-  "./core",
-  "./var/document",
-  "./var/rnotwhite",
-  "./var/slice",
-  "./data/var/dataPriv",
+  './core',
+  './var/document',
+  './var/rnotwhite',
+  './var/slice',
+  './data/var/dataPriv',
 
-  "./core/init",
-  "./selector",
+  './core/init',
+  './selector'
 ], function (jQuery, document, rnotwhite, slice, dataPriv) {
-  const rkeyEvent = /^key/;
-  const rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
-  const rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
+  const rkeyEvent = /^key/
+  const rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/
+  const rtypenamespace = /^([^.]*)(?:\.(.+)|)/
 
-  function returnTrue() {
-    return true;
+  function returnTrue () {
+    return true
   }
 
-  function returnFalse() {
-    return false;
+  function returnFalse () {
+    return false
   }
 
   // Support: IE9
   // See #13393 for more info
-  function safeActiveElement() {
+  function safeActiveElement () {
     try {
-      return document.activeElement;
+      return document.activeElement
     } catch (err) {}
   }
 
-  function on(elem, types, selector, data, fn, one) {
-    let origFn, type;
+  function on (elem, types, selector, data, fn, one) {
+    let origFn, type
 
     // Types can be a map of types/handlers
-    if (typeof types === "object") {
+    if (typeof types === 'object') {
       // ( types-Object, selector, data )
-      if (typeof selector !== "string") {
+      if (typeof selector !== 'string') {
         // ( types-Object, data )
-        data = data || selector;
-        selector = undefined;
+        data = data || selector
+        selector = undefined
       }
       for (type in types) {
-        on(elem, type, selector, data, types[type], one);
+        on(elem, type, selector, data, types[type], one)
       }
-      return elem;
+      return elem
     }
 
     if (data == null && fn == null) {
       // ( types, fn )
-      fn = selector;
-      data = selector = undefined;
+      fn = selector
+      data = selector = undefined
     } else if (fn == null) {
-      if (typeof selector === "string") {
+      if (typeof selector === 'string') {
         // ( types, selector, fn )
-        fn = data;
-        data = undefined;
+        fn = data
+        data = undefined
       } else {
         // ( types, data, fn )
-        fn = data;
-        data = selector;
-        selector = undefined;
+        fn = data
+        data = selector
+        selector = undefined
       }
     }
     if (fn === false) {
-      fn = returnFalse;
+      fn = returnFalse
     } else if (!fn) {
-      return elem;
+      return elem
     }
 
     if (one === 1) {
-      origFn = fn;
+      origFn = fn
       fn = function (event) {
         // Can use an empty set, since event contains the info
-        jQuery().off(event);
-        return origFn.apply(this, arguments);
-      };
+        jQuery().off(event)
+        return origFn.apply(this, arguments)
+      }
 
       // Use same guid so caller can remove using origFn
-      fn.guid = origFn.guid || (origFn.guid = jQuery.guid++);
+      fn.guid = origFn.guid || (origFn.guid = jQuery.guid++)
     }
     return elem.each(function () {
-      jQuery.event.add(this, types, fn, data, selector);
-    });
+      jQuery.event.add(this, types, fn, data, selector)
+    })
   }
 
   /*
@@ -91,72 +91,72 @@ define([
     global: {},
 
     add: function (elem, types, handler, data, selector) {
-      let handleObjIn;
-      let eventHandle;
-      let tmp;
-      let events;
-      let t;
-      let handleObj;
-      let special;
-      let handlers;
-      let type;
-      let namespaces;
-      let origType;
-      const elemData = dataPriv.get(elem);
+      let handleObjIn
+      let eventHandle
+      let tmp
+      let events
+      let t
+      let handleObj
+      let special
+      let handlers
+      let type
+      let namespaces
+      let origType
+      const elemData = dataPriv.get(elem)
 
       // Don't attach events to noData or text/comment nodes (but allow plain objects)
       if (!elemData) {
-        return;
+        return
       }
 
       // Caller can pass in an object of custom data in lieu of the handler
       if (handler.handler) {
-        handleObjIn = handler;
-        handler = handleObjIn.handler;
-        selector = handleObjIn.selector;
+        handleObjIn = handler
+        handler = handleObjIn.handler
+        selector = handleObjIn.selector
       }
 
       // Make sure that the handler has a unique ID, used to find/remove it later
       if (!handler.guid) {
-        handler.guid = jQuery.guid++;
+        handler.guid = jQuery.guid++
       }
 
       // Init the element's event structure and main handler, if this is the first
       if (!(events = elemData.events)) {
-        events = elemData.events = {};
+        events = elemData.events = {}
       }
       if (!(eventHandle = elemData.handle)) {
         eventHandle = elemData.handle = function (e) {
           // Discard the second event of a jQuery.event.trigger() and
           // when an event is called after a page has unloaded
-          return typeof jQuery !== "undefined" &&
+          return typeof jQuery !== 'undefined' &&
             jQuery.event.triggered !== e.type
             ? jQuery.event.dispatch.apply(elem, arguments)
-            : undefined;
-        };
+            : undefined
+        }
       }
 
       // Handle multiple events separated by a space
-      types = (types || "").match(rnotwhite) || [""];
-      t = types.length;
+      types = (types || '').match(rnotwhite) || ['']
+      t = types.length
       while (t--) {
-        tmp = rtypenamespace.exec(types[t]) || [];
-        type = origType = tmp[1];
-        namespaces = (tmp[2] || "").split(".").sort();
+        tmp = rtypenamespace.exec(types[t]) || []
+        type = origType = tmp[1]
+        namespaces = (tmp[2] || '').split('.').sort()
 
         // There *must* be a type, no attaching namespace-only handlers
         if (!type) {
-          continue;
+          continue
         }
 
         // If event changes its type, use the special event handlers for the changed type
-        special = jQuery.event.special[type] || {};
+        special = jQuery.event.special[type] || {}
 
         // If selector defined, determine special event api type, otherwise given type
-        type = (selector ? special.delegateType : special.bindType) || type;
+        type = (selector ? special.delegateType : special.bindType) || type
 
         // Update special based on newly reset type
-        special = jQuery.event.special[type] || {};
+        special = jQuery.event.special[type] || {}
 
         // handleObj is passed to all event handlers
         handleObj = jQuery.extend(
@@ -169,15 +169,15 @@ define([
             selector: selector,
             needsContext:
               selector && jQuery.expr.match.needsContext.test(selector),
-            namespace: namespaces.join("."),
+            namespace: namespaces.join('.')
           },
           handleObjIn
-        );
+        )
 
         // Init the event handler queue if we're the first
         if (!(handlers = events[type])) {
-          handlers = events[type] = [];
-          handlers.delegateCount = 0;
+          handlers = events[type] = []
+          handlers.delegateCount = 0
 
           // Only use addEventListener if the special events handler returns false
           if (
@@ -185,77 +185,77 @@ define([
             special.setup.call(elem, data, namespaces, eventHandle) === false
           ) {
             if (elem.addEventListener) {
-              elem.addEventListener(type, eventHandle);
+              elem.addEventListener(type, eventHandle)
             }
           }
         }
 
         if (special.add) {
-          special.add.call(elem, handleObj);
+          special.add.call(elem, handleObj)
 
           if (!handleObj.handler.guid) {
-            handleObj.handler.guid = handler.guid;
+            handleObj.handler.guid = handler.guid
           }
         }
 
         // Add to the element's handler list, delegates in front
         if (selector) {
-          handlers.splice(handlers.delegateCount++, 0, handleObj);
+          handlers.splice(handlers.delegateCount++, 0, handleObj)
         } else {
-          handlers.push(handleObj);
+          handlers.push(handleObj)
         }
 
         // Keep track of which events have ever been used, for event optimization
-        jQuery.event.global[type] = true;
+        jQuery.event.global[type] = true
       }
     },
 
     // Detach an event or set of events from an element
     remove: function (elem, types, handler, selector, mappedTypes) {
-      let j;
-      let origCount;
-      let tmp;
-      let events;
-      let t;
-      let handleObj;
-      let special;
-      let handlers;
-      let type;
-      let namespaces;
-      let origType;
-      const elemData = dataPriv.hasData(elem) && dataPriv.get(elem);
+      let j
+      let origCount
+      let tmp
+      let events
+      let t
+      let handleObj
+      let special
+      let handlers
+      let type
+      let namespaces
+      let origType
+      const elemData = dataPriv.hasData(elem) && dataPriv.get(elem)
 
       if (!elemData || !(events = elemData.events)) {
-        return;
+        return
       }
 
       // Once for each type.namespace in types; type may be omitted
-      types = (types || "").match(rnotwhite) || [""];
-      t = types.length;
+      types = (types || '').match(rnotwhite) || ['']
+      t = types.length
       while (t--) {
-        tmp = rtypenamespace.exec(types[t]) || [];
-        type = origType = tmp[1];
-        namespaces = (tmp[2] || "").split(".").sort();
+        tmp = rtypenamespace.exec(types[t]) || []
+        type = origType = tmp[1]
+        namespaces = (tmp[2] || '').split('.').sort()
 
         // Unbind all events (on this namespace, if provided) for the element
         if (!type) {
           for (type in events) {
-            jQuery.event.remove(elem, type + types[t], handler, selector, true);
+            jQuery.event.remove(elem, type + types[t], handler, selector, true)
           }
-          continue;
+          continue
         }
 
-        special = jQuery.event.special[type] || {};
-        type = (selector ? special.delegateType : special.bindType) || type;
-        handlers = events[type] || [];
+        special = jQuery.event.special[type] || {}
+        type = (selector ? special.delegateType : special.bindType) || type
+        handlers = events[type] || []
         tmp =
           tmp[2] &&
-          new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)");
+          new RegExp('(^|\\.)' + namespaces.join('\\.(?:.*\\.|)') + '(\\.|$)')
 
         // Remove matching events
-        origCount = j = handlers.length;
+        origCount = j = handlers.length
         while (j--) {
-          handleObj = handlers[j];
+          handleObj = handlers[j]
 
           if (
             (mappedTypes || origType === handleObj.origType) &&
@@ -263,15 +263,15 @@ define([
             (!tmp || tmp.test(handleObj.namespace)) &&
             (!selector ||
               selector === handleObj.selector ||
-              (selector === "**" && handleObj.selector))
+              (selector === '**' && handleObj.selector))
           ) {
-            handlers.splice(j, 1);
+            handlers.splice(j, 1)
 
             if (handleObj.selector) {
-              handlers.delegateCount--;
+              handlers.delegateCount--
             }
             if (special.remove) {
-              special.remove.call(elem, handleObj);
+              special.remove.call(elem, handleObj)
             }
           }
         }
@@ -283,54 +283,54 @@ define([
             !special.teardown ||
             special.teardown.call(elem, namespaces, elemData.handle) === false
           ) {
-            jQuery.removeEvent(elem, type, elemData.handle);
+            jQuery.removeEvent(elem, type, elemData.handle)
           }
 
-          delete events[type];
+          delete events[type]
         }
       }
 
       // Remove data and the expando if it's no longer used
       if (jQuery.isEmptyObject(events)) {
-        dataPriv.remove(elem, "handle events");
+        dataPriv.remove(elem, 'handle events')
       }
     },
 
     dispatch: function (event) {
       // Make a writable jQuery.Event from the native event object
-      event = jQuery.event.fix(event);
+      event = jQuery.event.fix(event)
 
-      let i;
-      let j;
-      let ret;
-      let matched;
-      let handleObj;
-      let handlerQueue = [];
-      const args = slice.call(arguments);
-      const handlers = (dataPriv.get(this, "events") || {})[event.type] || [];
-      const special = jQuery.event.special[event.type] || {};
+      let i
+      let j
+      let ret
+      let matched
+      let handleObj
+      let handlerQueue = []
+      const args = slice.call(arguments)
+      const handlers = (dataPriv.get(this, 'events') || {})[event.type] || []
+      const special = jQuery.event.special[event.type] || {}
 
       // Use the fix-ed jQuery.Event rather than the (read-only) native event
-      args[0] = event;
-      event.delegateTarget = this;
+      args[0] = event
+      event.delegateTarget = this
 
       // Call the preDispatch hook for the mapped type, and let it bail if desired
       if (
         special.preDispatch &&
         special.preDispatch.call(this, event) === false
       ) {
-        return;
+        return
       }
 
       // Determine handlers
-      handlerQueue = jQuery.event.handlers.call(this, event, handlers);
+      handlerQueue = jQuery.event.handlers.call(this, event, handlers)
 
       // Run delegates first; they may want to stop propagation beneath us
-      i = 0;
+      i = 0
       while ((matched = handlerQueue[i++]) && !event.isPropagationStopped()) {
-        event.currentTarget = matched.elem;
+        event.currentTarget = matched.elem
 
-        j = 0;
+        j = 0
         while (
           (handleObj = matched.handlers[j++]) &&
           !event.isImmediatePropagationStopped()
@@ -338,18 +338,18 @@ define([
           // Triggered event must either 1) have no namespace, or 2) have namespace(s)
           // a subset or equal to those in the bound event (both can have no namespace).
           if (!event.rnamespace || event.rnamespace.test(handleObj.namespace)) {
-            event.handleObj = handleObj;
-            event.data = handleObj.data;
+            event.handleObj = handleObj
+            event.data = handleObj.data
 
             ret = (
               (jQuery.event.special[handleObj.origType] || {}).handle ||
               handleObj.handler
-            ).apply(matched.elem, args);
+            ).apply(matched.elem, args)
 
             if (ret !== undefined) {
               if ((event.result = ret) === false) {
-                event.preventDefault();
-                event.stopPropagation();
+                event.preventDefault()
+                event.stopPropagation()
               }
             }
           }
@@ -358,20 +358,20 @@ define([
 
       // Call the postDispatch hook for the mapped type
       if (special.postDispatch) {
-        special.postDispatch.call(this, event);
+        special.postDispatch.call(this, event)
       }
 
-      return event.result;
+      return event.result
     },
 
     handlers: function (event, handlers) {
-      let i;
-      let matches;
-      let sel;
-      let handleObj;
-      const handlerQueue = [];
-      const delegateCount = handlers.delegateCount;
-      let cur = event.target;
+      let i
+      let matches
+      let sel
+      let handleObj
+      const handlerQueue = []
+      const delegateCount = handlers.delegateCount
+      let cur = event.target
 
       // Support (at least): Chrome, IE9
       // Find delegate handlers
@@ -382,33 +382,33 @@ define([
       if (
         delegateCount &&
         cur.nodeType &&
-        (event.type !== "click" || isNaN(event.button) || event.button < 1)
+        (event.type !== 'click' || isNaN(event.button) || event.button < 1)
       ) {
         for (; cur !== this; cur = cur.parentNode || this) {
           // Don't check non-elements (#13208)
           // Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
           if (
             cur.nodeType === 1 &&
-            (cur.disabled !== true || event.type !== "click")
+            (cur.disabled !== true || event.type !== 'click')
           ) {
-            matches = [];
+            matches = []
             for (i = 0; i < delegateCount; i++) {
-              handleObj = handlers[i];
+              handleObj = handlers[i]
 
               // Don't conflict with Object.prototype properties (#13203)
-              sel = handleObj.selector + " ";
+              sel = handleObj.selector + ' '
 
               if (matches[sel] === undefined) {
                 matches[sel] = handleObj.needsContext
                   ? jQuery(sel, this).index(cur) > -1
-                  : jQuery.find(sel, this, null, [cur]).length;
+                  : jQuery.find(sel, this, null, [cur]).length
               }
               if (matches[sel]) {
-                matches.push(handleObj);
+                matches.push(handleObj)
               }
             }
             if (matches.length) {
-              handlerQueue.push({ elem: cur, handlers: matches });
+              handlerQueue.push({ elem: cur, handlers: matches })
             }
           }
         }
@@ -418,157 +418,157 @@ define([
       if (delegateCount < handlers.length) {
         handlerQueue.push({
           elem: this,
-          handlers: handlers.slice(delegateCount),
-        });
+          handlers: handlers.slice(delegateCount)
+        })
       }
 
-      return handlerQueue;
+      return handlerQueue
     },
 
     // Includes some event props shared by KeyEvent and MouseEvent
     props: (
-      "altKey bubbles cancelable ctrlKey currentTarget detail eventPhase " +
-      "metaKey relatedTarget shiftKey target timeStamp view which"
-    ).split(" "),
+      'altKey bubbles cancelable ctrlKey currentTarget detail eventPhase ' +
+      'metaKey relatedTarget shiftKey target timeStamp view which'
+    ).split(' '),
 
     fixHooks: {},
 
     keyHooks: {
-      props: "char charCode key keyCode".split(" "),
+      props: 'char charCode key keyCode'.split(' '),
       filter: function (event, original) {
         // Add which for key events
         if (event.which == null) {
           event.which =
-            original.charCode != null ? original.charCode : original.keyCode;
+            original.charCode != null ? original.charCode : original.keyCode
         }
 
-        return event;
-      },
+        return event
+      }
     },
 
     mouseHooks: {
       props: (
-        "button buttons clientX clientY offsetX offsetY pageX pageY " +
-        "screenX screenY toElement"
-      ).split(" "),
+        'button buttons clientX clientY offsetX offsetY pageX pageY ' +
+        'screenX screenY toElement'
+      ).split(' '),
       filter: function (event, original) {
-        let eventDoc;
-        let doc;
-        let body;
-        const button = original.button;
+        let eventDoc
+        let doc
+        let body
+        const button = original.button
 
         // Calculate pageX/Y if missing and clientX/Y available
         if (event.pageX == null && original.clientX != null) {
-          eventDoc = event.target.ownerDocument || document;
-          doc = eventDoc.documentElement;
-          body = eventDoc.body;
+          eventDoc = event.target.ownerDocument || document
+          doc = eventDoc.documentElement
+          body = eventDoc.body
 
           event.pageX =
             original.clientX +
             ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0) -
-            ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
+            ((doc && doc.clientLeft) || (body && body.clientLeft) || 0)
           event.pageY =
             original.clientY +
             ((doc && doc.scrollTop) || (body && body.scrollTop) || 0) -
-            ((doc && doc.clientTop) || (body && body.clientTop) || 0);
+            ((doc && doc.clientTop) || (body && body.clientTop) || 0)
         }
 
         // Add which for click: 1 === left; 2 === middle; 3 === right
         // Note: button is not normalized, so don't use it
         if (!event.which && button !== undefined) {
-          event.which = button & 1 ? 1 : button & 2 ? 3 : button & 4 ? 2 : 0;
+          event.which = button & 1 ? 1 : button & 2 ? 3 : button & 4 ? 2 : 0
         }
 
-        return event;
-      },
+        return event
+      }
     },
 
     fix: function (event) {
       if (event[jQuery.expando]) {
-        return event;
+        return event
       }
 
       // Create a writable copy of the event object and normalize some properties
-      let i;
-      let prop;
-      let copy;
-      const type = event.type;
-      const originalEvent = event;
-      let fixHook = this.fixHooks[type];
+      let i
+      let prop
+      let copy
+      const type = event.type
+      const originalEvent = event
+      let fixHook = this.fixHooks[type]
 
       if (!fixHook) {
         this.fixHooks[type] = fixHook = rmouseEvent.test(type)
           ? this.mouseHooks
           : rkeyEvent.test(type)
-          ? this.keyHooks
-          : {};
+            ? this.keyHooks
+            : {}
       }
-      copy = fixHook.props ? this.props.concat(fixHook.props) : this.props;
+      copy = fixHook.props ? this.props.concat(fixHook.props) : this.props
 
-      event = new jQuery.Event(originalEvent);
+      event = new jQuery.Event(originalEvent)
 
-      i = copy.length;
+      i = copy.length
       while (i--) {
-        prop = copy[i];
-        event[prop] = originalEvent[prop];
+        prop = copy[i]
+        event[prop] = originalEvent[prop]
       }
 
       // Support: Cordova 2.5 (WebKit) (#13255)
       // All events should have a target; Cordova deviceready doesn't
       if (!event.target) {
-        event.target = document;
+        event.target = document
       }
 
       // Support: Safari 6.0+, Chrome<28
       // Target should not be a text node (#504, #13143)
       if (event.target.nodeType === 3) {
-        event.target = event.target.parentNode;
+        event.target = event.target.parentNode
       }
 
-      return fixHook.filter ? fixHook.filter(event, originalEvent) : event;
+      return fixHook.filter ? fixHook.filter(event, originalEvent) : event
     },
 
     special: {
       load: {
         // Prevent triggered image.load events from bubbling to window.load
-        noBubble: true,
+        noBubble: true
       },
       focus: {
         // Fire native event if possible so blur/focus sequence is correct
         trigger: function () {
           if (this !== safeActiveElement() && this.focus) {
-            this.focus();
-            return false;
+            this.focus()
+            return false
           }
         },
-        delegateType: "focusin",
+        delegateType: 'focusin'
       },
       blur: {
         trigger: function () {
           if (this === safeActiveElement() && this.blur) {
-            this.blur();
-            return false;
+            this.blur()
+            return false
           }
         },
-        delegateType: "focusout",
+        delegateType: 'focusout'
       },
       click: {
         // For checkbox, fire native event so checked state will be right
         trigger: function () {
           if (
-            this.type === "checkbox" &&
+            this.type === 'checkbox' &&
             this.click &&
-            jQuery.nodeName(this, "input")
+            jQuery.nodeName(this, 'input')
           ) {
-            this.click();
-            return false;
+            this.click()
+            return false
           }
         },
 
         // For cross-browser consistency, don't fire native .click() on links
         _default: function (event) {
-          return jQuery.nodeName(event.target, "a");
-        },
+          return jQuery.nodeName(event.target, 'a')
+        }
       },
 
       beforeunload: {
@@ -576,30 +576,30 @@ define([
           // Support: Firefox 20+
           // Firefox doesn't alert if the returnValue field is not set.
           if (event.result !== undefined && event.originalEvent) {
-            event.originalEvent.returnValue = event.result;
+            event.originalEvent.returnValue = event.result
           }
-        },
-      },
-    },
-  };
+        }
+      }
+    }
+  }
 
   jQuery.removeEvent = function (elem, type, handle) {
     // This "if" is needed for plain objects
     if (elem.removeEventListener) {
-      elem.removeEventListener(type, handle);
+      elem.removeEventListener(type, handle)
     }
-  };
+  }
 
   jQuery.Event = function (src, props) {
     // Allow instantiation without the 'new' keyword
     if (!(this instanceof jQuery.Event)) {
-      return new jQuery.Event(src, props);
+      return new jQuery.Event(src, props)
     }
 
     // Event object
     if (src && src.type) {
-      this.originalEvent = src;
-      this.type = src.type;
+      this.originalEvent = src
+      this.type = src.type
 
       // Events bubbling up the document may have been marked as prevented
       // by a handler lower down the tree; reflect the correct value.
@@ -609,24 +609,24 @@ define([
           // Support: Android<4.0
           src.returnValue === false)
           ? returnTrue
-          : returnFalse;
+          : returnFalse
 
       // Event type
     } else {
-      this.type = src;
+      this.type = src
     }
 
     // Put explicitly provided properties onto the event object
     if (props) {
-      jQuery.extend(this, props);
+      jQuery.extend(this, props)
     }
 
     // Create a timestamp if incoming event doesn't have one
-    this.timeStamp = (src && src.timeStamp) || jQuery.now();
+    this.timeStamp = (src && src.timeStamp) || jQuery.now()
 
     // Mark it as fixed
-    this[jQuery.expando] = true;
-  };
+    this[jQuery.expando] = true
+  }
 
   // jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
   // http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
@@ -637,35 +637,35 @@ define([
     isImmediatePropagationStopped: returnFalse,
 
     preventDefault: function () {
-      const e = this.originalEvent;
+      const e = this.originalEvent
 
-      this.isDefaultPrevented = returnTrue;
+      this.isDefaultPrevented = returnTrue
 
       if (e) {
-        e.preventDefault();
+        e.preventDefault()
       }
     },
     stopPropagation: function () {
-      const e = this.originalEvent;
+      const e = this.originalEvent
 
-      this.isPropagationStopped = returnTrue;
+      this.isPropagationStopped = returnTrue
 
       if (e) {
-        e.stopPropagation();
+        e.stopPropagation()
       }
     },
     stopImmediatePropagation: function () {
-      const e = this.originalEvent;
+      const e = this.originalEvent
 
-      this.isImmediatePropagationStopped = returnTrue;
+      this.isImmediatePropagationStopped = returnTrue
 
       if (e) {
-        e.stopImmediatePropagation();
+        e.stopImmediatePropagation()
       }
 
-      this.stopPropagation();
-    },
-  };
+      this.stopPropagation()
+    }
+  }
 
   // Create mouseenter/leave events using mouseover/out and event-time checks
   // so that event delegation works in jQuery.
@@ -677,10 +677,10 @@ define([
   // for the description of the bug (it existed in older Chrome versions as well).
   jQuery.each(
     {
-      mouseenter: "mouseover",
-      mouseleave: "mouseout",
-      pointerenter: "pointerover",
-      pointerleave: "pointerout",
+      mouseenter: 'mouseover',
+      mouseleave: 'mouseout',
+      pointerenter: 'pointerover',
+      pointerleave: 'pointerout'
     },
     function (orig, fix) {
       jQuery.event.special[orig] = {
@@ -688,10 +688,10 @@ define([
         bindType: fix,
 
         handle: function (event) {
-          let ret;
-          const target = this;
-          const related = event.relatedTarget;
-          const handleObj = event.handleObj;
+          let ret
+          const target = this
+          const related = event.relatedTarget
+          const handleObj = event.handleObj
 
           // For mouseenter/leave call the handler if related is outside the target.
           // NB: No relatedTarget if the mouse left/entered the browser window
@@ -699,57 +699,57 @@ define([
             !related ||
             (related !== target && !jQuery.contains(target, related))
           ) {
-            event.type = handleObj.origType;
-            ret = handleObj.handler.apply(this, arguments);
-            event.type = fix;
+            event.type = handleObj.origType
+            ret = handleObj.handler.apply(this, arguments)
+            event.type = fix
           }
-          return ret;
-        },
-      };
+          return ret
+        }
+      }
     }
-  );
+  )
 
   jQuery.fn.extend({
     on: function (types, selector, data, fn) {
-      return on(this, types, selector, data, fn);
+      return on(this, types, selector, data, fn)
     },
     one: function (types, selector, data, fn) {
-      return on(this, types, selector, data, fn, 1);
+      return on(this, types, selector, data, fn, 1)
     },
     off: function (types, selector, fn) {
-      let handleObj, type;
+      let handleObj, type
       if (types && types.preventDefault && types.handleObj) {
         // ( event )  dispatched jQuery.Event
-        handleObj = types.handleObj;
+        handleObj = types.handleObj
         jQuery(types.delegateTarget).off(
           handleObj.namespace
-            ? handleObj.origType + "." + handleObj.namespace
+            ? handleObj.origType + '.' + handleObj.namespace
             : handleObj.origType,
           handleObj.selector,
           handleObj.handler
-        );
-        return this;
+        )
+        return this
       }
-      if (typeof types === "object") {
+      if (typeof types === 'object') {
         // ( types-object [, selector] )
         for (type in types) {
-          this.off(type, selector, types[type]);
+          this.off(type, selector, types[type])
         }
-        return this;
+        return this
       }
-      if (selector === false || typeof selector === "function") {
+      if (selector === false || typeof selector === 'function') {
         // ( types [, fn] )
-        fn = selector;
-        selector = undefined;
+        fn = selector
+        selector = undefined
       }
       if (fn === false) {
-        fn = returnFalse;
+        fn = returnFalse
       }
       return this.each(function () {
-        jQuery.event.remove(this, types, fn, selector);
-      });
-    },
-  });
+        jQuery.event.remove(this, types, fn, selector)
+      })
+    }
+  })
 
-  return jQuery;
-});
+  return jQuery
+})

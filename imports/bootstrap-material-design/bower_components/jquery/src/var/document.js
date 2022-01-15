@@ -1,3 +1,3 @@
 define(function () {
-  return window.document;
-});
+  return window.document
+})

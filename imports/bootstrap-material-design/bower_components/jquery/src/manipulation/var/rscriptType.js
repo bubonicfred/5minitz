@@ -1,3 +1,3 @@
 define(function () {
-  return /^$|\/(?:java|ecma)script/i;
-});
+  return /^$|\/(?:java|ecma)script/i
+})

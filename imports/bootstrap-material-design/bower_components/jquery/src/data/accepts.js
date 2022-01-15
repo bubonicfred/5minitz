@@ -1,4 +1,4 @@
-define(["../core"], function (jQuery) {
+define(['../core'], function (jQuery) {
   /**
    * Determines whether an object can have data
    */
@@ -10,8 +10,8 @@ define(["../core"], function (jQuery) {
     //  - Object
     //    - Any
     /* jshint -W018 */
-    return owner.nodeType === 1 || owner.nodeType === 9 || !+owner.nodeType;
-  };
+    return owner.nodeType === 1 || owner.nodeType === 9 || !+owner.nodeType
+  }
 
-  return jQuery.acceptData;
-});
+  return jQuery.acceptData
+})

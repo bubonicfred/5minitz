@@ -1,6 +1,6 @@
 // Configuration for WebDriver.IO TestRunner for End2End tests
 
-const headless = process.env.HEADLESS; // export HEADLESS=1 on shell to trigger
+const headless = process.env.HEADLESS // export HEADLESS=1 on shell to trigger
 // headless chrome testing
 
 exports.config = {
@@ -12,11 +12,11 @@ exports.config = {
   // WebdriverIO allows it to run your tests in arbitrary locations (e.g.
   // locally or
   // on a remote machine).
-  runner: "local",
-  outputDir: "./tests/end2end/logs",
+  runner: 'local',
+  outputDir: './tests/end2end/logs',
   //
   // Override default path ('/wd/hub') for chromedriver service.
-  path: "/",
+  path: '/',
   //
   // ==================
   // Specify Test Files
@@ -30,14 +30,14 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from
   // there.
   //
-  specs: ["./tests/end2end/**/*-test.js"],
+  specs: ['./tests/end2end/**/*-test.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
   filesToWatch: [
     // watch for all JS files in E2E
-    "./tests/end2end/**/*.js",
+    './tests/end2end/**/*.js'
   ],
   //
   // ============
@@ -80,24 +80,24 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: "chrome",
-      "goog:chromeOptions": {
+      browserName: 'chrome',
+      'goog:chromeOptions': {
         prefs: {
-          "profile.default_content_settings.popups": 0,
+          'profile.default_content_settings.popups': 0,
           // "download.default_directory" is for Attachments E2E tests to
           // suppress the download pop up and directly save download files to
           // disk
-          "download.default_directory": "tests/e2e_downloads",
+          'download.default_directory': 'tests/e2e_downloads'
         },
-        args: [headless ? "--headless" : "--empty", "--window-size=1920x1080"],
+        args: [headless ? '--headless' : '--empty', '--window-size=1920x1080']
         // args: ['--headless', '--window-size=1920x1080'],
-      },
+      }
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session
       // logs
       // excludeDriverLogs: ['bugreport', 'server'],
-    },
+    }
   ],
   //
   // ===================
@@ -106,7 +106,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "debug",
+  logLevel: 'debug',
   //
   // Set specific log levels per logger
   // loggers:
@@ -135,7 +135,7 @@ exports.config = {
   // If your `url` parameter starts without a scheme or `/` (like `some/path`),
   // the base url
   // gets prepended directly.
-  baseUrl: "http://localhost",
+  baseUrl: 'http://localhost',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -152,7 +152,7 @@ exports.config = {
   // enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  services: ['chromedriver'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -161,7 +161,7 @@ exports.config = {
   // Make sure you have the wdio adapter package for the specific framework
   // installed
   // before running any tests.
-  framework: "mocha",
+  framework: 'mocha',
   //
   // The number of times to retry the entire specfile when it fails as a whole
   // specFileRetries: 1,
@@ -169,16 +169,16 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter.html
-  reporters: ["spec"],
+  reporters: ['spec'],
 
   //
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
-    require: ["@babel/register"],
-    ui: "bdd",
+    require: ['@babel/register'],
+    ui: 'bdd',
     timeout: 60000,
-    fullTrace: true,
+    fullTrace: true
   },
   //
   // =====
@@ -216,8 +216,8 @@ exports.config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    */
   before: function (capabilities, specs) {
-    const chai = require("chai");
-    global.expect = chai.expect;
+    const chai = require('chai')
+    global.expect = chai.expect
     // chai.should();   // to extend Object.prototype() with the should()
     // function.
 
@@ -289,8 +289,8 @@ exports.config = {
    * @param {Array.<String>} specs List of spec file paths that ran
    */
   after: function (result, capabilities, specs) {
-    server.close();
-  },
+    server.close()
+  }
   /**
    * Gets executed right after terminating the webdriver session.
    * @param {Object} config wdio configuration object
@@ -317,4 +317,4 @@ exports.config = {
    */
   // onReload: function(oldSessionId, newSessionId) {
   // }
-};
+}

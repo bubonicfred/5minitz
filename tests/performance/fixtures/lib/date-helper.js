@@ -1,6 +1,9 @@
-import { formatDateISO8601, formatDateISO8601Time } from '../../../../imports/helpers/date';
+import {
+  formatDateISO8601,
+  formatDateISO8601Time
+} from '../../../../imports/helpers/date'
 
 export const DateHelper = {
-    formatDateISO8601,
-    formatDateISO8601Time
-};
+  formatDateISO8601,
+  formatDateISO8601Time
+}

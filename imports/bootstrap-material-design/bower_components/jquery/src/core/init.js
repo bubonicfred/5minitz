@@ -1,48 +1,48 @@
 // Initialize a jQuery object
 define([
-  "../core",
-  "../var/document",
-  "./var/rsingleTag",
-  "../traversing/findFilter",
+  '../core',
+  '../var/document',
+  './var/rsingleTag',
+  '../traversing/findFilter'
 ], function (jQuery, document, rsingleTag) {
   // A central reference to the root jQuery(document)
-  let rootjQuery;
+  let rootjQuery
 
   // A simple way to check for HTML strings
   // Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
   // Strict HTML recognition (#11290: must start with <)
-  const rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+  const rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/
 
   const init = (jQuery.fn.init = function (selector, context, root) {
-    let match, elem;
+    let match, elem
 
     // HANDLE: $(""), $(null), $(undefined), $(false)
     if (!selector) {
-      return this;
+      return this
     }
 
     // Method init() accepts an alternate rootjQuery
     // so migrate can support jQuery.sub (gh-2101)
-    root = root || rootjQuery;
+    root = root || rootjQuery
 
     // Handle HTML strings
-    if (typeof selector === "string") {
+    if (typeof selector === 'string') {
       if (
-        selector[0] === "<" &&
-        selector[selector.length - 1] === ">" &&
+        selector[0] === '<' &&
+        selector[selector.length - 1] === '>' &&
         selector.length >= 3
       ) {
         // Assume that strings that start and end with <> are HTML and skip the regex check
-        match = [null, selector, null];
+        match = [null, selector, null]
       } else {
-        match = rquickExpr.exec(selector);
+        match = rquickExpr.exec(selector)
       }
 
       // Match html or make sure no context is specified for #id
       if (match && (match[1] || !context)) {
         // HANDLE: $(html) -> $(array)
         if (match[1]) {
-          context = context instanceof jQuery ? context[0] : context;
+          context = context instanceof jQuery ? context[0] : context
 
           // Option to run scripts is true for back-compat
           // Intentionally let the error be thrown if parseHTML is not present
@@ -55,56 +55,56 @@ define([
                 : document,
               true
             )
-          );
+          )
 
           // HANDLE: $(html, props)
           if (rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) {
             for (match in context) {
               // Properties of context are called as methods if possible
               if (jQuery.isFunction(this[match])) {
-                this[match](context[match]);
+                this[match](context[match])
 
                 // ...and otherwise set as attributes
               } else {
-                this.attr(match, context[match]);
+                this.attr(match, context[match])
               }
             }
           }
 
-          return this;
+          return this
 
           // HANDLE: $(#id)
         } else {
-          elem = document.getElementById(match[2]);
+          elem = document.getElementById(match[2])
 
           // Support: Blackberry 4.6
           // gEBID returns nodes no longer in the document (#6963)
           if (elem && elem.parentNode) {
             // Inject the element directly into the jQuery object
-            this.length = 1;
-            this[0] = elem;
+            this.length = 1
+            this[0] = elem
           }
 
-          this.context = document;
-          this.selector = selector;
-          return this;
+          this.context = document
+          this.selector = selector
+          return this
         }
 
         // HANDLE: $(expr, $(...))
       } else if (!context || context.jquery) {
-        return (context || root).find(selector);
+        return (context || root).find(selector)
 
         // HANDLE: $(expr, context)
         // (which is just equivalent to: $(context).find(expr)
       } else {
-        return this.constructor(context).find(selector);
+        return this.constructor(context).find(selector)
       }
 
       // HANDLE: $(DOMElement)
     } else if (selector.nodeType) {
-      this.context = this[0] = selector;
-      this.length = 1;
-      return this;
+      this.context = this[0] = selector
+      this.length = 1
+      return this
 
       // HANDLE: $(function)
       // Shortcut for document ready
@@ -112,22 +112,22 @@ define([
       return root.ready !== undefined
         ? root.ready(selector)
         : // Execute immediately if ready is not present
-          selector(jQuery);
+        selector(jQuery)
     }
 
     if (selector.selector !== undefined) {
-      this.selector = selector.selector;
-      this.context = selector.context;
+      this.selector = selector.selector
+      this.context = selector.context
     }
 
-    return jQuery.makeArray(selector, this);
-  });
+    return jQuery.makeArray(selector, this)
+  })
 
   // Give the init function the jQuery prototype for later instantiation
-  init.prototype = jQuery.fn;
+  init.prototype = jQuery.fn
 
   // Initialize central reference
-  rootjQuery = jQuery(document);
+  rootjQuery = jQuery(document)
 
-  return init;
-});
+  return init
+})

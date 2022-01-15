@@ -1,3 +1,3 @@
 define(function () {
-  return window.location;
-});
+  return window.location
+})

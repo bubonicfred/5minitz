@@ -1,6 +1,6 @@
-import { Random } from "../lib/random";
-import moment from "moment/moment";
-import { DateHelper } from "../lib/date-helper";
+import { Random } from '../lib/random'
+import moment from 'moment/moment'
+import { DateHelper } from '../lib/date-helper'
 
 export class MinutesGenerator {
   /**
@@ -13,14 +13,14 @@ export class MinutesGenerator {
    * @param user.username
    * @param nextMinutesDate
    */
-  constructor(config, parentSeriesId, user, nextMinutesDate = null) {
+  constructor (config, parentSeriesId, user, nextMinutesDate = null) {
     if (nextMinutesDate === null) {
-      nextMinutesDate = new Date();
+      nextMinutesDate = new Date()
     }
-    this.config = config;
-    this.parentSeriesId = parentSeriesId;
-    this.user = user;
-    this.nextMinutesDate = nextMinutesDate;
+    this.config = config
+    this.parentSeriesId = parentSeriesId
+    this.user = user
+    this.nextMinutesDate = nextMinutesDate
   }
 
   /**
@@ -28,21 +28,21 @@ export class MinutesGenerator {
    * @param topicsGenerator {TopicsGenerator}
    * @returns {Array}
    */
-  generate(topicsGenerator) {
-    const result = [];
-    let lastMin = false;
+  generate (topicsGenerator) {
+    const result = []
+    let lastMin = false
     for (let i = 0; i < this.config.minutesCount; i++) {
-      const isLastOne = i + 1 === this.config.minutesCount;
-      lastMin = this.generateOne(topicsGenerator, isLastOne);
-      result.push(lastMin);
-      this._tickOneDay();
+      const isLastOne = i + 1 === this.config.minutesCount
+      lastMin = this.generateOne(topicsGenerator, isLastOne)
+      result.push(lastMin)
+      this._tickOneDay()
     }
 
-    return result;
+    return result
   }
 
-  generateOne(topicsGenerator, isLastOne = false) {
-    const id = Random.generateId();
+  generateOne (topicsGenerator, isLastOne = false) {
+    const id = Random.generateId()
     const min = {
       _id: id,
       meetingSeries_id: this.parentSeriesId,
@@ -54,40 +54,40 @@ export class MinutesGenerator {
       ),
       visibleFor: [this.user._id],
       participants: [
-        { userId: this.user._id, present: false, minuteKeeper: false },
+        { userId: this.user._id, present: false, minuteKeeper: false }
       ],
       createdAt: new Date(),
       createdBy: this.user.username,
       isFinalized: !isLastOne,
-      globalNote: "",
-      participantsAdditional: "",
+      globalNote: '',
+      participantsAdditional: '',
       finalizedVersion: isLastOne ? 0 : 1,
       finalizedHistory: [],
-      agenda: "",
-    };
+      agenda: ''
+    }
 
     if (!isLastOne) {
-      min.finalizedAt = this.nextMinutesDate;
-      min.finalizedBy = this.user.username;
-      const dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
+      min.finalizedAt = this.nextMinutesDate
+      min.finalizedBy = this.user.username
+      const dateTime = this.constructor._formatDateTime(this.nextMinutesDate)
 
       // #I18N: We will leave this is English, as it is published to the database!
       min.finalizedHistory.push(
         `Version 1. Finalized on ${dateTime} by ${this.user.username}`
-      );
+      )
     }
-    return min;
+    return min
   }
 
-  _tickOneDay() {
-    this.nextMinutesDate = moment(this.nextMinutesDate).add(1, "days").toDate();
+  _tickOneDay () {
+    this.nextMinutesDate = moment(this.nextMinutesDate).add(1, 'days').toDate()
   }
 
-  static _formatDate(date) {
-    return DateHelper.formatDateISO8601(date);
+  static _formatDate (date) {
+    return DateHelper.formatDateISO8601(date)
   }
 
-  static _formatDateTime(date) {
-    return DateHelper.formatDateISO8601Time(date);
+  static _formatDateTime (date) {
+    return DateHelper.formatDateISO8601Time(date)
   }
 }

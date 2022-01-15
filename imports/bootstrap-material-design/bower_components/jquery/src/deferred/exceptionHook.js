@@ -1,7 +1,7 @@
-define(["../core", "../deferred"], function (jQuery) {
+define(['../core', '../deferred'], function (jQuery) {
   // These usually indicate a programmer mistake during development,
   // warn about them ASAP rather than swallowing them by default.
-  const rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
+  const rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/
 
   jQuery.Deferred.exceptionHook = function (error, stack) {
     // Support: IE9
@@ -12,7 +12,7 @@ define(["../core", "../deferred"], function (jQuery) {
       error &&
       rerrorNames.test(error.name)
     ) {
-      window.console.warn("jQuery.Deferred exception: " + error.message, stack);
+      window.console.warn('jQuery.Deferred exception: ' + error.message, stack)
     }
-  };
-});
+  }
+})

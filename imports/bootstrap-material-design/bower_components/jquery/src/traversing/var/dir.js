@@ -1,16 +1,16 @@
-define(["../../core"], function (jQuery) {
+define(['../../core'], function (jQuery) {
   return function (elem, dir, until) {
-    const matched = [];
-    const truncate = until !== undefined;
+    const matched = []
+    const truncate = until !== undefined
 
     while ((elem = elem[dir]) && elem.nodeType !== 9) {
       if (elem.nodeType === 1) {
         if (truncate && jQuery(elem).is(until)) {
-          break;
+          break
         }
-        matched.push(elem);
+        matched.push(elem)
       }
     }
-    return matched;
-  };
-});
+    return matched
+  }
+})

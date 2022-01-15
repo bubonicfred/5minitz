@@ -1,75 +1,75 @@
-import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
-import { MeetingSeries } from "/imports/meetingseries";
-import { UserRoles } from "/imports/userroles";
-import { AttachmentsCollection } from "/imports/collections/attachments_private";
-import { handleError } from "/client/helpers/handleError";
-import { i18n } from "meteor/universe:i18n";
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory'
+import { MeetingSeries } from '/imports/meetingseries'
+import { UserRoles } from '/imports/userroles'
+import { AttachmentsCollection } from '/imports/collections/attachments_private'
+import { handleError } from '/client/helpers/handleError'
+import { i18n } from 'meteor/universe:i18n'
 
 Template.tabMinutesList.helpers({
   meetingSeriesId: function () {
-    return this.meetingSeriesId;
+    return this.meetingSeriesId
   },
 
   addMinutesDisabled: function () {
-    const ms = new MeetingSeries(this.meetingSeriesId);
+    const ms = new MeetingSeries(this.meetingSeriesId)
     if (ms.addNewMinutesAllowed()) {
-      return {};
+      return {}
     } else {
-      return { disabled: true };
+      return { disabled: true }
     }
   },
 
   isModeratorOfParentSeries: function () {
-    const usrRole = new UserRoles();
-    return usrRole.isModeratorOf(this.meetingSeriesId);
+    const usrRole = new UserRoles()
+    return usrRole.isModeratorOf(this.meetingSeriesId)
   },
 
-  hasAttachments() {
+  hasAttachments () {
     return Boolean(
-      AttachmentsCollection.findOne({ "meta.meetingminutes_id": this._id })
-    );
-  },
-});
+      AttachmentsCollection.findOne({ 'meta.meetingminutes_id': this._id })
+    )
+  }
+})
 
 Template.tabMinutesList.events({
-  "click #btnAddMinutes": function (evt) {
-    evt.preventDefault();
-    const ms = new MeetingSeries(this.meetingSeriesId);
+  'click #btnAddMinutes': function (evt) {
+    evt.preventDefault()
+    const ms = new MeetingSeries(this.meetingSeriesId)
     ms.addNewMinutes(
       (newMinutesId) => {
-        FlowRouter.redirect("/minutesedit/" + newMinutesId);
+        FlowRouter.redirect('/minutesedit/' + newMinutesId)
       },
       // server callback
       handleError
-    );
+    )
   },
 
-  "click #btnLeaveMeetingSeries": function () {
-    const ms = new MeetingSeries(this.meetingSeriesId);
+  'click #btnLeaveMeetingSeries': function () {
+    const ms = new MeetingSeries(this.meetingSeriesId)
 
     const leaveSeriesCallback = () => {
       console.log(
-        "User: " +
+        'User: ' +
           Meteor.user().username +
-          " is leaving Meeting Series: " +
+          ' is leaving Meeting Series: ' +
           this.meetingSeriesId
-      );
-      MeetingSeries.leave(ms).catch(handleError());
-      FlowRouter.go("/");
-    };
+      )
+      MeetingSeries.leave(ms).catch(handleError())
+      FlowRouter.go('/')
+    }
 
     ConfirmationDialogFactory.makeWarningDialog(
       leaveSeriesCallback,
-      i18n.__("MeetingSeries.leave"),
-      i18n.__("Dialog.confirmLeaveMeetingSeries", {
+      i18n.__('MeetingSeries.leave'),
+      i18n.__('Dialog.confirmLeaveMeetingSeries', {
         project: ms.project,
-        name: ms.name,
+        name: ms.name
       }),
       {},
-      i18n.__("MeetingSeries.leaveButton")
-    ).show();
-  },
-});
+      i18n.__('MeetingSeries.leaveButton')
+    ).show()
+  }
+})
