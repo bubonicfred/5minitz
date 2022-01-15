@@ -58,7 +58,7 @@ before(function() {
     }
 
     E2EApp.resetMyApp();
-    E2EApp.launchApp();
+    E2EApp.launchChromeApp();
     E2EApp.loginUser();
     expect(E2EApp.isLoggedIn(), 'User is logged in').to.be.true;
 });

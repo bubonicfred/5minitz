@@ -8,14 +8,14 @@ describe("Admin View", function () {
   before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
-    E2EApp.launchApp();
+    E2EApp.launchChromeApp();
   });
 
   beforeEach(
     "goto start page and make sure test user is logged in",
     function () {
       server.call("e2e.removeAllBroadcasts");
-      E2EApp.launchApp();
+      E2EApp.launchChromeApp();
       E2EApp.loginUser(0);
       expect(E2EApp.isLoggedIn()).to.be.true;
     }
@@ -23,7 +23,7 @@ describe("Admin View", function () {
 
   after("log in user1", function () {
     server.call("e2e.removeAllBroadcasts");
-    E2EApp.launchApp();
+    E2EApp.launchChromeApp();
     E2EApp.loginUser(0, true);
   });
 

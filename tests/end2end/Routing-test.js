@@ -13,7 +13,7 @@ describe('Routing', function () {
     before("reload page and reset app", function () {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
@@ -27,7 +27,7 @@ describe('Routing', function () {
     });
 
     after("clear database and login user", function () {
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });

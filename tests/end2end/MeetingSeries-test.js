@@ -12,7 +12,7 @@ describe('MeetingSeries', function () {
         server.connect();
         E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp();
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
     });
 
     beforeEach('goto start page and make sure test user is logged in', function () {

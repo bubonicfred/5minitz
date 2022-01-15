@@ -26,7 +26,7 @@ describe('Attachments', function () {
     before("reload page and reset app", function () {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
 
         _localPublicDir = server.call('e2e.getServerCurrentWorkingDir');  // call meteor server method
         _localPublicDir += "/../web.browser/app/"; // location of files from "/public" directory
@@ -255,7 +255,7 @@ describe('Attachments', function () {
         browser.url(attachmentURL);             // try to access download URL
         let htmlSource = browser.getSource();
         expect(htmlSource).to.contain("File Not Found :(");
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
         E2EApp.loginUser(0);
     });
 
@@ -268,7 +268,7 @@ describe('Attachments', function () {
         browser.url(attachmentURL);             // try to access download URL
         let htmlSource = browser.getSource();
         expect(htmlSource).to.contain("File Not Found :(");
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
         E2EApp.loginUser(0);
     });
 });

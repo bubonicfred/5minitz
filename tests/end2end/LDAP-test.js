@@ -16,7 +16,7 @@ describe('LDAP', function () {
     before("reload page and reset app", function () {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
     });
 
     beforeEach("make sure test user is logged out and on the start page", function () {
@@ -25,7 +25,7 @@ describe('LDAP', function () {
     });
 
     after("clear database and login user", function () {
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });

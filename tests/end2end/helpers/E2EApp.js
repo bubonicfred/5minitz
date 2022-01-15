@@ -160,7 +160,7 @@ export class E2EApp {
         return E2EApp._currentlyLoggedInUser;
     }
     
-    static launchApp () {
+    static launchChromeApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
         E2EGlobal.waitSomeTime(600); // give title change time to settle
@@ -180,7 +180,7 @@ export class E2EApp {
         return true;
     }
 
-    // We can't use "launchApp" here, as this resets the browser
+    // We can't use "launchChromeApp" here, as this resets the browser
     // so we click on the "Logo" icon
     static gotoStartPage () {
         browser.keys(['Escape']);   // close eventually open modal dialog
@@ -188,7 +188,7 @@ export class E2EApp {
         try {
             browser.waitForExist('a.navbar-brand', 2500);
         } catch (e) {
-            E2EApp.launchApp();
+            E2EApp.launchChromeApp();
         }
         // Just in case we have not already a user logged in, we do it here!
         if (! E2EApp.isLoggedIn()) {
@@ -209,9 +209,9 @@ export class E2EApp {
         try {
             browser.waitUntil(function () {
                 return (browser.getTitle() === E2EApp.titlePrefix);
-            },5000,'Timeout! Title did not change! Will try to re-launchApp().',250);
+            },5000,'Timeout! Title did not change! Will try to re-launchChromeApp().',250);
         } catch (e) {
-            E2EApp.launchApp();
+            E2EApp.launchChromeApp();
             E2EGlobal.waitSomeTime();
         }
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);

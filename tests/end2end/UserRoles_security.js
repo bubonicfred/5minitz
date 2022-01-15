@@ -13,7 +13,7 @@ describe('UserRoles Method Security', function () {
     before('reload page and reset app', function () {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
     });
 
     //userroles.saveRoleForMeetingSeries
@@ -91,7 +91,7 @@ describe('Users Publish & Subscribe Security', function () {
 
     before('reload page and reset app', function () {
         E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        E2EApp.launchChromeApp();
     });
 
     it('Non-logged in users have no users collection published', function () {
