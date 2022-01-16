@@ -25,7 +25,7 @@ ecmascript@0.14.3
 alanning:roles
 percolate:migrations
 sergeyt:typeahead
-email@1.2.3
+email@2.0.0
 http@1.4.2
 markdown@1.0.12
 reactive-var@1.0.11
@@ -47,7 +47,7 @@ dynamic-import@0.5.2
 ostrio:files
 msavin:mongol
 ostrio:flow-router-extra
-accounts-password@1.6.0
+accounts-password@1.6.2
 universe:i18n
 universe:i18n-blaze
 softwarerero:accounts-t9n
