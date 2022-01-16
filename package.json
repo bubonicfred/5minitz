@@ -105,6 +105,5 @@
     "wdio-chromedriver-service": "^7.0.0",
     "webdriverio": "^7.0.0",
     "webpack": "^4.44.2",
-    "xtend": "^4.0.1"
   }
 }
