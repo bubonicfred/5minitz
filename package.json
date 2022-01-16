@@ -67,7 +67,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.4.0",
     "mongo-uri": "^0.1.2",
-    "mongodb": "^4.4.4",
+    "mongodb": "^4.0.0",
     "mongodb-extended-json": "^1.10.0",
     "node-cron": "^3.0.0",
     "node-getopt": "^0.3.2",
