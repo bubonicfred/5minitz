@@ -1,5 +1,5 @@
 let mongo = require('mongodb').MongoClient,
-    mongoUriParser = require('mongo-uri'),
+   // mongoUriParser = require('mongo-uri'),
     random = require('randomstring'),
     transformUser = require('./transformUser'),
     _ = require('underscore');
@@ -29,7 +29,7 @@ let _insertUsers = function (client, mongoUri, users) {
 
     return new Promise((resolve, reject) => {
         try {
-            const mongoConnection = mongoUriParser.parse(mongoUri);
+            const mongoConnection = mongoUri;
             let bulk = client.db(mongoConnection.database).collection('users').initializeUnorderedBulkOp();
             _.each(users, user => {
                 if (user && user.username && user.emails[0] && user.emails[0].address) {

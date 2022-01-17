@@ -1,7 +1,7 @@
 import Future from 'fibers/future';
 import { spawn } from 'child_process';
 import mongoUri from 'mongo-uri';
-
+// TODO rewrite to remove mongo-uri requirement
 function dumpParameters(uri, path) {
     let params = [];
 
