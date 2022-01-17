@@ -59,7 +59,7 @@
     "git-rev-sync": "^3.0.1",
     "jquery": "^3.3.1",
     "jquery-ui": "1.12.1",
-    "jquery-ui-touch-punch": "github:RWAP/jquery-ui-touch-punch",
+    "jquery-ui-touch-punch": "github:RWAP/jquery-ui-touch-punch#master",
     "ldapjs": "^2.3.1",
     "lodash": "^4.17.21",
     "md5-file": "^5.0.0",
