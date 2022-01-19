@@ -58,7 +58,7 @@
     "fs-extra": "^10.0.0",
     "git-rev-sync": "^3.0.1",
     "jquery": "^3.3.1",
-    "jquery-ui": "1.12.1",
+    "jquery-ui": "^1.13.0",
     "jquery-ui-touch-punch": "^0.2.3",
     "ldapjs": "^2.3.1",
     "lodash": "^4.17.21",
@@ -105,7 +105,6 @@
     "underscore": "^1.13.0-2",
     "wdio-chromedriver-service": "^7.0.0",
     "webdriverio": "^7.0.0",
-    "webpack": "^5.0.0",
-    "xtend": "^4.0.1"
+    "webpack": "^5.0.0"
   }
 }
