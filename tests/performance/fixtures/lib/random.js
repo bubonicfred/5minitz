@@ -1,5 +1,5 @@
 let randomstring = require('randomstring'),
-    faker = require('faker');
+    faker = require('@faker-js/faker');
 
 export class Random {
 
