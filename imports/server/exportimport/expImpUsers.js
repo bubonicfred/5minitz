@@ -68,7 +68,7 @@ class ExpImpUsers {
     static preImportCheck (db, msID) {
         return new Promise((resolve, reject) => {
             const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
-            let usrMap = undefined;
+            let usrMap;
             try {
                 usrMap = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
                 if (!usrMap) {
@@ -128,7 +128,7 @@ class ExpImpUsers {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
-            let allUsersDoc = undefined;
+            let allUsersDoc;
             try {
                 allUsersDoc = EJSON.parse(fs.readFileSync(usrFile, 'utf8'));
                 if (!allUsersDoc) {

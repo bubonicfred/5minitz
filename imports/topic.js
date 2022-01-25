@@ -162,7 +162,7 @@ export class Topic {
         if (saveChanges === undefined) {
             saveChanges = true;
         }
-        let i = undefined;
+        let i;
         if (! topicItemDoc._id) {             // brand-new topicItem
             topicItemDoc._id = Random.id();   // create our own local _id here!
         } else {

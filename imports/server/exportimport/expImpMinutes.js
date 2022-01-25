@@ -52,7 +52,7 @@ class ExpImpMinutes {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
-            let minDoc = undefined;
+            let minDoc;
             try {
                 minDoc = EJSON.parse(fs.readFileSync(minFile, 'utf8'));
                 if (!minDoc) {

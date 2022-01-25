@@ -40,7 +40,7 @@ class ExpImpMeetingSeries {
                         return reject ('Meeting series with ID: '+ msID+' already exists. Cannot import.');
                     } else {
                         const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
-                        let msDoc = undefined;
+                        let msDoc;
                         try {
                             msDoc = EJSON.parse(fs.readFileSync(msFile, 'utf8'));
                             if (!msDoc) {

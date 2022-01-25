@@ -31,7 +31,7 @@ class ExpImpFilesDocuments {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const protFile = msID + ExpImpFilesDocuments.FILENAME_POSTFIX;
-            let AllProtocolsDoc = undefined;
+            let AllProtocolsDoc;
             try {
                 AllProtocolsDoc = EJSON.parse(fs.readFileSync(protFile, 'utf8'));
                 if (!AllProtocolsDoc) {

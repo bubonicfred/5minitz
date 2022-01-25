@@ -35,7 +35,7 @@ Template.topicElement.onCreated(function () {
 
 Template.topicElement.helpers({
     isTopicFinallyCompleted() {
-        let aTopic = undefined;
+        let aTopic;
         if (this.minutesID) {                       // on minutes edit view
             aTopic = new Topic(this.minutesID, this.topic._id);
         } else if (this.parentMeetingSeriesId) {    // on meeting series topic view

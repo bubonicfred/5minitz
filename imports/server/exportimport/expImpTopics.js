@@ -27,7 +27,7 @@ class ExpImpTopics {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
-            let AllTopicsDoc = undefined;
+            let AllTopicsDoc;
             try {
                 AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, 'utf8'));
                 if (!AllTopicsDoc) {

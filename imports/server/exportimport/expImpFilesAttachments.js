@@ -31,7 +31,7 @@ class ExpImpFilesAttachments {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const attachmentFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
-            let AllAttachmentsDoc = undefined;
+            let AllAttachmentsDoc;
             try {
                 AllAttachmentsDoc = EJSON.parse(fs.readFileSync(attachmentFile, 'utf8'));
                 if (!AllAttachmentsDoc) {

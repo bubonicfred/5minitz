@@ -45,7 +45,7 @@ class ExpImpSchema {
                         console.log('DB Schema Version: '+doc.version);
 
                         const schemaFile = msID + ExpImpSchema.FILENAME_POSTFIX;
-                        let exportedSchema = undefined;
+                        let exportedSchema;
                         try {
                             exportedSchema = EJSON.parse(fs.readFileSync(schemaFile, 'utf8'));
                             if (!exportedSchema) {

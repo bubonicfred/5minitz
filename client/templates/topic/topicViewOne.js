@@ -17,8 +17,8 @@ import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
 import {Session} from 'meteor/session';
 
-let _topicID = undefined;           // this topic ID
-let _parentSeriesId = undefined;
+let _topicID;           // this topic ID
+let _parentSeriesId;
 Template.topicViewOne.onCreated(function() {
     this.topicReady = new ReactiveVar();
 
