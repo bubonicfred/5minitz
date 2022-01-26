@@ -153,7 +153,7 @@ Meteor.methods({
 
     const modifierDoc = {};
     for (const property in doc) {
-      if (doc.hasOwnProperty(property)) {
+      if (Object.prototype.hasOwnProperty.call(doc, property)) {
         modifierDoc["topics.$." + property] = doc[property];
       }
     }
