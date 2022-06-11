@@ -8,7 +8,7 @@
  */
 
 let mongo = require('mongodb').MongoClient;
-let faker = require('faker');
+let faker = require('@faker-js/faker');
 let random = require('randomstring');
 
 class UserFactory {
