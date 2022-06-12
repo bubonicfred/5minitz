@@ -45,7 +45,7 @@ jobs:
       - run: npm install
       - run: npm i chromedriver@^99
       - run: ./node_modules/chromedriver/bin/chromedriver --version  
-      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
+      - run: ./tests/run_e2e.sh
 
 
       - name: Upload E2E screenshot artifacts
