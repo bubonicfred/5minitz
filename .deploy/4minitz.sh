@@ -54,7 +54,7 @@ function parse_mongo_url {
     URL="${MONGO_URL/${PROTO}/}"
 
     AUTH="$(echo ${URL} | grep @ | rev | cut -d@ -f2- | rev)"
-    if [ -n ${AUTH} ]; then
+    if [ -n "${AUTH}" ]; then
         URL="$(echo ${URL} | rev | cut -d@ -f1 | rev)"
     fi
 
