@@ -43,11 +43,8 @@ jobs:
       - run: meteor --version
       - run: google-chrome --version
       - run: npm install
-      - uses: actions/setup-node@v2.1.4
-      - run: npm i chromedriver@^99.0.0
+      - run: npm i chromedriver@^101.0.0
       - run: ./node_modules/chromedriver/bin/chromedriver --version
-
-      - uses: actions/setup-node@v2.1.4     
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
       - name: Upload E2E screenshot artifacts
