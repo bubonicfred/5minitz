@@ -2,7 +2,7 @@
   "name": "4Minitz",
   "version": "v2.0.0-develop",
   "4minitz": {
-    "//": "This is some app specific info",extend
+    "//": "This is some app specific info",
     "4m_branch": "develop",
     "4m_commitlong": "1202f41f7a713ad408816f71cd97e5440cd59bbc",
     "4m_commitshort": "1202f41f",
