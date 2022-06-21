@@ -113,8 +113,8 @@ export class Minutes {
     _.extend(this, docPart);
 
     if (
-      Object.prototype.hasOwnProperty.call(docPart, 'date') ||
-      Object.prototype.hasOwnProperty.call(docPart, 'isFinalized')
+      Object.prototype.hasOwnProperty.call(docPart, "date") ||
+      Object.prototype.hasOwnProperty.call(docPart, "isFinalized")
     ) {
       return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
     }
@@ -316,7 +316,7 @@ export class Minutes {
         const user = userCollection.findOne(userId);
         if (user.emails && user.emails.length > 0) {
           recipients.push({
-            userId: userId,
+            userId,
             name: user.username,
             address: user.emails[0].address,
           });
@@ -377,7 +377,7 @@ export class Minutes {
         // Participant has been added, insert with default values
         changed = true;
         return {
-          userId: userId,
+          userId,
           present: false,
           minuteKeeper: false,
         };
