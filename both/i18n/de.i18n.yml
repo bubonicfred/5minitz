@@ -1,6 +1,6 @@
 ---
-_splitKey: ':'
-_locale: 'de'
+_splitKey: ":"
+_locale: "de"
 Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
   nameDisplayName: "Name, Firma"
@@ -49,7 +49,7 @@ Dialog:
     questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letztes Protokoll vom {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Neues Protokoll erstellen bestätigen"
-    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
+    content: 'Möchten Sie wirklich neues Protokoll für die Sitzungsreihe "{$project}: {$name}" erstellen?'
   confirmDeleteAttachment: "Wollen Sie den Datei-Anhang wirklich löschen:\n**{$name}**?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
   ConfirmDeleteItem:
@@ -442,7 +442,7 @@ Login:
   signIn: "Anmelden"
   ldap: "LDAP"
   standard: "Standard"
-  demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
+  demoHint: 'Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link "Registrieren" klicken.'
   Login4MinitzInfo:
     header: "4Minitz: Kollaborative Sitzungsprotokolle."
     subheader: "● Tagesordnung vorbereiten ● Sitzungen protokollieren ● Themen nachverfolgen ●"

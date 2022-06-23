@@ -1,6 +1,6 @@
 ---
-_splitKey: ':'
-_locale: 'hi'
+_splitKey: ":"
+_locale: "hi"
 Accounts:
   usernamePlaceholder: "(न्यूनतम. ३ चलिये)"
   nameDisplayName: "नाम, कंपनी"
@@ -49,7 +49,7 @@ Dialog:
     questionMinutes: "इस श्रृंखला में {$lastMinutesDate} के {$minutesCount} मीटिंग मिनट शामिल हैं।"
   ConfirmCreateNewMinutes:
     title: "नई मिनट्स बनाने की पुष्टि करें"
-    content: "क्या आप \"{$project}: {$name}“ मीटिंग श्रृंखला के लिए नए मिनट बनाना चाहते हैं ?"
+    content: 'क्या आप "{$project}: {$name}“ मीटिंग श्रृंखला के लिए नए मिनट बनाना चाहते हैं ?'
   confirmDeleteAttachment: "क्या आप attachment को हटाना चाहते हैं:\n**{$name}**?"
   confirmDeleteDetails: "क्या आप **{$subject}** आइटम के चयनित विवरण हटाना चाहते हैं?"
   ConfirmDeleteItem:
