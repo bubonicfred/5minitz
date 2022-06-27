@@ -2,7 +2,7 @@ import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";
 
 const { faker } = require("@faker-js/faker");
-const extend = require("just-extend"); // require("clone");
+const extend = require("just-clone"); // require("clone");
 
 export class TopicsGenerator {
   /**
