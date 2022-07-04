@@ -7,7 +7,7 @@ if [[ ! -d $basedir4min ]]
 then
     echo "Could not find $basedir4min. This script is intended as an entrypoint"
     echo "for the 4Minitz Docker container. To start the app without Docker"
-    echo "adjust the $()./deploy/run_sample.sh) script and use that."
+    echo "adjust the $(./deploy/run_sample.sh) script and use that."
     exit 1
 fi
 
