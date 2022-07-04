@@ -18,9 +18,9 @@ export METEOR_SETTINGS=$(cat ./settings.json)
 #################################################
 
 #### Check if installed node version matches the node build version
-nodeversionbuild=`cat ./bundle/.node_version.txt`
-nodeversionnow=`node --version`
-if [ ${nodeversionbuild} != ${nodeversionnow} ]
+nodeversionbuild=$(cat ./bundle/.node_version.txt)
+nodeversionnow=$(node --version)
+if [ "${nodeversionbuild}" != "${nodeversionnow}" ]
 then
     echo " "
     echo "*** WARNING!"

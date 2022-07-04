@@ -12,9 +12,10 @@
         "browser": true
     },
     "extends": ["eslint:recommended", 
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:mocha/recommended"
     ],
-    "plugins": ["prettier","no-loops"],
+    "plugins": ["prettier","no-loops","mocha"],
       
     "parserOptions": {
         "sourceType": "module"
