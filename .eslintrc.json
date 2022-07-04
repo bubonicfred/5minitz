@@ -14,7 +14,8 @@
     "extends": ["eslint:recommended", 
         "plugin:prettier/recommended"
     ],
-    "plugins": ["prettier"],  
+    "plugins": ["prettier","no-loops"],
+      
     "parserOptions": {
         "sourceType": "module"
     },
@@ -28,7 +29,8 @@
             "always"
         ],
         "no-useless-escape": ["off"],
-        "no-console": ["off"],
+        "no-loops/no-loops": [2],
         "prettier/prettier": ["error"]
+
     }
 }

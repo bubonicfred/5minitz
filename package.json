@@ -94,6 +94,7 @@
     "ddp": "^0.12.1",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "js-yaml": "^4.0.0",
     "just-clone": "^6.0.0",
