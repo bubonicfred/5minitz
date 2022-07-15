@@ -12,9 +12,11 @@
         "browser": true
     },
     "extends": ["eslint:recommended", 
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:mocha/recommended"
     ],
-    "plugins": ["prettier"],  
+    "plugins": ["prettier","no-loops","mocha"],
+      
     "parserOptions": {
         "sourceType": "module"
     },
@@ -28,7 +30,8 @@
             "always"
         ],
         "no-useless-escape": ["off"],
-        "no-console": ["off"],
+        "no-loops/no-loops": [2],
         "prettier/prettier": ["error"]
+
     }
 }

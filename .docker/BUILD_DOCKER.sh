@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e -u
-cd $(dirname $0)/../
+cd $(dirname "$0")/../
 
 dockerproject=4minitz/4minitz
 commitshort=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
@@ -92,8 +92,8 @@ if [[ -n ${build_image:-} ]]; then
     docker build \
             -f .docker/Dockerfile \
             --no-cache -t "$baseimagetag" \
-            --build-arg VCS_REF=`git rev-parse --short HEAD` \
-            --build-arg VERSION=`git describe --tags --abbrev=0` \
+            --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+            --build-arg VERSION=$(git describe --tags --abbrev=0) \
             .deploy/
 
     echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
