@@ -88,7 +88,7 @@
     "@wdio/mocha-framework": "^7.20.7",
     "@wdio/spec-reporter": "^7.20.7",
     "@wdio/sync": "^7.20.7",
-    "acorn": "^8.0.0",
+    "acorn": "^8.8.0",
     "chai": "^4.1.2",
     "chromedriver": "^103.0.0",
     "ddp": "^0.12.1",
