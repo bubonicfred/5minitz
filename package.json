@@ -99,7 +99,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "js-yaml": "^4.0.0",
     "just-clone": "^6.0.0",
-    "markdownlint-cli": "^0.32.0",
+    "markdownlint-cli": "^0.32.1",
     "mocha": "^10.0.0",
     "prettier": "2.7.1",
     "proxyquire": "^1.8.0",
