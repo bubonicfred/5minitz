@@ -69,7 +69,7 @@
     "mongodb": "^4.9.1",
     "node-cron": "^3.0.2",
     "node-getopt": "^0.3.2",
-    "npm": "^8.18.0",
+    "npm": "^8.19.2",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
     "semver": "^7.3.5",
