@@ -77,10 +77,10 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.13",
+    "@babel/core": "^7.19.1",
     "@babel/eslint-parser": "^7.19.1",
-    "@babel/plugin-transform-runtime": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
+    "@babel/plugin-transform-runtime": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
     "@babel/register": "^7.18.9",
     "@faker-js/faker": "7.5.0",
     "@wdio/cli": "^7.24.0",
