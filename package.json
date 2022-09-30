@@ -73,7 +73,7 @@
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
     "semver": "^7.3.5",
-    "underscore": "^1.13.0-2"
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
