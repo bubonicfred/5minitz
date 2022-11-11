@@ -45,7 +45,7 @@ jobs:
       - run: meteor --version
       - run: google-chrome --version
       - run: npm install
-      - run: npm i chromedriver@^105.0.0
+      - run: npm i chromedriver@^106.0.1
       - run: ./node_modules/chromedriver/bin/chromedriver --version
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
