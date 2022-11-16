@@ -71,7 +71,7 @@
     "node-getopt": "^0.3.2",
     "npm": "^8.19.2",
     "path": "^0.12.7",
-    "randomstring": "^1.1.5",
+    "randomstring": "^1.2.3",
     "semver": "^7.3.8",
     "underscore": "^1.13.6"
   },
