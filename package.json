@@ -100,7 +100,7 @@
     "js-yaml": "^4.0.0",
     "just-clone": "^6.1.1",
     "markdownlint-cli": "^0.32.2",
-    "mocha": "^10.0.0",
+    "mocha": "^10.1.0",
     "prettier": "2.7.1",
     "proxyquire": "^1.8.0",
     "resolve": "1.22.1",
