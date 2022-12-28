@@ -90,7 +90,7 @@
     "@wdio/sync": "^7.25.4",
     "acorn": "^8.8.1",
     "chai": "^4.3.7",
-    "chromedriver": "^108.0.3",
+    "chromedriver": "^108",
     "ddp": "^0.12.1",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
