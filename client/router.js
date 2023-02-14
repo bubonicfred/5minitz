@@ -7,8 +7,9 @@ import { i18n } from 'meteor/universe:i18n';
 // reset document title on route exit
 // To set a route specific title use a helper in the according template
 const resetDocumentTitle = function () {
-    document.title = '4Minitz!';
+    document.title = '4Minitz!'
 };
+
 
 FlowRouter.route('/', {
     action() {
