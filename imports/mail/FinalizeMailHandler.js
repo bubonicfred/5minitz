@@ -1,81 +1,78 @@
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
 
-import { ActionItemsMailHandler } from './ActionItemsMailHandler';
-import { InfoItemsMailHandler } from './InfoItemsMailHandler';
-import { Minutes } from './../minutes';
 import {ResponsibleResolver} from '../services/responsibleResolver';
+
+import {Minutes} from './../minutes';
+import {ActionItemsMailHandler} from './ActionItemsMailHandler';
+import {InfoItemsMailHandler} from './InfoItemsMailHandler';
 
 export class FinalizeMailHandler {
 
-    constructor(minute, senderAddress) {
-        if (!minute) {
-            throw new Meteor.Error('illegal-argument', 'Minute id or object required');
-        }
-        if (!senderAddress) {
-            throw new Meteor.Error('illegal-argument', 'sender address required');
-        }
-        if (typeof minute === 'string') {   // we may have an ID here.
-            let minuteObj = new Minutes(minute);
-            if (!minuteObj) {
-                throw new Meteor.Error('illegal-argument', 'Unknown minute ID'+minute);
-            }
-            minute = minuteObj;
-        }
-
-        this._minute = minute;
-        this._senderAddress = senderAddress;
+  constructor(minute, senderAddress) {
+    if (!minute) {
+      throw new Meteor.Error('illegal-argument',
+                             'Minute id or object required');
+    }
+    if (!senderAddress) {
+      throw new Meteor.Error('illegal-argument', 'sender address required');
+    }
+    if (typeof minute === 'string') { // we may have an ID here.
+      let minuteObj = new Minutes(minute);
+      if (!minuteObj) {
+        throw new Meteor.Error('illegal-argument',
+                               'Unknown minute ID' + minute);
+      }
+      minute = minuteObj;
     }
 
-    sendMails(sendActionItems = true, sendInfoItems = true) {
-        if (sendActionItems) {
-            this._sendActionItems();
-        }
-        if (sendInfoItems) {
-            this._sendInfoItems();
-        }
+    this._minute = minute;
+    this._senderAddress = senderAddress;
+  }
+
+  sendMails(sendActionItems = true, sendInfoItems = true) {
+    if (sendActionItems) {
+      this._sendActionItems();
     }
+    if (sendInfoItems) {
+      this._sendInfoItems();
+    }
+  }
 
-    _sendActionItems() {
-        // create map recipient->mailHandler and add all AIs to the
-        // mail handler for this recipient
-        let userMailHandlerMap = new Map();
-        let actionItems = this._minute.getOpenActionItems(false); // false-parameter makes skipped Topics being not included in the Mail
-        actionItems.forEach(item => {
-            const recipients = ResponsibleResolver.resolveEmailAddressesForResponsibles(item.getResponsibleRawArray());
-            recipients.forEach(recipient => {
-                if (!userMailHandlerMap.has(recipient)) {
-                    userMailHandlerMap.set(
-                        recipient,
-                        new ActionItemsMailHandler(
-                            this._senderAddress,
-                            recipient,
-                            this._minute
-                        )
-                    );
-                }
-                userMailHandlerMap.get(recipient).addActionItem(item);
-            });
-        });
-
-        // iterate over all mail handler and send the mails
-        for(let mailHandler of userMailHandlerMap.values()) {
-            mailHandler.send();
+  _sendActionItems() {
+    // create map recipient->mailHandler and add all AIs to the
+    // mail handler for this recipient
+    let userMailHandlerMap = new Map();
+    let actionItems = this._minute.getOpenActionItems(
+        false); // false-parameter makes skipped Topics being not included in
+                // the Mail
+    actionItems.forEach(item => {
+      const recipients =
+          ResponsibleResolver.resolveEmailAddressesForResponsibles(
+              item.getResponsibleRawArray());
+      recipients.forEach(recipient => {
+        if (!userMailHandlerMap.has(recipient)) {
+          userMailHandlerMap.set(
+              recipient, new ActionItemsMailHandler(this._senderAddress,
+                                                    recipient, this._minute));
         }
+        userMailHandlerMap.get(recipient).addActionItem(item);
+      });
+    });
+
+    // iterate over all mail handler and send the mails
+    for (let mailHandler of userMailHandlerMap.values()) {
+      mailHandler.send();
     }
+  }
 
-    _sendInfoItems() {
-        let recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
+  _sendInfoItems() {
+    let recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
 
-        let mailHandler = new InfoItemsMailHandler(
-            this._senderAddress,
-            recipients,
-            this._minute,
-            this._minute.topics,
-            this._minute.parentMeetingSeries(),
-            this._minute.getParticipants(Meteor.users),
-            this._minute.getInformed(Meteor.users)
-        );
-        mailHandler.send();
-    }
-
+    let mailHandler = new InfoItemsMailHandler(
+        this._senderAddress, recipients, this._minute, this._minute.topics,
+        this._minute.parentMeetingSeries(),
+        this._minute.getParticipants(Meteor.users),
+        this._minute.getInformed(Meteor.users));
+    mailHandler.send();
+  }
 }
