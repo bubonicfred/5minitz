@@ -72,7 +72,7 @@
     "npm": "^8.19.2",
     "path": "^0.12.7",
     "randomstring": "^1.2.3",
-    "semver": "^7.3.8",
+    "semver": "^7.5.2",
     "underscore": "^1.13.6"
   },
   "devDependencies": {
