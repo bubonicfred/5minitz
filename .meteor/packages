@@ -45,7 +45,7 @@ mouse0270:bootstrap-notify
 dynamic-import@0.7.2
 msavin:mongol
 ostrio:flow-router-extra
-accounts-password@2.3.2
+accounts-password@2.3.3
 universe:i18n
 universe:i18n-blaze
 softwarerero:accounts-t9n
