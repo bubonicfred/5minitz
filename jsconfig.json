@@ -72,6 +72,54 @@
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_client.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/email_templates.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_server.js"
+      ],
+      "meteor/mongo": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/local_collection_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/collection.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/connection_options.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/doc_fetcher.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/mongo_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/mongo_utils.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/observe_multiplex.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_observe_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_tailing.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_v2_converter.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/polling_observe_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/remote_collection_driver.js"
+      ],
+      "meteor/tracker": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/tracker/1.3.2/web.browser/tracker.js"
+      ],
+      "meteor/ecmascript": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ecmascript/0.16.7/web.browser/ecmascript.js"
+      ],
+      "meteor/email": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/email/2.2.5/web.browser/email.js"
+      ],
+      "meteor/dynamic-import": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/cache.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/common.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/dynamic-versions.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/security.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/server.js"
+      ],
+      "meteor/underscore": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/pre.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/underscore.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/post.js"
+      ],
+      "meteor/accounts-base": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/client_main.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_common.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_server.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/server_main.js"
+      ],
+      "meteor/babel-compiler": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/babel.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/babel-compiler.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/versions.js"
       ]
     }
   },
