@@ -88,6 +88,7 @@
     "@wdio/allure-reporter": "^8.11.0",
     "@wdio/cli": "^8.11.2",
     "@wdio/local-runner": "^8.11.2",
+    "@wdio/mocha-framework": "^8.12.1",
     "@wdio/spec-reporter": "^8.11.2",
     "@wdio/sync": "^7.27.0",
     "chai": "^4.1.2",
