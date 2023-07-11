@@ -54,6 +54,13 @@
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/common/livedata_connection.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/common/namespace.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/server/server.js"
+      ],
+      "meteor/promise": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/modern.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/extensions.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/legacy.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/server.js"
       ]
     }
   },
