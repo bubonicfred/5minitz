@@ -61,6 +61,17 @@
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/extensions.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/legacy.js",
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/server.js"
+      ],
+      "meteor/logging": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_browser.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_cordova.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_server.js"
+      ],
+      "meteor/accounts-password": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/email_templates.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_server.js"
       ]
     }
   },
