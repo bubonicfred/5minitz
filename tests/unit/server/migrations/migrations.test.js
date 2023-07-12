@@ -50,7 +50,7 @@ describe('Migrations', function () {
             };
 
             backupMongo.update.resetHistory();
-            Migrations.migrateTo.reset();
+            Migrations.migrateTo.resetHistory();
         });
 
         afterEach(function () {
