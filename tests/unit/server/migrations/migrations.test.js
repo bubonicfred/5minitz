@@ -49,7 +49,7 @@ describe('Migrations', function () {
                 }
             };
 
-            backupMongo.reset();
+            backupMongo.update.resetHistory();
             Migrations.migrateTo.reset();
         });
 

@@ -36,7 +36,7 @@ describe('MigrateV24', function () {
 
         afterEach(function () {
             MinutesSchema.find.reset();
-            MinutesSchemaCollection.update.reset();
+            MinutesSchemaCollection.update.resetHistory();
             MinutesSchema.getCollection.reset();
         });
 

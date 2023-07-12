@@ -77,9 +77,9 @@ describe('MigrateV4', function() {
 
     afterEach(function () {
         MinutesSchema.find.reset();
-        MinutesSchema.update.reset();
+        MinutesSchema.update.resetHistory();
         MeetingSeriesSchema.find.reset();
-        MeetingSeriesSchema.update.reset();
+        MeetingSeriesSchema.update.resetHistory();
     });
 
     describe('#up', function() {
