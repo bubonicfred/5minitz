@@ -98,7 +98,7 @@
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "js-yaml": "^4.0.0",
-    "just-clone": "^6.1.1",
+    "just-clone": "^6.2.0",
     "markdownlint-cli": "^0.32.2",
     "mocha": "^10.1.0",
     "prettier": "2.7.1",
