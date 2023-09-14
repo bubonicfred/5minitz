@@ -89,7 +89,7 @@
     "@wdio/spec-reporter": "^7.25.4",
     "@wdio/sync": "^7.25.4",
     "acorn": "^8.8.1",
-    "chai": "^4.3.7",
+    "chai": "^4.3.8",
     "chromedriver": "^108",
     "ddp": "^0.12.1",
     "eslint": "^8.27.0",
