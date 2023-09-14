@@ -109,7 +109,7 @@
     "tree-kill": "^1.2.0",
     "typescript": "^4.9.3",
     "wallaby-webpack": "^3.9.16",
-    "wdio-chromedriver-service": "^8.0.0",
+    "wdio-chromedriver-service": "^8.1.1",
     "webdriverio": "^7.25.4",
     "webpack": "^5.86.0"
   }
