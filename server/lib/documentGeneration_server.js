@@ -9,9 +9,10 @@ import { Meteor } from "meteor/meteor";
 const fs = require("fs-extra");
 const path = require("path");
 
-createDocumentStoragePath = function (fileObj) { //eslint-disable-line
+createDocumentStoragePath = function (fileObj) {
+  //eslint-disable-line
   if (Meteor.isServer) {
-        let absoluteDocumentPath = getDocumentStorageRootDirectory(); //eslint-disable-line
+    let absoluteDocumentPath = getDocumentStorageRootDirectory(); //eslint-disable-line
     // optionally: append sub directory for parent meeting series and year if a minute is given
     if (fileObj && fileObj.meta && fileObj.meta.minuteId) {
       absoluteDocumentPath =
@@ -24,7 +25,7 @@ createDocumentStoragePath = function (fileObj) { //eslint-disable-line
       if (err) {
         console.error(
           "ERROR: Could not create path for protocol storage: " +
-            absoluteDocumentPath
+            absoluteDocumentPath,
         );
       }
     });
@@ -34,14 +35,16 @@ createDocumentStoragePath = function (fileObj) { //eslint-disable-line
 
 //This function will delete the DocumentStoragePath with each subdirectory in it
 //It is used within the E2E-Tests to reset the app
-resetDocumentStorageDirectory = function () { //eslint-disable-line
-    let storagePath = getDocumentStorageRootDirectory(); //eslint-disable-line
+resetDocumentStorageDirectory = function () {
+  //eslint-disable-line
+  let storagePath = getDocumentStorageRootDirectory(); //eslint-disable-line
   if (fs.existsSync(storagePath)) {
     fs.emptyDir(storagePath);
   }
 };
 
-getDocumentStorageRootDirectory = () => { //eslint-disable-line
+getDocumentStorageRootDirectory = () => {
+  //eslint-disable-line
   let absoluteDocumentPath =
     Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath
       ? Meteor.settings.docGeneration.targetDocPath
@@ -62,23 +65,24 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
         "Error at PDF generation: " +
           fileNameForErrorMsg +
           " not found at: " +
-          filepath
+          filepath,
       );
     }
   };
   checkFileExists(
     Meteor.settings.docGeneration.pathToWkhtmltopdf,
-    "Binary wkhtmltopdf"
+    "Binary wkhtmltopdf",
   );
 
   //Safe file as html
-    const tempFileName = getDocumentStorageRootDirectory() + '/TemporaryProtocol.html'; //eslint-disable-line
+  const tempFileName =
+    getDocumentStorageRootDirectory() + "/TemporaryProtocol.html"; //eslint-disable-line
   fs.outputFileSync(tempFileName, htmldata);
 
   //Safe file as pdf
   const exec = require("child_process").execSync;
   let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
-    let outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol.pdf'; //eslint-disable-line
+  let outputPath = getDocumentStorageRootDirectory() + "/TemporaryProtocol.pdf"; //eslint-disable-line
 
   let additionalArguments = "";
   if (
@@ -99,24 +103,24 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
       '"',
     {
       stdio: "ignore", //surpress progess messages from pdf generation in server console
-    }
+    },
   );
 
   //Safe file as pdf-a
   if (Meteor.settings.public.docGeneration.format === "pdfa") {
     checkFileExists(
       Meteor.settings.docGeneration.pathToGhostscript,
-      "Binary ghostscript"
+      "Binary ghostscript",
     );
     checkFileExists(
       Meteor.settings.docGeneration.pathToPDFADefinitionFile,
-      "PDFA definition file"
+      "PDFA definition file",
     );
 
     exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
     let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
     let inputPath = outputPath;
-        outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol-A.pdf'; //eslint-disable-line
+    outputPath = getDocumentStorageRootDirectory() + "/TemporaryProtocol-A.pdf"; //eslint-disable-line
     additionalArguments =
       " -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE" +
       " -dColorConversionStrategy=/" +
@@ -138,12 +142,12 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
           '"',
         {
           stdio: "ignore", //surpress progess messages from pdf generation in server console
-        }
+        },
       );
     } catch (error) {
       throw new Meteor.Error(
         "runtime-error",
-        "Unknown error at PDF generation. Could not execute ghostscript properly."
+        "Unknown error at PDF generation. Could not execute ghostscript properly.",
       );
     }
 
@@ -151,7 +155,8 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
   }
   fs.unlink(tempFileName);
   // Now move file to it's meetingseries directory
-    let finalPDFOutputPath = createDocumentStoragePath({ meta: metaData }) + '/' + Random.id() + '.pdf'; //eslint-disable-line
+  let finalPDFOutputPath =
+    createDocumentStoragePath({ meta: metaData }) + "/" + Random.id() + ".pdf"; //eslint-disable-line
   fs.moveSync(outputPath, finalPDFOutputPath);
 
   return finalPDFOutputPath;
@@ -161,7 +166,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
 // also check necessary binaries for pdf generation
 if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
   console.log("Document generation feature: ENABLED");
-    let settingsPath = createDocumentStoragePath(undefined); //eslint-disable-line
+  let settingsPath = createDocumentStoragePath(undefined); //eslint-disable-line
   let absoluteTargetPath = path.resolve(settingsPath);
   console.log("Document Storage Path: " + absoluteTargetPath);
 
@@ -170,11 +175,11 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
       console.error("*** ERROR*** No write access to Document Storage Path");
       console.error("             Documents can not be saved.");
       console.error(
-        "             Ensure write access to path specified in your settings.json"
+        "             Ensure write access to path specified in your settings.json",
       );
       console.error(
         "             Current Document Storage Path setting is: " +
-          absoluteTargetPath
+          absoluteTargetPath,
       );
       // Now switch off feature!
       Meteor.settings.docGeneration.enabled = false;
@@ -188,30 +193,30 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
       ) {
         checkCondition(
           Meteor.settings.docGeneration.pathToWkhtmltopdf,
-          "No path for wkhtmltopdf is assigned within settings.json."
+          "No path for wkhtmltopdf is assigned within settings.json.",
         );
         checkFileExists(
           Meteor.settings.docGeneration.pathToWkhtmltopdf,
-          "binary for wkhtmltopdf"
+          "binary for wkhtmltopdf",
         );
         if (Meteor.settings.docGeneration.format === "pdfa") {
           checkCondition(
             Meteor.settings.docGeneration.pathToGhostscript,
-            "No path for ghostscript is assigned within settings.json."
+            "No path for ghostscript is assigned within settings.json.",
           );
           checkFileExists(
             Meteor.settings.docGeneration.pathToGhostscript,
-            "binary for ghostscript"
+            "binary for ghostscript",
           );
           checkCondition(
             Meteor.settings.docGeneration.pathToPDFADefinitionFile &&
               (Meteor.settings.docGeneration.ICCProfileType === "rgb" ||
                 Meteor.settings.docGeneration.ICCProfileType === "cmyk"),
-            "Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json"
+            "Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json",
           );
           checkFileExists(
             Meteor.settings.docGeneration.pathToPDFADefinitionFile,
-            "PDFA definition file"
+            "PDFA definition file",
           );
         }
       }
@@ -234,6 +239,6 @@ let checkCondition = (condition, errorMessage) => {
 let checkFileExists = (filepath, filename) => {
   checkCondition(
     fs.existsSync(filepath),
-    "Missing " + filename + " at path: " + filepath
+    "Missing " + filename + " at path: " + filepath,
   );
 };

@@ -30,7 +30,7 @@ if (Meteor.settings.isEnd2EndTest) {
       AttachmentsCollection.remove({});
       console.log(
         "Count AttachmentsCollection after reset:" +
-          AttachmentsCollection.find().count()
+          AttachmentsCollection.find().count(),
       );
       // remove the meeting series attachment dir
       MeetingSeriesSchema.getCollection()
@@ -41,20 +41,20 @@ if (Meteor.settings.isEnd2EndTest) {
         });
       MeetingSeriesSchema.remove({});
       console.log(
-        "Count MeetingSeries after reset:" + MeetingSeriesSchema.find().count()
+        "Count MeetingSeries after reset:" + MeetingSeriesSchema.find().count(),
       );
       MinutesSchema.remove({});
       console.log("Count Minutes after reset:" + MinutesSchema.find().count());
       TestMailCollection.remove({});
       console.log(
         "Count saved test mails after reset:" +
-          TestMailCollection.find().count()
+          TestMailCollection.find().count(),
       );
       BroadcastMessageSchema.remove({});
       TopicSchema.remove({});
       DocumentsCollection.remove({});
       console.log(
-        "Count Protocls after reset:" + DocumentsCollection.find().count()
+        "Count Protocls after reset:" + DocumentsCollection.find().count(),
       );
       resetDocumentStorageDirectory(); //eslint-disable-line
 
@@ -72,16 +72,16 @@ if (Meteor.settings.isEnd2EndTest) {
           });
           Meteor.users.update(
             { username: newUser },
-            { $set: { "emails.0.verified": true } }
+            { $set: { "emails.0.verified": true } },
           );
           console.log(
-            "Created user: " + newUser + " with password: " + newPassword
+            "Created user: " + newUser + " with password: " + newPassword,
           );
         }
         if (Meteor.settings.e2eAdminUser) {
           Meteor.users.update(
             { username: Meteor.settings.e2eAdminUser },
-            { $set: { isAdmin: true } }
+            { $set: { isAdmin: true } },
           );
         }
       } else {
@@ -90,13 +90,13 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getServerCurrentWorkingDir"() {
       console.log(
-        "-------------------------- E2E-METHOD: getServerCurrentWorkingDir"
+        "-------------------------- E2E-METHOD: getServerCurrentWorkingDir",
       );
       return process.cwd();
     },
     "e2e.getServerAttachmentsDir"() {
       console.log(
-        "-------------------------- E2E-METHOD: getServerAttachmentsDir"
+        "-------------------------- E2E-METHOD: getServerAttachmentsDir",
       );
       return calculateAndCreateStoragePath(); //eslint-disable-line
     },
@@ -110,13 +110,13 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.countAttachmentsInMongoDB"() {
       console.log(
-        "-------------------------- E2E-METHOD: countAttachmentsInMongoDB"
+        "-------------------------- E2E-METHOD: countAttachmentsInMongoDB",
       );
       return AttachmentsCollection.find({}).count();
     },
     "e2e.getAttachmentsForMinute"(minID) {
       console.log(
-        "-------------------------- E2E-METHOD: getAttachmentsForMinute"
+        "-------------------------- E2E-METHOD: getAttachmentsForMinute",
       );
       return AttachmentsCollection.find({
         "meta.meetingminutes_id": minID,
@@ -124,7 +124,7 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getPresentParticipantNames"(minutesId) {
       console.log(
-        "-------------------------- E2E-METHOD: getParticipantsString"
+        "-------------------------- E2E-METHOD: getParticipantsString",
       );
       const aMin = new Minutes(minutesId);
       return aMin.getPresentParticipantNames();
@@ -157,19 +157,19 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getTopicsOfMeetingSeries"(MSid) {
       console.log(
-        "-------------------------- E2E-METHOD: getTopicsOfMeetingSeries"
+        "-------------------------- E2E-METHOD: getTopicsOfMeetingSeries",
       );
       return TopicsFinder.allTopicsOfMeetingSeries(MSid);
     },
     "e2e.countProtocolsInMongoDB"() {
       console.log(
-        "-------------------------- E2E-METHOD: countProtocolsInMongoDB"
+        "-------------------------- E2E-METHOD: countProtocolsInMongoDB",
       );
       return DocumentsCollection.find({}).count();
     },
     "e2e.setSettingsForProtocolGeneration"(format) {
       console.log(
-        "-------------------------- E2E-METHOD: setSettingsForProtocolGeneration"
+        "-------------------------- E2E-METHOD: setSettingsForProtocolGeneration",
       );
       // This method sets the document generation to specific settings.
       // An empty format parameter will lead to deactivation of the document generation
@@ -192,14 +192,14 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getProtocolStoragePathForMinute"(minuteId) {
       console.log(
-        "-------------------------- E2E-METHOD: getProtocolStoragePathForMinute"
+        "-------------------------- E2E-METHOD: getProtocolStoragePathForMinute",
       );
       const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.path : undefined;
     },
     "e2e.getProtocolLinkForMinute"(minuteId) {
       console.log(
-        "-------------------------- E2E-METHOD: getProtocolLinkForMinute"
+        "-------------------------- E2E-METHOD: getProtocolLinkForMinute",
       );
       const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.link() : undefined;
@@ -227,7 +227,7 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.countTopicsInMongoDB"(minuteID) {
       console.log(
-        "-------------------------- E2E-METHOD: countTopicsInMongoDB"
+        "-------------------------- E2E-METHOD: countTopicsInMongoDB",
       );
       const minId = MinutesSchema.getCollection().findOne(minuteID);
       return minId.topics.length;

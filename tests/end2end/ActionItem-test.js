@@ -38,7 +38,7 @@ describe("ActionItems", function () {
         subject: actionItemName,
         itemType: "actionItem",
       },
-      1
+      1,
     );
 
     return actionItemName;
@@ -63,7 +63,7 @@ describe("ActionItems", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   it("can add an info item", function () {
@@ -75,7 +75,7 @@ describe("ActionItems", function () {
         subject: actionItemName,
         itemType: "actionItem",
       },
-      topicIndex
+      topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
@@ -87,12 +87,12 @@ describe("ActionItems", function () {
 
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "Action item visible text should match"
+      "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
 
@@ -107,7 +107,7 @@ describe("ActionItems", function () {
         itemType: "actionItem",
         responsible: "user1",
       },
-      topicIndex
+      topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
@@ -123,12 +123,12 @@ describe("ActionItems", function () {
 
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "AI text should have changed"
+      "AI text should have changed",
     ).to.have.string(updatedActionItemName);
   });
 
@@ -145,7 +145,7 @@ describe("ActionItems", function () {
         itemType: "actionItem",
         responsible: E2EGlobal.SETTINGS.e2eTestUsers[0],
       },
-      topicIndex
+      topicIndex,
     );
     E2EGlobal.waitSomeTime();
 
@@ -156,7 +156,7 @@ describe("ActionItems", function () {
         itemType: "infoItem",
         label: "Proposal",
       },
-      topicIndex
+      topicIndex,
     );
     E2EGlobal.waitSomeTime();
 
@@ -176,20 +176,20 @@ describe("ActionItems", function () {
       ")";
     expect(
       browser.isVisible(selector),
-      "Action item should be visible after edit"
+      "Action item should be visible after edit",
     ).to.be.true;
 
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
     expect(
       actionItemExpandElementText,
-      "AI subject text should have changed after edit"
+      "AI subject text should have changed after edit",
     ).to.have.string(updatedActionItemName);
     expect(
       actionItemExpandElementText,
-      "AI responsible should have changed after edit"
+      "AI responsible should have changed after edit",
     ).to.contain(newResponsible);
   });
 
@@ -215,12 +215,12 @@ describe("ActionItems", function () {
 
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "Action item visible text should match"
+      "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
 
@@ -234,7 +234,7 @@ describe("ActionItems", function () {
         priority: 5,
         itemType: "actionItem",
       },
-      topicIndex
+      topicIndex,
     );
 
     const selector =
@@ -245,12 +245,12 @@ describe("ActionItems", function () {
 
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "Action item visible text should match"
+      "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
 
@@ -271,7 +271,7 @@ describe("ActionItems", function () {
         subject: getNewAIName(),
         itemType: "actionItem",
       },
-      1
+      1,
     );
     E2ETopics.toggleActionItem(1, 2);
 
@@ -291,17 +291,17 @@ describe("ActionItems", function () {
       .true;
 
     const dialogContentElement = browser.element(
-      selectorDialog + " .modal-body"
+      selectorDialog + " .modal-body",
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
     expect(
       dialogContentText,
-      "dialog content should display the title of the to-be-deleted object"
+      "dialog content should display the title of the to-be-deleted object",
     ).to.have.string(actionItemName);
     expect(
       dialogContentText,
-      "dialog content should display the correct type of the to-be-deleted object"
+      "dialog content should display the correct type of the to-be-deleted object",
     ).to.have.string("action item");
 
     // close dialog otherwise beforeEach-hook will fail!
@@ -316,7 +316,7 @@ describe("ActionItems", function () {
         subject: infoItemName,
         itemType: "actionItem",
       },
-      topicIndex
+      topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
@@ -339,7 +339,7 @@ describe("ActionItems", function () {
         subject: infoItemName,
         itemType: "actionItem",
       },
-      topicIndex
+      topicIndex,
     );
 
     E2EGlobal.waitSomeTime();

@@ -57,7 +57,7 @@ $(document).arrive(
         this.setCustomValidity("");
       });
     }
-  }
+  },
 );
 
 $(document).arrive(".clear-on-escape", function () {

@@ -42,7 +42,7 @@ if (Meteor.isServer) {
   // server only. Otherwise client will see our defaultLdapSettings
   Meteor.settings.ldap = Object.assign(
     defaultLdapSettings,
-    Meteor.settings.ldap
+    Meteor.settings.ldap,
   );
 }
 
@@ -68,7 +68,7 @@ export class LdapSettings {
     Meteor.settings.ldap = Object.assign(
       {},
       defaultLdapSettings,
-      Meteor.settings.ldap
+      Meteor.settings.ldap,
     );
 
     // backwards compatibility: support searchDn property
@@ -81,7 +81,7 @@ export class LdapSettings {
     Meteor.settings.ldap.propertyMap = Object.assign(
       {},
       propertyMap,
-      Meteor.settings.ldap.propertyMap
+      Meteor.settings.ldap.propertyMap,
     );
   }
 

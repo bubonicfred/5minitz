@@ -20,18 +20,18 @@ class ExpImpFilesDocuments {
                 protFile +
                 " with " +
                 doc.length +
-                " protocol documents"
+                " protocol documents",
             );
             if (doc[0]) {
               console.log(
-                "      *** Hint *** Please manually copy all files below:"
+                "      *** Hint *** Please manually copy all files below:",
               );
               console.log(
                 "      " +
                   doc[0]._storagePath.substr(
                     0,
-                    doc[0]._storagePath.lastIndexOf("/")
-                  )
+                    doc[0]._storagePath.lastIndexOf("/"),
+                  ),
               );
             }
             resolve({ db, userIDs });
@@ -61,7 +61,7 @@ class ExpImpFilesDocuments {
         protcolsIDs.push(AllProtocolsDoc[p]._id);
         AllProtocolsDoc[p] = ExpImpFilesDocuments.patchUsers(
           AllProtocolsDoc[p],
-          usrMap
+          usrMap,
         );
       }
 
@@ -81,7 +81,7 @@ class ExpImpFilesDocuments {
                 res.result.n === AllProtocolsDoc.length
               ) {
                 console.log(
-                  "OK, inserted " + res.result.n + " protocol files meta data."
+                  "OK, inserted " + res.result.n + " protocol files meta data.",
                 );
                 resolve({ db, usrMap });
               } else {

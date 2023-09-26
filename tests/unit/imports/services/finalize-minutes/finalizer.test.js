@@ -107,7 +107,7 @@ const { Finalizer } = proxyquire(
     "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
     "./topicsFinalizer": { TopicsFinalizer, "@noCallThru": true },
     "/imports/documentGeneration": { DocumentGeneration, "@noCallThru": true },
-  }
+  },
 );
 
 function verifyPropertyOfMinutesUpdate(minutes, property, value) {
@@ -122,7 +122,7 @@ function verifyPropertyOfMinutesUpdate(minutes, property, value) {
     //     property: value
     //   }
     // }
-    sinon.match.has("$set", sinon.match.has(property, value))
+    sinon.match.has("$set", sinon.match.has(property, value)),
   );
 }
 
@@ -414,8 +414,8 @@ describe("Finalizer", function () {
       expect(
         Meteor.call.calledWith(
           "documentgeneration.createAndStoreFile",
-          minutesId
-        )
+          minutesId,
+        ),
       ).to.be.true;
     });
   });
@@ -431,7 +431,7 @@ describe("Finalizer", function () {
       Finalizer.unfinalize(minutesId);
 
       expect(
-        Meteor.call.calledWithExactly("workflow.unfinalizeMinute", minutesId)
+        Meteor.call.calledWithExactly("workflow.unfinalizeMinute", minutesId),
       ).to.be.true;
     });
 
@@ -441,8 +441,8 @@ describe("Finalizer", function () {
       expect(
         Meteor.call.calledWithExactly(
           "documentgeneration.removeFile",
-          minutesId
-        )
+          minutesId,
+        ),
       ).to.be.true;
     });
   });

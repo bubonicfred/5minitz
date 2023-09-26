@@ -13,8 +13,12 @@
 
   // Animation
   height: 0;
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in,
-    height 0s linear 0.2s, padding 0s linear 0.2s, height 0s linear 0.2s;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in,
+    height 0s linear 0.2s,
+    padding 0s linear 0.2s,
+    height 0s linear 0.2s;
   transform: translateY(200%);
 }
 
@@ -25,8 +29,11 @@
 
   // Animation
   height: auto;
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in,
-    height 0s linear 0.2s, height 0s linear 0.2s;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in,
+    height 0s linear 0.2s,
+    height 0s linear 0.2s;
   transform: none;
 }
 

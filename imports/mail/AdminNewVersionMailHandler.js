@@ -48,7 +48,7 @@ export class AdminNewVersionMailHandler {
       mailer.send();
     } else {
       console.error(
-        "Could not send admin new version mail. Mail is disabled or no admins specified."
+        "Could not send admin new version mail. Mail is disabled or no admins specified.",
       );
     }
   }

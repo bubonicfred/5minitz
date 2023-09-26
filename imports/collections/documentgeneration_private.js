@@ -50,7 +50,7 @@ export const DocumentsCollection = new FilesCollection({
 
   onAfterUpload: function (file) {
     console.log(
-      "Successfully created protocol: " + file.name + " to " + file.path
+      "Successfully created protocol: " + file.name + " to " + file.path,
     );
     DocumentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
@@ -78,13 +78,13 @@ export const DocumentsCollection = new FilesCollection({
     }
     if (file.meta === undefined || file.meta.meetingSeriesId === undefined) {
       console.log(
-        "Protocol download prohibited. File without parent meeting series."
+        "Protocol download prohibited. File without parent meeting series.",
       );
       return false;
     }
     if (file.meta.minuteId === undefined) {
       console.log(
-        "Protocol download prohibited. File without minute related to."
+        "Protocol download prohibited. File without minute related to.",
       );
       return false;
     }
@@ -93,7 +93,7 @@ export const DocumentsCollection = new FilesCollection({
     if (!ur.hasViewRoleFor(file.meta.meetingSeriesId)) {
       console.log(
         "Protocol download prohibited. User has no view role for meeting series: " +
-          file.meta.meetingSeriesId
+          file.meta.meetingSeriesId,
       );
       return false;
     }
@@ -105,7 +105,7 @@ extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute(
   "files.protocols.all",
   DocumentsCollection,
   "meta.meetingSeriesId",
-  "meta.minuteId"
+  "meta.minuteId",
 );
 
 Meteor.methods({
@@ -122,7 +122,7 @@ Meteor.methods({
     if (!Meteor.userId()) {
       throw new Meteor.Error(
         "not-authorized",
-        "You are not authorized to perform this action."
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -131,7 +131,7 @@ Meteor.methods({
     if (!userRoles.isInvitedTo(minute.parentMeetingSeriesID())) {
       throw new Meteor.Error(
         "Cannot download this minute",
-        "You are not invited to the meeting series."
+        "You are not invited to the meeting series.",
       );
     }
 
@@ -159,7 +159,7 @@ Meteor.methods({
           DocumentGeneration.getDocumentData(documentHandler);
         const tmplRenderer = new TemplateRenderer(
           "publishInfoItems",
-          "server_templates/email"
+          "server_templates/email",
         ).addData("name", "");
         tmplRenderer.addDataObject(templateData);
         DocumentGeneration.addHelperForHTMLMail(tmplRenderer, documentHandler);
@@ -210,7 +210,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -225,7 +225,7 @@ Meteor.methods({
         console.log(
           "Protocol generation to file: ",
           finalPDFOutputPath,
-          fileName
+          fileName,
         );
         DocumentsCollection.addFile(
           finalPDFOutputPath,
@@ -238,7 +238,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -247,7 +247,7 @@ Meteor.methods({
       throw new Meteor.Error(
         "Cannot create protocol",
         "The protocol could not be created since the format assigned in the settings.json is not supported: " +
-          Meteor.settings.public.docGeneration.format
+          Meteor.settings.public.docGeneration.format,
       );
     }
 
@@ -255,7 +255,7 @@ Meteor.methods({
     try {
       const htmldata = Meteor.call(
         "documentgeneration.createHTML",
-        minutesObj._id
+        minutesObj._id,
       ); // this one will run synchronous
       storeFileFunction(htmldata, fileName, metaData);
     } catch (error) {
@@ -274,10 +274,10 @@ Meteor.methods({
         function (error) {
           if (error) {
             throw new Meteor.Error(
-              "Protocol could not be deleted, error: " + error.reason
+              "Protocol could not be deleted, error: " + error.reason,
             );
           }
-        }
+        },
       );
     }
   },

@@ -68,11 +68,11 @@ export class I18nHelper {
       // cache the supported languages
       try {
         I18nHelper.supportedCodes = await Meteor.callPromise(
-          "getAvailableLocaleCodes"
+          "getAvailableLocaleCodes",
         );
       } catch (err) {
         console.log(
-          "Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server."
+          "Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server.",
         );
       }
     }
@@ -183,12 +183,12 @@ export class I18nHelper {
     if (localeCode === "auto") {
       Meteor.users.update(
         { _id: Meteor.userId() },
-        { $unset: { "profile.locale": "" } }
+        { $unset: { "profile.locale": "" } },
       );
     } else {
       Meteor.users.update(
         { _id: Meteor.userId() },
-        { $set: { "profile.locale": localeCode } }
+        { $set: { "profile.locale": localeCode } },
       );
     }
   }

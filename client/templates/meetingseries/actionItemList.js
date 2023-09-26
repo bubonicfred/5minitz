@@ -29,7 +29,7 @@ Template.actionItemList.onCreated(function () {
   this.parser = new QueryParser(
     ITEM_KEYWORDS,
     createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
-    createUserIdsReceiver
+    createUserIdsReceiver,
   );
 
   let meetingSeriesIDs = MeetingSeries.find().map(function (item) {
@@ -50,7 +50,7 @@ Template.actionItemList.helpers({
       FILTERS,
       ITEM_KEYWORDS,
       "Item-Filter",
-      "is:action is:open"
+      "is:action is:open",
     );
   },
 
@@ -65,7 +65,7 @@ Template.actionItemList.helpers({
         (item) =>
           item.itemType === "actionItem" &&
           item.responsibles &&
-          item.responsibles.includes(Meteor.userId())
+          item.responsibles.includes(Meteor.userId()),
       );
       actionItems.forEach((actionItem) => {
         myActionItems.push(actionItem);
@@ -92,7 +92,7 @@ Template.actionItemList.helpers({
       },
       (itemId) => {
         return actionItemTopicIdMap[itemId];
-      }
+      },
     );
   },
 });

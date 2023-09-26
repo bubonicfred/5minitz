@@ -23,7 +23,7 @@ let MinutesFinder = {
     console.log(
       `finding next minutes of ${minutes._id}: ${
         this.nextMinutesResult[minutes._id]
-      }`
+      }`,
     );
     return this.nextMinutesResult[minutes._id];
   },
@@ -97,16 +97,16 @@ describe("Migrate Version 10", function () {
       expect(firstFakeMinute.topics[0].createdInMinute).to.equal(FIRST_MIN_ID);
       expect(sndFakeMinute.topics[0].createdInMinute).to.equal(FIRST_MIN_ID);
       expect(fakeMeetingSeries.topics[0].createdInMinute).to.equal(
-        FIRST_MIN_ID
+        FIRST_MIN_ID,
       );
       expect(fakeMeetingSeries.openTopics[1].createdInMinute).to.equal(
-        FIRST_MIN_ID
+        FIRST_MIN_ID,
       );
 
       expect(sndFakeMinute.topics[1].createdInMinute).to.equal(SND_MIN_ID);
       expect(fakeMeetingSeries.topics[1].createdInMinute).to.equal(SND_MIN_ID);
       expect(fakeMeetingSeries.openTopics[0].createdInMinute).to.equal(
-        SND_MIN_ID
+        SND_MIN_ID,
       );
     });
   });

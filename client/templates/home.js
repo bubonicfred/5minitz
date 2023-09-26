@@ -16,7 +16,7 @@ Template.home.onCreated(function () {
   if (Session.get("restoreTabAfterBackButton") && Session.get("home.lastTab")) {
     this.activeTabId = new ReactiveVar(Session.get("home.lastTab").tabId);
     this.activeTabTemplate = new ReactiveVar(
-      Session.get("home.lastTab").tabTemplate
+      Session.get("home.lastTab").tabTemplate,
     );
     Session.set("restoreTabAfterBackButton", false);
   } else {

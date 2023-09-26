@@ -58,10 +58,10 @@ Template.adminRegisterUser.events({
             i18n.__("FlashMessages.ok"),
             i18n.__("Admin.Register.success", { user: uName }),
             "alert-success",
-            3000
+            3000,
           ).show();
         }
-      }
+      },
     );
   },
 

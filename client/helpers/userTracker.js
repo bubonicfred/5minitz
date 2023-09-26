@@ -68,7 +68,7 @@ export class UserTracker {
   _startTimer() {
     this.timerHandler = Meteor.setInterval(
       _.bind(this._setActiveRoute, this),
-      KEEP_ALIVE_INTERVAL_IN_MS
+      KEEP_ALIVE_INTERVAL_IN_MS,
     );
   }
 

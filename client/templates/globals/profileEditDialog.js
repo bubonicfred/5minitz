@@ -17,7 +17,7 @@ Template.profileEditDialog.onRendered(function () {
     (value) => {
       return checkEMailIsValid(value);
     },
-    "Not a valid E-Mail address"
+    "Not a valid E-Mail address",
   );
 });
 
@@ -43,11 +43,11 @@ function updateUserProfile(tmpl) {
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.profileEditOK"),
           "alert-success",
-          2000
+          2000,
         ).show();
         tmpl.$("#dlgEditProfile").modal("hide");
       }
-    }
+    },
   );
 
   tmpl.$("#btnEditProfileSave").prop("disabled", false);
@@ -81,7 +81,7 @@ Template.profileEditDialog.events({
           i18n.__("Profile.WarningEMailChange.title"),
           "confirmPlainText",
           { plainText: i18n.__("Profile.WarningEMailChange.body") },
-          i18n.__("Profile.WarningEMailChange.button")
+          i18n.__("Profile.WarningEMailChange.button"),
         ).show();
       } else {
         updateUserProfile(tmpl);

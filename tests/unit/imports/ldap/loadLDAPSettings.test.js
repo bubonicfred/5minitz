@@ -11,7 +11,7 @@ const loadLDAPSettings = proxyquire(
   "../../../../imports/ldap/loadLDAPSettings",
   {
     fs: fs,
-  }
+  },
 );
 
 describe("loadLDAPSettings", function () {
@@ -46,7 +46,7 @@ describe("loadLDAPSettings", function () {
       .catch((error) => {
         try {
           expect(error).to.deep.equal(
-            'Could not read settings file "ldapSettings.json"'
+            'Could not read settings file "ldapSettings.json"',
           );
           done();
         } catch (error) {

@@ -18,13 +18,13 @@ export class ConfirmationDialog {
         confirmButtonType: "btn-danger",
         showCancelButton: true,
       },
-      options
+      options,
     ); // overwrite above defaults with given options
     this.callback = _.extend(
       {
         onSuccess: function () {},
       },
-      callbacks
+      callbacks,
     );
     this.dialogTemplate = DIALOG_TEMPLATE;
   }
@@ -49,7 +49,7 @@ export class ConfirmationDialog {
     this.dialogTmpl = Blaze.renderWithData(
       this.dialogTemplate,
       dialogData,
-      $("body").get("0")
+      $("body").get("0"),
     );
     this.dialog = $(this.dialogTmpl.firstNode()).find(".modal");
   }
@@ -61,7 +61,7 @@ export class ConfirmationDialog {
       Blaze.renderWithData(
         template,
         this.options.templateData,
-        this.dialog.find(".modal-body").get(0)
+        this.dialog.find(".modal-body").get(0),
       );
     }
   }

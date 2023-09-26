@@ -54,23 +54,23 @@ let handleDemoUserAccount = function () {
             isInactive: false,
             "emails.0.verified": true,
           },
-        }
+        },
       );
       console.log(
-        "*** ATTENTION ***\n    Created demo/demo user account once on startup"
+        "*** ATTENTION ***\n    Created demo/demo user account once on startup",
       );
     } else {
       // we already have one, let's ensure he is not switched Inactive
       if (demoUser.isInactive) {
         Meteor.users.update(
           { username: "demo" },
-          { $set: { isInactive: false } }
+          { $set: { isInactive: false } },
         );
       }
       if (!demoUser.emails[0].verified) {
         Meteor.users.update(
           { username: "demo" },
-          { $set: { "emails.0.verified": true } }
+          { $set: { "emails.0.verified": true } },
         );
       }
     }
@@ -83,7 +83,7 @@ let handleDemoUserAccount = function () {
       // set demo account to Inactive
       Meteor.users.update({ username: "demo" }, { $set: { isInactive: true } });
       console.log(
-        "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)"
+        "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
       );
     }
   }
@@ -98,7 +98,7 @@ let handleDemoUserAccount = function () {
         "    There exists an account with user name 'demo'.\n" +
         "    If this account was created with the setting 'branding.createDemoAccount',\n" +
         "    the password for user 'demo' is also 'demo'.\n" +
-        "    Please check, if this is wanted for your site's installation.\n"
+        "    Please check, if this is wanted for your site's installation.\n",
     );
   }
 };
@@ -120,7 +120,7 @@ let syncRootUrl = function () {
   // So, process.env.ROOT_URL should always contain a value
   if (Meteor.settings.ROOT_URL) {
     process.env.ROOT_URL = Meteor.settings.ROOT_URL;
-        __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; //eslint-disable-line
+    __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; //eslint-disable-line
     // We overwrite the `rootUrl` also in the `defaultOptions` which might be overwritten by any other package ?!
     // see https://github.com/meteor/meteor/blob/24865b28a0689de8b4949fb69ea1f95da647cd7a/packages/meteor/url_common.js#L52
     // and https://github.com/4minitz/4minitz/issues/504
@@ -178,7 +178,7 @@ Meteor.startup(() => {
 
     if (GlobalSettings.getImportUsersOnLaunch()) {
       console.log(
-        "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch."
+        "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
       );
       importUsers(ldapSettings, mongoUrl).catch(() => {});
     }
@@ -192,6 +192,6 @@ Meteor.startup(() => {
 
   console.log(
     "*** Default language for meeting series eMails: " +
-      GlobalSettings.getDefaultMeetingSeriesMailLanguage()
+      GlobalSettings.getDefaultMeetingSeriesMailLanguage(),
   );
 });

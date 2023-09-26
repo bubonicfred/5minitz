@@ -28,7 +28,7 @@ console.log("Test_I18N_Resources");
 console.log("-------------------");
 console.log(
   "Test if all needed string resources used in code are present in YAML: " +
-    en_yaml
+    en_yaml,
 );
 
 const dictKeysFromYaml = {};
@@ -114,7 +114,7 @@ function checkCodeUsage(extension, keyPattern) {
   for (const keyFromCode in dictKeysFromCode) {
     if (dictKeysFromYaml[keyFromCode] === undefined) {
       console.log(
-        "I18N-ERROR: >" + keyFromCode + "< not found in YAML needed by:"
+        "I18N-ERROR: >" + keyFromCode + "< not found in YAML needed by:",
       );
       console.log(dictKeysFromCode[keyFromCode] + "\n");
       anyErrorExitCodeToShell = 1;
@@ -163,7 +163,7 @@ checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
     console.log(
-      "I18N-Warning: >" + keyFromYaml + "< from YAML never used in code."
+      "I18N-Warning: >" + keyFromYaml + "< from YAML never used in code.",
     );
     globalWarningCount++;
   }

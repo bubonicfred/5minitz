@@ -10,7 +10,7 @@ export class FinalizeMailHandler {
     if (!minute) {
       throw new Meteor.Error(
         "illegal-argument",
-        "Minute id or object required"
+        "Minute id or object required",
       );
     }
     if (!senderAddress) {
@@ -22,7 +22,7 @@ export class FinalizeMailHandler {
       if (!minuteObj) {
         throw new Meteor.Error(
           "illegal-argument",
-          "Unknown minute ID" + minute
+          "Unknown minute ID" + minute,
         );
       }
       minute = minuteObj;
@@ -49,7 +49,7 @@ export class FinalizeMailHandler {
     actionItems.forEach((item) => {
       const recipients =
         ResponsibleResolver.resolveEmailAddressesForResponsibles(
-          item.getResponsibleRawArray()
+          item.getResponsibleRawArray(),
         );
       recipients.forEach((recipient) => {
         if (!userMailHandlerMap.has(recipient)) {
@@ -58,8 +58,8 @@ export class FinalizeMailHandler {
             new ActionItemsMailHandler(
               this._senderAddress,
               recipient,
-              this._minute
-            )
+              this._minute,
+            ),
           );
         }
         userMailHandlerMap.get(recipient).addActionItem(item);
@@ -82,7 +82,7 @@ export class FinalizeMailHandler {
       this._minute.topics,
       this._minute.parentMeetingSeries(),
       this._minute.getParticipants(Meteor.users),
-      this._minute.getInformed(Meteor.users)
+      this._minute.getInformed(Meteor.users),
     );
     mailHandler.send();
   }

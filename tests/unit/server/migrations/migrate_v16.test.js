@@ -60,10 +60,10 @@ describe("Migrate Version 16", function () {
     it("passes the topic with the correct parentId to the insert method", function () {
       MigrateV16.up();
       expect(TopicSchema.insert.firstCall.args[0].parentId).to.equal(
-        meetingSeriesId
+        meetingSeriesId,
       );
       expect(TopicSchema.insert.secondCall.args[0].parentId).to.equal(
-        meetingSeriesId
+        meetingSeriesId,
       );
     });
 
@@ -73,7 +73,7 @@ describe("Migrate Version 16", function () {
       const expected2ndArg = { $unset: { topics: "", openTopics: "" } };
       expect(MeetingSeriesSchema.update.callCount).to.equal(1);
       expect(
-        MeetingSeriesSchema.update.calledWith(expectedFirstArg, expected2ndArg)
+        MeetingSeriesSchema.update.calledWith(expectedFirstArg, expected2ndArg),
       ).to.be.true;
     });
   });
@@ -96,7 +96,7 @@ describe("Migrate Version 16", function () {
         },
       };
       expect(
-        MeetingSeriesSchema.update.calledWith(expectedFirstArg, expected2ndArg)
+        MeetingSeriesSchema.update.calledWith(expectedFirstArg, expected2ndArg),
       ).to.be.true;
     });
 

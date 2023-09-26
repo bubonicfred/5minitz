@@ -12,7 +12,7 @@ export class AdminRegisterUserMailHandler {
     if (!this._user) {
       throw new Meteor.Error(
         "Send Admin Mail",
-        "Could not find user: " + newUserId
+        "Could not find user: " + newUserId,
       );
     }
   }
@@ -39,17 +39,17 @@ export class AdminRegisterUserMailHandler {
 
       let mailer = MailFactory.getMailer(
         adminFrom,
-        this._user.emails[0].address
+        this._user.emails[0].address,
       );
       mailer.setSubject(
-        "[4Minitz] " + i18n.__("Mail.AdminRegisterNewUser.subject")
+        "[4Minitz] " + i18n.__("Mail.AdminRegisterNewUser.subject"),
       );
       mailer.setText(i18n.__("Mail.AdminRegisterNewUser.body", mailParams));
       mailer.send();
     } else {
       console.error(
         "Could not send admin register mail. User has no mail address: " +
-          this._user._id
+          this._user._id,
       );
     }
   }

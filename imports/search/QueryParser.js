@@ -135,7 +135,7 @@ export class QueryParser {
       default:
         throw new Meteor.Error(
           "illegal-state",
-          `Unknown token type ${tokenType}`
+          `Unknown token type ${tokenType}`,
         );
     }
   }
@@ -168,7 +168,7 @@ export class QueryParser {
 
   _addFilterToken(token) {
     this.filterTokens.push(
-      this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName)
+      this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName),
     );
   }
 

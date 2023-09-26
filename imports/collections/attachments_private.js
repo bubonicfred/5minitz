@@ -53,7 +53,7 @@ export const AttachmentsCollection = new FilesCollection({
     // Check for allowed file size
     if (file.size > Meteor.settings.public.attachments.maxFileSize) {
       const maxMB = Math.floor(
-        Meteor.settings.public.attachments.maxFileSize / 1024 / 1024
+        Meteor.settings.public.attachments.maxFileSize / 1024 / 1024,
       );
       return "Please upload file with max. " + maxMB + " MB.";
     }
@@ -61,11 +61,11 @@ export const AttachmentsCollection = new FilesCollection({
     if (Meteor.settings.public.attachments.denyExtensions !== undefined) {
       const denyRE = new RegExp(
         "^(" + Meteor.settings.public.attachments.denyExtensions + ")$",
-        "i"
+        "i",
       );
       const forbiddenRE = new RegExp(
         "^(" + FORBIDDEN_FILENAME_EXTENSIONS + ")$",
-        "i"
+        "i",
       );
       if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
         return (
@@ -82,7 +82,7 @@ export const AttachmentsCollection = new FilesCollection({
     // Check for allowed file extensions
     const allowRE = new RegExp(
       "^(" + Meteor.settings.public.attachments.allowExtensions + ")$",
-      "i"
+      "i",
     );
     if (allowRE.test(file.extension)) {
       return true;
@@ -98,7 +98,10 @@ export const AttachmentsCollection = new FilesCollection({
 
   onAfterUpload: function (file) {
     console.log(
-      "Successfully uploaded attachment file: " + file.name + " to " + file.path
+      "Successfully uploaded attachment file: " +
+        file.name +
+        " to " +
+        file.path,
     );
     AttachmentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
@@ -116,7 +119,7 @@ export const AttachmentsCollection = new FilesCollection({
     }
     if (file.meta === undefined || file.meta.meetingminutes_id === undefined) {
       console.log(
-        "Attachment download prohibited. File without parent meeting series."
+        "Attachment download prohibited. File without parent meeting series.",
       );
       return false;
     }
@@ -126,7 +129,7 @@ export const AttachmentsCollection = new FilesCollection({
     if (!ur.hasViewRoleFor(file.meta.parentseries_id)) {
       console.log(
         "Attachment download prohibited. User has no view role for meeting series: " +
-          file.meta.parentseries_id
+          file.meta.parentseries_id,
       );
       return false;
     }
@@ -139,7 +142,7 @@ extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute(
   "files.attachments.all",
   AttachmentsCollection,
   "meta.parentseries_id",
-  "meta.meetingminutes_id"
+  "meta.meetingminutes_id",
 );
 
 Meteor.methods({
@@ -157,7 +160,7 @@ Meteor.methods({
       const file = AttachmentsCollection.findOne(attachmentID);
       if (!file) {
         console.log(
-          "Attachment removal prohibited. Attachment not found in DB."
+          "Attachment removal prohibited. Attachment not found in DB.",
         );
         return false;
       }
@@ -167,7 +170,7 @@ Meteor.methods({
         file.meta.meetingminutes_id === undefined
       ) {
         console.log(
-          "Attachment removal prohibited. File without meetingminutes_id."
+          "Attachment removal prohibited. File without meetingminutes_id.",
         );
         return false;
       }
@@ -177,7 +180,7 @@ Meteor.methods({
       if (!att.mayRemove()) {
         console.log(
           "Attachment removal prohibited. User has no sufficient role for meeting series: " +
-            file.meta.parentseries_id
+            file.meta.parentseries_id,
         );
         return false;
       }
@@ -185,7 +188,7 @@ Meteor.methods({
       AttachmentsCollection.remove({ _id: attachmentID }, function (error) {
         if (error) {
           console.error(
-            "File " + attachmentID + " wasn't removed, error: " + error.reason
+            "File " + attachmentID + " wasn't removed, error: " + error.reason,
           );
         } else {
           console.info("File " + attachmentID + " successfully removed");

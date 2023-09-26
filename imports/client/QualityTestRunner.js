@@ -63,7 +63,7 @@ export class QualityTestRunner {
         i18n.__("Dialog.ConfirmMinuteQualityAssurance.title"),
         "confirmMinuteQualityAssurance",
         { errors: errors },
-        i18n.__("Dialog.ConfirmMinuteQualityAssurance.button")
+        i18n.__("Dialog.ConfirmMinuteQualityAssurance.button"),
       ).show();
     }
   }
@@ -96,8 +96,8 @@ class QualityTestCase {
         (minute) => {
           if (!minute.topics || minute.topics.length === 0)
             return i18n.__("Dialog.ConfirmMinuteQualityAssurance.warnNoTopics");
-        }
-      )
+        },
+      ),
     );
 
     // no participant marked as present (F)
@@ -115,10 +115,10 @@ class QualityTestCase {
           });
           if (noParticipantsPresent)
             return i18n.__(
-              "Dialog.ConfirmMinuteQualityAssurance.warnNoParticipants"
+              "Dialog.ConfirmMinuteQualityAssurance.warnNoParticipants",
             );
-        }
-      )
+        },
+      ),
     );
     /*
         // an item is still edited (F)
@@ -166,10 +166,10 @@ class QualityTestCase {
           });
           if (noTopicChecked)
             return i18n.__(
-              "Dialog.ConfirmMinuteQualityAssurance.warnNoTopicDiscussed"
+              "Dialog.ConfirmMinuteQualityAssurance.warnNoTopicDiscussed",
             );
-        }
-      )
+        },
+      ),
     );
 
     // topic checked but no children (F)
@@ -191,10 +191,10 @@ class QualityTestCase {
           });
           if (checkedButChildren)
             return i18n.__(
-              "Dialog.ConfirmMinuteQualityAssurance.warnTopicWithoutItems"
+              "Dialog.ConfirmMinuteQualityAssurance.warnTopicWithoutItems",
             );
-        }
-      )
+        },
+      ),
     );
 
     // action item with no responsible (F)
@@ -220,10 +220,10 @@ class QualityTestCase {
           });
           if (actionItemWithoutResponsible)
             return i18n.__(
-              "Dialog.ConfirmMinuteQualityAssurance.warnActionItemWithoutResponsible"
+              "Dialog.ConfirmMinuteQualityAssurance.warnActionItemWithoutResponsible",
             );
-        }
-      )
+        },
+      ),
     );
 
     // Topic checked, but no updated or new content (F)

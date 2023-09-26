@@ -224,7 +224,7 @@
    */
   Ripples.prototype.isTouch = function () {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
+      navigator.userAgent,
     );
   };
 
@@ -257,7 +257,7 @@
       "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",
       function () {
         $ripple.remove();
-      }
+      },
     );
   };
 
@@ -292,7 +292,7 @@
         500,
         function () {
           $ripple.trigger("transitionend");
-        }
+        },
       );
     }
   };

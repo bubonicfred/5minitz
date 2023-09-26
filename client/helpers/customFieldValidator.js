@@ -2,7 +2,7 @@ export function addCustomValidator(
   inputFieldSelector,
   validate,
   errorMsg = "",
-  event = "keyup"
+  event = "keyup",
 ) {
   Array.from(document.querySelectorAll(inputFieldSelector)).forEach(
     (element) => {
@@ -20,6 +20,6 @@ export function addCustomValidator(
           this.setCustomValidity("");
         }
       });
-    }
+    },
   );
 }

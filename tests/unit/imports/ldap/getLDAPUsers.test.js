@@ -74,7 +74,7 @@ describe("getLDAPUsers", function () {
       .catch((error) => {
         try {
           expect(error).to.equal(
-            "Error creating client: Error: Some connection error"
+            "Error creating client: Error: Some connection error",
           );
           done();
         } catch (error) {
@@ -321,7 +321,7 @@ describe("getLDAPUsers", function () {
           client = {
             search: asyncStubs.returns(
               2,
-              ldapSearchResponseWithGivenUACValue(value)
+              ldapSearchResponseWithGivenUACValue(value),
             ),
             unbind: asyncStubs.returnsError(0, "Some error"),
           };
@@ -349,7 +349,7 @@ describe("getLDAPUsers", function () {
         expectedResult = i === 1 ? inactiveUsers : activeUsers;
       it(
         `uAC property set to ${value}: returns user object with isInactive === ${expectedResult}`,
-        generateTestCase(value, expectedResult)
+        generateTestCase(value, expectedResult),
       );
     }
   });
@@ -383,7 +383,7 @@ describe("getLDAPUsers", function () {
       client = {
         search: asyncStubs.returns(
           2,
-          ldapSearchResponseWithGivenAttribute("active", "1")
+          ldapSearchResponseWithGivenAttribute("active", "1"),
         ),
         unbind: asyncStubs.returnsError(0, "Some error"),
       };
@@ -409,7 +409,7 @@ describe("getLDAPUsers", function () {
       client = {
         search: asyncStubs.returns(
           2,
-          ldapSearchResponseWithGivenAttribute("active", "2")
+          ldapSearchResponseWithGivenAttribute("active", "2"),
         ),
         unbind: asyncStubs.returnsError(0, "Some error"),
       };

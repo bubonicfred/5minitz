@@ -34,7 +34,7 @@ export class TopicInfoItemListContext {
   static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
     items,
     resolveSeriesForItem,
-    resolveTopicForItem
+    resolveTopicForItem,
   ) {
     const context = new TopicInfoItemListContext(items, true, null);
     context.getSeriesId = resolveSeriesForItem;
@@ -47,7 +47,7 @@ export class TopicInfoItemListContext {
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
     items,
-    meetingSeriesId
+    meetingSeriesId,
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
     let mapItemID2topicID = {};
@@ -66,13 +66,13 @@ export class TopicInfoItemListContext {
     items,
     isReadonly,
     topicParentId,
-    parentTopicId
+    parentTopicId,
   ) {
     return new TopicInfoItemListContext(
       items,
       isReadonly,
       topicParentId,
-      parentTopicId
+      parentTopicId,
     );
   }
 
@@ -102,7 +102,7 @@ Template.topicInfoItemList.onCreated(function () {
   /** @type {TopicInfoItemListContext} */
   let tmplData = Template.instance().data;
   this.isItemsLimited = new ReactiveVar(
-    tmplData.items.length > INITIAL_ITEMS_LIMIT
+    tmplData.items.length > INITIAL_ITEMS_LIMIT,
   );
 
   // Dict maps Item._id => true/false, where true := "expanded state"
@@ -110,10 +110,11 @@ Template.topicInfoItemList.onCreated(function () {
   this.isItemExpanded = new ReactiveVar({});
 
   // get last finalized Minute for details's new label
-    this.lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
+  this.lastFinalizedMinuteId =
+    FlowRouter.getRouteName() === "minutesedit" //eslint-disable-line
       ? tmplData.topicParentId
       : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(
-          new MeetingSeries(tmplData.topicParentId)
+          new MeetingSeries(tmplData.topicParentId),
         )._id;
 });
 
@@ -122,7 +123,7 @@ let updateItemSorting = (evt, ui) => {
     sorting = item.parent().find("> .topicInfoItem"),
     topic = new Topic(
       item.attr("data-topic-parent-id"),
-      item.attr("data-parent-id")
+      item.attr("data-parent-id"),
     ),
     newItemSorting = [];
 
@@ -176,7 +177,7 @@ const performActionForItem = (evt, tmpl, action) => {
   const aInfoItem = findInfoItem(
     context.getSeriesId(infoItem._id),
     infoItem.parentTopicId,
-    infoItem._id
+    infoItem._id,
   );
   action(aInfoItem);
 };
@@ -343,7 +344,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(
-      infoItem.responsibles
+      infoItem.responsibles,
     );
     return responsible ? `(${responsible})` : "";
   },
@@ -357,7 +358,7 @@ Template.topicInfoItemList.helpers({
     }
     return LabelResolver.resolveLabels(
       infoItem.labels,
-      getMeetingSeriesId(context.getSeriesId(infoItem._id))
+      getMeetingSeriesId(context.getSeriesId(infoItem._id)),
     ).map(labelSetFontColor);
   },
 
@@ -371,7 +372,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-      "/topic/" + context.getTopicId(infoItem._id)
+      "/topic/" + context.getTopicId(infoItem._id),
     );
   },
 
@@ -416,7 +417,7 @@ Template.topicInfoItemList.events({
     const context = tmpl.data;
     performActionForItem(evt, tmpl, (item) => {
       let isDeleteAllowed = item.isDeleteAllowed(
-        context.getSeriesId(item._infoItemDoc._id)
+        context.getSeriesId(item._infoItemDoc._id),
       );
 
       if (item.isSticky() || isDeleteAllowed) {
@@ -458,7 +459,7 @@ Template.topicInfoItemList.events({
           title,
           "confirmDeleteItem",
           templateData,
-          button
+          button,
         ).show();
       } else {
         // not-sticky && delte-not-allowed
@@ -470,7 +471,7 @@ Template.topicInfoItemList.events({
               ? i18n.__("Dialog.ItemDeleteError.body2a")
               : i18n.__("Dialog.ItemDeleteError.body2b")) +
             " " +
-            i18n.__("Dialog.ItemDeleteError.body3")
+            i18n.__("Dialog.ItemDeleteError.body3"),
         ).show();
       }
     });
@@ -500,20 +501,20 @@ Template.topicInfoItemList.events({
     let item = findInfoItem(
       context.topicParentId,
       infoItem.parentTopicId,
-      infoItem._id
+      infoItem._id,
     );
     // if edit is allowed topicParentId == currentMinutesId
     if (
       ItemsConverter.isConversionAllowed(
         item.getDocument(),
-        context.topicParentId
+        context.topicParentId,
       )
     ) {
       ItemsConverter.convertItem(item).catch(handleError);
     } else {
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ConvertItemError.title"),
-        i18n.__("Dialog.ConvertItemError.body")
+        i18n.__("Dialog.ConvertItemError.body"),
       ).show();
     }
   },
@@ -594,7 +595,7 @@ Template.topicInfoItemList.events({
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
-          true
+          true,
         );
       };
 
@@ -605,7 +606,7 @@ Template.topicInfoItemList.events({
       let tmplData = {
         isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
         isEditedDate: formatDateISO8601Time(
-          aActionItem._infoItemDoc.details[detailIndex].isEditedDate
+          aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
         ),
         isDetail: true,
       };
@@ -615,14 +616,14 @@ Template.topicInfoItemList.events({
         i18n.__("Dialog.IsEditedHandling.title"),
         "confirmationDialogResetEdit",
         tmplData,
-        i18n.__("Dialog.IsEditedHandling.button")
+        i18n.__("Dialog.IsEditedHandling.button"),
       ).show();
     } else {
       IsEditedService.setIsEditedDetail(
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex
+        detailIndex,
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     }
@@ -634,7 +635,7 @@ Template.topicInfoItemList.events({
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
         detailIndex,
-        true
+        true,
       );
     };
     const setIsEdited = () => {
@@ -642,7 +643,7 @@ Template.topicInfoItemList.events({
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex
+        detailIndex,
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     };
@@ -652,7 +653,7 @@ Template.topicInfoItemList.events({
       unset,
       setIsEdited,
       evt,
-      "confirmationDialogResetDetail"
+      "confirmationDialogResetDetail",
     );
   },
 
@@ -697,7 +698,7 @@ Template.topicInfoItemList.events({
       aTopic._topicDoc._id,
       aActionItem._infoItemDoc._id,
       detailIndex,
-      true
+      true,
     );
 
     if (text === "" || text !== textEl.attr("data-text")) {
@@ -709,7 +710,7 @@ Template.topicInfoItemList.events({
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
-          true
+          true,
         );
       } else {
         let deleteDetails = () => {
@@ -732,7 +733,7 @@ Template.topicInfoItemList.events({
             undefined,
             i18n.__("Dialog.confirmDeleteDetails", {
               subject: aActionItem.getSubject(),
-            })
+            }),
           ).show();
         }
       }

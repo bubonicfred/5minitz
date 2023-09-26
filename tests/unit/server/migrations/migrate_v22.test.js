@@ -34,7 +34,7 @@ describe("Migrate Version 22", function () {
       ];
       const topicsOfAnotherSeries = [{ _id: topic3, parentId: "ms#02" }];
       TopicSchema.find.returns(
-        topicsOfFirstSeries.concat(topicsOfAnotherSeries)
+        topicsOfFirstSeries.concat(topicsOfAnotherSeries),
       );
       MeetingSeriesSchema.findOne.withArgs("ms#01").returns(meetingSeries);
       MeetingSeriesSchema.findOne.withArgs("ms#02").returns(anotherSeries);

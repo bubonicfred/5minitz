@@ -142,7 +142,7 @@ export class GlobalSettings {
     ) {
       console.log(
         "WARNING: settings for defaultMeetingSeriesMailLanguage invalid: " +
-          Meteor.settings.public.defaultMeetingSeriesMailLanguage
+          Meteor.settings.public.defaultMeetingSeriesMailLanguage,
       );
       console.log("         Fallback to: en");
       Meteor.settings.defaultMeetingSeriesMailLanguage = "en";
@@ -178,7 +178,7 @@ export class GlobalSettings {
     return Boolean(
       Meteor.settings.ldap &&
         Meteor.settings.ldap.enabled &&
-        Meteor.settings.ldap.importCronTab
+        Meteor.settings.ldap.importCronTab,
     );
   }
 
@@ -263,7 +263,7 @@ export class GlobalSettings {
 
     throw new Meteor.Error(
       "illegal-state",
-      "defaultEMailSenderAddress not defined in settings"
+      "defaultEMailSenderAddress not defined in settings",
     );
   }
 
@@ -277,7 +277,7 @@ export class GlobalSettings {
 
     throw new Meteor.Error(
       "illegal-state",
-      "fallback email sender address required but not defined in settings"
+      "fallback email sender address required but not defined in settings",
     );
   }
 
@@ -300,7 +300,7 @@ export class GlobalSettings {
     const mailEnabled = getSetting("email.enableMailDelivery", false);
     const sendVerificationEmail = getSetting(
       "email.sendVerificationEmail",
-      false
+      false,
     );
     return mailEnabled && sendVerificationEmail;
   }
@@ -309,7 +309,7 @@ export class GlobalSettings {
     const mailEnabled = getSetting("email.enableMailDelivery", false);
     const showResendVerificationEmailLink = getSetting(
       "email.showResendVerificationEmailLink",
-      false
+      false,
     );
 
     return mailEnabled && showResendVerificationEmailLink;
@@ -319,7 +319,7 @@ export class GlobalSettings {
     const mailEnabled = getSetting("email.enableMailDelivery", false);
     const showForgotPasswordLink = getSetting(
       "email.showForgotPasswordLink",
-      false
+      false,
     );
 
     return mailEnabled && showForgotPasswordLink;
@@ -343,7 +343,7 @@ export class GlobalSettings {
 
     throw new Meteor.Error(
       "illegal-state",
-      "mailgun settings not defined in meteor settings"
+      "mailgun settings not defined in meteor settings",
     );
   }
 

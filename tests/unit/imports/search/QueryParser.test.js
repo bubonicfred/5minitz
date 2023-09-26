@@ -11,7 +11,7 @@ const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
     "meteor/underscore": { _, "@noCallThru": true },
-  }
+  },
 );
 
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {

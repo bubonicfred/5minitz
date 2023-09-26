@@ -43,7 +43,7 @@ export class MeetingSeries {
   static async remove(meetingSeries) {
     return Meteor.callPromise(
       "workflow.removeMeetingSeries",
-      meetingSeries._id
+      meetingSeries._id,
     );
   }
 
@@ -55,7 +55,7 @@ export class MeetingSeries {
     // we return an array with just a list of visible meeting series IDs
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [userId] } },
-      { _id: 1 }
+      { _id: 1 },
     ).map(function (item) {
       return item._id;
     });
@@ -82,7 +82,7 @@ export class MeetingSeries {
       return Meteor.callPromise(
         "meetingseries.insert",
         doc,
-        optimisticUICallback
+        optimisticUICallback,
       );
     }
   }
@@ -203,7 +203,7 @@ export class MeetingSeries {
     }
 
     const firstNonMatchingMinute = latestMinutes.find(
-      (minute) => minute._id !== minuteId
+      (minute) => minute._id !== minuteId,
     );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
@@ -257,7 +257,7 @@ export class MeetingSeries {
     if (!this._id) {
       throw new Meteor.Error(
         "MeetingSeries not saved.",
-        "Call save() before using addVisibleUser()"
+        "Call save() before using addVisibleUser()",
       );
     }
     if (!$.isArray(newVisibleForArray)) {
@@ -310,7 +310,7 @@ export class MeetingSeries {
     return subElementsHelper.getElementById(
       labelName,
       this.availableLabels,
-      "name"
+      "name",
     );
   }
 
@@ -326,7 +326,7 @@ export class MeetingSeries {
   removeLabel(id) {
     const index = subElementsHelper.findIndexById(
       id,
-      this.getAvailableLabels()
+      this.getAvailableLabels(),
     );
     if (undefined === index) {
       return;

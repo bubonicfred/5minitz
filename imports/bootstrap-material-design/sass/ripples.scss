@@ -29,7 +29,8 @@
   pointer-events: none;
 }
 .ripple.ripple-on {
-  transition: opacity 0.15s ease-in 0s,
+  transition:
+    opacity 0.15s ease-in 0s,
     transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
   opacity: 0.1;
 }

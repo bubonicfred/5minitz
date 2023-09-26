@@ -138,23 +138,23 @@ describe("Migrate Version 20", function () {
     it("sets the correct isNew-attribute for all details in minutes", function () {
       MigrateV20.up();
       expect(firstFakeMinute.topics[0].infoItems[0].details[0].isNew).to.equal(
-        true
+        true,
       );
       expect(firstFakeMinute.topics[0].infoItems[1].details[0].isNew).to.equal(
-        true
+        true,
       );
       expect(firstFakeMinute.topics[0].infoItems[1].details[1].isNew).to.equal(
-        true
+        true,
       );
       expect(firstFakeMinute.topics[1].infoItems[0].details[0].isNew).to.equal(
-        true
+        true,
       );
 
       expect(sndFakeMinute.topics[0].infoItems[0].details[0].isNew).to.equal(
-        false
+        false,
       );
       expect(sndFakeMinute.topics[0].infoItems[0].details[1].isNew).to.equal(
-        true
+        true,
       );
     });
   });

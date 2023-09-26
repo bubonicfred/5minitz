@@ -67,7 +67,7 @@ describe("ParticipantsPreparer", function () {
     preparer = new ParticipantsPreparer(
       fakeMinutes,
       fakeTopicOrItem,
-      fakeUserCollection
+      fakeUserCollection,
     );
     preparer._init();
   });

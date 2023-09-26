@@ -16,7 +16,7 @@ class ExpImpTopics {
             const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
             fs.writeFileSync(topFile, EJSON.stringify(doc, null, 2));
             console.log(
-              "Saved: " + topFile + " with " + doc.length + " topics"
+              "Saved: " + topFile + " with " + doc.length + " topics",
             );
             resolve({ db, userIDs });
           } else {

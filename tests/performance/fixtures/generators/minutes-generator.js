@@ -50,7 +50,7 @@ export class MinutesGenerator {
       topics: topicsGenerator.generateNextListForMinutes(
         id,
         this.nextMinutesDate,
-        isLastOne
+        isLastOne,
       ),
       visibleFor: [this.user._id],
       participants: [
@@ -73,7 +73,7 @@ export class MinutesGenerator {
 
       // #I18N: We will leave this is English, as it is published to the database!
       min.finalizedHistory.push(
-        `Version 1. Finalized on ${dateTime} by ${this.user.username}`
+        `Version 1. Finalized on ${dateTime} by ${this.user.username}`,
       );
     }
     return min;

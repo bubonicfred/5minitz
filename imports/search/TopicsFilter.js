@@ -58,7 +58,7 @@ export class TopicsFilter {
           doc.infoItems,
           this.isCaseSensitive,
           [],
-          [token]
+          [token],
         ).length > 0;
       if (!hasMatchingInfoItems) {
         return false;
@@ -96,7 +96,7 @@ export class TopicsFilter {
         default:
           throw new Meteor.Error(
             "illegal-state",
-            `Unknown filter keyword: ${filter.key}`
+            `Unknown filter keyword: ${filter.key}`,
           );
       }
     }
@@ -131,7 +131,7 @@ export class TopicsFilter {
       default:
         throw new Meteor.Error(
           "illegal-state",
-          `Unknown filter value: ${value}`
+          `Unknown filter value: ${value}`,
         );
     }
   }
@@ -147,14 +147,14 @@ export class TopicsFilter {
           this.isCaseSensitive,
           [],
           [],
-          [{ key: "is", value: value }]
+          [{ key: "is", value: value }],
         );
         return items.length > 0;
       }
       default:
         throw new Meteor.Error(
           "illegal-state",
-          `Unknown filter value: ${value}`
+          `Unknown filter value: ${value}`,
         );
     }
   }

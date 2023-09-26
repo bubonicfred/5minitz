@@ -20,7 +20,7 @@ export class TopicsFinalizer {
   static mergeTopicsForFinalize(meetingSeries, topicsVisibleFor) {
     const topicsUpdater = createTopicsUpdater(
       meetingSeries._id,
-      topicsVisibleFor
+      topicsVisibleFor,
     );
     const topicsFinalizer = new TopicsFinalizer(meetingSeries, topicsUpdater);
     const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
@@ -39,7 +39,7 @@ export class TopicsFinalizer {
       MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
     const topicsUpdater = createTopicsUpdater(
       meetingSeries._id,
-      topicsVisibleFor
+      topicsVisibleFor,
     );
     if (secondLastMinutes) {
       topicsUpdater.removeTopicsCreatedInMinutes(lastMinutes._id);
@@ -63,7 +63,7 @@ export class TopicsFinalizer {
       // But we should only look at the topics presented in the last-finalized protocol because all other
       // elements are already "invalidated".
       this.topicsUpdater.invalidateIsNewFlagOfTopicsPresentedInMinutes(
-        minIdContainingTopicsToInvalidateIsNew
+        minIdContainingTopicsToInvalidateIsNew,
       );
     }
 
@@ -108,7 +108,7 @@ export class TopicsFinalizer {
       const infoDoc = resistantTopicDoc.infoItems[i];
       const index = subElementsHelper.findIndexById(
         infoDoc._id,
-        acceptingTopicDoc.infoItems
+        acceptingTopicDoc.infoItems,
       );
       if (index === undefined) {
         acceptingTopicDoc.infoItems.unshift(infoDoc);
@@ -124,12 +124,12 @@ export class TopicsFinalizer {
         if (TopicsFinalizer.isStickyItem(itemDoc)) {
           const indexInResistantTopic = subElementsHelper.findIndexById(
             itemDoc._id,
-            resistantTopicDoc.infoItems
+            resistantTopicDoc.infoItems,
           );
           return !(indexInResistantTopic === undefined);
         }
         return true;
-      }
+      },
     );
 
     return acceptingTopicDoc;

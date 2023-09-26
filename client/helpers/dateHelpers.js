@@ -29,5 +29,5 @@ Template.registerHelper(
           : "");
     }
     return tooltip;
-  }
+  },
 );

@@ -104,7 +104,7 @@ describe("ActionItem", function () {
     let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getDateFromDetails()).to.equal(
-      infoItemDoc.details[0].date
+      infoItemDoc.details[0].date,
     );
   });
 
@@ -112,7 +112,7 @@ describe("ActionItem", function () {
     let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getTextFromDetails()).to.equal(
-      infoItemDoc.details[0].text
+      infoItemDoc.details[0].text,
     );
   });
 

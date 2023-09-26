@@ -34,7 +34,7 @@ for (let i = 0; i < 99; ++i) {
 
 const { handleMigration } = proxyquire(
   "../../../../server/migrations/migrations",
-  proxyquireFakes
+  proxyquireFakes,
 );
 
 describe("Migrations", function () {

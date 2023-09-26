@@ -7,7 +7,7 @@ export class ParticipantsPreparer {
     minutes,
     currentTopicOrItem,
     usersCollection,
-    freeTextValidator = undefined
+    freeTextValidator = undefined,
   ) {
     this.minutes = minutes;
     this.parentSeries = minutes.parentMeetingSeries();
@@ -75,7 +75,7 @@ export class ParticipantsPreparer {
       });
     } else {
       this.buffer = this.buffer.concat(
-        this.parentSeries.additionalResponsibles
+        this.parentSeries.additionalResponsibles,
       );
     }
   }
@@ -91,7 +91,7 @@ export class ParticipantsPreparer {
       if (!this.possibleResponsiblesUnique[userIdOrFreeText]) {
         this.possibleResponsiblesUnique[userIdOrFreeText] = true;
         this.possibleResponsibles.push(
-          this._createResponsibleObject(userIdOrFreeText)
+          this._createResponsibleObject(userIdOrFreeText),
         );
       }
     });

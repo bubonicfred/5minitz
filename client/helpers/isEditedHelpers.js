@@ -9,7 +9,7 @@ export function isEditedHandling(
   unset,
   setIsEdited,
   evt,
-  confirmationDialogTemplate
+  confirmationDialogTemplate,
 ) {
   // Attention: .isEditedBy and .isEditedDate may be null!
   if (element.isEditedBy != undefined && element.isEditedDate != undefined) {
@@ -25,7 +25,7 @@ export function isEditedHandling(
       i18n.__("Dialog.IsEditedHandling.title"),
       confirmationDialogTemplate,
       tmplData,
-      i18n.__("Dialog.IsEditedHandling.button")
+      i18n.__("Dialog.IsEditedHandling.button"),
     ).show();
 
     evt.preventDefault();

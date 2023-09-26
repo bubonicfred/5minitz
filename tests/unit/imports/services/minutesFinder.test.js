@@ -11,7 +11,7 @@ const { MinutesFinder } = proxyquire(
   {
     "../collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
     "../minutes": { Minutes, "@noCallThru": true },
-  }
+  },
 );
 
 const clear = function (obj) {
@@ -79,7 +79,7 @@ describe("MinutesFinder", function () {
       const limitedNumberOfMinutes = 1;
       const result = MinutesFinder.allMinutesOfMeetingSeries(
         MeetingSeries,
-        limitedNumberOfMinutes
+        limitedNumberOfMinutes,
       );
 
       // expect the collection find() stub to be called with a limit config set
@@ -98,7 +98,7 @@ describe("MinutesFinder", function () {
       const result = MinutesFinder.allMinutesOfMeetingSeries(
         MeetingSeries,
         numberOfMinutes,
-        sortDescending
+        sortDescending,
       );
 
       // expect the collection find() stub to be called with a limit config

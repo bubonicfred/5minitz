@@ -22,7 +22,7 @@ describe("currentDatePlusDeltaDays helper", function () {
     var currentDate = new Date();
 
     expect(currentDatePlusDeltaDays(0)).to.equal(
-      formatDateISO8601(currentDate)
+      formatDateISO8601(currentDate),
     );
   });
 
@@ -31,7 +31,7 @@ describe("currentDatePlusDeltaDays helper", function () {
     var nextDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDate() + 1
+      currentDate.getDate() + 1,
     );
 
     expect(currentDatePlusDeltaDays(1)).to.equal(formatDateISO8601(nextDay));
@@ -42,7 +42,7 @@ describe("currentDatePlusDeltaDays helper", function () {
     var nextDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDate() - 35
+      currentDate.getDate() - 35,
     );
 
     expect(currentDatePlusDeltaDays(-35)).to.equal(formatDateISO8601(nextDay));

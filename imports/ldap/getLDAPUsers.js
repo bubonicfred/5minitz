@@ -80,7 +80,7 @@ const _fetchLDAPUsers = function (connection) {
   const userLongNameAttribute = _.get(
     settings,
     "propertyMap.longname",
-    searchDn
+    searchDn,
   );
   const emailAttribute = _.get(settings, "propertyMap.email", searchDn);
   const filter = `(&(${searchDn}=*)${settings.searchFilter})`;

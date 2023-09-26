@@ -137,7 +137,7 @@ Template.filterControl.events({
         return object;
       });
     ConfirmationDialogFactory.makeInfoDialog(
-      `Usage for ${tmpl.data.config.filterName}`
+      `Usage for ${tmpl.data.config.filterName}`,
     )
       .setTemplate("filterUsage", {
         keywords: keywordArray,

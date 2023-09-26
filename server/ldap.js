@@ -80,7 +80,7 @@ if (LDAP.onSignIn) {
   LDAP.onSignIn(function (userDocument) {
     Meteor.users.update(
       { _id: userDocument._id },
-      { $set: { isLDAPuser: true } }
+      { $set: { isLDAPuser: true } },
     );
   });
 }

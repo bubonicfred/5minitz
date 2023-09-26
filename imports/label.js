@@ -7,7 +7,7 @@ export class Label {
   constructor(source) {
     if (!source) {
       throw new Meteor.Error(
-        "It is not allowed to create a Label without the source"
+        "It is not allowed to create a Label without the source",
       );
     }
 
@@ -30,7 +30,7 @@ export class Label {
 
   static _separateNameAndColor(nameAndColorStr) {
     let nameAndColor = nameAndColorStr.match(
-      /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/
+      /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/,
     );
     if (nameAndColor && nameAndColor.length > 2) {
       return {
@@ -66,13 +66,13 @@ export class Label {
   static findLabelsContainingSubstring(
     parentMeetingSeries,
     name,
-    caseSensitive
+    caseSensitive,
   ) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
     let labelDoc = parentMeetingSeries.findLabelContainingSubstr(
       name,
-      caseSensitive
+      caseSensitive,
     );
     if (labelDoc) return labelDoc;
     return null;
@@ -81,7 +81,9 @@ export class Label {
   static _createParentMeetingSeries(parentMeetingSeries) {
     if (typeof parentMeetingSeries === "string") {
       return new MeetingSeries(parentMeetingSeries);
-    } else if (Object.prototype.hasOwnProperty.call(parentMeetingSeries, 'findLabel')) {
+    } else if (
+      Object.prototype.hasOwnProperty.call(parentMeetingSeries, "findLabel")
+    ) {
       return parentMeetingSeries;
     }
 
@@ -127,7 +129,7 @@ export class Label {
     if (!ColorHelper.isValidHexColorString(this.getColor())) {
       throw new Meteor.Error(
         "invalid-color",
-        "Label color must be a valid hex code"
+        "Label color must be a valid hex code",
       );
     }
   }

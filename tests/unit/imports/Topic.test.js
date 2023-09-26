@@ -289,13 +289,13 @@ describe("Topic", function () {
 
       expect(
         myTopic.getInfoItems().length,
-        "the topic should have exactly one item"
+        "the topic should have exactly one item",
       ).to.equal(1);
       expect(myTopic.getInfoItems()[0]._id, "the item should have an id").to.not
         .be.false;
       expect(
         myTopic.getInfoItems()[0].subject,
-        "the subject should be set correctly"
+        "the subject should be set correctly",
       ).to.equal(topicItemDoc.subject);
     });
 
@@ -310,15 +310,15 @@ describe("Topic", function () {
 
       expect(
         myTopic.getInfoItems().length,
-        "the topic should have exactly one item"
+        "the topic should have exactly one item",
       ).to.equal(1);
       expect(
         myTopic.getInfoItems()[0]._id,
-        "the item should have an id"
+        "the item should have an id",
       ).to.equal(topicItem._id);
       expect(
         myTopic.getInfoItems()[0].subject,
-        "the subject should be set correctly"
+        "the subject should be set correctly",
       ).to.equal(topicItem.subject);
     });
   });
@@ -342,12 +342,12 @@ describe("Topic", function () {
     foundItem = myTopic.findInfoItem(infoItemDoc._id);
     // foundItem should not be undefined
     expect(foundItem, "the result should not be undefined").to.not.equal(
-      undefined
+      undefined,
     );
     // the subject of the found item should be equal to its initial value
     expect(
       foundItem._infoItemDoc.subject,
-      "the correct info item should be found"
+      "the correct info item should be found",
     ).to.equal(infoItemDoc.subject);
   });
 
@@ -380,13 +380,13 @@ describe("Topic", function () {
     // check that there are now only one items
     expect(
       diff,
-      "The length of the info items should be decreased by one"
+      "The length of the info items should be decreased by one",
     ).to.equal(1);
 
     // check that the first item is still part of our topic
     expect(
       myTopic.getInfoItems()[0]._id,
-      "The other info item should not be removed."
+      "The other info item should not be removed.",
     ).to.equal(infoItemDoc._id);
   });
 
@@ -458,7 +458,7 @@ describe("Topic", function () {
     it("returns only open action items", function () {
       myTopic.getOpenActionItems().forEach((item) => {
         expect(item, "the item should be a action item").to.have.ownProperty(
-          "isOpen"
+          "isOpen",
         );
         expect(item.isOpen, "the item should marked as open").to.be.true;
       });
@@ -478,7 +478,7 @@ describe("Topic", function () {
       .true;
     expect(
       spy.calledWith(myTopic._topicDoc),
-      "the document should be sent to the upsertTopic method"
+      "the document should be sent to the upsertTopic method",
     ).to.be.true;
 
     spy.restore();

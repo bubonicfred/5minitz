@@ -46,7 +46,7 @@ describe("MigrateV23", function () {
 
       const expectedNumberOfCallsToUpdate = 1;
       expect(TopicSchemaCollection.update.callCount).to.equal(
-        expectedNumberOfCallsToUpdate
+        expectedNumberOfCallsToUpdate,
       );
     });
 
@@ -58,7 +58,7 @@ describe("MigrateV23", function () {
       expect(
         TopicSchemaCollection.update.calledWithExactly(undefined, {
           $set: { responsibles: [] },
-        })
+        }),
       ).to.be.true;
     });
 
@@ -78,7 +78,7 @@ describe("MigrateV23", function () {
 
       const expectedNumberOfCallsToUpdate = 1;
       expect(MinutesSchemaCollection.update.callCount).to.equal(
-        expectedNumberOfCallsToUpdate
+        expectedNumberOfCallsToUpdate,
       );
     });
 
@@ -93,7 +93,7 @@ describe("MigrateV23", function () {
       expect(
         MinutesSchemaCollection.update.calledWithExactly(undefined, {
           $set: { topics: [{ responsibles: [] }] },
-        })
+        }),
       ).to.be.true;
     });
 
@@ -108,7 +108,7 @@ describe("MigrateV23", function () {
       expect(
         MinutesSchemaCollection.update.calledWithExactly(undefined, {
           $set: { topics: [topicsWithResponsiblesDefined] },
-        })
+        }),
       ).to.be.true;
     });
   });

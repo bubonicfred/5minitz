@@ -48,7 +48,7 @@ describe("Labels", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   describe("Labels for Action- / Info Items", function () {
@@ -61,7 +61,7 @@ describe("Labels", function () {
           subject: getNewAIName(),
           itemType: "actionItem",
         },
-        1
+        1,
       );
 
       E2ETopics.addLabelToItem(1, 1, labelName + labelColor);
@@ -81,7 +81,7 @@ describe("Labels", function () {
           subject: getNewAIName(),
           itemType: "infoItem",
         },
-        1
+        1,
       );
 
       E2ETopics.addLabelToItem(1, 1, defaultLabel);
@@ -101,7 +101,7 @@ describe("Labels", function () {
           subject: getNewAIName(),
           itemType: "infoItem",
         },
-        1
+        1,
       );
 
       E2ETopics.addLabelToItem(1, 1, labelName);
@@ -116,7 +116,7 @@ describe("Labels", function () {
       E2EMeetingSeriesEditor.openMeetingSeriesEditor(
         aProjectName,
         aMeetingName,
-        "labels"
+        "labels",
       );
       E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel);
       E2EMinutes.gotoLatestMinutes();
@@ -125,7 +125,7 @@ describe("Labels", function () {
       firstActionItem = items[0].ELEMENT;
       visibleText = browser.elementIdText(firstActionItem).value;
       expect(visibleText, "label name should have changed").to.have.string(
-        renamedLabel
+        renamedLabel,
       );
     });
 
@@ -137,14 +137,14 @@ describe("Labels", function () {
       E2EMeetingSeriesEditor.openMeetingSeriesEditor(
         aProjectName,
         aMeetingName,
-        "labels"
+        "labels",
       );
 
       const labelId = E2EMeetingSeriesEditor.changeLabel(
         labelName,
         renamedLabel,
         changedColor,
-        false
+        false,
       );
       const selLabelRow = "#row-label-" + labelId;
       E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-cancel");
@@ -152,17 +152,17 @@ describe("Labels", function () {
       // open editor again
       E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-label");
       const newLabelNameValue = browser.getValue(
-        selLabelRow + " [name='labelName']"
+        selLabelRow + " [name='labelName']",
       );
       expect(newLabelNameValue, "label name should be restored").to.equal(
-        labelName
+        labelName,
       );
 
       const newLabelColorValue = browser.getValue(
-        selLabelRow + " [name='labelColor-" + labelId + "']"
+        selLabelRow + " [name='labelColor-" + labelId + "']",
       );
       expect(newLabelColorValue, "label color should be restored").to.not.equal(
-        changedColor
+        changedColor,
       );
 
       E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
