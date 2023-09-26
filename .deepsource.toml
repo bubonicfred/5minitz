@@ -9,34 +9,30 @@ exclude_patterns = [
 
 [[analyzers]]
 name = "javascript"
-enabled = true
 
   [analyzers.meta]
   plugins = ["meteor"]
+  environment = [
+    "nodejs",
+    "mocha",
+    "mongo",
+    "jquery"
+  ]
 
 [[analyzers]]
 name = "secrets"
-enabled = true
 
 [[analyzers]]
 name = "test-coverage"
-enabled = true
 
 [[analyzers]]
 name = "shell"
-enabled = true
 
 [[analyzers]]
 name = "docker"
-enabled = true
 
   [analyzers.meta]
   dockerfile_paths = [".docker/Dockerfile"]
 
 [[transformers]]
 name = "prettier"
-enabled = false
-
-[[transformers]]
-name = "standardjs"
-enabled = false
