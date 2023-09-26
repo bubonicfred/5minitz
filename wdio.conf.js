@@ -85,7 +85,8 @@ exports.config = {
         prefs: {
           "profile.default_content_settings.popups": 0,
           // "download.default_directory" is for Attachments E2E tests to
-          // suppress the download pop up and directly save download files to disk
+          // suppress the download pop up and directly save download files to
+          // disk
           "download.default_directory": "tests/e2e_downloads",
         },
         args: [headless ? "--headless" : "--empty", "--window-size=1920x1080"],
@@ -93,7 +94,8 @@ exports.config = {
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
-      // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
+      // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session
+      // logs
       // excludeDriverLogs: ['bugreport', 'server'],
     },
   ],
