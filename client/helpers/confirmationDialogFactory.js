@@ -10,7 +10,7 @@ export class ConfirmationDialogFactory {
     title,
     template,
     templateData,
-    confirmButtonText = i18n.__("Buttons.confirm")
+    confirmButtonText = i18n.__("Buttons.confirm"),
   ) {
     return new ConfirmationDialog(
       {
@@ -23,7 +23,7 @@ export class ConfirmationDialogFactory {
       },
       {
         onSuccess: onSuccess,
-      }
+      },
     );
   }
 
@@ -35,7 +35,7 @@ export class ConfirmationDialogFactory {
     title,
     template,
     templateData,
-    confirmButtonText = i18n.__("Buttons.delete")
+    confirmButtonText = i18n.__("Buttons.delete"),
   ) {
     return new ConfirmationDialog(
       {
@@ -47,7 +47,7 @@ export class ConfirmationDialogFactory {
       },
       {
         onSuccess: onSuccess,
-      }
+      },
     );
   }
 
@@ -59,7 +59,7 @@ export class ConfirmationDialogFactory {
     title,
     content,
     templateData,
-    confirmButtonText = i18n.__("Buttons.confirm")
+    confirmButtonText = i18n.__("Buttons.confirm"),
   ) {
     return new ConfirmationDialog(
       {
@@ -71,7 +71,7 @@ export class ConfirmationDialogFactory {
       },
       {
         onSuccess: onSuccess,
-      }
+      },
     );
   }
 
@@ -83,7 +83,7 @@ export class ConfirmationDialogFactory {
     title,
     content,
     templateData,
-    confirmButtonText
+    confirmButtonText,
   ) {
     return new ConfirmationDialog(
       {
@@ -96,7 +96,7 @@ export class ConfirmationDialogFactory {
       },
       {
         onSuccess: onSuccess,
-      }
+      },
     );
   }
 

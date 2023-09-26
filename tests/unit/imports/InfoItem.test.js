@@ -1,4 +1,4 @@
- import { expect } from "chai";
+import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
@@ -94,7 +94,7 @@ describe("InfoItem", function () {
     let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
     expect(
       myInfoItem.isActionItem(),
-      "Item without the itemType-property should not be an ActionItem"
+      "Item without the itemType-property should not be an ActionItem",
     ).to.be.false;
 
     let actionItemDoc = {
@@ -104,7 +104,7 @@ describe("InfoItem", function () {
     };
     expect(
       InfoItem.isActionItem(actionItemDoc),
-      "Item with the itemType-property set to actionItem should be an ActionItem"
+      "Item with the itemType-property set to actionItem should be an ActionItem",
     ).to.be.true;
   });
 

@@ -38,21 +38,21 @@ describe("Priority", function () {
     it("should throw an exception for values below 1", function () {
       AssertHelper.shouldThrow(
         () => new Priority(0),
-        "Constructor should throw an exception for the value 0"
+        "Constructor should throw an exception for the value 0",
       );
     });
 
     it("should throw an exception for values over 5", function () {
       AssertHelper.shouldThrow(
         () => new Priority(6),
-        "Constructor should throw an exception for the value 6"
+        "Constructor should throw an exception for the value 6",
       );
     });
 
     it("should throw an exception for values of an invalid type", function () {
       AssertHelper.shouldThrow(
         () => new Priority("b"),
-        "Constructor should throw an exception for the value of type string"
+        "Constructor should throw an exception for the value of type string",
       );
     });
   });
@@ -68,7 +68,7 @@ describe("Priority", function () {
       prio.value = 7;
       AssertHelper.shouldThrow(
         () => prio.toString(),
-        "should throw for the value 7"
+        "should throw for the value 7",
       );
     });
   });

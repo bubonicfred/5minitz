@@ -74,7 +74,7 @@
       },
       function () {
         _removeFormGroupFocus($(this).find("input"));
-      }
+      },
     );
   }
 
@@ -117,7 +117,7 @@
         .filter(":notmdproc")
         .data("mdproc", true)
         .after(
-          "<span class='checkbox-material'><span class='check'></span></span>"
+          "<span class='checkbox-material'><span class='check'></span></span>",
         );
 
       _toggleTypeFocus($input);
@@ -161,7 +161,7 @@
           // Legacy - Add hint label if using the old shorthand data-hint attribute on the input
           if ($input.attr("data-hint")) {
             $input.after(
-              "<p class='help-block'>" + $input.attr("data-hint") + "</p>"
+              "<p class='help-block'>" + $input.attr("data-hint") + "</p>",
             );
             $input.removeAttr("data-hint");
           }
@@ -193,7 +193,7 @@
                 forAttribute +
                 "class='control-label'>" +
                 placeholder +
-                "</label>"
+                "</label>",
             );
           }
 
@@ -288,7 +288,7 @@
               $formGroup.addClass("is-empty");
             }
             $formGroup.find("input.form-control[readonly]").val(value);
-          }
+          },
         );
     },
     ripples: function (selector) {

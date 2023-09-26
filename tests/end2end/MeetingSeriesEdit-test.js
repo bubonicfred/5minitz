@@ -30,7 +30,7 @@ describe("MeetingSeries Editor", function () {
       aMeetingCounter++;
       aMeetingName = aMeetingNameBase + aMeetingCounter;
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    }
+    },
   );
 
   it("can open and close meeting series editor without changing data", function () {
@@ -66,7 +66,7 @@ describe("MeetingSeries Editor", function () {
     E2EApp.confirmationDialogAnswer(true);
 
     expect(E2EMeetingSeries.countMeetingSeries()).to.equal(
-      countAfterCreate - 1
+      countAfterCreate - 1,
     );
     expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not
       .to.be.ok;
@@ -90,7 +90,7 @@ describe("MeetingSeries Editor", function () {
     const aMeetingName = "Meeting Name (with Minute)";
 
     const countDBMeetingSeriesBefore = server.call(
-      "e2e.countMeetingSeriesInMongDB"
+      "e2e.countMeetingSeriesInMongDB",
     );
     const countDBMinutesBefore = server.call("e2e.countMinutesInMongoDB");
     E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
@@ -100,10 +100,10 @@ describe("MeetingSeries Editor", function () {
 
     // One more Meeting series and one more minutes
     expect(server.call("e2e.countMeetingSeriesInMongDB")).to.equal(
-      countDBMeetingSeriesBefore + 1
+      countDBMeetingSeriesBefore + 1,
     );
     expect(server.call("e2e.countMinutesInMongoDB")).to.equal(
-      countDBMinutesBefore + 1
+      countDBMinutesBefore + 1,
     );
 
     // Now delete meeting series with attached Minutes
@@ -113,10 +113,10 @@ describe("MeetingSeries Editor", function () {
 
     // Meeting series and attached minutes should be gone
     expect(server.call("e2e.countMeetingSeriesInMongDB")).to.equal(
-      countDBMeetingSeriesBefore
+      countDBMeetingSeriesBefore,
     );
     expect(server.call("e2e.countMinutesInMongoDB")).to.equal(
-      countDBMinutesBefore
+      countDBMinutesBefore,
     );
     expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not
       .to.be.ok;
@@ -157,7 +157,7 @@ describe("MeetingSeries Editor", function () {
     expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not
       .to.be.ok;
     expect(
-      E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName)
+      E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName),
     ).to.be.ok;
   });
 
@@ -165,7 +165,7 @@ describe("MeetingSeries Editor", function () {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      aProjectName + " Changed!"
+      aProjectName + " Changed!",
     );
     browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
 
@@ -176,13 +176,13 @@ describe("MeetingSeries Editor", function () {
       aProjectName,
       aMeetingName,
       "base",
-      true
+      true,
     );
     expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(
-      aProjectName
+      aProjectName,
     );
     expect(browser.getValue('input[id="id_meetingname"]')).to.equal(
-      aMeetingName
+      aMeetingName,
     );
 
     E2EGlobal.clickWithRetry("#btnEditMSClose");
@@ -193,7 +193,7 @@ describe("MeetingSeries Editor", function () {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      aProjectName + " Changed!"
+      aProjectName + " Changed!",
     );
     browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
 
@@ -204,13 +204,13 @@ describe("MeetingSeries Editor", function () {
       aProjectName,
       aMeetingName,
       "base",
-      true
+      true,
     );
     expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(
-      aProjectName
+      aProjectName,
     );
     expect(browser.getValue('input[id="id_meetingname"]')).to.equal(
-      aMeetingName
+      aMeetingName,
     );
 
     E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel");

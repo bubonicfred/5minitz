@@ -196,33 +196,33 @@ describe("Migrate Version 12", function () {
       MigrateV12.up();
       // detail was created in 1st minute => createdInMinute = 1st Minute
       expect(
-        firstFakeMinute.topics[0].infoItems[0].details[0].createdInMinute
+        firstFakeMinute.topics[0].infoItems[0].details[0].createdInMinute,
       ).to.equal(FIRST_MIN_ID);
       // detail created in 1st minute occured in 2nd Minute =>
       // createdInMinute = 1st Minute
       expect(
-        sndFakeMinute.topics[0].infoItems[0].details[0].createdInMinute
+        sndFakeMinute.topics[0].infoItems[0].details[0].createdInMinute,
       ).to.equal(FIRST_MIN_ID);
       expect(
-        fakeMeetingSeries.topics[0].infoItems[0].details[0].createdInMinute
+        fakeMeetingSeries.topics[0].infoItems[0].details[0].createdInMinute,
       ).to.equal(FIRST_MIN_ID);
       expect(
-        fakeMeetingSeries.openTopics[1].infoItems[0].details[0].createdInMinute
+        fakeMeetingSeries.openTopics[1].infoItems[0].details[0].createdInMinute,
       ).to.equal(FIRST_MIN_ID);
       // detail created in 2nd minute => createdInMinute = 2nd Minute
       expect(
-        sndFakeMinute.topics[1].infoItems[0].details[0].createdInMinute
+        sndFakeMinute.topics[1].infoItems[0].details[0].createdInMinute,
       ).to.equal(SND_MIN_ID);
       expect(
-        fakeMeetingSeries.topics[1].infoItems[0].details[0].createdInMinute
+        fakeMeetingSeries.topics[1].infoItems[0].details[0].createdInMinute,
       ).to.equal(SND_MIN_ID);
       expect(
-        fakeMeetingSeries.openTopics[0].infoItems[0].details[0].createdInMinute
+        fakeMeetingSeries.openTopics[0].infoItems[0].details[0].createdInMinute,
       ).to.equal(SND_MIN_ID);
       // a new detail was added to an infoItem from an old minute in a new
       // minute => createdInMinute = 2nd Minute
       expect(
-        sndFakeMinute.topics[0].infoItems[0].details[2].createdInMinute
+        sndFakeMinute.topics[0].infoItems[0].details[2].createdInMinute,
       ).to.equal(SND_MIN_ID);
     });
 
@@ -231,13 +231,13 @@ describe("Migrate Version 12", function () {
       let detailIdInFirstMinute =
         firstFakeMinute.topics[0].infoItems[0].details[0]._id;
       expect(sndFakeMinute.topics[0].infoItems[0].details[0]._id).to.equal(
-        detailIdInFirstMinute
+        detailIdInFirstMinute,
       );
       expect(fakeMeetingSeries.topics[0].infoItems[0].details[0]._id).to.equal(
-        detailIdInFirstMinute
+        detailIdInFirstMinute,
       );
       expect(
-        fakeMeetingSeries.openTopics[1].infoItems[0].details[0]._id
+        fakeMeetingSeries.openTopics[1].infoItems[0].details[0]._id,
       ).to.equal(detailIdInFirstMinute);
     });
   });

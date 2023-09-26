@@ -32,7 +32,7 @@ export class MongoDb {
         "findOne",
         collection,
         query,
-        options
+        options,
       );
     } else {
       return this._asyncCollectionWrapper("findOne", collection, query);
@@ -52,7 +52,7 @@ export class MongoDb {
       "insertMany",
       collection,
       docs,
-      options
+      options,
     );
   }
 

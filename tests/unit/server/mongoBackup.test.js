@@ -24,7 +24,7 @@ describe("mongoBackup", function () {
     it("uses mongodump to create a backup", function () {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
-        "outputdir"
+        "outputdir",
       );
 
       let firstCall = spawn.args[0];
@@ -33,7 +33,7 @@ describe("mongoBackup", function () {
 
       expect(command).to.equal("mongodump");
       expect(parameters).to.equal(
-        "-h;localhost:1234;-u;user;-p;password;-d;database;-o;outputdir"
+        "-h;localhost:1234;-u;user;-p;password;-d;database;-o;outputdir",
       );
     });
   });

@@ -81,7 +81,7 @@ describe("Migrate Version 5", function () {
         .to.be.false;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
 
@@ -90,15 +90,15 @@ describe("Migrate Version 5", function () {
 
       expect(
         series.openTopics[0].isRecurring,
-        "isRecurring flag should be added of the topics in the openTopics array"
+        "isRecurring flag should be added of the topics in the openTopics array",
       ).to.be.false;
       expect(
         series.topics[0].isRecurring,
-        "isRecurring flag should be added of the topics in the topics array"
+        "isRecurring flag should be added of the topics in the topics array",
       ).to.be.false;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
   });
@@ -117,7 +117,7 @@ describe("Migrate Version 5", function () {
         .to.be.undefined;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
 
@@ -126,15 +126,15 @@ describe("Migrate Version 5", function () {
 
       expect(
         series.openTopics[0].isRecurring,
-        "isRecurring flag should be removed from the topics in the openTopics array"
+        "isRecurring flag should be removed from the topics in the openTopics array",
       ).to.be.undefined;
       expect(
         series.topics[0].isRecurring,
-        "isRecurring flag should be removed from the topics in the topics array"
+        "isRecurring flag should be removed from the topics in the topics array",
       ).to.be.undefined;
       expect(
         MeetingSeriesSchema.update.calledOnce,
-        "MeetingSeriesSchema.update should be called once"
+        "MeetingSeriesSchema.update should be called once",
       ).to.be.true;
     });
   });

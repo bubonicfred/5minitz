@@ -62,7 +62,7 @@ export class FlashMessage {
   show() {
     this.currentNotification = $.notify(
       this._createOptions(),
-      this._createSettings()
+      this._createSettings(),
     );
     return this;
   }

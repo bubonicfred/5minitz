@@ -41,7 +41,7 @@ class ExpImpMeetingSeries {
             return reject(
               "Meeting series with ID: " +
                 msID +
-                " already exists. Cannot import."
+                " already exists. Cannot import.",
             );
           } else {
             const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;

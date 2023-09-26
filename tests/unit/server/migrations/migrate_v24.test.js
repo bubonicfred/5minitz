@@ -32,7 +32,7 @@ describe("MigrateV24", function () {
 
       const expectedNumberOfCallsToUpdate = 1;
       expect(MinutesSchemaCollection.update.callCount).to.equal(
-        expectedNumberOfCallsToUpdate
+        expectedNumberOfCallsToUpdate,
       );
     });
   });

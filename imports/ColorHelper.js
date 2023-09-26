@@ -24,7 +24,7 @@ export class ColorHelper {
       (parseInt(color.r) * 299 +
         parseInt(color.g) * 587 +
         parseInt(color.b) * 114) /
-        1000
+        1000,
     );
     return o < 125;
   }

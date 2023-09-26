@@ -58,9 +58,9 @@ describe("Item Details", function () {
           subject: infoItemName,
           itemType: "actionItem",
         },
-        1
+        1,
       );
-    }
+    },
   );
 
   it("can add first details to a new Info Item", function () {
@@ -71,7 +71,7 @@ describe("Item Details", function () {
         itemType: "infoItem",
       },
       1,
-      detailsText
+      detailsText,
     );
 
     E2EGlobal.waitSomeTime();
@@ -82,7 +82,7 @@ describe("Item Details", function () {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\n" + detailsText
+      formatDateISO8601(new Date()) + " New" + "\n" + detailsText,
     );
   });
 
@@ -92,7 +92,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nNew Details"
+      formatDateISO8601(new Date()) + " New" + "\nNew Details",
     );
   });
 
@@ -103,7 +103,7 @@ describe("Item Details", function () {
         subject: getNewAIName(),
         itemType: "infoItem",
       },
-      1
+      1,
     );
 
     E2ETopics.addDetailsToActionItem(1, 1, detailsText);
@@ -111,7 +111,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\n" + detailsText
+      formatDateISO8601(new Date()) + " New" + "\n" + detailsText,
     );
   });
 
@@ -123,15 +123,15 @@ describe("Item Details", function () {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
-      "First added detail should be displayed"
+      "First added detail should be displayed",
     ).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nFirst Details"
+      formatDateISO8601(new Date()) + " New" + "\nFirst Details",
     );
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
-      "2nd added detail should be displayed, too"
+      "2nd added detail should be displayed, too",
     ).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nSecond Details"
+      formatDateISO8601(new Date()) + " New" + "\nSecond Details",
     );
   });
 
@@ -141,7 +141,7 @@ describe("Item Details", function () {
         subject: getNewAIName(),
         itemType: "actionItem",
       },
-      1
+      1,
     );
     E2ETopics.addDetailsToActionItem(1, 1, "First Details");
 
@@ -159,7 +159,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
     expect(browser.elementIdText(sndItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\n" + detailsText
+      formatDateISO8601(new Date()) + " New" + "\n" + detailsText,
     );
   });
 
@@ -171,7 +171,7 @@ describe("Item Details", function () {
         subject: getNewAIName(),
         itemType: "actionItem",
       },
-      1
+      1,
     );
     E2ETopics.addDetailsToActionItem(1, 1, "2nd Details");
 
@@ -179,7 +179,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
     expect(browser.elementIdText(sndItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\n" + "Updated Details"
+      formatDateISO8601(new Date()) + " New" + "\n" + "Updated Details",
     );
   });
 
@@ -194,11 +194,11 @@ describe("Item Details", function () {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     const completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
     expect(completeAIText, "Subject of AI should have changed").to.have.string(
-      newSubject
+      newSubject,
     );
     expect(
       completeAIText,
-      "AI should still contain the details"
+      "AI should still contain the details",
     ).to.have.string(formatDateISO8601(new Date()) + " New" + "\nNew Details");
   });
 
@@ -214,9 +214,9 @@ describe("Item Details", function () {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
-      "Added detail should be displayed"
+      "Added detail should be displayed",
     ).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nFirst Details"
+      formatDateISO8601(new Date()) + " New" + "\nFirst Details",
     );
   });
 
@@ -228,7 +228,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nNew Details (changed)"
+      formatDateISO8601(new Date()) + " New" + "\nNew Details (changed)",
     );
   });
 
@@ -244,13 +244,13 @@ describe("Item Details", function () {
       .true;
 
     const dialogContentElement = browser.element(
-      selectorDialog + " .modal-body"
+      selectorDialog + " .modal-body",
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
     expect(
       dialogContentText,
-      "dialog content should display the subject of the to-be-deleted parent item"
+      "dialog content should display the subject of the to-be-deleted parent item",
     ).to.have.string(infoItemName);
 
     // close dialog otherwise beforeEach-hook will fail!
@@ -270,7 +270,7 @@ describe("Item Details", function () {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
-      "the item should have not have any details"
+      "the item should have not have any details",
     ).to.not.have.string(formatDateISO8601(new Date()));
   });
 
@@ -287,7 +287,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nNew Details"
+      formatDateISO8601(new Date()) + " New" + "\nNew Details",
     );
   });
 
@@ -296,7 +296,7 @@ describe("Item Details", function () {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
       aMeetingName,
-      "invited"
+      "invited",
     );
 
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -317,7 +317,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.not.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nNew Details"
+      formatDateISO8601(new Date()) + " New" + "\nNew Details",
     );
 
     E2EApp.loginUser();
@@ -330,7 +330,7 @@ describe("Item Details", function () {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
       aMeetingName,
-      "invited"
+      "invited",
     );
 
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -351,7 +351,7 @@ describe("Item Details", function () {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      formatDateISO8601(new Date()) + " New" + "\nOld Details"
+      formatDateISO8601(new Date()) + " New" + "\nOld Details",
     );
 
     E2EApp.loginUser();
@@ -361,7 +361,7 @@ describe("Item Details", function () {
     E2ETopics.addDetailsToActionItem(
       1,
       1,
-      "New Details with link to http://www.google.com"
+      "New Details with link to http://www.google.com",
     );
 
     E2EGlobal.clickWithRetry(".detailText a");

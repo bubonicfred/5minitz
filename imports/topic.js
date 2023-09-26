@@ -170,7 +170,7 @@ export class Topic {
     } else {
       i = subElementsHelper.findIndexById(
         topicItemDoc._id,
-        this.getInfoItems()
+        this.getInfoItems(),
       );
     }
     if (i === undefined) {
@@ -204,7 +204,7 @@ export class Topic {
       throw new Meteor.Error(
         "Cannot remove item",
         "It is not allowed to remove an action item which was not " +
-          "created within the current minutes"
+          "created within the current minutes",
       );
     }
 
@@ -224,7 +224,7 @@ export class Topic {
       (infoItemDoc) => {
         const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
-      }
+      },
     );
   }
 

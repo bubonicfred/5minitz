@@ -40,7 +40,7 @@ function call() {
         future.throw(err);
       }
       future.return(result);
-    }
+    },
   );
 
   return future;

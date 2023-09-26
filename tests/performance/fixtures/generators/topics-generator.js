@@ -81,7 +81,7 @@ export class TopicsGenerator {
 
       const itemsCount = Random.randomNumber(
         this.config.itemsRange.min,
-        this.config.itemsRange.max
+        this.config.itemsRange.max,
       );
       const start = itemsCount - topic.infoItems.length;
       for (let j = 0; j < start; j++) {
@@ -93,7 +93,7 @@ export class TopicsGenerator {
   _generateNewTopics() {
     const topicsCount = Random.randomNumber(
       this.config.topicsRange.min,
-      this.config.topicsRange.max
+      this.config.topicsRange.max,
     );
     const start = topicsCount - this.currentTopicList.length;
     for (let i = 0; i < start; i++) {
@@ -149,7 +149,7 @@ export class TopicsGenerator {
     const items = [];
     const itemsCount = Random.randomNumber(
       this.config.itemsRange.min,
-      this.config.itemsRange.max
+      this.config.itemsRange.max,
     );
     for (let i = 0; i < itemsCount; i++) {
       items.push(this._generateANewInfoItem());
@@ -197,7 +197,7 @@ export class TopicsGenerator {
       createdInMinute: this.currentMinutesId,
       date: DateHelper.formatDateISO8601(date),
       text: faker.lorem.sentences(
-        faker.datatype.number(this.config.detailsSentenceRange)
+        faker.datatype.number(this.config.detailsSentenceRange),
       ),
     };
   }

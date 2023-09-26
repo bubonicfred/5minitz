@@ -35,7 +35,7 @@ Template.meetingSeriesEdit.onCreated(function () {
   this.userEditConfig = new UsersEditConfig(
     true, // current user can not be edited
     thisMeetingSeriesID, // the meeting series id
-    _attachedUsersCollection
+    _attachedUsersCollection,
   ); // collection of attached users
   // Hint: collection will be filled in the "show.bs.modal" event below
 
@@ -78,7 +78,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
       userId,
       oldRole,
       newRole,
-      meetingSeriesId
+      meetingSeriesId,
     );
   }
 
@@ -103,7 +103,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
           oldUserWithRole.getUser()._id,
           oldUserRole,
           undefined,
-          meetingSeriesId
+          meetingSeriesId,
         );
       }
     } else {
@@ -117,7 +117,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
           newUserWithRole.getUser()._id,
           oldUserRole,
           newUserRole,
-          meetingSeriesId
+          meetingSeriesId,
         );
       }
       usersWithRolesAfterEditForEmails.splice(index, 1);
@@ -156,7 +156,7 @@ Template.meetingSeriesEdit.events({
           hasMinutes: ms.minutes.length !== 0,
           minutesCount: ms.minutes.length,
           lastMinutesDate: ms.minutes.length !== 0 ? ms.lastMinutesDate : false,
-        }
+        },
       );
 
     Meteor.defer(() => {
@@ -183,7 +183,7 @@ Template.meetingSeriesEdit.events({
       unset,
       setIsEdited,
       evt,
-      "confirmationDialogResetEdit"
+      "confirmationDialogResetEdit",
     );
 
     // Make sure these init values are filled in a close/re-open scenario
@@ -280,7 +280,7 @@ Template.meetingSeriesEdit.events({
 
       newRole.saveRoleForMeetingSeries(
         meetingSeriesId,
-        usrAfterEdit.roles[meetingSeriesId]
+        usrAfterEdit.roles[meetingSeriesId],
       );
       if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
         allVisiblesArray.push(usrAfterEdit._idOrg); // Attention: get back to Id of Meteor.users collection

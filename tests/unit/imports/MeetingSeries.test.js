@@ -82,20 +82,20 @@ describe("MeetingSeries", function () {
     });
 
     afterEach(function () {
-      if (Object.prototype.hasOwnProperty.call(Minutes, 'findAllIn')) {
+      if (Object.prototype.hasOwnProperty.call(Minutes, "findAllIn")) {
         delete Minutes.findAllIn;
       }
     });
 
     function compareDates(actualDate, expectedDate) {
       expect(actualDate.getYear(), "year mismatch").to.be.equal(
-        expectedDate.getYear()
+        expectedDate.getYear(),
       );
       expect(actualDate.getMonth(), "month mismatch").to.be.equal(
-        expectedDate.getMonth()
+        expectedDate.getMonth(),
       );
       expect(actualDate.getDay(), "day mismatch").to.be.equal(
-        expectedDate.getDay()
+        expectedDate.getDay(),
       );
     }
 
@@ -171,7 +171,7 @@ describe("MeetingSeries", function () {
       meetingSeries.save();
 
       expect(
-        Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries)
+        Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries),
       ).to.be.true;
     });
   });

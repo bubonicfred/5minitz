@@ -44,15 +44,15 @@ const CONFIG = {
   minutesCount: parseInt(arg.options["minutes-count"], 10) || 5,
   topicsRange: RangeHelper.convertRangeToMinMaxObject(
     arg.options["topics-range"],
-    { min: 3, max: 10 }
+    { min: 3, max: 10 },
   ),
   itemsRange: RangeHelper.convertRangeToMinMaxObject(
     arg.options["items-range"],
-    { min: 1, max: 8 }
+    { min: 1, max: 8 },
   ),
   detailsSentenceRange: RangeHelper.convertRangeToMinMaxObject(
     arg.options["details-range"],
-    { min: 7, max: 23 }
+    { min: 7, max: 23 },
   ), // number of sentences per detail
   username: USERNAME,
 };
@@ -74,7 +74,7 @@ async function main() {
     let minutes = minutesGenerator.generate(topicsGenerator);
     meetingSeriesGenerator.addAllMinutes(
       minutes,
-      topicsGenerator.seriesTopicList
+      topicsGenerator.seriesTopicList,
     );
 
     await mongoDb.insertOne(Collections.MeetingSeries, series);
@@ -83,7 +83,7 @@ async function main() {
       topicsGenerator.seriesTopicList.map((topic) => {
         topic.parentId = series._id;
         return topic;
-      })
+      }),
     );
     let count = (await mongoDb.insertMany(Collections.Minutes, minutes))
       .insertedCount;
@@ -96,11 +96,11 @@ async function main() {
       { _id: user._id },
       {
         $set: role,
-      }
+      },
     );
 
     console.log(
-      `Inserted the meeting series "${series.project} - ${series.name}" with ${count} meeting minutes successfully`
+      `Inserted the meeting series "${series.project} - ${series.name}" with ${count} meeting minutes successfully`,
     );
 
     await mongoDb.close();

@@ -10,7 +10,7 @@ export class E2EApp {
     } catch (e) {
       console.log("Exception: " + e);
       console.log(
-        "Did you forget to run the server with '--settings settings-test-end2end.json'?"
+        "Did you forget to run the server with '--settings settings-test-end2end.json'?",
       );
     }
   }
@@ -53,7 +53,7 @@ export class E2EApp {
 
   static loginFailed() {
     const standardLoginErrorAlertExists = browser.isExisting(
-        ".at-error.alert.alert-danger"
+        ".at-error.alert.alert-danger",
       ),
       generalAlertExists = browser.isExisting(".alert.alert-danger");
     let generalAlertShowsLoginFailure = false;
@@ -82,7 +82,7 @@ export class E2EApp {
     username,
     password,
     autoLogout = true,
-    tab = "#tab_standard"
+    tab = "#tab_standard",
   ) {
     if (autoLogout) {
       E2EApp.logoutUser();
@@ -95,7 +95,7 @@ export class E2EApp {
       browser.waitUntil(
         (_) => {
           let tabIsStandard = browser.isExisting(
-            "#at-field-username_and_email"
+            "#at-field-username_and_email",
           );
           let userWantsStandard = tab === "#tab_standard";
           let tabIsLdap = browser.isExisting("#id_ldapUsername");
@@ -106,7 +106,7 @@ export class E2EApp {
           );
         },
         7500,
-        "The login screen could not been loaded in time"
+        "The login screen could not been loaded in time",
       );
 
       let tabIsStandard = browser.isExisting("#at-field-username_and_email");
@@ -115,7 +115,7 @@ export class E2EApp {
       if (tabIsStandard) {
         E2EGlobal.setValueSafe(
           'input[id="at-field-username_and_email"]',
-          username
+          username,
         );
         E2EGlobal.setValueSafe('input[id="at-field-password"]', password);
       }
@@ -133,7 +133,7 @@ export class E2EApp {
           return userMenuExists || E2EApp.loginFailed();
         },
         20000,
-        "The login could not been processed in time"
+        "The login could not been processed in time",
       );
 
       if (E2EApp.loginFailed()) {
@@ -142,7 +142,7 @@ export class E2EApp {
 
       if (!E2EApp.isLoggedIn()) {
         console.log(
-          "loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()"
+          "loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()",
         );
         browser.execute(function () {
           Meteor.loginWithPassword(username, password);
@@ -157,7 +157,7 @@ export class E2EApp {
     } catch (e) {
       E2EGlobal.saveScreenshot("loginUserWithCredentials_failed");
       throw new Error(
-        `Login failed for user ${username} with ${password}\nwith ${e}`
+        `Login failed for user ${username} with ${password}\nwith ${e}`,
       );
     }
   }
@@ -179,7 +179,7 @@ export class E2EApp {
         console.log(
           "Error {E2EApp.loginUser} : Could not find user " +
             orgUserName +
-            ". Fallback: index=0."
+            ". Fallback: index=0.",
         );
         indexOrUsername = 0;
       }
@@ -202,7 +202,7 @@ export class E2EApp {
     const title = browser.getTitle();
     if (title !== E2EApp.titlePrefix) {
       throw new Error(
-        `App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`
+        `App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`,
       );
     }
   }
@@ -250,7 +250,7 @@ export class E2EApp {
         },
         5000,
         "Timeout! Title did not change! Will try to re-launchChromeApp().",
-        250
+        250,
       );
     } catch (e) {
       E2EApp.launchChromeApp();
@@ -264,7 +264,7 @@ export class E2EApp {
     E2EGlobal.waitSomeTime();
     expect(
       browser.getText("div#confirmDialog"),
-      "Check confirmation messagebox contains text"
+      "Check confirmation messagebox contains text",
     ).to.contain(containedText);
   }
 

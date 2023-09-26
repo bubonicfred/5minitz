@@ -23,7 +23,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   if (!Meteor.userId()) {
     throw new Meteor.Error(
       "not-authorized",
-      "You are not authorized to perform this action."
+      "You are not authorized to perform this action.",
     );
   }
 
@@ -32,7 +32,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   if (!userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
       "Cannot modify this minutes/series",
-      "You are not a moderator of the meeting series."
+      "You are not a moderator of the meeting series.",
     );
   }
 }
@@ -41,7 +41,7 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
   if (!GlobalSettings.isEMailDeliveryEnabled()) {
     console.log(
       "Skip sending mails because email delivery is not enabled. To enable email delivery set " +
-        "enableMailDelivery to true in your settings.json file"
+        "enableMailDelivery to true in your settings.json file",
     );
     return;
   }
@@ -98,7 +98,7 @@ Meteor.methods({
     if (minutes.isFinalized) {
       throw new Meteor.Error(
         "runtime-error",
-        "The minute is already finalized"
+        "The minute is already finalized",
       );
     }
 
@@ -118,7 +118,7 @@ Meteor.methods({
     // first we copy the topics of the finalize-minute to the parent series
     TopicsFinalizer.mergeTopicsForFinalize(
       minutes.parentMeetingSeries(),
-      minutes.visibleFor
+      minutes.visibleFor,
     );
 
     // then we tag the minute as finalized
@@ -161,7 +161,7 @@ Meteor.methods({
     if (!Finalizer.isUnfinalizeMinutesAllowed(id)) {
       throw new Meteor.Error(
         "not-allowed",
-        "This minutes is not allowed to be un-finalized."
+        "This minutes is not allowed to be un-finalized.",
       );
     }
 
@@ -196,7 +196,7 @@ export class Finalizer {
       "workflow.finalizeMinute",
       minutesId,
       sendActionItems,
-      sendInfoItems
+      sendInfoItems,
     );
     // save protocol if enabled
     if (Meteor.settings.public.docGeneration.enabled) {
@@ -208,7 +208,7 @@ export class Finalizer {
             error.reason = error.reason ? error.reason : error.error;
             onErrorCallback(error);
           }
-        }
+        },
       );
     }
   }

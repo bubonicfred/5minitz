@@ -60,11 +60,11 @@ describe("InfoItemFactory", function () {
       InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
       expect(
         TestSetup.infoItemConstructorCallCount,
-        "InfoItem constructor should have been called once"
+        "InfoItem constructor should have been called once",
       ).to.equal(1);
       expect(
         TestSetup.actionItemConstructorCallCount,
-        "actionItem constructor should not have been called"
+        "actionItem constructor should not have been called",
       ).to.equal(0);
     });
 
@@ -73,11 +73,11 @@ describe("InfoItemFactory", function () {
       InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
       expect(
         TestSetup.infoItemConstructorCallCount,
-        "InfoItem constructor should not have been called"
+        "InfoItem constructor should not have been called",
       ).to.equal(0);
       expect(
         TestSetup.actionItemConstructorCallCount,
-        "actionItem constructor should have been called once"
+        "actionItem constructor should have been called once",
       ).to.equal(1);
     });
 

@@ -43,7 +43,7 @@ export class E2EAdmin {
   static isOnAdminView() {
     return Boolean(
       browser.getUrl().includes(E2EAdmin.getAdminRoute()) &&
-        browser.isVisible(E2EAdmin.selectorMap.btnRegisterNewUser)
+        browser.isVisible(E2EAdmin.selectorMap.btnRegisterNewUser),
     );
   }
 

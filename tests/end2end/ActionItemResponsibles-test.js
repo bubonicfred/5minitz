@@ -39,7 +39,7 @@ describe("ActionItems Responsibles", function () {
         subject: actionItemName,
         itemType: "actionItem",
       },
-      1
+      1,
     );
 
     return actionItemName;
@@ -64,7 +64,7 @@ describe("ActionItems Responsibles", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   it("can add an action item with a responsible", function () {
@@ -86,12 +86,12 @@ describe("ActionItems Responsibles", function () {
       "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "user1 shall be responsible"
+      "user1 shall be responsible",
     ).to.have.string(user1);
   });
 
@@ -115,16 +115,16 @@ describe("ActionItems Responsibles", function () {
       "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "user1 shall be responsible"
+      "user1 shall be responsible",
     ).to.have.string(user1);
     expect(
       actionItemExpandElementText,
-      "user2 shall be responsible"
+      "user2 shall be responsible",
     ).to.have.string(user2);
   });
 
@@ -146,12 +146,12 @@ describe("ActionItems Responsibles", function () {
       "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "user1 shall be responsible"
+      "user1 shall be responsible",
     ).to.have.string(emailUser);
     E2EGlobal.waitSomeTime();
   });
@@ -174,7 +174,7 @@ describe("ActionItems Responsibles", function () {
     E2EGlobal.waitSomeTime();
     expect(
       browser.getText("h4.modal-title").pop(),
-      "'Invalid Responsible' modal should be visible"
+      "'Invalid Responsible' modal should be visible",
     ).to.have.string("Invalid Responsible");
 
     E2EApp.confirmationDialogAnswer(true); // click info modal "OK"
@@ -187,12 +187,12 @@ describe("ActionItems Responsibles", function () {
       "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
-      actionItemExpandElement
+      actionItemExpandElement,
     ).value;
 
     expect(
       actionItemExpandElementText,
-      "no illegal responsible added"
+      "no illegal responsible added",
     ).not.to.have.string(illegalUserName);
   });
 });

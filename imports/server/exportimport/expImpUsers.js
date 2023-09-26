@@ -38,7 +38,7 @@ class ExpImpUsers {
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
             fs.writeFileSync(usrFile, EJSON.stringify(allUsersDoc, null, 2));
             console.log(
-              "Saved: " + usrFile + " with " + allUsersDoc.length + " users"
+              "Saved: " + usrFile + " with " + allUsersDoc.length + " users",
             );
 
             // Save mapping file old => new user ID
@@ -59,7 +59,7 @@ class ExpImpUsers {
             fs.writeFileSync(mapFile, JSON.stringify(userIDsOuputMap, null, 2));
             console.log("Saved: " + mapFile);
             console.log(
-              "       *** IMPORTANT!!! EDIT USER MAP FILE BEFORE IMPORT!!!"
+              "       *** IMPORTANT!!! EDIT USER MAP FILE BEFORE IMPORT!!!",
             );
 
             resolve(db);
@@ -108,17 +108,17 @@ class ExpImpUsers {
         .then((doc) => {
           if (doc) {
             console.log(
-              "Found " + doc.length + " target users in current user DB."
+              "Found " + doc.length + " target users in current user DB.",
             );
             console.log(
               "Will copy over " +
                 usrCopyIDs.length +
-                " export users to current user DB."
+                " export users to current user DB.",
             );
             if (doc.length !== usrMapTargetIDs.length) {
               return reject(
                 "Not all to-be patched target users found in current user DB: " +
-                  usrMapTargetIDs
+                  usrMapTargetIDs,
               );
             }
             // Check#2: All copy-users MUST NOT exist!
@@ -133,7 +133,7 @@ class ExpImpUsers {
                   return reject(
                     shouldBeEmpty.length +
                       " to-be copied user(s) already exists:\n" +
-                      JSON.stringify(errorUsers)
+                      JSON.stringify(errorUsers),
                   );
                 } else {
                   resolve({ db, usrMap });
@@ -184,7 +184,7 @@ class ExpImpUsers {
                     .collection("users") // upsert role field
                     .update({ _id: usr._id }, { $set: { roles } });
                 }
-              })
+              }),
           );
         }
       }

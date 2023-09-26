@@ -9,7 +9,8 @@ import { Meteor } from "meteor/meteor";
 const fs = require("fs-extra");
 const path = require("path");
 
-calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
+calculateAndCreateStoragePath = function (fileObj) {
+  //eslint-disable-line
   if (Meteor.isServer) {
     let absAttachmentStoragePath =
       Meteor.settings.attachments && Meteor.settings.attachments.storagePath
@@ -30,7 +31,7 @@ calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
       if (err) {
         console.error(
           "ERROR: Could not create path for attachment upload: " +
-            absAttachmentStoragePath
+            absAttachmentStoragePath,
         );
       }
     });
@@ -38,10 +39,11 @@ calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
   }
 };
 
-removeMeetingSeriesAttachmentDir = function (meetingseries_id) { //eslint-disable-line
+removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
+  //eslint-disable-line
   if (meetingseries_id.length > 0) {
     // ensure "attachment root" is not deleted
-        let storagePath = calculateAndCreateStoragePath(); //eslint-disable-line
+    let storagePath = calculateAndCreateStoragePath(); //eslint-disable-line
     storagePath += "/" + meetingseries_id;
     fs.remove(storagePath, function (err) {
       if (err) {
@@ -49,7 +51,7 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) { //eslint-disabl
           "Could not remove attachment dir:" +
             storagePath +
             " of meeting series with ID:" +
-            meetingseries_id
+            meetingseries_id,
         );
       }
     });
@@ -59,7 +61,7 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) { //eslint-disabl
 // check storagePath for attachments once at server bootstrapping
 if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
   console.log("Attachments upload feature: ENABLED");
-    let settingsPath = calculateAndCreateStoragePath(null); //eslint-disable-line
+  let settingsPath = calculateAndCreateStoragePath(null); //eslint-disable-line
   let absoluteTargetPath = path.resolve(settingsPath);
   console.log("attachmentsStoragePath:" + absoluteTargetPath);
 
@@ -68,11 +70,11 @@ if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
       console.error("*** ERROR*** No write access to attachmentsStoragePath");
       console.error("             Uploads can not be saved.");
       console.error(
-        "             Ensure write access to path specified in your settings.json"
+        "             Ensure write access to path specified in your settings.json",
       );
       console.error(
         "             Current attachments.storagePath setting is: " +
-          settingsPath
+          settingsPath,
       );
       if (!path.isAbsolute(settingsPath)) {
         console.error("             Which maps to: " + absoluteTargetPath);

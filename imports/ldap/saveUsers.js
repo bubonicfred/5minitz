@@ -37,7 +37,7 @@ const _insertUsers = function (client, mongoUri, users) {
           user.isLDAPuser = true;
           const usrRegExp = new RegExp(
             "^" + RegExp.escape(user.username) + "$",
-            "i"
+            "i",
           );
           bulk
             .find({ username: usrRegExp })
@@ -57,7 +57,7 @@ const _insertUsers = function (client, mongoUri, users) {
         } else {
           const stringifiedUser = JSON.stringify(user, null, 2);
           console.log(
-            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`
+            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`,
           );
         }
       });

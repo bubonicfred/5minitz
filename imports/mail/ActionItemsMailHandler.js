@@ -32,7 +32,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             ActionItemsMailHandler._createActionItemDataObject(
               topicSubject,
               item.getParentTopic()._topicDoc._id,
-              item
+              item,
             ),
           ],
         });
@@ -47,7 +47,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
           return ActionItemsMailHandler._createActionItemDataObject(
             topicSubject,
             item.getParentTopic()._topicDoc._id,
-            item
+            item,
           );
         }),
       });
@@ -68,7 +68,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
       labels: item.getLabelsRawArray(),
       responsibleLabel: i18n.__("Topic.responsible"),
       responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(
-        item.getResponsibleRawArray()
+        item.getResponsibleRawArray(),
       ),
       priorityLabel: i18n.__("Item.priority"),
       priority: item.getPriority(),

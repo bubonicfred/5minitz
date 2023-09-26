@@ -16,11 +16,11 @@ class ExpImpFilesAttachments {
             const attFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
             fs.writeFileSync(attFile, EJSON.stringify(doc, null, 2));
             console.log(
-              "Saved: " + attFile + " with " + doc.length + " file attachments"
+              "Saved: " + attFile + " with " + doc.length + " file attachments",
             );
             if (doc[0]) {
               console.log(
-                "      *** Hint *** Please manually copy all files below:"
+                "      *** Hint *** Please manually copy all files below:",
               );
               console.log("      " + doc[0]._storagePath);
             }
@@ -38,14 +38,14 @@ class ExpImpFilesAttachments {
       let AllAttachmentsDoc;
       try {
         AllAttachmentsDoc = EJSON.parse(
-          fs.readFileSync(attachmentFile, "utf8")
+          fs.readFileSync(attachmentFile, "utf8"),
         );
         if (!AllAttachmentsDoc) {
           return reject("Could not read attachment file " + attachmentFile);
         }
       } catch (e) {
         return reject(
-          "Could not read attachment file " + attachmentFile + "\n" + e
+          "Could not read attachment file " + attachmentFile + "\n" + e,
         );
       }
 
@@ -55,7 +55,7 @@ class ExpImpFilesAttachments {
         attachmentIDs.push(AllAttachmentsDoc[a]._id);
         AllAttachmentsDoc[a] = ExpImpFilesAttachments.patchUsers(
           AllAttachmentsDoc[a],
-          usrMap
+          usrMap,
         );
       }
 
@@ -75,7 +75,7 @@ class ExpImpFilesAttachments {
                 res.result.n === AllAttachmentsDoc.length
               ) {
                 console.log(
-                  "OK, inserted " + res.result.n + " attachments meta data."
+                  "OK, inserted " + res.result.n + " attachments meta data.",
                 );
                 resolve({ db, usrMap });
               } else {

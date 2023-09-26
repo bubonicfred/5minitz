@@ -5,7 +5,7 @@ export class MinutesFinder {
   static allMinutesOfMeetingSeries(
     meetingSeries,
     limit,
-    descendingByDate = true
+    descendingByDate = true,
   ) {
     if (meetingSeries === undefined) {
       return [];
@@ -40,7 +40,7 @@ export class MinutesFinder {
     const minutes = this.allMinutesOfMeetingSeries(
       meetingSeries,
       limit,
-      descendingByDate
+      descendingByDate,
     );
     if (minutes && minutes.length === limit) {
       return minutes[limit - 1];

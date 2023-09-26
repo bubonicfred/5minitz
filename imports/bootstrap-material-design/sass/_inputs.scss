@@ -180,9 +180,13 @@
   border: 0;
   background-image: linear-gradient($brand-primary, $brand-primary),
     linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
-  background-size: 0 2px, 100% 1px;
+  background-size:
+    0 2px,
+    100% 1px;
   background-repeat: no-repeat;
-  background-position: center bottom, center calc(100% - 1px);
+  background-position:
+    center bottom,
+    center calc(100% - 1px);
   background-color: rgba(0, 0, 0, 0);
   transition: background 0s ease-out;
   float: none;
@@ -262,7 +266,9 @@
       outline: none;
       background-image: linear-gradient($brand-primary, $brand-primary),
         linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
-      background-size: 100% 2px, 100% 1px;
+      background-size:
+        100% 2px,
+        100% 1px;
       box-shadow: none;
       transition-duration: 0.3s;
 

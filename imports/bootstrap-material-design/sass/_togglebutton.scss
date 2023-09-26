@@ -48,7 +48,10 @@
       box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
       left: -5px;
       top: -2px;
-      transition: left 0.3s ease, background 0.3s ease, box-shadow 0.1s ease;
+      transition:
+        left 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.1s ease;
     }
     input[type="checkbox"] {
       // Handle disabled
@@ -61,7 +64,8 @@
 
       & + .toggle:active:after,
       &[disabled] + .toggle:active:after {
-        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4),
+        box-shadow:
+          0 1px 3px 1px rgba(0, 0, 0, 0.4),
           0 0 0 15px rgba(0, 0, 0, 0.1);
       }
 
@@ -82,7 +86,8 @@
       }
 
       + .toggle:active:after {
-        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4),
+        box-shadow:
+          0 1px 3px 1px rgba(0, 0, 0, 0.4),
           0 0 0 15px rgba($brand-primary, (10/100)); // Ripple on
       }
     }

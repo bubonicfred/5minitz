@@ -105,7 +105,7 @@ describe("Minutes", function () {
         .to.be.true;
       expect(
         MinutesSchema.findOne.calledWith(minutesDoc._id),
-        "findOne should be called with the id"
+        "findOne should be called with the id",
       ).to.be.true;
     });
 
@@ -129,7 +129,7 @@ describe("Minutes", function () {
         .to.be.true;
       expect(
         MinutesSchema.find.calledWithExactly("myArg"),
-        "arguments should be passed"
+        "arguments should be passed",
       ).to.be.true;
     });
 
@@ -137,11 +137,11 @@ describe("Minutes", function () {
       Minutes.findOne("myArg");
       expect(
         MinutesSchema.findOne.calledOnce,
-        "findOne-Method should be called once"
+        "findOne-Method should be called once",
       ).to.be.true;
       expect(
         MinutesSchema.findOne.calledWithExactly("myArg"),
-        "arguments should be passed"
+        "arguments should be passed",
       ).to.be.true;
     });
 
@@ -158,7 +158,7 @@ describe("Minutes", function () {
         Minutes.findAllIn(minIdArray, limit);
         expect(
           MinutesSchema.find.calledOnce,
-          "find-Method should be called once"
+          "find-Method should be called once",
         ).to.be.true;
       });
 
@@ -166,14 +166,14 @@ describe("Minutes", function () {
         Minutes.findAllIn(minIdArray, limit);
         let selector = MinutesSchema.find.getCall(0).args[0];
         expect(selector, "Selector has the property _id").to.have.ownProperty(
-          "_id"
+          "_id",
         );
         expect(
           selector._id,
-          "_id-selector has propery $in"
+          "_id-selector has propery $in",
         ).to.have.ownProperty("$in");
         expect(selector._id.$in, "idArray should be passed").to.deep.equal(
-          minIdArray
+          minIdArray,
         );
       });
 
@@ -204,8 +204,8 @@ describe("Minutes", function () {
       expect(
         Meteor.callPromise.calledWithExactly(
           "workflow.removeMinute",
-          minute._id
-        )
+          minute._id,
+        ),
       ).to.be.true;
     });
   });
@@ -229,8 +229,8 @@ describe("Minutes", function () {
         Meteor.callPromise.calledWithExactly(
           "minutes.syncVisibilityAndParticipants",
           parentSeriesId,
-          visibleForArray
-        )
+          visibleForArray,
+        ),
       ).to.be.true;
     });
   });
@@ -257,8 +257,8 @@ describe("Minutes", function () {
         Meteor.callPromise.calledWithExactly(
           "minutes.update",
           sentObj,
-          undefined
-        )
+          undefined,
+        ),
       ).to.be.true;
     });
 
@@ -283,8 +283,8 @@ describe("Minutes", function () {
           "workflow.addMinutes",
           minute,
           undefined,
-          undefined
-        )
+          undefined,
+        ),
       ).to.be.true;
     });
 
@@ -311,11 +311,11 @@ describe("Minutes", function () {
     let parentSeries = minute.parentMeetingSeries();
     expect(
       parentSeries instanceof MeetingSeries,
-      "result should be an instance of MeetingSeries"
+      "result should be an instance of MeetingSeries",
     ).to.be.true;
     expect(
       parentSeries._id,
-      "created meeting series object should have the correct series id"
+      "created meeting series object should have the correct series id",
     ).to.equal(minute.meetingSeries_id);
   });
 
@@ -403,7 +403,7 @@ describe("Minutes", function () {
         oldClosedTopics.forEach((topic) => {
           expect(
             topic.isNew && topic.isOpen,
-            "isNew and isOpen flag should both not set"
+            "isNew and isOpen flag should both not set",
           ).to.be.false;
         });
       });
@@ -413,14 +413,14 @@ describe("Minutes", function () {
       it("calls the getOpenActionItems method for each topic", function () {
         minute.getOpenActionItems();
         expect(topicGetOpenActionItemsStub.callCount).to.equal(
-          minute.topics.length
+          minute.topics.length,
         );
       });
 
       it("concatenates all results of each getOpenActionItems-call", function () {
         topicGetOpenActionItemsStub.returns([5, 7]);
         expect(minute.getOpenActionItems()).to.have.length(
-          minute.topics.length * 2
+          minute.topics.length * 2,
         );
       });
     });
@@ -442,8 +442,8 @@ describe("Minutes", function () {
         Meteor.callPromise.calledWithExactly(
           "minutes.addTopic",
           sinon.match.string,
-          topicDoc
-        )
+          topicDoc,
+        ),
       );
     });
 
@@ -455,8 +455,8 @@ describe("Minutes", function () {
         Meteor.callPromise.calledWithExactly(
           "minutes.addTopic",
           topicDoc._id,
-          topicDoc
-        )
+          topicDoc,
+        ),
       );
     });
 
@@ -467,11 +467,11 @@ describe("Minutes", function () {
       minute.upsertTopic(topicDoc);
       expect(
         minute.topics,
-        "update an existing topic should not change the size of the topics array"
+        "update an existing topic should not change the size of the topics array",
       ).to.have.length(1);
       expect(
         minute.topics[0].subject,
-        "the subject should have been updated"
+        "the subject should have been updated",
       ).to.equal(topicDoc.subject);
     });
 
@@ -486,16 +486,16 @@ describe("Minutes", function () {
       expect(
         callArgs[0],
         "first argument should be the name of the meteor method",
-        "minutes.addTopic"
+        "minutes.addTopic",
       );
       let sentDoc = callArgs[1];
       expect(
         callArgs[1],
-        "minutes id should be sent to the meteor method"
+        "minutes id should be sent to the meteor method",
       ).to.equal(minutesDoc._id);
       expect(
         callArgs[2],
-        "topic-doc should be sent to the meteor method"
+        "topic-doc should be sent to the meteor method",
       ).to.equal(topicDoc);
     });
   });

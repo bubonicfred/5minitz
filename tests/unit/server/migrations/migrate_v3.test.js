@@ -43,7 +43,7 @@ const { MigrateItemsPre16 } = proxyquire(
       MeetingSeriesSchema,
       "@noCallThru": true,
     },
-  }
+  },
 );
 
 const { MigrateV3 } = proxyquire("../../../../server/migrations/migrate_v3", {
@@ -96,11 +96,11 @@ describe("Migrate Version 3", function () {
 
       expect(
         minute.topics[0].infoItems[0].isSticky,
-        "isSticky flag should be added"
+        "isSticky flag should be added",
       ).to.be.false;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
 
@@ -109,15 +109,15 @@ describe("Migrate Version 3", function () {
 
       expect(
         series.openTopics[0].infoItems[0].isSticky,
-        "isSticky flag should be added of the infoItems in the openTopics array"
+        "isSticky flag should be added of the infoItems in the openTopics array",
       ).to.be.false;
       expect(
         series.topics[0].infoItems[0].isSticky,
-        "isSticky flag should be added of the infoItems in the topics array"
+        "isSticky flag should be added of the infoItems in the topics array",
       ).to.be.false;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
   });
@@ -134,11 +134,11 @@ describe("Migrate Version 3", function () {
 
       expect(
         minute.topics[0].infoItems[0].isSticky,
-        "isSticky flag should be removed"
+        "isSticky flag should be removed",
       ).to.be.undefined;
       expect(
         MinutesSchema.update.calledOnce,
-        "MinutesSchema.update should be called once"
+        "MinutesSchema.update should be called once",
       ).to.be.true;
     });
 
@@ -147,15 +147,15 @@ describe("Migrate Version 3", function () {
 
       expect(
         series.openTopics[0].infoItems[0].isSticky,
-        "isSticky flag should be removed of the infoItems in the openTopics array"
+        "isSticky flag should be removed of the infoItems in the openTopics array",
       ).to.be.undefined;
       expect(
         series.topics[0].infoItems[0].isSticky,
-        "isSticky flag should be removed of the infoItems in the topics array"
+        "isSticky flag should be removed of the infoItems in the topics array",
       ).to.be.undefined;
       expect(
         MeetingSeriesSchema.update.calledOnce,
-        "MeetingSeriesSchema.update should be called once"
+        "MeetingSeriesSchema.update should be called once",
       ).to.be.true;
     });
   });

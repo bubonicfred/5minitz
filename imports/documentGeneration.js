@@ -22,12 +22,12 @@ export class DocumentGeneration {
   static async downloadMinuteProtocol(minuteID, noProtocolExistsDialog) {
     // This Function dynamically generates an HTML document for instant-download
     let generateAndDownloadHTML = async function () {
-            let minuteID = FlowRouter.getParam('_id'); //eslint-disable-line
+      let minuteID = FlowRouter.getParam("_id"); //eslint-disable-line
 
       //Create HTML
       let htmldata = await Meteor.callPromise(
         "documentgeneration.createHTML",
-        minuteID
+        minuteID,
       );
       let currentMinute = new Minutes(minuteID);
       //Download File
@@ -73,12 +73,12 @@ export class DocumentGeneration {
     context._topics.forEach((topic) => {
       const responsible =
         ResponsibleResolver.resolveAndformatResponsiblesString(
-          topic.responsibles
+          topic.responsibles,
         );
       topic.responsiblesString = responsible ? `(${responsible})` : "";
       topic.labelsString = LabelResolver.resolveAndformatLabelsString(
         topic.labels,
-        context._meetingSeries._id
+        context._meetingSeries._id,
       );
 
       // inject responsible as readable short user names to all action items of this topic
@@ -87,7 +87,7 @@ export class DocumentGeneration {
           const responsible =
             ResponsibleResolver.resolveAndformatResponsiblesString(
               item.responsibles,
-              "@"
+              "@",
             );
           item.responsiblesString = responsible ? `(${responsible})` : "";
         }
@@ -136,10 +136,10 @@ export class DocumentGeneration {
       meetingSeriesProjectLabel: i18n.__("MeetingSeries.team"),
       meetingSeriesProject: context._meetingSeries.project,
       meetingSeriesURL: GlobalSettings.getRootUrl(
-        "meetingseries/" + context._meetingSeries._id
+        "meetingseries/" + context._meetingSeries._id,
       ),
       minuteUrl: GlobalSettings.getRootUrl(
-        "minutesedit/" + context._minute._id
+        "minutesedit/" + context._minute._id,
       ),
       presentParticipantsLabel: i18n.__("Minutes.Participants.present"),
       presentParticipants: context._userArrayToString(presentParticipants),
@@ -175,7 +175,7 @@ export class DocumentGeneration {
     template.addHelper("formatLabels", function () {
       return LabelResolver.resolveAndformatLabelsString(
         this.labels,
-        context._minute.parentMeetingSeriesID()
+        context._minute.parentMeetingSeriesID(),
       );
     });
     template.addHelper("doneActionItemClass", function () {

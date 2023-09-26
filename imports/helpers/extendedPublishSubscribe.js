@@ -6,7 +6,7 @@ export class extendedPublishSubscribeHandler {
     publishName,
     collection,
     meetingSeriesAttribute,
-    minuteAttribute
+    minuteAttribute,
   ) => {
     if (Meteor.isServer) {
       Meteor.publish(publishName, function (meetingSeriesId, minuteId) {

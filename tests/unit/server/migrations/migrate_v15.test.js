@@ -45,7 +45,7 @@ const { MigrateItemsPre16 } = proxyquire(
       MeetingSeriesSchema,
       "@noCallThru": true,
     },
-  }
+  },
 );
 
 const { MigrateV15 } = proxyquire("../../../../server/migrations/migrate_v15", {
@@ -140,19 +140,19 @@ describe("Migrate Version 15", function () {
   const checkPriorities = (index, expectedValue) => {
     if (expectedValue === undefined) {
       expect(minute.topics[0].infoItems[index]).to.not.have.own.property(
-        "priority"
+        "priority",
       );
       expect(series.topics[0].infoItems[index]).to.not.have.own.property(
-        "priority"
+        "priority",
       );
       expect(series.openTopics[0].infoItems[index]).to.not.have.own.property(
-        "priority"
+        "priority",
       );
     }
     expect(minute.topics[0].infoItems[index].priority).to.equal(expectedValue);
     expect(series.topics[0].infoItems[index].priority).to.equal(expectedValue);
     expect(series.openTopics[0].infoItems[index].priority).to.equal(
-      expectedValue
+      expectedValue,
     );
   };
 

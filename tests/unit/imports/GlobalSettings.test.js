@@ -32,7 +32,7 @@ const { GlobalSettings } = proxyquire(
     "meteor/meteor": { Meteor, "@noCallThru": true },
     "meteor/universe:i18n": { i18n, "@noCallThru": true },
     "/imports/config/LdapSettings": { LdapSettings, "@noCallThru": true },
-  }
+  },
 );
 
 describe("GlobalSettings", function () {
@@ -60,7 +60,7 @@ describe("GlobalSettings", function () {
   describe("#isTrustedIntranetInstallation", function () {
     it("returns the correct value", function () {
       expect(GlobalSettings.isTrustedIntranetInstallation()).to.equal(
-        Meteor.settings.trustedIntranetInstallation
+        Meteor.settings.trustedIntranetInstallation,
       );
     });
 
@@ -78,7 +78,7 @@ describe("GlobalSettings", function () {
   describe("#getDefaultEmailSenderAddress", function () {
     it("returns the default email sender address", function () {
       expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(
-        Meteor.settings.email.defaultEMailSenderAddress
+        Meteor.settings.email.defaultEMailSenderAddress,
       );
     });
 
@@ -86,14 +86,14 @@ describe("GlobalSettings", function () {
       Meteor.settings.email.defaultEMailSenderAddress = "";
       let alternative = "alternativeSenderAddress";
       expect(GlobalSettings.getDefaultEmailSenderAddress(alternative)).to.equal(
-        alternative
+        alternative,
       );
     });
 
     it("returns fallback sender address if no alternative address is given", function () {
       Meteor.settings.email.defaultEMailSenderAddress = "";
       expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(
-        Meteor.settings.email.fallbackEMailSenderAddress
+        Meteor.settings.email.fallbackEMailSenderAddress,
       );
     });
 
@@ -129,7 +129,7 @@ describe("GlobalSettings", function () {
   describe("#isEMailDeliveryEnabled", function () {
     it("returns the correct value", function () {
       expect(GlobalSettings.isEMailDeliveryEnabled()).to.equal(
-        Meteor.settings.email.enableMailDelivery
+        Meteor.settings.email.enableMailDelivery,
       );
     });
 
@@ -148,7 +148,7 @@ describe("GlobalSettings", function () {
   describe("#getMailDeliverer", function () {
     it("returns the correct value", function () {
       expect(GlobalSettings.getMailDeliverer()).to.equal(
-        Meteor.settings.email.mailDeliverer
+        Meteor.settings.email.mailDeliverer,
       );
     });
 
@@ -166,7 +166,7 @@ describe("GlobalSettings", function () {
   describe("#getSMTPMailUrl", function () {
     it("returns the correct value", function () {
       expect(GlobalSettings.getSMTPMailUrl()).to.equal(
-        Meteor.settings.email.smtp.mailUrl
+        Meteor.settings.email.smtp.mailUrl,
       );
     });
 
@@ -184,7 +184,7 @@ describe("GlobalSettings", function () {
   describe("#getMailgunSettings", function () {
     it("returns the correct value", function () {
       expect(GlobalSettings.getMailgunSettings()).to.equal(
-        Meteor.settings.email.mailgun
+        Meteor.settings.email.mailgun,
       );
     });
 

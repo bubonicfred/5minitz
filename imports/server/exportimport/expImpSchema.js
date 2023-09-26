@@ -21,18 +21,18 @@ class ExpImpSchema {
               console.log("*** WARNING *** Schema mismatch!");
               console.log(
                 "                This exporter is made for database schema version: " +
-                  ExpImpSchema.MADE_FOR_SCHEMA
+                  ExpImpSchema.MADE_FOR_SCHEMA,
               );
               console.log(
                 "                But your database has schema version             : " +
-                  doc.version
+                  doc.version,
               );
               console.log(
-                "                Alyways migrate to the most recent DB schema before export!"
+                "                Alyways migrate to the most recent DB schema before export!",
               );
               console.log("                Alyways use matching exporter!");
               console.log(
-                "                Exported data may be corrupt. Continue at your own risk."
+                "                Exported data may be corrupt. Continue at your own risk.",
               );
             }
             const schemaFile = msID + ExpImpSchema.FILENAME_POSTFIX;
@@ -41,7 +41,7 @@ class ExpImpSchema {
             resolve(db);
           } else {
             return reject(
-              "No migrations schema version found in your DB! Unable to export."
+              "No migrations schema version found in your DB! Unable to export.",
             );
           }
         });
@@ -75,28 +75,28 @@ class ExpImpSchema {
               console.log("*** WARNING *** Schema mismatch!");
               console.log(
                 "                This importer is made for database schema version: " +
-                  ExpImpSchema.MADE_FOR_SCHEMA
+                  ExpImpSchema.MADE_FOR_SCHEMA,
               );
               console.log(
                 "                Your database has schema version                 : " +
-                  doc.version
+                  doc.version,
               );
               console.log(
                 "                Your exported data has schema version            : " +
-                  exportedSchema.version
+                  exportedSchema.version,
               );
               console.log(
-                "                Alyways migrate to the most recent DB schema before export/import!"
+                "                Alyways migrate to the most recent DB schema before export/import!",
               );
               console.log("                Alyways use matching exporter!");
               if (force) {
                 console.log(
-                  "                --force switch detected. Continueing..."
+                  "                --force switch detected. Continueing...",
                 );
               } else {
                 console.log("                Import will stop.");
                 console.log(
-                  "                Use --force switch to enforce import at your own risk."
+                  "                Use --force switch to enforce import at your own risk.",
                 );
                 return reject("Schema mismatch");
               }
@@ -104,7 +104,7 @@ class ExpImpSchema {
             resolve(db);
           } else {
             return reject(
-              "No migrations schema version found in your DB! Unable to import."
+              "No migrations schema version found in your DB! Unable to import.",
             );
           }
         });

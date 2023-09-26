@@ -32,7 +32,7 @@ Template.tabItems.onCreated(function () {
   this.parser = new QueryParser(
     ITEM_KEYWORDS,
     createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
-    createUserIdsReceiver
+    createUserIdsReceiver,
   );
 });
 
@@ -50,7 +50,7 @@ Template.tabItems.helpers({
       tmpl.topicFilterHandler,
       FILTERS,
       ITEM_KEYWORDS,
-      "Item-Filter"
+      "Item-Filter",
     );
   },
 
@@ -68,11 +68,11 @@ Template.tabItems.helpers({
             topic.infoItems.map((item) => {
               item.parentTopicId = topic._id;
               return item;
-            })
+            }),
           );
         },
         /* initial value */
-        []
+        [],
       )
       .sort((itemL, itemR) => {
         return itemR.updatedAt.getTime() - itemL.updatedAt.getTime();
@@ -80,7 +80,7 @@ Template.tabItems.helpers({
 
     return TopicInfoItemListContext.createReadonlyContextForItemsOfDifferentTopics(
       tmpl.itemsFilter.filter(items, tmpl.parser),
-      tmpl.data.parentMeetingSeriesId
+      tmpl.data.parentMeetingSeriesId,
     );
   },
 });

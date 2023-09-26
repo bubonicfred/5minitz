@@ -31,7 +31,9 @@
 //    *z-index: -1;
 //} WARNING: Property with star prefix found. Checks for the star property hack (targets IE6/7) (star-property-hack) Browsers: All
 .noUi-state-tap .noUi-origin {
-  transition: left 0.3s, top 0.3s;
+  transition:
+    left 0.3s,
+    top 0.3s;
 }
 .noUi-state-drag * {
   cursor: inherit !important;

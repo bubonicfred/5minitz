@@ -25,7 +25,8 @@
   margin: 10px 1px;
   @include typo-button();
   will-change: box-shadow, transform;
-  transition: box-shadow 0.2s $mdb-animation-curve-fast-out-linear-in,
+  transition:
+    box-shadow 0.2s $mdb-animation-curve-fast-out-linear-in,
     background-color 0.2s $mdb-animation-curve-default,
     color 0.2s $mdb-animation-curve-default;
   outline: 0;
@@ -137,7 +138,8 @@
     width: $mdb-btn-fab-size;
     padding: 0;
     overflow: hidden;
-    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12),
+    box-shadow:
+      0 1px 1.5px 0 rgba(0, 0, 0, 0.12),
       0 1px 1px 0 rgba(0, 0, 0, 0.24);
     position: relative;
     line-height: normal;
