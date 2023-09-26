@@ -5,18 +5,124 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "/*": [
-        "./*"
+      "/*": ["./*"],
+      "meteor/reload": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/reload/1.3.1/web.browser/reload.js"
+      ],
+      "meteor/es5-shim": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/es5-shim/4.8.0/web.browser/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/es5-shim/4.8.0/web.browser/console.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/es5-shim/4.8.0/web.browser/cordova.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/es5-shim/4.8.0/web.browser/export_globals.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/es5-shim/4.8.0/web.browser/import_globals.js"
+      ],
+      "meteor/shell-server": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/shell-server/0.5.0/web.browser/main.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/shell-server/0.5.0/web.browser/shell-server.js"
+      ],
+      "meteor/session": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/session/1.2.1/web.browser/session.js"
+      ],
+      "meteor/random": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/main_client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/AbstractRandomGenerator.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/AleaRandomGenerator.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/BrowserRandomGenerator.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/NodeRandomGenerator.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/createAleaGenerator.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/createRandom.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/random/1.2.1/web.browser/main_server.js"
+      ],
+      "meteor/ejson": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ejson/1.1.3/web.browser/ejson.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ejson/1.1.3/web.browser/stringify.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ejson/1.1.3/web.browser/utils.js"
+      ],
+      "meteor/check": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/check/1.3.2/web.browser/match.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/check/1.3.2/web.browser/isPlainObject.js"
+      ],
+      "meteor/reactive-var": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/reactive-var/1.0.12/web.browser/reactive-var.js"
+      ],
+      "meteor/ddp-client": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/client/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/client/client_convenience.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/common/MethodInvoker.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/common/livedata_connection.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/common/namespace.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ddp-client/2.6.1/web.browser/server/server.js"
+      ],
+      "meteor/promise": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/modern.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/extensions.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/legacy.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/promise/0.12.2/web.browser/server.js"
+      ],
+      "meteor/logging": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_browser.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_cordova.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/logging/1.3.2/web.browser/logging_server.js"
+      ],
+      "meteor/accounts-password": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/email_templates.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-password/2.3.4/web.browser/password_server.js"
+      ],
+      "meteor/mongo": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/local_collection_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/collection.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/connection_options.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/doc_fetcher.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/mongo_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/mongo_utils.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/observe_multiplex.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_observe_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_tailing.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/oplog_v2_converter.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/polling_observe_driver.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/mongo/1.16.6/web.browser/remote_collection_driver.js"
+      ],
+      "meteor/tracker": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/tracker/1.3.2/web.browser/tracker.js"
+      ],
+      "meteor/ecmascript": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/ecmascript/0.16.7/web.browser/ecmascript.js"
+      ],
+      "meteor/email": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/email/2.2.5/web.browser/email.js"
+      ],
+      "meteor/dynamic-import": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/cache.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/common.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/dynamic-versions.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/security.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/dynamic-import/0.7.3/web.browser/server.js"
+      ],
+      "meteor/underscore": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/pre.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/underscore.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/underscore/1.0.13/web.browser/post.js"
+      ],
+      "meteor/accounts-base": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/client_main.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_client.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_common.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/accounts_server.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/accounts-base/2.2.8/web.browser/server_main.js"
+      ],
+      "meteor/babel-compiler": [
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/babel.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/babel-compiler.js",
+        "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/babel-compiler/7.10.4/web.browser/versions.js"
       ]
     }
   },
   "typeAcquisition": {
-    "include": [
-      "meteor"
-    ]
+    "include": ["meteor"]
   },
-  "exclude": [
-    "node_modules",
-    ".meteor"
-  ]
+  "exclude": ["node_modules", ".meteor"]
 }
