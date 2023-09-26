@@ -1,48 +1,40 @@
-import { expect } from "chai";
+import {expect} from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 import * as Helpers from "../../../../imports/helpers/date";
 
 let MinutesSchema = {
-  minutes: [],
+  minutes : [],
 
-  find: function () {
-    return this.minutes;
-  },
+  find : function() { return this.minutes; },
 
-  update: sinon.stub(),
+  update : sinon.stub(),
 
-  insert: function (minute) {
-    this.minutes.push(minute);
-  },
+  insert : function(minute) { this.minutes.push(minute); },
 };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
 let MeetingSeriesSchema = {
-  series: [],
+  series : [],
 
-  find: function () {
-    return this.series;
-  },
+  find : function() { return this.series; },
 
-  update: sinon.stub(),
+  update : sinon.stub(),
 
-  insert: function (aSeries) {
-    this.series.push(aSeries);
-  },
+  insert : function(aSeries) { this.series.push(aSeries); },
 };
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
 Helpers["@noCallThru"] = true;
 
-const { MigrateV1 } = proxyquire("../../../../server/migrations/migrate_v1", {
-  "/imports/collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
-  "/imports/collections/meetingseries.schema": {
+const {MigrateV1} = proxyquire("../../../../server/migrations/migrate_v1", {
+  "/imports/collections/minutes.schema" : {MinutesSchema, "@noCallThru" : true},
+  "/imports/collections/meetingseries.schema" : {
     MeetingSeriesSchema,
-    "@noCallThru": true,
+    "@noCallThru" : true,
   },
-  "/imports/helpers/date": Helpers,
+  "/imports/helpers/date" : Helpers,
 });
 
 /**
@@ -98,43 +90,43 @@ let checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
   checkUpdatedTopic(updClosedTopic);
 };
 
-describe("Migrate Version 1", function () {
+describe("Migrate Version 1", function() {
   let series, minute, topic, closedTopic;
 
-  beforeEach(function () {
+  beforeEach(function() {
     topic = {
-      subject: "Topic Subject",
-      responsible: "person",
-      isOpen: true,
-      isNew: true,
-      priority: "High",
-      duedate: "2009-05-06",
-      details: [{ date: "2009-05-03", text: "" }],
+      subject : "Topic Subject",
+      responsible : "person",
+      isOpen : true,
+      isNew : true,
+      priority : "High",
+      duedate : "2009-05-06",
+      details : [ {date : "2009-05-03", text : ""} ],
     };
 
     closedTopic = JSON.parse(JSON.stringify(topic)); // clone topic
     closedTopic.isOpen = false;
 
-    minute = { _id: "AaBbCc01", topics: [topic] };
+    minute = {_id : "AaBbCc01", topics : [ topic ]};
 
     series = {
-      _id: "AaBbCc02",
-      openTopics: [topic],
-      closedTopics: [closedTopic],
+      _id : "AaBbCc02",
+      openTopics : [ topic ],
+      closedTopics : [ closedTopic ],
     };
 
     MinutesSchema.insert(minute);
     MeetingSeriesSchema.insert(series);
   });
 
-  afterEach(function () {
+  afterEach(function() {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
     MeetingSeriesSchema.series = [];
     MinutesSchema.minutes = [];
   });
 
-  describe("#up", function () {
+  describe("#up", function() {
     let checkUpdatedTopic = (updatedTopic) => {
       expect(updatedTopic).to.not.have.ownProperty("details");
       expect(updatedTopic).to.not.have.ownProperty("duedate");
@@ -145,20 +137,21 @@ describe("Migrate Version 1", function () {
       expect(updatedTopic.infoItems).to.be.empty;
     };
 
-    it("modifies the topic of the minute in the minutes collection", function () {
-      MigrateV1.up();
+    it("modifies the topic of the minute in the minutes collection",
+       function() {
+         MigrateV1.up();
 
-      checkUpdateMinuteCall(minute, checkUpdatedTopic);
-    });
+         checkUpdateMinuteCall(minute, checkUpdatedTopic);
+       });
 
-    it("modifies the open/closed topics of a series", function () {
+    it("modifies the open/closed topics of a series", function() {
       MigrateV1.up();
 
       checkUpdateMeetingSeriesCall(series, checkUpdatedTopic);
     });
   });
 
-  describe("#down", function () {
+  describe("#down", function() {
     let checkUpdatedTopic = (updatedTopic) => {
       expect(updatedTopic).to.have.ownProperty("details");
       expect(updatedTopic).to.have.ownProperty("duedate");
@@ -167,13 +160,14 @@ describe("Migrate Version 1", function () {
       expect(updatedTopic).to.not.have.ownProperty("infoItems");
     };
 
-    it("modifies the topic of the minute in the minutes collection", function () {
-      MigrateV1.down();
+    it("modifies the topic of the minute in the minutes collection",
+       function() {
+         MigrateV1.down();
 
-      checkUpdateMinuteCall(minute, checkUpdatedTopic);
-    });
+         checkUpdateMinuteCall(minute, checkUpdatedTopic);
+       });
 
-    it("modifies the open/closed topics of a series", function () {
+    it("modifies the open/closed topics of a series", function() {
       MigrateV1.down();
 
       checkUpdateMeetingSeriesCall(series, checkUpdatedTopic);
