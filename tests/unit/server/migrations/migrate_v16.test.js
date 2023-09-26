@@ -46,7 +46,7 @@ describe('Migrate Version 16', function () {
         TopicSchema.insert.reset();
         TopicSchema.find.reset();
         TopicSchema.remove.reset();
-        MeetingSeriesSchema.update.reset();
+        MeetingSeriesSchema.update.resetHistory();
         MeetingSeriesSchema.find.reset();
     });
 

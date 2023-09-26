@@ -46,11 +46,11 @@ describe('MigrateV23', function () {
 
         afterEach(function () {
             TopicSchemaCollection.find.reset();
-            TopicSchemaCollection.update.reset();
+            TopicSchemaCollection.update.resetHistory();
             TopicSchema.getCollection.reset();
 
             MinutesSchemaCollection.find.reset();
-            MinutesSchemaCollection.update.reset();
+            MinutesSchemaCollection.update.resetHistory();
             MinutesSchema.getCollection.reset();
         });
 

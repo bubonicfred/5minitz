@@ -44,7 +44,7 @@ describe('Migrate Version 22', function() {
 
         afterEach(function() {
             MeetingSeriesSchema.findOne.reset();
-            TopicSchema.update.reset();
+            TopicSchema.update.resetHistory();
             TopicSchema.find.reset();
         });
 
