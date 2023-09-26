@@ -15,7 +15,7 @@ browser.click = function (selector) {
     } catch (e) {
         let id = Math.random().toString(36).substr(2, 5);
         console.log(`browser.click() target "${selector}" not found - see screenshot with ID: ${id}`);
-        E2EGlobal.saveScreenshot(`click-error_${id}`);
+        await E2EGlobal.saveScreenshot(`click-error_${id}`);
         throw e;
     }
 };
@@ -38,7 +38,7 @@ browser.waitForVisible = function (selector, timeout, reverse, timeoutMsg, inter
     catch (e) {
         let id = Math.random().toString(36).substr(2, 5);
         console.log(`browser.waitForVisible() target "${selector}" not found - see screenshot with ID: ${id}`);
-        E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
+        await E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
         throw e;
     }
 };
@@ -47,5 +47,5 @@ browser.scroll = function (selector) {
 };
 
 browser.scrollXY = function (x, y) {
-    browser.execute('window.scrollTo('+x+','+y+');');
+    await browser.execute('window.scrollTo('+x+','+y+');');
 };

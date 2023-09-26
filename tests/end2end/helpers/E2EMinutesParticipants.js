@@ -3,38 +3,38 @@ import {E2EGlobal} from './E2EGlobal';
 export class E2EMinutesParticipants {
     
     constructor() {
-        this.updateUsersAndPresence();
+        await this.updateUsersAndPresence();
     }
 
 
 
     // ******************** STATIC Methods
-    static isExpanded() {
-        E2EGlobal.waitSomeTime(750);
+    static async isExpanded() {
+        await E2EGlobal.waitSomeTime(750);
         return browser.isExisting('#edtParticipantsAdditional');
     }
 
-    static isCollapsed() {
-        return ! E2EMinutesParticipants.isExpanded();
+    static async isCollapsed() {
+        return ! (await E2EMinutesParticipants.isExpanded());
     }
 
-    static expand() {
-        if (E2EMinutesParticipants.isCollapsed()) {
-            E2EGlobal.clickWithRetry('#btnParticipantsExpand');
-            browser.waitForVisible('#id_participants');
+    static async expand() {
+        if (await E2EMinutesParticipants.isCollapsed()) {
+            await E2EGlobal.clickWithRetry('#btnParticipantsExpand');
+            await browser.waitForVisible('#id_participants');
         }
     }
 
-    static collapse() {
-        if (E2EMinutesParticipants.isExpanded()) {
-            E2EGlobal.clickWithRetry('#btnParticipantsExpand');
+    static async collapse() {
+        if (await E2EMinutesParticipants.isExpanded()) {
+            await E2EGlobal.clickWithRetry('#btnParticipantsExpand');
 
             const waitForInvisible = true;
-            browser.waitForVisible('#id_participants', 10000, waitForInvisible);
+            await browser.waitForVisible('#id_participants', 10000, waitForInvisible);
         }
     }
 
-    static getPresentParticipantsFromServer(minutesId) {
+    static async getPresentParticipantsFromServer(minutesId) {
         try {
             return server.call('e2e.getPresentParticipantNames', minutesId);
         } catch (e) {
@@ -65,57 +65,57 @@ export class E2EMinutesParticipants {
              },
          }
      */
-    updateUsersAndPresence() {
+    async updateUsersAndPresence() {
         // scroll to top to make sure the page will not scroll if any element disappears (e.g. item input field)
-        browser.scrollXY(0, 0);
-        E2EMinutesParticipants.expand();
+        await browser.scrollXY(0, 0);
+        await E2EMinutesParticipants.expand();
 
         this._participantsAndPresence = {};
         try {
-            this._participantsAndPresence['##additional participants##'] = $('#edtParticipantsAdditional').getValue();
+            this._participantsAndPresence['##additional participants##'] = await $('#edtParticipantsAdditional').getValue();
         } catch(e) {
             this._participantsAndPresence['##additional participants##'] = '';
         }
 
-        const participants = $$('.js-participant-checkbox #id_username');
-        const presence = $$('input.js-toggle-present');
+        const participants = await $$('.js-participant-checkbox #id_username');
+        const presence = await $$('input.js-toggle-present');
 
         for (let participantIndex=0; participantIndex<participants.length; participantIndex++) {
-            let username = participants[participantIndex].getText();
+            let username = await participants[participantIndex].getText();
             let userElem = participants[participantIndex];
             let checkboxElem = presence[participantIndex];
 
             this._participantsAndPresence[username] = {
-                present: checkboxElem.isSelected(),
+                present: await checkboxElem.isSelected(),
                 checkboxElem: checkboxElem,
                 userElem: userElem
             };
         }
     }
 
-    getParticipantsCount () {
+    async getParticipantsCount() {
         // "-1" to skip this._participantsAndPresence["##additional participants##"]
         return Object.keys(this._participantsAndPresence).length -1;
     }
 
-    getParticipantInfo(username) {
+    async getParticipantInfo(username) {
         return this._participantsAndPresence[username];
     }
     
-    getAdditionalParticipants() {
+    async getAdditionalParticipants() {
         return this._participantsAndPresence['##additional participants##'];
     }
 
-    setUserPresence(username, presence) {
+    async setUserPresence(username, presence) {
         if (!this._participantsAndPresence[username]) {
             return false;
         }
-        let currentSelectState = this._participantsAndPresence[username].checkboxElem.isSelected();
+        let currentSelectState = await this._participantsAndPresence[username].checkboxElem.isSelected();
         if (currentSelectState !== presence) {
-            browser.scroll('#id_participants');
-            this._participantsAndPresence[username].userElem.click();
+            await browser.scroll('#id_participants');
+            await this._participantsAndPresence[username].userElem.click();
         }
-        this.updateUsersAndPresence();
+        await this.updateUsersAndPresence();
         return true;
     }
 }

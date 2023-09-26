@@ -1,6 +1,6 @@
 
 export class E2EGlobal {
-    static getTestSpecFilename() {
+    static async getTestSpecFilename() {
         if (!driver || !driver.config || !driver.config.spec) {
             return 'Unknown Test Spec Filename';
         }
@@ -11,8 +11,8 @@ export class E2EGlobal {
         return specfile.replace(/^.*[\\\/]/, '');
     }
 
-    static setValueSafe(selector, string, retries = 5) {
-        let currentValue = browser.getValue(selector),
+    static async setValueSafe(selector, string, retries = 5) {
+        let currentValue = await browser.getValue(selector),
             isInteractable = true,
             count = 0;
 
@@ -20,12 +20,12 @@ export class E2EGlobal {
             throw new Error('Entering newlines with setValueSafe is not supported.');
         }
 
-        browser.waitForVisible(selector);
+        await browser.waitForVisible(selector);
 
         while (count < retries && currentValue !== string) {
             try {
                 isInteractable = true;
-                browser.setValue(selector, string);
+                await browser.setValue(selector, string);
             } catch (e) {
                 const message = e.toString(),
                     notInteractable = message.includes('Element is not currently interactable and may not be manipulated'),
@@ -39,7 +39,7 @@ export class E2EGlobal {
             }
 
             if (!isInteractable) {
-                currentValue = browser.getValue(selector);
+                currentValue = await browser.getValue(selector);
             }
             count++;
         }
@@ -47,34 +47,34 @@ export class E2EGlobal {
 
     static pollingInterval = 250;
 
-    static waitUntil(predicate, timeout = 10000) {
+    static async waitUntil(predicate, timeout = 10000) {
         const start = new Date();
         let current = new Date();
 
         let i = 0;
         while (current - start < timeout) {
             try {
-                predicate();
+                await predicate();
                 return;
             } catch (e) {}
-            browser.pause(E2EGlobal.pollingInterval);
+            await browser.pause(E2EGlobal.pollingInterval);
             current = new Date();
         }
 
         throw new Error('waitUntil timeout');
     }
 
-    static clickWithRetry(selector, timeout = 10000) {
-        browser.scroll(selector);
-        E2EGlobal.waitSomeTime(100);
+    static async clickWithRetry(selector, timeout = 10000) {
+        await browser.scroll(selector);
+        await E2EGlobal.waitSomeTime(100);
 
         const start = new Date();
         let current = new Date();
 
         while (current - start < timeout) {
             try {
-                browser.click(selector);
-                E2EGlobal.waitSomeTime(100);
+                await browser.click(selector);
+                await E2EGlobal.waitSomeTime(100);
                 return;
             } catch (e) {
                 const message = e.toString(),
@@ -86,25 +86,25 @@ export class E2EGlobal {
                     throw e;
                 }
             }
-            browser.scroll(selector);
-            browser.pause(E2EGlobal.pollingInterval);
+            await browser.scroll(selector);
+            await browser.pause(E2EGlobal.pollingInterval);
             current = new Date();
         }
         throw new Error(`clickWithRetry ${selector} timeout`);
     }
 
-    static waitSomeTime (milliseconds) {
+    static async waitSomeTime(milliseconds) {
         if (!milliseconds) {
             // bootstrap fade animation time is 250ms, so give this some more...  ;-)
             milliseconds = 300;
         }
-        browser.pause(milliseconds);
+        await browser.pause(milliseconds);
 
         try {
             let max = 100;
-            while (browser.isVisible('#loading-container') && max > 0) {
+            while ((await browser.isVisible('#loading-container')) && max > 0) {
                 // E2EGlobal.saveScreenshot('loading');
-                browser.pause(100);
+                await browser.pause(100);
                 max--;
             }
         } catch (e) {
@@ -116,7 +116,7 @@ export class E2EGlobal {
         }
     }
 
-    static formatDateISO8601 (aDate) {
+    static async formatDateISO8601(aDate) {
         let dd = aDate.getDate();
         let mm = aDate.getMonth()+1; //January is 0!
         let yyyy = aDate.getFullYear();
@@ -129,7 +129,7 @@ export class E2EGlobal {
         return yyyy+'-'+mm+'-'+dd;
     }
 
-    static formatTimeISO8601 (aDate) {
+    static async formatTimeISO8601(aDate) {
         let isoString = '';
 
         try {
@@ -141,7 +141,7 @@ export class E2EGlobal {
         return isoString;
     }
 
-    static browserName() {
+    static async browserName() {
         if (browser &&
             browser._original &&
             browser._original.desiredCapabilities &&
@@ -152,11 +152,11 @@ export class E2EGlobal {
         return 'unknown';
     }
 
-    static browserIsPhantomJS() {
-        return (E2EGlobal.browserName() === 'phantomjs');
+    static async browserIsPhantomJS() {
+        return ((await E2EGlobal.browserName()) === 'phantomjs');
     }
 
-    static isChrome() {
+    static async isChrome() {
         if (browser &&
             browser.options &&
             browser.options.desiredCapabilities) {
@@ -166,7 +166,7 @@ export class E2EGlobal {
         return false;
     }
 
-    static isHeadless() {
+    static async isHeadless() {
         if (browser &&
             browser.options &&
             browser.options.desiredCapabilities) {
@@ -176,14 +176,14 @@ export class E2EGlobal {
         return false;
     }
 
-    static browserIsHeadlessChrome() {
-        return E2EGlobal.isChrome() && E2EGlobal.isHeadless();
+    static async browserIsHeadlessChrome() {
+        return (await E2EGlobal.isChrome()) && (await E2EGlobal.isHeadless());
     }
 
-    static isCheckboxSelected(selector) {
-        let element = browser.element(selector).value;
+    static async isCheckboxSelected(selector) {
+        let element = (await browser.element(selector)).value;
         let checkboxId = element.ELEMENT;
-        return browser.elementIdSelected(checkboxId).value;
+        return (await browser.elementIdSelected(checkboxId)).value;
     }
 
     /**
@@ -192,36 +192,36 @@ export class E2EGlobal {
      *
      * @param filename
      */
-    static saveScreenshot(filename) {
+    static async saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, '') + '_';
-        filename = E2EGlobal.getTestSpecFilename()+'_'+
+        filename = (await E2EGlobal.getTestSpecFilename())+'_'+
             dateStr +
             (filename ? '_' : '') +
             filename;
         let fullpath = './tests/snapshots/' + filename + '.png';
-        browser.saveScreenshot(fullpath);
+        await browser.saveScreenshot(fullpath);
         console.log('Screenshot taken: ', fullpath);
         return fullpath;
     }
 
-    static sendKeysWithPause(...keysAndPauses) {
-        function isOdd(num) {
+    static async sendKeysWithPause(...keysAndPauses) {
+        async function isOdd(num) {
             return num % 2;
         }
 
-        const keys = keysAndPauses.filter((_, index) => !isOdd(index)),
-            pauses = keysAndPauses.filter((_, index) => isOdd(index)),
+        const keys = keysAndPauses.filter((_, index) => !(await isOdd(index))),
+            pauses = keysAndPauses.filter((_, index) => await isOdd(index)),
             numberOfKeys = keys.length;
         
         for (let i = 0; i < numberOfKeys; ++i) {
-            browser.keys(keys[i]);
-            E2EGlobal.waitSomeTime(pauses[i] || 250);
+            await browser.keys(keys[i]);
+            await E2EGlobal.waitSomeTime(pauses[i] || 250);
             // E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
         }
     }
 
-    static logTimestamp(text) {
-        console.log('---', E2EGlobal.formatTimeISO8601(new Date()), text);
+    static async logTimestamp(text) {
+        console.log('---', await E2EGlobal.formatTimeISO8601(new Date()), text);
     }
 }
 

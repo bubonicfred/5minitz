@@ -8,38 +8,38 @@ import { E2EMinutes } from './E2EMinutes'
 
 
 export class E2EAttachments {
-    static expandAttachmentsArea() {
-        browser.waitForExist("#btn2AttachmentsExpand");
-        E2EGlobal.clickWithRetry("#btn2AttachmentsExpand");
-        E2EGlobal.waitSomeTime();
+    static async expandAttachmentsArea() {
+        await browser.waitForExist("#btn2AttachmentsExpand");
+        await E2EGlobal.clickWithRetry("#btn2AttachmentsExpand");
+        await E2EGlobal.waitSomeTime();
     }
 
-    static isUploadButtonVisible() {
+    static async isUploadButtonVisible() {
         return browser.isVisible("#lblUpload");
     }
 
-    static uploadFile (filename) {
+    static async uploadFile(filename) {
         expect(fs.existsSync(filename),
             "E2EAttachments.uploadFile(): file should exist: "+filename)
             .to.be.ok;
 
-        if (! E2EAttachments.isUploadButtonVisible()) {
-            E2EAttachments.expandAttachmentsArea();
+        if (! (await E2EAttachments.isUploadButtonVisible())) {
+            await E2EAttachments.expandAttachmentsArea();
         }
 
         // Different file upload mechanisms for headless and desktop browsers
-        if (E2EGlobal.browserIsPhantomJS()) {
-            browser.execute(function () {
+        if (await E2EGlobal.browserIsPhantomJS()) {
+            await browser.execute(function () {
                 $('#btnUploadAttachment').attr("style", "").focus();  // remove display:none style so that focus() works
             });
-            browser.keys(filename); // send filename as keystrokes
+            await browser.keys(filename); // send filename as keystrokes
         } else {
-            browser.chooseFile("#btnUploadAttachment", filename);
+            await browser.chooseFile("#btnUploadAttachment", filename);
         }
-        E2EGlobal.waitSomeTime(1500);
+        await E2EGlobal.waitSomeTime(1500);
     }
 
-    static getChromeDownloadDirectory() {
+    static async getChromeDownloadDirectory() {
         // .meteor/chimp_config.js configures chrome download dir relative to cwd()
         let chimpopts = require ('../../../.meteor/chimp_config');
         let downloadDir = chimpopts.webdriverio.desiredCapabilities.chromeOptions.prefs["download.default_directory"];
@@ -48,24 +48,24 @@ export class E2EAttachments {
         return downloadDir;
     }
 
-    static switchToUserWithDifferentRole(newRole, _projectName, _lastMeetingName) {
+    static async switchToUserWithDifferentRole(newRole, _projectName, _lastMeetingName) {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, newRole);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
-        E2EApp.loginUser(1);
-        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
-        E2EMinutes.gotoLatestMinutes();
+        await E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
+        await E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, newRole);
+        await E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
+        await E2EApp.loginUser(1);
+        await E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
+        await E2EMinutes.gotoLatestMinutes();
     }
 
-    static countAttachmentsGlobally() {
+    static async countAttachmentsGlobally() {
         return server.call('e2e.countAttachmentsInMongoDB');
     }
 
     // execute an attachment collection count in the
     // client browser context with currently logged in user
-    static countAttachmentsOnClientForCurrentUser() {
-        let result = browser.execute(function () {
+    static async countAttachmentsOnClientForCurrentUser() {
+        let result = await browser.execute(function () {
             let mod = require("/imports/collections/attachments_private");
             let coll = mod.AttachmentsCollection;
             return coll.find().count();
@@ -74,18 +74,18 @@ export class E2EAttachments {
     }
 
 
-    static getAttachmentDocsForMinuteID(minID) {
-        E2EGlobal.waitSomeTime(2000);
+    static async getAttachmentDocsForMinuteID(minID) {
+        await E2EGlobal.waitSomeTime(2000);
         return server.call('e2e.getAttachmentsForMinute', minID);
     }
 
 
-    static getRemoveButtons() {
-        return browser.elements('button#btnDelAttachment').value;
+    static async getRemoveButtons() {
+        return (await browser.elements('button#btnDelAttachment')).value;
     }
 
-    static getDownloadLinks() {
-        return browser.elements('a.linkToAttachmentDownload').value;
+    static async getDownloadLinks() {
+        return (await browser.elements('a.linkToAttachmentDownload')).value;
     }
 
 }

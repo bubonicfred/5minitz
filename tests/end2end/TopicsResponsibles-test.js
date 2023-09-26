@@ -12,113 +12,113 @@ describe('Topics Responsibles', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        E2EApp.gotoStartPage();
-        expect (E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect (await E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
 
     it('can add a responsible to a topic', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
-        E2ETopics.addTopicToMinutes('TOP-1', user1);
+        await E2ETopics.addTopicToMinutes('TOP-1', user1);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(user1);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(user1);
     });
 
 
     it('can add two responsibles to a topic', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2ETopics.addTopicToMinutes('TOP-1', user1+","+user2);
+        await E2ETopics.addTopicToMinutes('TOP-1', user1+","+user2);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(user1);
-        expect (topicHeadingText).to.contain(user2);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(user1);
+        await expect (topicHeadingText).to.contain(user2);
     });
 
 
     it('can remove a responsible from a topic', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2ETopics.addTopicToMinutes('TOP-1', user1+","+user2);
+        await E2ETopics.addTopicToMinutes('TOP-1', user1+","+user2);
 
-        E2ETopics.openEditTopicForMinutes(1);
-        browser.element(".form-group-responsibles .select2-selection__choice__remove").click(); // remove first user
-        browser.element(".form-group-responsibles .select2-selection").click();
-        E2EGlobal.clickWithRetry("#btnTopicSave");
-        E2EGlobal.waitSomeTime();
+        await E2ETopics.openEditTopicForMinutes(1);
+        await (await browser.element(".form-group-responsibles .select2-selection__choice__remove")).click(); // remove first user
+        await (await browser.element(".form-group-responsibles .select2-selection")).click();
+        await E2EGlobal.clickWithRetry("#btnTopicSave");
+        await E2EGlobal.waitSomeTime();
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(user2);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(user2);
     });
 
 
     it('can add arbitrary free text responsible name', function () {
         let username = "Max Mustermann";
-        E2ETopics.addTopicToMinutes('TOP-1', username);
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(username);
+        await E2ETopics.addTopicToMinutes('TOP-1', username);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(username);
     });
 
     it('can add a responsible from the participant users', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
-        E2ETopics.addTopicToMinutes('TOP-1', "");
+        await E2ETopics.addTopicToMinutes('TOP-1', "");
 
-        E2ETopics.openEditTopicForMinutes(1);
-        browser.element(".form-group-responsibles .select2-selection").click();
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.sendKeysWithPause("1", 200, "\uE015\uE007");
-        E2EGlobal.clickWithRetry("#btnTopicSave");
-        E2EGlobal.waitSomeTime(500);
+        await E2ETopics.openEditTopicForMinutes(1);
+        await (await browser.element(".form-group-responsibles .select2-selection")).click();
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.sendKeysWithPause("1", 200, "\uE015\uE007");
+        await E2EGlobal.clickWithRetry("#btnTopicSave");
+        await E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(user1);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(user1);
     });
 
     it('can add a responsible from user collection that is not a participant', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
-        E2ETopics.addTopicToMinutes('TOP-1', "");
+        await E2ETopics.addTopicToMinutes('TOP-1', "");
 
-        E2ETopics.openEditTopicForMinutes(1);
-        E2EGlobal.waitSomeTime();
-        browser.element(".form-group-responsibles .select2-selection").click();
-        E2EGlobal.sendKeysWithPause("3", 200, "\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
-        E2EGlobal.clickWithRetry("#btnTopicSave");
-        E2EGlobal.waitSomeTime(500);
+        await E2ETopics.openEditTopicForMinutes(1);
+        await E2EGlobal.waitSomeTime();
+        await (await browser.element(".form-group-responsibles .select2-selection")).click();
+        await E2EGlobal.sendKeysWithPause("3", 200, "\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
+        await E2EGlobal.clickWithRetry("#btnTopicSave");
+        await E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(user3);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(user3);
     });
 
     it('can add a responsible from drop-down that is an additional participant', function () {
         let additionalParticipant = "Additional Participant";
-        browser.setValue('#edtParticipantsAdditional', additionalParticipant);
+        await browser.setValue('#edtParticipantsAdditional', additionalParticipant);
 
-        E2ETopics.addTopicToMinutes('TOP-1', "");
+        await E2ETopics.addTopicToMinutes('TOP-1', "");
 
-        E2ETopics.openEditTopicForMinutes(1);
-        E2EGlobal.waitSomeTime();
+        await E2ETopics.openEditTopicForMinutes(1);
+        await E2EGlobal.waitSomeTime();
 
-        browser.element(".form-group-responsibles .select2-selection").click();
+        await (await browser.element(".form-group-responsibles .select2-selection")).click();
         // We only send the beginning of the name, to ensure the drop-down is used for selection!
-        E2EGlobal.sendKeysWithPause("Addi", 300, "\uE015\uE007");  // + CursorDown + Enter
+        await E2EGlobal.sendKeysWithPause("Addi", 300, "\uE015\uE007");  // + CursorDown + Enter
 
-        E2EGlobal.clickWithRetry("#btnTopicSave");
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry("#btnTopicSave");
+        await E2EGlobal.waitSomeTime();
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
-        expect (topicHeadingText).to.contain(additionalParticipant);
+        let topicHeadingText = await (await browser.element("#topicPanel .well:nth-child(1) h3")).getText();
+        await expect (topicHeadingText).to.contain(additionalParticipant);
     });
 });

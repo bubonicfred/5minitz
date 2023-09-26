@@ -19,23 +19,23 @@ describe('ActionItems Responsibles', function () {
     let aAICounter = 0;
     let aAINameBase = "Action Item Name #";
 
-    let getNewMeetingName = () => {
+    let getNewMeetingName = async () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    let getNewTopicName = async () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewAIName = () => {
+    let getNewAIName = async () => {
         aAICounter++;
         return aAINameBase + aAICounter;
     };
 
-    function addActionItemToFirstTopic() {
-        let actionItemName = getNewAIName();
+    async function addActionItemToFirstTopic() {
+        let actionItemName = await getNewAIName();
 
-        E2ETopics.addInfoItemToTopic({
+        await E2ETopics.addInfoItemToTopic({
             subject: actionItemName,
             itemType: "actionItem"
         }, 1);
@@ -44,44 +44,44 @@ describe('ActionItems Responsibles', function () {
     }
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
-        E2EApp.gotoStartPage();
-        expect (E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect (await E2EApp.isLoggedIn()).to.be.true;
 
-        aMeetingName = getNewMeetingName();
+        aMeetingName = await getNewMeetingName();
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        aTopicName = getNewTopicName();
-        E2ETopics.addTopicToMinutes(aTopicName);
+        aTopicName = await getNewTopicName();
+        await E2ETopics.addTopicToMinutes(aTopicName);
     });
 
     it('can add an action item with a responsible', function () {
         let topicIndex = 1;
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
-        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
+        await E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
-        const actionItemName = getNewAIName();
-        E2ETopics.insertInfoItemDataIntoDialog({
+        const actionItemName = await getNewAIName();
+        await E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
             itemType: "actionItem",
             responsible: user1
         });
-        browser.element("#btnInfoItemSave").click();
-        E2EGlobal.waitSomeTime();
+        await (await browser.element("#btnInfoItemSave")).click();
+        await E2EGlobal.waitSomeTime();
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        let actionItemExpandElement = (await browser.element(selector)).value.ELEMENT;
+        let actionItemExpandElementText = (await browser.elementIdText(actionItemExpandElement)).value;
 
-        expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
+        await expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
     });
 
 
@@ -90,56 +90,56 @@ describe('ActionItems Responsibles', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
 
-        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
+        await E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
-        const actionItemName = getNewAIName();
-        E2ETopics.insertInfoItemDataIntoDialog({
+        const actionItemName = await getNewAIName();
+        await E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
             itemType: "actionItem",
             responsible: user1+","+user2
         });
-        browser.element("#btnInfoItemSave").click();
-        E2EGlobal.waitSomeTime();
+        await (await browser.element("#btnInfoItemSave")).click();
+        await E2EGlobal.waitSomeTime();
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        let actionItemExpandElement = (await browser.element(selector)).value.ELEMENT;
+        let actionItemExpandElementText = (await browser.elementIdText(actionItemExpandElement)).value;
 
-        expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
-        expect(actionItemExpandElementText, "user2 shall be responsible").to.have.string(user2);
+        await expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
+        await expect(actionItemExpandElementText, "user2 shall be responsible").to.have.string(user2);
     });
 
 
     it('can add an action item with a free-text EMail-responsible', function () {
         let topicIndex = 1;
         let emailUser = "noreply@4minitz.com";
-        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
+        await E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
-        const actionItemName = getNewAIName();
-        E2ETopics.insertInfoItemDataIntoDialog({
+        const actionItemName = await getNewAIName();
+        await E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
             itemType: "actionItem",
             responsible: emailUser
         });
-        browser.element("#btnInfoItemSave").click();
-        E2EGlobal.waitSomeTime();
+        await (await browser.element("#btnInfoItemSave")).click();
+        await E2EGlobal.waitSomeTime();
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        let actionItemExpandElement = (await browser.element(selector)).value.ELEMENT;
+        let actionItemExpandElementText = (await browser.elementIdText(actionItemExpandElement)).value;
 
-        expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(emailUser);
-        E2EGlobal.waitSomeTime();
+        await expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(emailUser);
+        await E2EGlobal.waitSomeTime();
     });
 
 
     it('prohibits non-email-string as free-text responsible', function () {
         let topicIndex = 1;
         let illegalUserName = "NonEMailResponsible";
-        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
+        await E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
-        const actionItemName = getNewAIName();
-        E2ETopics.insertInfoItemDataIntoDialog({
+        const actionItemName = await getNewAIName();
+        await E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
             itemType: "actionItem",
             responsible: illegalUserName
@@ -148,19 +148,19 @@ describe('ActionItems Responsibles', function () {
         // check if 'Invalid Responsible' modal info dialog shows up
         // Hint: browser.getText("h4.modal-title") delivers an array
         // where we are only interested in the *last* element - thus we pop()
-        E2EGlobal.waitSomeTime();
-        expect(browser.getText("h4.modal-title").pop(), "'Invalid Responsible' modal should be visible").to.have.string("Invalid Responsible");
+        await E2EGlobal.waitSomeTime();
+        await expect((await browser.getText("h4.modal-title")).pop(), "'Invalid Responsible' modal should be visible").to.have.string("Invalid Responsible");
 
-        E2EApp.confirmationDialogAnswer(true);  // click info modal "OK"
-        E2EGlobal.waitSomeTime();
+        await E2EApp.confirmationDialogAnswer(true);  // click info modal "OK"
+        await E2EGlobal.waitSomeTime();
 
-        browser.element("#btnInfoItemSave").click();    // save AI
-        E2EGlobal.waitSomeTime();
+        await (await browser.element("#btnInfoItemSave")).click();    // save AI
+        await E2EGlobal.waitSomeTime();
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        let actionItemExpandElement = (await browser.element(selector)).value.ELEMENT;
+        let actionItemExpandElementText = (await browser.elementIdText(actionItemExpandElement)).value;
 
-        expect(actionItemExpandElementText, "no illegal responsible added").not.to.have.string(illegalUserName);
+        await expect(actionItemExpandElementText, "no illegal responsible added").not.to.have.string(illegalUserName);
     });
 });

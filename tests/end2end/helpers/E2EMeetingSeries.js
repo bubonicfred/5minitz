@@ -3,74 +3,74 @@ import { E2EApp } from './E2EApp';
 
 
 export class E2EMeetingSeries {
-    static countMeetingSeries (gotToStartPage = true) {
+    static async countMeetingSeries(gotToStartPage = true) {
         if (gotToStartPage) {
-            E2EApp.gotoStartPage();
+            await E2EApp.gotoStartPage();
         }
         try {
-            browser.waitForExist('li.meeting-series-item');
+            await browser.waitForExist('li.meeting-series-item');
         } catch (e) {
             return 0;   // we have no meeting series <li> => "zero" result
         }
-        const elements = browser.elements('li.meeting-series-item');
+        const elements = await browser.elements('li.meeting-series-item');
         return elements.length;
     }
 
 
-    static editMeetingSeriesForm (aProj, aName, switchInput) {
-        E2EApp.gotoStartPage();
+    static async editMeetingSeriesForm(aProj, aName, switchInput) {
+        await E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
-        if (!browser.isVisible('input[id="id_meetingproject"]')) {
-            E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
-            E2EGlobal.waitSomeTime();
-            browser.waitForVisible('input[id="id_meetingproject"]');
+        if (!(await browser.isVisible('input[id="id_meetingproject"]'))) {
+            await E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
+            await E2EGlobal.waitSomeTime();
+            await browser.waitForVisible('input[id="id_meetingproject"]');
         }
 
         if (switchInput) {
-            browser.setValue('input[id="id_meetingname"]', aName);
-            browser.setValue('input[id="id_meetingproject"]', aProj);
+            await browser.setValue('input[id="id_meetingname"]', aName);
+            await browser.setValue('input[id="id_meetingproject"]', aProj);
         } else {
-            browser.setValue('input[id="id_meetingproject"]', aProj);
-            browser.setValue('input[id="id_meetingname"]', aName);
+            await browser.setValue('input[id="id_meetingproject"]', aProj);
+            await browser.setValue('input[id="id_meetingname"]', aName);
         }
     }
 
-    static createMeetingSeries (aProj, aName, keepOpenMSEditor, switchInput) {
-        this.editMeetingSeriesForm(aProj, aName,  switchInput);
-        E2EGlobal.waitSomeTime();
+    static async createMeetingSeries(aProj, aName, keepOpenMSEditor, switchInput) {
+        await this.editMeetingSeriesForm(aProj, aName,  switchInput);
+        await E2EGlobal.waitSomeTime();
 
-        E2EGlobal.clickWithRetry('#btnAddInvite');
-        E2EGlobal.logTimestamp('will open MS Editor');
+        await E2EGlobal.clickWithRetry('#btnAddInvite');
+        await E2EGlobal.logTimestamp('will open MS Editor');
         try {
-            browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000); // will check every 500ms
-            E2EGlobal.logTimestamp('is open: MS Editor');
+            await browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000); // will check every 500ms
+            await E2EGlobal.logTimestamp('is open: MS Editor');
         } catch (e) {
-            E2EGlobal.logTimestamp('could not open: MS Editor');
+            await E2EGlobal.logTimestamp('could not open: MS Editor');
             if (keepOpenMSEditor) {
                 throw e;
             }
         }
-        E2EGlobal.waitSomeTime(1000);  // additional time for panel switch!
-        let meetingSeriesID = browser.getUrl();
+        await E2EGlobal.waitSomeTime(1000);  // additional time for panel switch!
+        let meetingSeriesID = await browser.getUrl();
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, '');
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, '');
 
         if (! keepOpenMSEditor) {
-            if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
-                E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+            if (await browser.isVisible('#btnMeetinSeriesEditCancel')) {
+                await E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
                 // browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
             } else {
                 // if for miracoulous reasons the MS editor is already gone - we will try to continue...
-                E2EGlobal.logTimestamp('MS Editor is closed by miracle. Continue.');
+                await E2EGlobal.logTimestamp('MS Editor is closed by miracle. Continue.');
             }
-            E2EApp.gotoStartPage();
+            await E2EApp.gotoStartPage();
         }
         return meetingSeriesID;
     }
 
 
-    static getMeetingSeriesId (aProj, aName) {
+    static async getMeetingSeriesId(aProj, aName) {
         const link = $('='+aProj+': '+aName);
         if (!link.isExisting()) {
             console.log('Could not find MSId for', aProj, aName);
@@ -80,80 +80,80 @@ export class E2EMeetingSeries {
         return linkTarget.slice(linkTarget.lastIndexOf('/')+1);
     }
 
-    static gotoMeetingSeries (aProj, aName) {
-        E2EApp.gotoStartPage();
-        E2EGlobal.waitSomeTime();
+    static async gotoMeetingSeries(aProj, aName) {
+        await E2EApp.gotoStartPage();
+        await E2EGlobal.waitSomeTime();
 
         let selector = 'li.meeting-series-item a';
         try {
-            browser.waitForExist(selector);
+            await browser.waitForExist(selector);
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
         let compareText = aProj+': '+aName;
 
         const element = $('='+compareText);
-        if (!element.isExisting()) {
+        if (!(await element.isExisting())) {
             throw new Error('Could not find Meeting Series \''+compareText+'\'');
         }
-        element.scrollIntoView();
-        E2EGlobal.waitSomeTime(100);
-        element.click();
-        E2EGlobal.waitSomeTime(500);
-        let currentURL = browser.getUrl();
+        await element.scrollIntoView();
+        await E2EGlobal.waitSomeTime(100);
+        await element.click();
+        await E2EGlobal.waitSomeTime(500);
+        let currentURL = await browser.getUrl();
         if (!currentURL.includes('meetingseries')) {
             throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
         }
         return true;
     }
 
-    static gotoTabMinutes() {
+    static async gotoTabMinutes() {
         let selector = '#tab_minutes';
         try {
-            browser.waitForExist(selector);
+            await browser.waitForExist(selector);
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        E2EGlobal.clickWithRetry(selector);
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry(selector);
+        await E2EGlobal.waitSomeTime();
     }
 
-    static gotoTabTopics() {
+    static async gotoTabTopics() {
         let selector = '#tab_topics';
         try {
-            browser.waitForExist(selector);
+            await browser.waitForExist(selector);
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        E2EGlobal.clickWithRetry(selector);
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry(selector);
+        await E2EGlobal.waitSomeTime();
     }
 
-    static gotoTabItems() {
+    static async gotoTabItems() {
         let selector = '#tab_items';
         try {
-            browser.waitForExist(selector);
+            await browser.waitForExist(selector);
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        E2EGlobal.clickWithRetry(selector);
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry(selector);
+        await E2EGlobal.waitSomeTime();
     }
 
-    static searchMeetingSeries (query) {
-        E2EApp.gotoStartPage();
+    static async searchMeetingSeries(query) {
+        await E2EApp.gotoStartPage();
 
-        if (browser.isVisible('input[id="id_MeetingSeriesSearch"]')) {
-            browser.setValue('input[id="id_MeetingSeriesSearch"]', query);
+        if (await browser.isVisible('input[id="id_MeetingSeriesSearch"]')) {
+            await browser.setValue('input[id="id_MeetingSeriesSearch"]', query);
         }
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.waitSomeTime();
     }
 
-    static visibleMeetingSeriesSearch() {
+    static async visibleMeetingSeriesSearch() {
         return browser.isVisible('input[id="id_MeetingSeriesSearch"]');
     }
 
-    static visibleWarning() {
+    static async visibleWarning() {
         return browser.isVisible('span[id="id_noresults"]');
     }
 }

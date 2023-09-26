@@ -12,288 +12,288 @@ describe('MeetingSeries complete Topic list', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        E2EApp.gotoStartPage();
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
 
     it("copies all topics of the first minute to the parent series including both all info- and actionItems.", function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabTopics();
+        await E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.countTopicsForMinute(), "Meeting Series should have one topic").to.equal(1);
+        await expect(await E2ETopics.countTopicsForMinute(), "Meeting Series should have one topic").to.equal(1);
 
-        expect(E2ETopics.countItemsForTopic(1), "Topic should have two items").to.equal(2);
+        await expect(await E2ETopics.countItemsForTopic(1), "Topic should have two items").to.equal(2);
 
-        let items = E2ETopics.getItemsForTopic(1);
+        let items = await E2ETopics.getItemsForTopic(1);
         let firstItemElement = items[0].ELEMENT;
-        expect(browser.elementIdText(firstItemElement).value, "fist element should be the action item").to.have.string('some action item');
+        await expect((await browser.elementIdText(firstItemElement)).value, "fist element should be the action item").to.have.string('some action item');
 
         let sndElement = items[1].ELEMENT;
-        expect(browser.elementIdText(sndElement).value, "2nd element should be the info item").to.have.string('some information');
+        await expect((await browser.elementIdText(sndElement)).value, "2nd element should be the info item").to.have.string('some information');
     });
 
     it('closes the topic if it were discussed and has no open AI', function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-        E2ETopics.toggleActionItem(1, 1);
-        E2ETopics.toggleTopic(1);
+        await E2ETopics.toggleActionItem(1, 1);
+        await E2ETopics.toggleTopic(1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabTopics();
+        await E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
+        expect(await E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
     });
 
     it('remains the topic open if it were neither discussed nor has open AI', function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabTopics();
+        await E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
+        expect(await E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
     });
 
     it('remains the topic open if it were not discussed but has no open AI', function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-        E2ETopics.toggleTopic(1);
+        await E2ETopics.toggleTopic(1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabTopics();
+        await E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
+        expect(await E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
     });
 
     it('remains the topic open if it were discussed but has open AI', function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-        E2ETopics.toggleActionItem(1, 1);
+        await E2ETopics.toggleActionItem(1, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabTopics();
+        await E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
+        expect(await E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
     });
 
 	it('Closed Topics have a Re-open Button, open ones not', function () {
-		E2ETopics.addTopicToMinutes('some open topic');
-		E2ETopics.addTopicToMinutes('some closed topic');
-		E2ETopics.toggleTopic(1);
+		await E2ETopics.addTopicToMinutes('some open topic');
+		await E2ETopics.addTopicToMinutes('some closed topic');
+		await E2ETopics.toggleTopic(1);
 		
-		E2EMinutes.finalizeCurrentMinutes();
-        E2EMinutes.gotoParentMeetingSeries();
-		E2EMeetingSeries.gotoTabTopics();
+		await E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.gotoParentMeetingSeries();
+		await E2EMeetingSeries.gotoTabTopics();
 		
-		expect(E2ETopics.isTopicClosed(2), "Topic should be open").to.be.false;
-		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
+		expect(await E2ETopics.isTopicClosed(2), "Topic should be open").to.be.false;
+		expect(await E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
 		
-		expect(E2ETopics.hasDropDownMenuButton(2, '#btnReopenTopic')).to.be.false;
-		expect(E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.true;
+		expect(await E2ETopics.hasDropDownMenuButton(2, '#btnReopenTopic')).to.be.false;
+		expect(await E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.true;
 	});
 	
 	it('Only Moderator can Re-Open a closed Topic', function () {
-		E2ETopics.addTopicToMinutes('some closed topic');
-		E2ETopics.toggleTopic(1);
-		E2EMinutes.finalizeCurrentMinutes();
+		await E2ETopics.addTopicToMinutes('some closed topic');
+		await E2ETopics.toggleTopic(1);
+		await E2EMinutes.finalizeCurrentMinutes();
 		
-		E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        E2EGlobal.waitSomeTime(750);
+		await E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        await E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
-		E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+        await E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+		await E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 		
-        E2EApp.loginUser(1);
-		E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-		E2EMeetingSeries.gotoTabTopics();
+        await E2EApp.loginUser(1);
+		await E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+		await E2EMeetingSeries.gotoTabTopics();
 		
-		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
-		expect(E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.false;
-        E2EApp.loginUser();		
+		expect(await E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
+		expect(await E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.false;
+        await E2EApp.loginUser();		
 	});
 
 	it('Reopen a Topic if there is no currently unfinalized Minute', function () {
-		E2ETopics.addTopicToMinutes('some closed topic');
-		E2ETopics.toggleTopic(1);
-		E2EMinutes.finalizeCurrentMinutes();
+		await E2ETopics.addTopicToMinutes('some closed topic');
+		await E2ETopics.toggleTopic(1);
+		await E2EMinutes.finalizeCurrentMinutes();
 		
-		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-		E2EMinutes.finalizeCurrentMinutes();
+		await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+		await E2EMinutes.finalizeCurrentMinutes();
 		
-		E2EMinutes.gotoParentMeetingSeries();
-		E2EMeetingSeries.gotoTabTopics();
-		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
+		await E2EMinutes.gotoParentMeetingSeries();
+		await E2EMeetingSeries.gotoTabTopics();
+		expect(await E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
 		
 		//try to reopen the topic
-		E2ETopics.reOpenTopic(1);
-		expect(E2ETopics.isTopicClosed(1), "Topic should be reopened").to.be.false;
+		await E2ETopics.reOpenTopic(1);
+		expect(await E2ETopics.isTopicClosed(1), "Topic should be reopened").to.be.false;
 		
 		// currently finalized minute should not get the reopened Topic
-		E2EMeetingSeries.gotoTabMinutes();
-		E2EMinutes.gotoLatestMinutes();
-		expect(E2ETopics.countTopicsForMinute()).to.equal(0);
+		await E2EMeetingSeries.gotoTabMinutes();
+		await E2EMinutes.gotoLatestMinutes();
+		await expect(await E2ETopics.countTopicsForMinute()).to.equal(0);
 		
 		//a minute which is opened after reopening the topic should contain the topic
-		E2EMinutes.gotoParentMeetingSeries();
-		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-		E2EMinutes.gotoLatestMinutes();
-		expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+		await E2EMinutes.gotoParentMeetingSeries();
+		await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+		await E2EMinutes.gotoLatestMinutes();
+		await expect(await E2ETopics.countTopicsForMinute()).to.equal(1);
 	});
 
 	it('Reopen a Topic if there is a currently unfinalized Minute', function () {
-		E2ETopics.addTopicToMinutes('some closed topic');
-		E2ETopics.toggleTopic(1);
-		E2EMinutes.finalizeCurrentMinutes();
+		await E2ETopics.addTopicToMinutes('some closed topic');
+		await E2ETopics.toggleTopic(1);
+		await E2EMinutes.finalizeCurrentMinutes();
 		
-		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-		expect(E2ETopics.countTopicsForMinute()).to.equal(0);
+		await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+		await expect(await E2ETopics.countTopicsForMinute()).to.equal(0);
 		
-		E2EMinutes.gotoParentMeetingSeries();
-		E2EMeetingSeries.gotoTabTopics();
-		E2ETopics.reOpenTopic(1);		
+		await E2EMinutes.gotoParentMeetingSeries();
+		await E2EMeetingSeries.gotoTabTopics();
+		await E2ETopics.reOpenTopic(1);		
 		
 		// the topic should have been copied to the latest minute
-		E2EMeetingSeries.gotoTabMinutes();
-		E2EMinutes.gotoLatestMinutes();
-		E2EGlobal.waitSomeTime();
-		expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+		await E2EMeetingSeries.gotoTabMinutes();
+		await E2EMinutes.gotoLatestMinutes();
+		await E2EGlobal.waitSomeTime();
+		await expect(await E2ETopics.countTopicsForMinute()).to.equal(1);
 	});	
 	
     describe('merge topics', function () {
 
         beforeEach('Create and finalize a first minute', function() {
-            E2ETopics.addTopicToMinutes('some topic');
-            E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-            E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+            await E2ETopics.addTopicToMinutes('some topic');
+            await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+            await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
         });
 
         it('clears the topic list if the first minute will be un-finalized.', function() {
-            E2EMinutes.gotoLatestMinutes();
+            await E2EMinutes.gotoLatestMinutes();
 
-            E2EMinutes.unfinalizeCurrentMinutes();
+            await E2EMinutes.unfinalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            expect(E2ETopics.countTopicsForMinute()).to.equal(0);
+            await expect(await E2ETopics.countTopicsForMinute()).to.equal(0);
         });
 
         it("adds new topics and AIs/IIs to the topic list of the meeting series", function () {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
             // add new items (AI and II) to existing topic
-            E2ETopics.addInfoItemToTopic({subject: 'some other information'}, 1);
-            E2ETopics.addInfoItemToTopic({subject: 'some other action item', itemType: "actionItem"}, 1);
+            await E2ETopics.addInfoItemToTopic({subject: 'some other information'}, 1);
+            await E2ETopics.addInfoItemToTopic({subject: 'some other action item', itemType: "actionItem"}, 1);
 
             // add a new topic
-            E2ETopics.addTopicToMinutes('some other topic');
-            E2ETopics.addInfoItemToTopic({subject: 'with information'}, 1);
-            E2ETopics.addInfoItemToTopic({subject: 'with an action item', itemType: "actionItem"}, 1);
+            await E2ETopics.addTopicToMinutes('some other topic');
+            await E2ETopics.addInfoItemToTopic({subject: 'with information'}, 1);
+            await E2ETopics.addInfoItemToTopic({subject: 'with an action item', itemType: "actionItem"}, 1);
 
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            expect(E2ETopics.countTopicsForMinute(), "Meeting Series should have now two topics").to.equal(2);
+            await expect(await E2ETopics.countTopicsForMinute(), "Meeting Series should have now two topics").to.equal(2);
 
             // check the first topic (this should be the new one)
-            expect(E2ETopics.countItemsForTopic(1), "New Topic should have two items").to.equal(2);
-            let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+            await expect(await E2ETopics.countItemsForTopic(1), "New Topic should have two items").to.equal(2);
+            let itemsOfNewTopic = await E2ETopics.getItemsForTopic(1);
             let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
-            expect(browser.elementIdText(firstItemOfNewTopic).value, "first item of new topic should be the action item")
+            await expect((await browser.elementIdText(firstItemOfNewTopic)).value, "first item of new topic should be the action item")
                 .to.have.string('with an action item');
             let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
-            expect(browser.elementIdText(sndItemOfNewTopic).value, "2nd item of new topic should be the info item")
+            await expect((await browser.elementIdText(sndItemOfNewTopic)).value, "2nd item of new topic should be the info item")
                 .to.have.string('with information');
 
             // check the 2nd topic (the merged one)
-            expect(E2ETopics.countItemsForTopic(2), "Merged Topic should now have four items").to.equal(4);
+            await expect(await E2ETopics.countItemsForTopic(2), "Merged Topic should now have four items").to.equal(4);
         });
 
         it('closes an existing open AI but remains the topic open if it were not discussed', function () {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.toggleActionItem(1, 1);
+            await E2ETopics.toggleActionItem(1, 1);
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            expect(E2ETopics.countTopicsForMinute(), "Meeting Series should still have only one topic").to.equal(1);
+            await expect(await E2ETopics.countTopicsForMinute(), "Meeting Series should still have only one topic").to.equal(1);
 
-            expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
-            expect(E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
+            expect(await E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
+            expect(await E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
 
         });
 
         it('closes an existing open AI and closes the topic if it were discussed', function () {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.toggleActionItem(1, 1);
-            E2ETopics.toggleTopic(1);
+            await E2ETopics.toggleActionItem(1, 1);
+            await E2ETopics.toggleTopic(1);
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            expect(E2ETopics.countTopicsForMinute(), "Meeting Series should still have only one topic").to.equal(1);
+            await expect(await E2ETopics.countTopicsForMinute(), "Meeting Series should still have only one topic").to.equal(1);
 
-            expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
-            expect(E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
+            expect(await E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
+            expect(await E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
         });
 
         it('changes the properties (subject/responsible) of an existing Topic', function () {
@@ -301,20 +301,20 @@ describe('MeetingSeries complete Topic list', function () {
             const newResponsible = "user1";
 
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.editTopicForMinutes(1, newTopicSubject, newResponsible);
+            await E2ETopics.editTopicForMinutes(1, newTopicSubject, newResponsible);
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let topicItems = E2ETopics.getTopicsForMinute();
+            let topicItems = await E2ETopics.getTopicsForMinute();
             let topicEl = topicItems[0].ELEMENT;
-            expect(browser.elementIdText(topicEl).value, "the topic subject should have changed").to.have.string(newTopicSubject);
-            expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.have.string(newResponsible);
+            await expect((await browser.elementIdText(topicEl)).value, "the topic subject should have changed").to.have.string(newTopicSubject);
+            await expect((await browser.elementIdText(topicEl)).value, "the topic responsible should have changed").to.have.string(newResponsible);
         });
 
         it('reverts property changes (subject/responsible) of a Topic if the minute will be un-finalized', function () {
@@ -322,21 +322,21 @@ describe('MeetingSeries complete Topic list', function () {
             const newResponsible = "user1";
 
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.editTopicForMinutes(1, newTopicSubject, newResponsible);
+            await E2ETopics.editTopicForMinutes(1, newTopicSubject, newResponsible);
 
-            E2EMinutes.finalizeCurrentMinutes();
-            E2EMinutes.unfinalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.unfinalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let topicItems = E2ETopics.getTopicsForMinute();
+            let topicItems = await E2ETopics.getTopicsForMinute();
             let topicEl = topicItems[0].ELEMENT;
-            expect(browser.elementIdText(topicEl).value, "the topic subject should have changed").to.not.have.string(newTopicSubject);
-            expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
+            await expect((await browser.elementIdText(topicEl)).value, "the topic subject should have changed").to.not.have.string(newTopicSubject);
+            await expect((await browser.elementIdText(topicEl)).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
 
         it('changes the properties (subject/responsible) of an existing AI', function () {
@@ -344,20 +344,20 @@ describe('MeetingSeries complete Topic list', function () {
             const newResponsible = "user1";
 
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject, responsible: newResponsible });
+            await E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject, responsible: newResponsible });
 
-            E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
+            let items = await E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
-            expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.have.string(newSubject);
-            expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string(newResponsible);
+            await expect((await browser.elementIdText(firstItemElement)).value, "the action item subject should have changed").to.have.string(newSubject);
+            await expect((await browser.elementIdText(firstItemElement)).value, "the action item responsible should have changed").to.have.string(newResponsible);
         });
 
         it('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
@@ -365,68 +365,68 @@ describe('MeetingSeries complete Topic list', function () {
             const newResponsible = "user1";
 
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-            E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject, responsible: newResponsible });
+            await E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject, responsible: newResponsible });
 
-            E2EMinutes.finalizeCurrentMinutes();
-            E2EMinutes.unfinalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.unfinalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
+            let items = await E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
-            expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.not.have.string(newSubject);
-            expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.not.have.string("Resp: " + newResponsible);
+            await expect((await browser.elementIdText(firstItemElement)).value, "the action item subject should have changed").to.not.have.string(newSubject);
+            await expect((await browser.elementIdText(firstItemElement)).value, "the action item responsible should have changed").to.not.have.string("Resp: " + newResponsible);
         });
 
         it('removes the is-New-Flag of an existing topic after finalizing the 2nd minute', function () {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-            E2EMinutes.finalizeCurrentMinutes();
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
+            let items = await E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
-            expect(browser.elementIdText(firstItemElement).value).to.not.have.string("New");
+            await expect((await browser.elementIdText(firstItemElement)).value).to.not.have.string("New");
         });
 
         it('restores the is-New-Flag of an existing topic after un-finalizing the 2nd minute', function () {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-            E2EMinutes.finalizeCurrentMinutes();
-            E2EMinutes.unfinalizeCurrentMinutes();
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.unfinalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
+            let items = await E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
-            expect(browser.elementIdText(firstItemElement).value).to.have.string("New");
+            await expect((await browser.elementIdText(firstItemElement)).value).to.have.string("New");
         });
 
         it('removes the topic from the meeting series topics list if it was created int the un-finalized minutes', function() {
             // add a second minute
-            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
             // add a new topic
-            E2ETopics.addTopicToMinutes('some other topic');
-            E2ETopics.addInfoItemToTopic({subject: 'with information'}, 1);
-            E2ETopics.addInfoItemToTopic({subject: 'with an action item', itemType: "actionItem"}, 1);
+            await E2ETopics.addTopicToMinutes('some other topic');
+            await E2ETopics.addInfoItemToTopic({subject: 'with information'}, 1);
+            await E2ETopics.addInfoItemToTopic({subject: 'with an action item', itemType: "actionItem"}, 1);
 
-            E2EMinutes.finalizeCurrentMinutes();
-            E2EMinutes.unfinalizeCurrentMinutes();
+            await E2EMinutes.finalizeCurrentMinutes();
+            await E2EMinutes.unfinalizeCurrentMinutes();
 
-            E2EMinutes.gotoParentMeetingSeries();
+            await E2EMinutes.gotoParentMeetingSeries();
 
-            E2EMeetingSeries.gotoTabTopics();
+            await E2EMeetingSeries.gotoTabTopics();
 
-            expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+            await expect(await E2ETopics.countTopicsForMinute()).to.equal(1);
         });
 
     });

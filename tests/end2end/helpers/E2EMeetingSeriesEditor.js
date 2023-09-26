@@ -4,20 +4,20 @@ import { E2EMeetingSeries } from './E2EMeetingSeries';
 
 export class E2EMeetingSeriesEditor {
 
-    static openMeetingSeriesEditor(aProj, aName, panelName = "base", skipGotoMeetingSeries) {
+    static async openMeetingSeriesEditor(aProj, aName, panelName = "base", skipGotoMeetingSeries) {
         // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
         if (!skipGotoMeetingSeries) {
-            E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
+            await E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         }
 
         // Open dialog
-        browser.waitForVisible('#btnEditMeetingSeries', 1000);
-        E2EGlobal.clickWithRetry('#btnEditMeetingSeries', 3000);
+        await browser.waitForVisible('#btnEditMeetingSeries', 1000);
+        await E2EGlobal.clickWithRetry('#btnEditMeetingSeries', 3000);
 
         // Check if dialog is there?
-        browser.waitForVisible('#btnMeetingSeriesSave', 3000);
-        E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
-        E2EGlobal.waitSomeTime(); // give dialog animation time
+        await browser.waitForVisible('#btnMeetingSeriesSave', 3000);
+        await E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
+        await E2EGlobal.waitSomeTime(); // give dialog animation time
 
         if (panelName && panelName !== "base") {
             let panelSelector = "";
@@ -29,32 +29,32 @@ export class E2EMeetingSeriesEditor {
             } else {
                 throw "Unsupported panelName: " + panelName;
             }
-            browser.waitForExist(panelSelector);
-            E2EGlobal.clickWithRetry(panelSelector);
-            E2EGlobal.waitSomeTime();  // wait for panel animation
+            await browser.waitForExist(panelSelector);
+            await E2EGlobal.clickWithRetry(panelSelector);
+            await E2EGlobal.waitSomeTime();  // wait for panel animation
         }
     };
 
     // assumes an open meeting series editor
-    static addUserToMeetingSeries(username, role) {
-        browser.setValue('#edt_AddUser', username);
-        browser.keys(['Enter']);
+    static async addUserToMeetingSeries(username, role) {
+        await browser.setValue('#edt_AddUser', username);
+        await browser.keys(['Enter']);
 
         if (role) {
             //Get Index of user's row in table
-            let index = browser.execute((username) => {
+            let index = (await browser.execute((username) => {
                 return $("tr:contains('" + username + "')").index();
-            }, username).value;
+            }, username)).value;
             index += 1; //increase by one since nth-child will start by 1 whereas index starts by 0
             let selector = "tr:nth-child(" + index + ")" + ' select.user-role-select';
-            browser.selectByValue(selector, role);
+            await browser.selectByValue(selector, role);
         }
     };
 
-    static closeMeetingSeriesEditor(save = true) {
+    static async closeMeetingSeriesEditor(save = true) {
         let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
-        E2EGlobal.clickWithRetry(selector);
-        E2EGlobal.waitSomeTime(save ? 750 : 300);
+        await E2EGlobal.clickWithRetry(selector);
+        await E2EGlobal.waitSomeTime(save ? 750 : 300);
     }
 
 
@@ -78,9 +78,9 @@ export class E2EMeetingSeriesEditor {
      * @param colNumDelete  in which 0-based table column is the delete button?
      * @returns {{}}
      */
-    static getUsersAndRoles(colNumUser, colNumRole, colNumDelete) {
+    static async getUsersAndRoles(colNumUser, colNumRole, colNumDelete) {
         // grab all user rows
-        const elementsUserRows = browser.elements('#id_userRow');
+        const elementsUserRows = await browser.elements('#id_userRow');
         let usersAndRoles = {};
 
         let selector = "select.user-role-select";   // selects *all* <selects>
@@ -89,7 +89,7 @@ export class E2EMeetingSeriesEditor {
         let usrRoleSelected = [];
         // ensure we get an array here - even in case only one value returned from getValue()!
         try {
-            usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector));
+            usrRoleSelected = usrRoleSelected.concat(await browser.getValue(selector));
         } catch (e) {
         }
 
@@ -98,14 +98,14 @@ export class E2EMeetingSeriesEditor {
         // we must skip this user in the above usrRoleSelected
         for (let rowIndex in elementsUserRows.value) {
             let elemTRId = elementsUserRows.value[rowIndex].ELEMENT;
-            let elementsTD = browser.elementIdElements(elemTRId, "td");
-            let usrName = browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
-            let elementsDelete = browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
+            let elementsTD = await browser.elementIdElements(elemTRId, "td");
+            let usrName = (await browser.elementIdText(elementsTD.value[colNumUser].ELEMENT)).value;
+            let elementsDelete = await browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
             let usrIsDeletable = elementsDelete.value.length === 1;
             let usrDeleteElemId = usrIsDeletable ? elementsDelete.value[0].ELEMENT : "0";
 
             // for the current user usrRole already contains his read-only role string "Moderator"
-            let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
+            let usrRole = (await browser.elementIdText(elementsTD.value[colNumRole].ELEMENT)).value;
             let usrIsReadOnly = true;
 
             // For all other users we must get their role from the usrRoleSelected array
@@ -131,43 +131,43 @@ export class E2EMeetingSeriesEditor {
         return usersAndRoles;
     }
 
-    static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
-        let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
+    static async changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
+        let labelId = await E2EMeetingSeriesEditor.getLabelId(labelName);
         let selLabelRow = '#row-label-' + labelId;
 
         // open label editor for labelId
-        E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
+        await E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
 
-        browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
+        await browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
         if (newLabelColor) {
-            browser.setValue(selLabelRow + " [name='labelColor-" + labelId + "']", newLabelColor);
+            await browser.setValue(selLabelRow + " [name='labelColor-" + labelId + "']", newLabelColor);
         }
 
         if (autoSaveLabelChange) {
-            E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-save');
+            await E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-save');
 
-            E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+            await E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
         }
 
         return labelId;
     }
 
-    static getLabelId(labelName) {
+    static async getLabelId(labelName) {
         // get all label elements
-        browser.waitForExist('#table-edit-labels .label');
-        let elements = browser.elements('#table-edit-labels .label').value;
+        await browser.waitForExist('#table-edit-labels .label');
+        let elements = (await browser.elements('#table-edit-labels .label')).value;
 
         for (let elementID of elements) {
-            let element = browser.elementIdText(elementID.ELEMENT);
+            let element = await browser.elementIdText(elementID.ELEMENT);
             if (labelName === element.value) {
-                return browser.elementIdAttribute(elementID.ELEMENT, 'id').value;
+                return (await browser.elementIdAttribute(elementID.ELEMENT, 'id')).value;
             }
         }
     }
 
-    static disableEmailForRoleChange() {
-        browser.waitForVisible('#labelRoleChange');
-        E2EGlobal.clickWithRetry('#labelRoleChange');
+    static async disableEmailForRoleChange() {
+        await browser.waitForVisible('#labelRoleChange');
+        await E2EGlobal.clickWithRetry('#labelRoleChange');
     }
 
 

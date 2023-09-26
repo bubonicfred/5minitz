@@ -8,93 +8,93 @@ describe('LDAP', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
-    let getNewMeetingName = () => {
+    let getNewMeetingName = async () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("make sure test user is logged out and on the start page", function () {
-        E2EApp.logoutUser();
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
+        await E2EApp.logoutUser();
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
     });
 
     after("clear database and login user", function () {
-        E2EApp.launchApp();
-        E2EApp.loginUser();
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.launchApp();
+        await E2EApp.loginUser();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
     });
 
     xit('import cronjob does not produce errors', function () {
-        const numberOfUsersWithoutLdap = server.call('e2e.removeLdapUsersFromDb');
+        const numberOfUsersWithoutLdap = await server.call('e2e.removeLdapUsersFromDb');
 
-        server.call('e2e.importLdapUsers');
+        await server.call('e2e.importLdapUsers');
 
-        const numberOfUsersAfterImport = server.call('e2e.countUsers');
-        expect(numberOfUsersAfterImport).to.be.greaterThan(numberOfUsersWithoutLdap);
+        const numberOfUsersAfterImport = await server.call('e2e.countUsers');
+        await expect(numberOfUsersAfterImport).to.be.greaterThan(numberOfUsersWithoutLdap);
     });
 
     it('ldap user can login with his credentials', function () {
-        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        await E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
 
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
     });
 
     it('ldap user can NOT reset password', function () {
-        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
-        E2EApp.logoutUser();
+        await E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        await E2EApp.logoutUser();
 
-        E2EGlobal.clickWithRetry('#tab_standard');
-        E2EGlobal.waitSomeTime(600);
-        if (browser.isVisible('#at-forgotPwd')) {
-            E2EApp.resetPassword('ldapUser1@example.com');
-            E2EGlobal.waitSomeTime(1500);
-            expect(browser.isVisible('.at-error'), 'Error should be visible').to.be.true;
+        await E2EGlobal.clickWithRetry('#tab_standard');
+        await E2EGlobal.waitSomeTime(600);
+        if (await browser.isVisible('#at-forgotPwd')) {
+            await E2EApp.resetPassword('ldapUser1@example.com');
+            await E2EGlobal.waitSomeTime(1500);
+            expect(await browser.isVisible('.at-error'), 'Error should be visible').to.be.true;
         }
         else {
-            expect(browser.isVisible('#at-forgotPwd'), 'Change password should be invisible').to.be.false;
+            expect(await browser.isVisible('#at-forgotPwd'), 'Change password should be invisible').to.be.false;
         }
     });
 
     it('ldap user can create meeting series', function () {
-        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        await E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
 
-        let initialCount = E2EMeetingSeries.countMeetingSeries();
+        let initialCount = await E2EMeetingSeries.countMeetingSeries();
 
-        aMeetingName = getNewMeetingName();
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        aMeetingName = await getNewMeetingName();
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
-        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount + 1);
-        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+        await expect(await E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount + 1);
+        expect(await E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
     });
 
     it('ldap user will be rejected if the password is wrong', function () {
         let loginUnexpectedlySucceeded = false;
         try {
-            E2EApp.loginLdapUserWithCredentials('ldapUser1', 'wrongPassword', false);
+            await E2EApp.loginLdapUserWithCredentials('ldapUser1', 'wrongPassword', false);
             loginUnexpectedlySucceeded = true;
         } catch (e) {
-            expect(e.toString()).to.include('Unknown user or wrong password.');
+            await expect(e.toString()).to.include('Unknown user or wrong password.');
         }
 
         expect(loginUnexpectedlySucceeded).to.be.false;
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
     });
 
     it('ldap user can not log in with the standard login form', function () {
         let message = 'Login failed for user ldapUser1 with ldapPwd1\nwith Error: Unknown user or wrong password.';
 
-        let login = () => {
-            E2EApp.loginUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        let login = async () => {
+            await E2EApp.loginUserWithCredentials('ldapUser1', 'ldapPwd1', false);
         };
 
-        expect(login).to.throw(message);
+        await expect(login).to.throw(message);
 
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
     });
 });

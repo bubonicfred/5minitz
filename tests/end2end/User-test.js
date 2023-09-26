@@ -8,192 +8,192 @@ describe('User Profile/Password editing', function () {
     const waitUntilTimeout = 10000;
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        E2EApp.gotoStartPage();
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
     });
 
 
     it('Buttons Change Password and Edit Profile are not visible for an LDAP user', function () {
-        E2EApp.logoutUser();
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
+        await E2EApp.logoutUser();
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
 
-        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        expect(await E2EApp.isLoggedIn()).to.be.true;
 
-        if (E2EApp.isLoggedIn()) {
-            E2EGlobal.clickWithRetry('#navbar-usermenu');
-            browser.waitUntil(_ => !browser.isVisible('#navbar-dlgChangedPassword'));
-            expect(browser.isVisible('#navbar-dlgEditProfile')).to.be.false;
+        if (await E2EApp.isLoggedIn()) {
+            await E2EGlobal.clickWithRetry('#navbar-usermenu');
+            await browser.waitUntil(async _ => !(await browser.isVisible('#navbar-dlgChangedPassword')));
+            expect(await browser.isVisible('#navbar-dlgEditProfile')).to.be.false;
         }
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
 
-        E2EApp.logoutUser();
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
-        E2EApp.loginUser();
+        await E2EApp.logoutUser();
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
+        await E2EApp.loginUser();
     });
 
     it('User can successfully change his password', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let newPassword = 'Test12';
         let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
 
-        let changePassword = (oldPassword, newPassword) => {
-            E2EGlobal.clickWithRetry('#navbar-usermenu');
-            E2EGlobal.waitSomeTime();
-            E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
-            E2EGlobal.waitSomeTime();
-            E2EUser.changePassword(oldPassword, newPassword, newPassword);
+        let changePassword = async (oldPassword, newPassword) => {
+            await E2EGlobal.clickWithRetry('#navbar-usermenu');
+            await E2EGlobal.waitSomeTime();
+            await E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
+            await E2EGlobal.waitSomeTime();
+            await E2EUser.changePassword(oldPassword, newPassword, newPassword);
         };
         //change password to new one
-        changePassword(oldPassword, newPassword);
+        await changePassword(oldPassword, newPassword);
 
-        browser.waitUntil(_ => !browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
+        await browser.waitUntil(async _ => !(await browser.isVisible('#frmDlgChangePassword')), waitUntilTimeout);
 
         //try ty to log in with new password
-        E2EApp.logoutUser();
-        expect(E2EApp.isNotLoggedIn()).to.be.true;
-        E2EApp.loginUserWithCredentials(E2EGlobal.SETTINGS.e2eTestUsers[0], newPassword, false);
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.logoutUser();
+        expect(await E2EApp.isNotLoggedIn()).to.be.true;
+        await E2EApp.loginUserWithCredentials(E2EGlobal.SETTINGS.e2eTestUsers[0], newPassword, false);
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         //reset password to the old one
-        changePassword(newPassword, oldPassword);
+        await changePassword(newPassword, oldPassword);
 
-        browser.waitUntil(_ => !browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
+        await browser.waitUntil(async _ => !(await browser.isVisible('#frmDlgChangePassword')), waitUntilTimeout);
     });
 
     it('User can not change his password, if new Passwords are not equal', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
-        E2EGlobal.waitSomeTime();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
+        await E2EGlobal.waitSomeTime();
         let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
-        E2EUser.changePassword(oldPassword, 'TTest12', 'Test12');
+        await E2EUser.changePassword(oldPassword, 'TTest12', 'Test12');
 
-        browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
-        E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
+        await browser.waitUntil(async _ => await browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
     });
 
     it('User can not change his password, if he typed his old password incorrect', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
-        E2EGlobal.waitSomeTime();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
+        await E2EGlobal.waitSomeTime();
         let oldPassword = '4Minitz!';
-        E2EUser.changePassword(oldPassword, 'Test12', 'Test12');
-        browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
-        E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
-        E2EGlobal.waitSomeTime();
+        await E2EUser.changePassword(oldPassword, 'Test12', 'Test12');
+        await browser.waitUntil(async _ => await browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
+        await E2EGlobal.waitSomeTime();
     });
 
     it('User can not change his password, if his new password is not valid due to guidelines', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
-        E2EGlobal.waitSomeTime();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
+        await E2EGlobal.waitSomeTime();
         let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
-        E2EUser.changePassword(oldPassword, 'test12', 'test12');
-        browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
-        E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
-        E2EGlobal.waitSomeTime();
+        await E2EUser.changePassword(oldPassword, 'test12', 'test12');
+        await browser.waitUntil(async _ => await browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
+        await E2EGlobal.waitSomeTime();
     });
 
     it('User can successefully change his profile', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
         let email = 'test@test.de';
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email);
-        browser.waitUntil(_ => !browser.isVisible('#frmDlgEditProfile'), waitUntilTimeout);
-        expect(E2EUser.checkProfileChanged(longName, email).value).to.be.true;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email);
+        await browser.waitUntil(async _ => !(await browser.isVisible('#frmDlgEditProfile')), waitUntilTimeout);
+        expect((await E2EUser.checkProfileChanged(longName, email)).value).to.be.true;
     });
 
     it('User can not save his profile with an invalid Email', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
         let email = 'testtest.de';
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email);
-        browser.waitUntil(_ => browser.isVisible('#frmDlgEditProfile'), waitUntilTimeout);
-        expect(E2EUser.checkProfileChanged(longName, email).value).to.be.false;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email);
+        await browser.waitUntil(async _ => await browser.isVisible('#frmDlgEditProfile'), waitUntilTimeout);
+        expect((await E2EUser.checkProfileChanged(longName, email)).value).to.be.false;
     });
 
     it('User profile is not changed, if pressing Cancel', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = 'cancellongname';
         let email = 'canceltest@test.de';
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email, false);
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email, false);
 
-        E2EGlobal.clickWithRetry('#btnEditProfileCancel');
-        browser.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#btnEditProfileCancel');
+        await browser.waitUntil(async _ => !(await E2EUser.checkProfileChanged(longName,email)).value, waitUntilTimeout);
     });
 
     it('User can save his profile with an empty LongName', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = '';
         let email = 'test@test.de';
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email);
-        browser.waitUntil(_ => E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email);
+        await browser.waitUntil(async _ => (await E2EUser.checkProfileChanged(longName,email)).value, waitUntilTimeout);
     });
 
     it('User can not save his profile with an empty Email', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
         let email = '';
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email);
-        E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email);
+        await E2EGlobal.waitUntil(async _ => !(await E2EUser.checkProfileChanged(longName,email)).value, waitUntilTimeout);
     });
 
 
     it('User can change his longname without editing his Email', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        expect(await E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longnameChanged';
-        let email = E2EUser.getUserEmail();
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        E2EGlobal.waitSomeTime();
-        E2EUser.editProfile(longName, email);
-        E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+        let email = await E2EUser.getUserEmail();
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await E2EGlobal.waitSomeTime();
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await E2EGlobal.waitSomeTime();
+        await E2EUser.editProfile(longName, email);
+        await E2EGlobal.waitUntil(async _ => !(await E2EUser.checkProfileChanged(longName,email)).value, waitUntilTimeout);
     });
 
     it('Clicking the back button closes the password change dialog', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        E2EGlobal.clickWithRetry('#navbar-usermenu');
-        browser.waitForVisible('#navbar-dlgEditProfile');
+        expect(await E2EApp.isLoggedIn()).to.be.true;
+        await E2EGlobal.clickWithRetry('#navbar-usermenu');
+        await browser.waitForVisible('#navbar-dlgEditProfile');
 
-        E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
-        browser.waitForVisible('#dlgEditProfile');
+        await E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
+        await browser.waitForVisible('#dlgEditProfile');
 
-        browser.back();
+        await browser.back();
 
         const waitForInvisible = true;
-        browser.waitForVisible('#dlgEditProfile', 10000, waitForInvisible);
+        await browser.waitForVisible('#dlgEditProfile', 10000, waitForInvisible);
 
     });
 });

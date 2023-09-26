@@ -2,24 +2,24 @@ import {E2EGlobal} from './E2EGlobal'
 
 
 export class E2EUser {
-    static changePassword(oldPassword, newPassword1, newPassword2) {
-        E2EGlobal.setValueSafe('input#id_oldPassword', oldPassword);
-        E2EGlobal.setValueSafe('input#id_newPassword1', newPassword1);
-        E2EGlobal.setValueSafe('input#id_newPassword2', newPassword2);
+    static async changePassword(oldPassword, newPassword1, newPassword2) {
+        await E2EGlobal.setValueSafe('input#id_oldPassword', oldPassword);
+        await E2EGlobal.setValueSafe('input#id_newPassword1', newPassword1);
+        await E2EGlobal.setValueSafe('input#id_newPassword2', newPassword2);
 
-        browser.keys(['Enter']);
+        await browser.keys(['Enter']);
     }
 
-    static editProfile(longName, eMail, saveParameter = true) {
-        E2EGlobal.setValueSafe('input#id_longName', longName);
-        E2EGlobal.setValueSafe('input#id_emailAddress', eMail);
+    static async editProfile(longName, eMail, saveParameter = true) {
+        await E2EGlobal.setValueSafe('input#id_longName', longName);
+        await E2EGlobal.setValueSafe('input#id_emailAddress', eMail);
         if (saveParameter) {
-            browser.keys(['Enter']);
+            await browser.keys(['Enter']);
         }
-        E2EGlobal.waitSomeTime();
+        await E2EGlobal.waitSomeTime();
     }
 
-    static checkProfileChanged(longName, email) {
+    static async checkProfileChanged(longName, email) {
         return browser.execute(function (longName, email) {
             let profileChanged = false;
 
@@ -32,10 +32,10 @@ export class E2EUser {
         }, longName, email);
     }
 
-    static getUserEmail(){
-         return browser.execute(function () {
-             return Meteor.user().emails[0].address;
-        }).value;
+    static async getUserEmail() {
+         return (await browser.execute(function () {
+             return (await Meteor.user()).emails[0].address;
+        })).value;
     }
 
 }

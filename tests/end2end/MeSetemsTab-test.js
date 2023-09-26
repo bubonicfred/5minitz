@@ -12,39 +12,39 @@ describe('MeetingSeries Items Tab', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        E2EApp.gotoStartPage();
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
 
     it("can filter the list of items", function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item with information', itemType: "actionItem"}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'some action item with information', itemType: "actionItem"}, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabItems();
+        await E2EMeetingSeries.gotoTabItems();
 
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
+        await expect(await E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
 
-        browser.setValue('#inputFilter', 'information');
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
+        await browser.setValue('#inputFilter', 'information');
+        await expect(await E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
     });
 
 

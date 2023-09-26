@@ -3,11 +3,11 @@ import { E2EGlobal } from './E2EGlobal';
 const fs = require('fs-extra');
 
 export class E2EProtocols {
-    static setSettingsForProtocolGeneration(format) {
+    static async setSettingsForProtocolGeneration(format) {
         //Set on server
-        server.call('e2e.setSettingsForProtocolGeneration', format);
+        await server.call('e2e.setSettingsForProtocolGeneration', format);
         //Set on client
-        browser.execute((format) => {
+        await browser.execute((format) => {
             Meteor.settings.public.docGeneration.enabled = !!format;
 
             if (format) {
@@ -16,12 +16,12 @@ export class E2EProtocols {
         }, format);
     }
 
-    static countProtocolsInMongoDB() {
+    static async countProtocolsInMongoDB() {
         return server.call('e2e.countProtocolsInMongoDB');
     }
 
-    static checkProtocolFileForMinuteExits(minuteId) {
-        let path = server.call('e2e.getProtocolStoragePathForMinute', minuteId);
+    static async checkProtocolFileForMinuteExits(minuteId) {
+        let path = await server.call('e2e.getProtocolStoragePathForMinute', minuteId);
         
         if (!path) { //no protocol record in MongoDB
             return false;
@@ -29,17 +29,17 @@ export class E2EProtocols {
         return fs.existsSync(path);
     }
 
-    static downloadButtonExists() {
+    static async downloadButtonExists() {
         return browser.isVisible('.btn-download');
     }
 
-    static checkDownloadOpensConfirmationDialog() {
-        browser.click('.btn-download');
-        E2EGlobal.waitSomeTime(750);
+    static async checkDownloadOpensConfirmationDialog() {
+        await browser.click('.btn-download');
+        await E2EGlobal.waitSomeTime(750);
         return browser.isVisible('#confirmationDialogOK');
     }
 
-    static getDownloadLinkForProtocolOfMinute(minuteId) {
+    static async getDownloadLinkForProtocolOfMinute(minuteId) {
         return server.call('e2e.getProtocolLinkForMinute', minuteId);
     }
 }

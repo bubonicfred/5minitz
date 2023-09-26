@@ -12,34 +12,34 @@ const ddpclient = new DDPClient({
     useSockJs: true
 });
 
-function connect() {
+async function connect() {
     const future = new Future();
-    ddpclient.connect(function (error) {
+    await ddpclient.connect(function (error) {
         if (error) {
-            future.throw(error);
+            await future.throw(error);
         }
 
-        future.return();
+        await future.return();
     });
 
     return future;
 }
 
-function close() {
-    ddpclient.close();
+async function close() {
+    await ddpclient.close();
 }
 
-function call() {
+async function call() {
     const future = new Future();
 
-    ddpclient.call(
+    await ddpclient.call(
         arguments[0],
         [].slice.call(arguments, 1),
         function (err, result) {
             if (err) {
-                future.throw(err);
+                await future.throw(err);
             }
-            future.return(result);
+            await future.return(result);
         }
     );
 
@@ -48,15 +48,15 @@ function call() {
 
 const server = {
     connect: function () {
-        return connect().wait();
+        return (await connect()).wait();
     },
 
     close: function () {
-        close();
+        await close();
     },
 
     call: function () {
-        return call.apply(this, arguments).wait();
+        return (await call.apply(this, arguments)).wait();
     }
 };
 

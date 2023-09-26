@@ -16,63 +16,63 @@ describe.skip('Migrations', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
-        E2EApp.resetMyApp(true);
-        E2EApp.launchApp();
+        await E2EGlobal.logTimestamp("Start test suite");
+        await E2EApp.resetMyApp(true);
+        await E2EApp.launchApp();
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        E2EApp.gotoStartPage();
-        expect(E2EApp.isLoggedIn()).to.be.true;
+        await E2EApp.gotoStartPage();
+        expect(await E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
     it('should not change meeting series topics history when migration down and up', function() {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'action item', itemType: 'actionItem'}, 1);
+        await E2ETopics.addTopicToMinutes('some topic');
+        await E2ETopics.addInfoItemToTopic({subject: 'information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'action item', itemType: 'actionItem'}, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        await E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        E2ETopics.toggleActionItem(1, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'new information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'new action item', itemType: 'actionItem'}, 1);
+        await E2ETopics.toggleActionItem(1, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'new information'}, 1);
+        await E2ETopics.addInfoItemToTopic({subject: 'new action item', itemType: 'actionItem'}, 1);
 
-        E2EMinutes.finalizeCurrentMinutes();
+        await E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        await E2EMinutes.gotoParentMeetingSeries();
 
-        const checkHistory = () => {
-            const url = browser.getUrl();
+        const checkHistory = async () => {
+            const url = await browser.getUrl();
             const msId =  url.slice(url.lastIndexOf("/")+1);
 
-            const topics = server.call('e2e.getTopicsOfMeetingSeries', msId);
+            const topics = await server.call('e2e.getTopicsOfMeetingSeries', msId);
 
-            expect(topics.length, "Meeting Series should have one topic").to.equal(1);
-            expect(topics[0].infoItems.length, "Topic should have four items").to.equal(4);
+            await expect(topics.length, "Meeting Series should have one topic").to.equal(1);
+            await expect(topics[0].infoItems.length, "Topic should have four items").to.equal(4);
         };
         
-        checkHistory(20);
+        await checkHistory(20);
 
-        E2EGlobal.waitSomeTime(500);
+        await E2EGlobal.waitSomeTime(500);
 
         const startAtVersion = 17;
-        server.call('e2e.triggerMigration', startAtVersion);
+        await server.call('e2e.triggerMigration', startAtVersion);
 
         for (let i=startAtVersion+1; i<=21; i++) {
-            server.call('e2e.triggerMigration', i);
+            await server.call('e2e.triggerMigration', i);
             console.log('migrated to version ' + i);
-            E2EGlobal.waitSomeTime(1000);
-            checkHistory();
+            await E2EGlobal.waitSomeTime(1000);
+            await checkHistory();
         }
     });
 
