@@ -59,7 +59,7 @@
     "fibers": "^5.0.3",
     "fs-extra": "^5.0.0",
     "git-rev-sync": "^3.0.2",
-    "jquery": "^3.3.1",
+    "jquery": "3.7.1",
     "jquery-ui": "^1.12.1",
     "jquery-ui-touch-punch": "^0.2.3",
     "ldapjs": "^1.0.2",
