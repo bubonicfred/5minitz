@@ -3,11 +3,13 @@ import { i18n } from 'meteor/universe:i18n';
 import { T9n } from 'meteor/softwarerero:accounts-t9n';
 import './promisedMethods';
 
+let languageNames = new Intl.DisplayNames(["en"], { type: "language" });
+
 // Only server can provide all available languages via server-side method
 Meteor.methods({
     getAvailableLocales() {
         // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
-        return i18n.getLanguages().map(code => {
+        return Intl.GetCanonicalLocales().map(code => {
             if (code.toLowerCase() === 'de-li') {
                 return {
                     code: code,
@@ -19,14 +21,14 @@ Meteor.methods({
             return {
                 code: code,
                 codeUI: code,
-                name: i18n.getLanguageName(code),
-                nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
+                name: languageNames.of(code),
+               // nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
             };
         });
     },
     getAvailableLocaleCodes() {
         // ["el", "de", "zh-CN", "zh-TW"]
-        return i18n.getLanguages();
+        return Intl.GetCanonicalLocales();
     },
 });
 
