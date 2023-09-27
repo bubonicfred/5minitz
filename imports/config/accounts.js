@@ -14,7 +14,7 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // in which case it will be translated based on the currently selected language. In case you'd like to specify 
 // a key which is not already provided by accounts-t9n you can always map your own keys.
 
-let availLanguages = i18n.getLanguages();
+let availLanguages = Intl.GetCanonicalLocales();
 
 for (var lang of availLanguages) {
     T9n.map(lang, {
