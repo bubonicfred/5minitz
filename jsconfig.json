@@ -5,7 +5,9 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "/*": ["./*"],
+      "/*": [
+        "./*"
+      ],
       "meteor/reload": [
         "C:\\Users\\ciara\\AppData\\Local/.meteor/packages/reload/1.3.1/web.browser/reload.js"
       ],
@@ -122,7 +124,12 @@
     }
   },
   "typeAcquisition": {
-    "include": ["meteor"]
+    "include": [
+      "meteor"
+    ]
   },
-  "exclude": ["node_modules", ".meteor"]
+  "exclude": [
+    "node_modules",
+    ".meteor"
+  ]
 }
