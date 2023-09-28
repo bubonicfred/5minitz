@@ -342,14 +342,14 @@ describe('Topic', function() {
 
         // new info item is not added yet, so our topic should not find it
         let foundItem = myTopic.findInfoItem(infoItemDoc._id);
-        expect(foundItem).to.equal(undefined);
+        expect(foundItem).to.equal();
 
         // now we add the info item to our topic
         myTopic.upsertInfoItem(infoItemDoc);
 
         foundItem = myTopic.findInfoItem(infoItemDoc._id);
         // foundItem should not be undefined
-        expect(foundItem, "the result should not be undefined").to.not.equal(undefined);
+        expect(foundItem, "the result should not be undefined").to.not.equal();
         // the subject of the found item should be equal to its initial value
         expect(foundItem._infoItemDoc.subject, "the correct info item should be found").to.equal(infoItemDoc.subject);
     });
