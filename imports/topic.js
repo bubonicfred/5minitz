@@ -14,7 +14,6 @@ import { _ } from "lodash";
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
-
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
     let parentId = parent;
