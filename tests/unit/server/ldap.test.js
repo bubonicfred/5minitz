@@ -122,7 +122,7 @@ describe('ldap', function () {
 
         it('still works if searchFilter is undefined', function () {
             LdapSettings.usernameAttribute.returns('test');
-            LdapSettings.searchFilter.returns(undefined);
+            LdapSettings.searchFilter.returns();
 
             let isEmail = false;
             let username = 'username';

@@ -40,7 +40,7 @@ Template.navigation.events({
     },
 
     'click #navbar-dlgEditProfile': function (evt, tmpl) {
-        Session.set('editProfile.userID', undefined);   // per default use "current" user. Admin may edit others
+        Session.set('editProfile.userID');   // per default use "current" user. Admin may edit others
         tmpl.$('#dlgEditProfile').modal('show');
     },
 
