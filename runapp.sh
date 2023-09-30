@@ -8,14 +8,14 @@ PORT4APP="3100"
 if [ ! -z "$1" ]
 then
     PORT4APP=$1
-    echo $PORT4APP
+    echo "$PORT4APP"
 fi
-echo Port $PORT4APP
+echo Port "$PORT4APP"
 
 
 # Find path of currently running script
 TARGET_FILE=$0
-cd $(dirname $TARGET_FILE) || exit
+cd $(dirname "$TARGET_FILE") || exit
 TARGET_FILE=$(basename "$TARGET_FILE")
 
 # Iterate down a (possible) chain of symlinks
