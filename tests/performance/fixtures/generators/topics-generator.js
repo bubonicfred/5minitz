@@ -2,7 +2,7 @@ import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";
 
 const { faker } = require("@faker-js/faker");
-let extend = require("clone"); // require("xtend");
+import { _ } from "lodash";
 
 export class TopicsGenerator {
   /**
@@ -38,7 +38,7 @@ export class TopicsGenerator {
       return !TopicsGenerator._isCompletelyClosed(topic);
     });
     this.currentTopicList = nextTopicsList.map((topic) => {
-      let topicClone = extend(topic);
+      let topicClone = _.extend(topic);
       topicClone.infoItems = topic.infoItems.filter((item) => {
         return item.isOpen;
       });
@@ -55,10 +55,10 @@ export class TopicsGenerator {
     // Here we have to clone the whole topics list to make sure
     // it will not be modified by the following one...
     return [...this.currentTopicList].map((topic) => {
-      let clone = extend(topic);
+      let clone = _.extend(topic);
       clone.infoItems = [];
       topic.infoItems.forEach((item) => {
-        let itemClone = extend(item);
+        let itemClone = _.extend(item);
         clone.infoItems.push(itemClone);
       });
       return clone;
@@ -103,7 +103,7 @@ export class TopicsGenerator {
 
   _copyTopicsToSeries(isLastOne = false) {
     this.currentTopicList.forEach((topic) => {
-      let topicClone = extend(topic);
+      let topicClone = _.extend(topic);
 
       topicClone.infoItems = topicClone.infoItems.filter((item) => {
         return !item.isOpen || isLastOne;
