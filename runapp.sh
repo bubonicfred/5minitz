@@ -5,13 +5,11 @@
 # ./runapp.sh 4321    - launches app on port 4321
 
 PORT4APP="3100"
-if [ ! -z "$1" ]
-then
-    PORT4APP=$1
-    echo "$PORT4APP"
+if [ ! -z "$1" ]; then
+  PORT4APP=$1
+  echo "$PORT4APP"
 fi
 echo Port "$PORT4APP"
-
 
 # Find path of currently running script
 TARGET_FILE=$0
@@ -19,11 +17,10 @@ cd "$(dirname "$TARGET_FILE")" || exit
 TARGET_FILE=$(basename "$TARGET_FILE")
 
 # Iterate down a (possible) chain of symlinks
-while [ -L "$TARGET_FILE" ]
-do
-    TARGET_FILE=$(readlink "$TARGET_FILE")
-    cd "$(dirname "$TARGET_FILE")" || exit
-    TARGET_FILE=$(basename "$TARGET_FILE")
+while [ -L "$TARGET_FILE" ]; do
+  TARGET_FILE=$(readlink "$TARGET_FILE")
+  cd "$(dirname "$TARGET_FILE")" || exit
+  TARGET_FILE=$(basename "$TARGET_FILE")
 done
 
 # Compute the canonicalized name by finding the physical path
@@ -32,15 +29,15 @@ SCRIPTPATH=$(pwd -P)
 cd "$SCRIPTPATH" || exit
 
 if [ ! -f ./settings.json ]; then
-    echo ""
-    echo "ERROR!"
-    echo "Could not find settings.json in:"
-    echo "    " "$SCRIPTPATH"
-    echo "Please copy settings_sample.json to settings.json"
-    echo "and adapt settings.json to your needs."
-    echo "Then retry to run this script"
-    echo ""
-    exit 1
+  echo ""
+  echo "ERROR!"
+  echo "Could not find settings.json in:"
+  echo "    " "$SCRIPTPATH"
+  echo "Please copy settings_sample.json to settings.json"
+  echo "and adapt settings.json to your needs."
+  echo "Then retry to run this script"
+  echo ""
+  exit 1
 fi
 
 # Protocol which meteor version we are running at

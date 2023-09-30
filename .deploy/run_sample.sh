@@ -21,15 +21,15 @@ export METEOR_SETTINGS="$(cat ./settings.json)"
 nodeversionbuild=$(cat ./bundle/.node_version.txt)
 nodeversionnow=$(node --version)
 if [ "$nodeversionbuild" != "$nodeversionnow" ]; then
-    echo " "
-    echo "*** WARNING!"
-    echo "    Node version mismatch:"
-    echo "    Node version on build: $nodeversionbuild"
-    echo "    Node version now     : $nodeversionnow"
-    echo "If app has launch errors, use node version manager:"
-    echo "     nvm install $nodeversionbuild &&  nvm use $nodeversionbuild"
-    echo " "
-    sleep 5
+  echo " "
+  echo "*** WARNING!"
+  echo "    Node version mismatch:"
+  echo "    Node version on build: $nodeversionbuild"
+  echo "    Node version now     : $nodeversionnow"
+  echo "If app has launch errors, use node version manager:"
+  echo "     nvm install $nodeversionbuild &&  nvm use $nodeversionbuild"
+  echo " "
+  sleep 5
 fi
 
 #### Launch the 4Minitz server
