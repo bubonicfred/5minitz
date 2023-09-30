@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import _ from "underscore";
+import _ from "lodash";
 const { faker } = require("@faker-js/faker");
 
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
@@ -46,7 +46,7 @@ describe("ParticipantsPreparer", function () {
       find: function (selector) {
         let excludeIds = selector.$and[0]._id.$nin;
         let result = this.users.filter((user) => {
-          return !_.contains(excludeIds, user._id);
+          return !_.includes(excludeIds, user._id);
         });
         return {
           fetch: () => {
