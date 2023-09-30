@@ -2,17 +2,18 @@
  * A Topic is an Agenda Topic which can
  * have multiple sub-items called InfoItem.
  */
-import { Meteor } from "meteor/meteor";
-import { Random } from "meteor/random";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { Minutes } from "./minutes";
-import { MeetingSeries } from "./meetingseries";
-import { InfoItemFactory } from "./InfoItemFactory";
-import { InfoItem } from "./infoitem";
-import { _ } from "meteor/underscore";
-
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
+
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { _ } from "meteor/underscore";
+
+import { InfoItem } from "./infoitem";
+import { InfoItemFactory } from "./InfoItemFactory";
+import { MeetingSeries } from "./meetingseries";
+import { Minutes } from "./minutes";
 
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
@@ -55,10 +56,13 @@ function resolveTopic(parentElement, source) {
 export class Topic {
   /**
    *
-   * @param parentElement {string|object} is either the id of the parent minute or parent meeting series
-   *                      or the parent object which has at least the methods upsertTopic() and findTopic().
-   *                      So the parent object could be both a minute or a meeting series.
-   * @param source        {string|object} topic_id then the document will be fetched from the parentMinute
+   * @param parentElement {string|object} is either the id of the parent minute
+   *     or parent meeting series
+   *                      or the parent object which has at least the methods
+   * upsertTopic() and findTopic(). So the parent object could be both a minute
+   * or a meeting series.
+   * @param source        {string|object} topic_id then the document will be
+   *     fetched from the parentMinute
    *                      or a topic object
    */
   constructor(parentElement, source) {
@@ -119,7 +123,8 @@ export class Topic {
   }
 
   /**
-   * A topic is finally completed (and will not show up in future minutes) if it is
+   * A topic is finally completed (and will not show up in future minutes) if it
+   * is
    *    - not checked as dicussed and
    *    - has no more open AIs and
    *    - is not marked as recurring
