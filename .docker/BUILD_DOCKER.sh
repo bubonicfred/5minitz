@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e -u
-cd $(dirname "$0")/../
+cd "$(dirname "$0")"/../
 
 dockerproject=4minitz/4minitz
 commitshort=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
@@ -66,19 +66,19 @@ echo ""
 
 #### Prepare settings.json
 settingsfile=.docker/4minitz_settings.json
-cp settings_sample.json $settingsfile
+cp settings_sample.json "$settingsfile"
 echo "Patching $settingsfile"
-sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' $settingsfile
-sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' $settingsfile
-sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' $settingsfile
-sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
-sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' $settingsfile
+sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' "$settingsfile"
+sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' "$settingsfile"
+sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' "$settingsfile"
+sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' "$settingsfile"
+sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' "$settingsfile"
 
-sed -i '' 's/"format": "[^\"]*"/"format": "pdfa"/' $settingsfile
-sed -i '' 's/"pathToWkhtmltopdf": "[^\"]*"/"pathToWkhtmltopdf": "\/usr\/bin\/xvfb-run"/' $settingsfile
-sed -i '' 's/"wkhtmltopdfParameters": "[^\"]*"/"wkhtmltopdfParameters": "\-\-server-args=\\"-screen 0, 1024x768x24\\" \/usr\/bin\/wkhtmltopdf --no-outline --print-media-type --no-background"/' $settingsfile
-sed -i '' 's/"pathToGhostscript": "[^\"]*"/"pathToGhostscript": "\/usr\/bin\/gs"/' $settingsfile
-sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\/PDFA_def.ps"/' $settingsfile
+sed -i '' 's/"format": "[^\"]*"/"format": "pdfa"/' "$settingsfile"
+sed -i '' 's/"pathToWkhtmltopdf": "[^\"]*"/"pathToWkhtmltopdf": "\/usr\/bin\/xvfb-run"/' "$settingsfile"
+sed -i '' 's/"wkhtmltopdfParameters": "[^\"]*"/"wkhtmltopdfParameters": "\-\-server-args=\\"-screen 0, 1024x768x24\\" \/usr\/bin\/wkhtmltopdf --no-outline --print-media-type --no-background"/' "$settingsfile"
+sed -i '' 's/"pathToGhostscript": "[^\"]*"/"pathToGhostscript": "\/usr\/bin\/gs"/' "$settingsfile"
+sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\/PDFA_def.ps"/' "$settingsfile"
 
 
 #### Build 4Minitz with meteor
@@ -88,12 +88,12 @@ sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\
 if [[ -n ${build_image:-} ]]; then
     echo Build 4Minitz docker image
 
-    cp $settingsfile .deploy/4minitz_bin/4minitz_settings_docker.json   # will be copied to /4minitz_settings.json by Dockerfile later
+    cp "$settingsfile" .deploy/4minitz_bin/4minitz_settings_docker.json   # will be copied to /4minitz_settings.json by Dockerfile later
     docker build \
             -f .docker/Dockerfile \
             --no-cache -t "$baseimagetag" \
-            --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-            --build-arg VERSION=$(git describe --tags --abbrev=0) \
+            --build-arg VCS_REF="$(git rev-parse --short HEAD)" \
+            --build-arg VERSION="$(git describe --tags --abbrev=0)" \
             .deploy/
 
     echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
