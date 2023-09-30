@@ -274,7 +274,7 @@ export class Topic {
 
     async toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
-        return await Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
+        return Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
     }
 
     async closeTopicAndAllOpenActionItems() {

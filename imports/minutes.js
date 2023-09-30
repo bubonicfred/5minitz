@@ -115,7 +115,7 @@ export class Minutes {
       Object.prototype.hasOwnProperty.call(docPart, "date") ||
       Object.prototype.hasOwnProperty.call(docPart, "isFinalized")
     ) {
-      return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
+      return parentMeetingSeries.updateLastMinutesFieldsAsync(this);
     }
   }
 
