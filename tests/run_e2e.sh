@@ -14,20 +14,20 @@ npm run test:end2end:server >"$SERVERLOG" &
 COUNTER=0
 MAX_WAIT=900
 until grep "=> App running at" "$SERVERLOG"; do
-    echo App has not started yet.. Waiting for "$COUNTER" seconds
-    sleep 30
-    COUNTER=$(COUNTER+30)
+  echo App has not started yet.. Waiting for "$COUNTER" seconds
+  sleep 30
+  COUNTER=$(COUNTER+30)
 
-    if [ "$COUNTER" -gt "$MAX_WAIT" ]; then
-        echo Meteor takes too long to start, exiting. Server log:
-        cat "$SERVERLOG"
-        exit 1
-    fi
-    if grep "=> Your application has errors." "$SERVERLOG"; then
-        echo Meteor reports build errors, exiting. Server log:
-        cat "$SERVERLOG"
-        exit 1
-    fi
+  if [ "$COUNTER" -gt "$MAX_WAIT" ]; then
+    echo Meteor takes too long to start, exiting. Server log:
+    cat "$SERVERLOG"
+    exit 1
+  fi
+  if grep "=> Your application has errors." "$SERVERLOG"; then
+    echo Meteor reports build errors, exiting. Server log:
+    cat "$SERVERLOG"
+    exit 1
+  fi
 done
 sleep 10
 
