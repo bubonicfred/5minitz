@@ -5,7 +5,7 @@ module.exports = {
     createLabelIdsReceiver: function(parentMeetingSeriesId) {
         return function getLabelIdsByName(labelName, caseSensitive) {
             let label = Label.findLabelsContainingSubstring(parentMeetingSeriesId, labelName, caseSensitive);
-            if (null !== label) {
+            if (label !== null) {
                 return label.map(label => { return label._id; });
             }
             return null;
