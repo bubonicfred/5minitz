@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import _ from 'underscore';
+import _ from 'lodash';
 
 let Meteor = {
     startup: sinon.mock(),

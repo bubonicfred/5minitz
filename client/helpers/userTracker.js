@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import {_} from 'meteor/underscore';
+import {_} from 'lodash';
 
 const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 

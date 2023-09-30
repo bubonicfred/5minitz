@@ -7,7 +7,7 @@ import { Topic } from "./topic";
 import { ActionItem } from "./actionitem";
 import { emailAddressRegExpMatch } from "/imports/helpers/email";
 import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 import { User } from "/imports/user";
 
 import "./collections/minutes_private";

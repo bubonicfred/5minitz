@@ -1,4 +1,4 @@
-import { _ } from "underscore";
+import { _ } from "lodash";
 
 import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";

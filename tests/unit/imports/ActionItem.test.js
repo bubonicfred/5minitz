@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as Helpers from '../../../imports/helpers/date';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
-import _ from 'underscore';
+import _ from 'lodash';
 
 let doNothing = () => {};
 
@@ -41,7 +41,7 @@ const {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     '/imports/user': { "null": null, '@noCallThru': true},
-    'meteor/underscore': { _, '@noCallThru': true},
+    'lodash': { _, '@noCallThru': true},
     '/imports/helpers/date': Helpers,
     './topic': { Topic, '@noCallThru': true},
     './label': { Label, '@noCallThru': true}

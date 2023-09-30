@@ -9,7 +9,7 @@ import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 
 import './helpers/promisedMethods';
 import './collections/minutes_private';

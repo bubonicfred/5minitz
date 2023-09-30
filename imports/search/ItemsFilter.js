@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 import { ITEM_KEYWORDS } from "./FilterKeywords";
 

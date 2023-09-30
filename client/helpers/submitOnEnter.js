@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 import { $ } from 'meteor/jquery';
 
 function createHandler(action) {

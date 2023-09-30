@@ -1,4 +1,4 @@
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 let isKeyword = function (token) {
   if (this.USER && token.startsWith(this.USER.key)) {

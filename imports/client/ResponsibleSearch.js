@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';

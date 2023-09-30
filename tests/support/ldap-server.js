@@ -1,5 +1,5 @@
 let ldap = require('ldapjs')
-    _ = require('underscore');
+    _ = require('lodash');
 
 let users = [{
     dn: 'cn=ldapUser1,dc=example,dc=com',

@@ -6,7 +6,7 @@ import { Minutes } from "./minutes";
 import { UserRoles } from "./userroles";
 import { formatDateISO8601 } from "/imports/helpers/date";
 import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 import { $ } from "meteor/jquery";
 import "./helpers/promisedMethods";
 import "./collections/meetingseries_private";

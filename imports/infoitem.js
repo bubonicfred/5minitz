@@ -5,7 +5,7 @@
  * and a list of associated tags.
  */
 import { Meteor } from "meteor/meteor";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 import { formatDateISO8601 } from "/imports/helpers/date";
 import { Random } from "meteor/random";
 import { User } from "/imports/user";
