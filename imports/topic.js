@@ -14,6 +14,7 @@ import { _ } from "lodash";
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
+
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
     let parentId = parent;
@@ -55,10 +56,13 @@ function resolveTopic(parentElement, source) {
 export class Topic {
   /**
    *
-   * @param parentElement {string|object} is either the id of the parent minute or parent meeting series
-   *                      or the parent object which has at least the methods upsertTopic() and findTopic().
-   *                      So the parent object could be both a minute or a meeting series.
-   * @param source        {string|object} topic_id then the document will be fetched from the parentMinute
+   * @param parentElement {string|object} is either the id of the parent minute
+   *     or parent meeting series
+   *                      or the parent object which has at least the methods
+   * upsertTopic() and findTopic(). So the parent object could be both a minute
+   * or a meeting series.
+   * @param source        {string|object} topic_id then the document will be
+   *     fetched from the parentMinute
    *                      or a topic object
    */
   constructor(parentElement, source) {
@@ -119,7 +123,8 @@ export class Topic {
   }
 
   /**
-   * A topic is finally completed (and will not show up in future minutes) if it is
+   * A topic is finally completed (and will not show up in future minutes) if it
+   * is
    *    - not checked as dicussed and
    *    - has no more open AIs and
    *    - is not marked as recurring
@@ -288,7 +293,7 @@ export class Topic {
   async toggleState() {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
-    return await Meteor.callPromise("minutes.updateTopic", this._topicDoc._id, {
+    return Meteor.callPromise("minutes.updateTopic", this._topicDoc._id, {
       isOpen: this._topicDoc.isOpen,
     });
   }
