@@ -1,5 +1,5 @@
-import {_} from "lodash";
-import {$} from "meteor/jquery";
+import { _ } from "lodash";
+import { $ } from "meteor/jquery";
 
 function createHandler(action) {
   return (event) => {
@@ -17,7 +17,8 @@ function createHandler(action) {
   };
 }
 
-export default function(textareas, action) {
-  _.each(textareas,
-         (input) => { $(input).on("keyup", createHandler(action)); });
+export default function (textareas, action) {
+  _.each(textareas, (input) => {
+    $(input).on("keyup", createHandler(action));
+  });
 }
