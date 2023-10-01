@@ -1,17 +1,19 @@
-import { Meteor } from "meteor/meteor";
-import { Random } from "meteor/random";
-import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { Minutes } from "./minutes";
-import { UserRoles } from "./userroles";
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "meteor/underscore";
-import { $ } from "meteor/jquery";
 import "./helpers/promisedMethods";
 import "./collections/meetingseries_private";
+
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { MinutesFinder } from "/imports/services/minutesFinder";
+import { _ } from "lodash";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
 import moment from "moment/moment";
+
+import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
+import { Minutes } from "./minutes";
 import { TopicsFinder } from "./services/topicsFinder";
+import { UserRoles } from "./userroles";
 
 export class MeetingSeries {
   constructor(source) {
@@ -113,8 +115,10 @@ export class MeetingSeries {
     let min = new Minutes({
       meetingSeries_id: this._id,
       date: formatDateISO8601(newMinutesDate),
-      visibleFor: this.visibleFor, // freshly created minutes inherit visibility of their series
-      informedUsers: this.informedUsers, // freshly created minutes inherit informedUsers of their series
+      visibleFor: this.visibleFor, // freshly created minutes inherit
+      // visibility of their series
+      informedUsers: this.informedUsers, // freshly created minutes inherit
+      // informedUsers of their series
       globalNotePinned: globalNotePinned,
       globalNote: globalNote,
     });
@@ -263,8 +267,9 @@ export class MeetingSeries {
     }
 
     // Clean-up roles
-    // Collect all removed users where the meeting series is not visible and not informed anymore
-    // And then remove the old meeting series role from these users
+    // Collect all removed users where the meeting series is not visible and not
+    // informed anymore And then remove the old meeting series role from these
+    // users
     let oldUserArray = this.visibleFor;
     if (this.informedUsers) {
       oldUserArray = oldUserArray.concat(this.informedUsers);
