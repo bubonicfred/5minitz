@@ -3,7 +3,6 @@ import proxyquire from "proxyquire";
 import sinon from "sinon";
 import { _ } from "lodash";
 
-
 let Meteor = {
   startup: sinon.mock(),
   settings: {
