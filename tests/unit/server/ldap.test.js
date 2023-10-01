@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+import { _ } from "lodash";
+
 
 let Meteor = {
   startup: sinon.mock(),
@@ -122,7 +123,7 @@ describe("ldap", function () {
 
     it("still works if searchFilter is undefined", function () {
       LdapSettings.usernameAttribute.returns("test");
-      LdapSettings.searchFilter.returns(undefined);
+      LdapSettings.searchFilter.returns();
 
       let isEmail = false;
       let username = "username";
