@@ -10,14 +10,14 @@ export class ConfirmationDialogFactory {
         confirmButtonText = i18n.__('Buttons.confirm'))
     {
         return new ConfirmationDialog({
-            title: title,
-            template: template,
-            templateData: templateData,
-            confirmButtonText: confirmButtonText,
+            title,
+            template,
+            templateData,
+            confirmButtonText,
             confirmButtonType: 'btn-success',
             content: ''
         }, {
-            onSuccess: onSuccess
+            onSuccess
         });
     }
 
@@ -28,13 +28,13 @@ export class ConfirmationDialogFactory {
         confirmButtonText = i18n.__('Buttons.delete'))
     {
         return new ConfirmationDialog({
-            title: title,
-            template: template,
-            templateData: templateData,
-            confirmButtonText: confirmButtonText,
+            title,
+            template,
+            templateData,
+            confirmButtonText,
             content: ''
         }, {
-            onSuccess: onSuccess
+            onSuccess
         });
     }
 
@@ -45,13 +45,13 @@ export class ConfirmationDialogFactory {
         confirmButtonText = i18n.__('Buttons.confirm'))
     {
         return new ConfirmationDialog({
-            title: title,
-            templateData: templateData,
-            confirmButtonText: confirmButtonText,
+            title,
+            templateData,
+            confirmButtonText,
             confirmButtonType: 'btn-success',
-            content: content
+            content
         }, {
-            onSuccess: onSuccess
+            onSuccess
         });
     }
 
@@ -64,10 +64,10 @@ export class ConfirmationDialogFactory {
         return new ConfirmationDialog({
             title: title ? title : i18n.__('Dialog.ConfirmDelete.title'),
             content: content ? content : i18n.__('Dialog.ConfirmDelete.body'),
-            templateData: templateData,
+            templateData,
             confirmButtonText: confirmButtonText ? confirmButtonText : i18n.__('Buttons.delete')
         }, {
-            onSuccess: onSuccess
+            onSuccess
         });
     }
 
@@ -77,8 +77,8 @@ export class ConfirmationDialogFactory {
      */
     static makeInfoDialog(title, content) {
         return new ConfirmationDialog({
-            title: title,
-            content: content,
+            title,
+            content,
             confirmButtonText: i18n.__('Buttons.ok'),
             confirmButtonType: 'btn-info',
             showCancelButton: false
@@ -90,8 +90,8 @@ export class ConfirmationDialogFactory {
      */
     static makeErrorDialog(title, content) {
         return new ConfirmationDialog({
-            title: title,
-            content: content,
+            title,
+            content,
             confirmButtonText: i18n.__('Buttons.ok'),
             showCancelButton: false
         });
