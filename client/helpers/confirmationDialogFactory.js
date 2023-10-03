@@ -1,5 +1,6 @@
-import { ConfirmationDialog } from "./confirmationDialog";
 import { i18n } from "meteor/universe:i18n";
+
+import { ConfirmationDialog } from "./confirmationDialog";
 
 export class ConfirmationDialogFactory {
   /**
