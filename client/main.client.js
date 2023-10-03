@@ -47,7 +47,7 @@ import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
 $(document).arrive('input', {
     onceOnly: false
 }, function () {
-    let invalidMsg = $(this).attr('data-error-msg');
+    const invalidMsg = $(this).attr('data-error-msg');
     if(invalidMsg) {
         $(this).on('invalid', function() {
             this.setCustomValidity(invalidMsg);
@@ -70,7 +70,7 @@ $(document).arrive('.clear-on-escape', function () {
 $(document).ready(() => {
     $.material.checkboxOriginal = $.material.checkbox;
     $.material.checkbox = function(selector) {
-        let $input = $((selector) ? selector : this.options.checkboxElements);
+        const $input = $((selector) ? selector : this.options.checkboxElements);
         if (!$input.next() || !$input.next().hasClass('checkbox-material')) {
             this.checkboxOriginal(selector);
         }
@@ -93,15 +93,15 @@ Meteor.startup(async () => {
     });
     Astro.config.logs.nonExistingField = false; // Turn off warnings about non existing fields.
 
-    Template.registerHelper('pathForImproved', function(path) {
+    Template.registerHelper('pathForImproved', (path) => {
         // FlowRouters pathFor helper is a little bit inconsistent.
         // for ROOT_URL=http://localhost:3000           it processes "/" => "/"
         // for ROOT_URL=http://localhost:3100/4minitz   it processes "/" => "/4minitz"
         // so sometimes we have a trailing "/" sometimes not.
         // Unfortunately serving an image like so "<img src="//mylogo.png"> does not work!
-        let pathWithTrailingSlash = Blaze._globalHelpers.pathFor(path);
+        const pathWithTrailingSlash = Blaze._globalHelpers.pathFor(path);
         if (! pathWithTrailingSlash.endsWith('/')) {
-            pathWithTrailingSlash = pathWithTrailingSlash + '/';
+            return `${pathWithTrailingSlash}/`;
         }
         return pathWithTrailingSlash;
     });
@@ -112,7 +112,7 @@ Meteor.startup(async () => {
 // IF we lost connection to server
 // AND (user wants to leave the current URL OR user wants to close the tab OR attempts to Reload page)
 // => we show a standard browsers warning message
-window.addEventListener('beforeunload', function (e) {
+window.addEventListener('beforeunload', (e) => {
     if(Meteor.status().connected || Meteor.settings.public.isEnd2EndTest) {
         // OK, continue with unload
         delete e['returnValue'];
