@@ -57,7 +57,8 @@ export class ConfirmationDialog {
   _renderContentTemplate() {
     const tmplOpt = this.options.template;
     if (tmplOpt) {
-      const template = typeof tmplOpt === "string" ? Template[tmplOpt] : tmplOpt;
+      const template =
+        typeof tmplOpt === "string" ? Template[tmplOpt] : tmplOpt;
       Blaze.renderWithData(
         template,
         this.options.templateData,

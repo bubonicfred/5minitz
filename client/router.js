@@ -37,14 +37,14 @@ FlowRouter.route("/verify-email/:token", {
       if (error) {
         new FlashMessage(
           i18n.__("FlashMessages.verifyEMailErr"),
-          error.reason
+          error.reason,
         ).show();
       } else {
         FlowRouter.go("/");
         new FlashMessage(
           "",
           i18n.__("FlashMessages.verifyEMailOK"),
-          "alert-success"
+          "alert-success",
         ).show();
       }
     });
