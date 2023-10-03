@@ -11,13 +11,13 @@ import "./promisedMethods";
 //       ****>>> languages with >90% strings approved <<<<****
 // So we can mark all other languages in the UI as "W-I-P" / Help wanted
 const approvedLocales = {
-    'de':       true,
-    'de-fr':    true,
-    'el':       true,
-    'it':       true,
-    'nl':       true,
-    'pl':       true,
-    'zh-cn':    true,
+  de: true,
+  "de-fr": true,
+  el: true,
+  it: true,
+  nl: true,
+  pl: true,
+  "zh-cn": true,
 };
 
 // We translate the 4Minitz UI with the help of CrowdIn:
@@ -28,44 +28,46 @@ const approvedLocales = {
 //       ****>>> languages with >90% strings approved <<<<****
 // So we can mark all other languages in the UI as "W-I-P" / Help wanted
 const approvedLocales = {
-    'de':       true,
-    'de-fr':    true,
-    'el':       true,
-    'it':       true,
-    'nl':       true,
-    'pl':       true,
-    'zh-cn':    true,
+  de: true,
+  "de-fr": true,
+  el: true,
+  it: true,
+  nl: true,
+  pl: true,
+  "zh-cn": true,
 };
 
 // Only server can provide all available languages via server-side method
 Meteor.methods({
-    getAvailableLocales: function () {
-        // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
-        return i18n.getLanguages().map(code => {
-            if (code.toLowerCase() === 'de-li') {
-                const franconianCode = 'de-Fr';
-                return {
-                    code: code,
-                    codeUI: franconianCode,
-                    approved: !!approvedLocales[franconianCode.toLowerCase()],
-                    name: 'German (Franconian)',
-                    nameNative: 'Deutsch (Fränggisch)'
-                };
-            }
-            console.log('>>>', code, !!approvedLocales[code.toLowerCase()]);
-            return {
-                code: code,
-                codeUI: code,
-                approved: !!approvedLocales[code.toLowerCase()],
-                name: i18n.getLanguageName(code),
-                nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
-            };
-        });
-    },
-    getAvailableLocaleCodes() {
-        // ["el", "de", "zh-CN", "zh-TW"]
-        return i18n.getLanguages();
-    },
+  getAvailableLocales: function () {
+    // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
+    return i18n.getLanguages().map((code) => {
+      if (code.toLowerCase() === "de-li") {
+        const franconianCode = "de-Fr";
+        return {
+          code: code,
+          codeUI: franconianCode,
+          approved: !!approvedLocales[franconianCode.toLowerCase()],
+          name: "German (Franconian)",
+          nameNative: "Deutsch (Fränggisch)",
+        };
+      }
+      console.log(">>>", code, !!approvedLocales[code.toLowerCase()]);
+      return {
+        code: code,
+        codeUI: code,
+        approved: !!approvedLocales[code.toLowerCase()],
+        name: i18n.getLanguageName(code),
+        nameNative:
+          i18n.getLanguageNativeName(code)[0].toUpperCase() +
+          i18n.getLanguageNativeName(code).slice(1),
+      };
+    });
+  },
+  getAvailableLocaleCodes() {
+    // ["el", "de", "zh-CN", "zh-TW"]
+    return i18n.getLanguages();
+  },
 });
 
 export class I18nHelper {

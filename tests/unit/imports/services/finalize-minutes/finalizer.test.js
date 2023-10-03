@@ -64,11 +64,11 @@ const User = {
 };
 
 let i18n = {
-    setLocale: sinon.stub(),
-    getLocale: sinon.stub(),
-    runWithLocale: (locale, callback) => {
-        callback();
-    },
+  setLocale: sinon.stub(),
+  getLocale: sinon.stub(),
+  runWithLocale: (locale, callback) => {
+    callback();
+  },
 };
 
 const { Finalizer } = proxyquire(
