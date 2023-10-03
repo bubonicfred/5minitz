@@ -115,7 +115,7 @@ Meteor.startup(async () => {
 window.addEventListener('beforeunload', (e) => {
     if(Meteor.status().connected || Meteor.settings.public.isEnd2EndTest) {
         // OK, continue with unload
-        delete e['returnValue'];
+        delete e.returnValue;
         return;
     }
 
