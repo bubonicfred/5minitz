@@ -14,10 +14,10 @@ export function addCustomValidator(
           result = result.valid;
         }
 
-        if (!result) {
-          this.setCustomValidity(errorMsg);
-        } else {
+        if (result) {
           this.setCustomValidity("");
+        } else {
+          this.setCustomValidity(errorMsg);
         }
       });
     },

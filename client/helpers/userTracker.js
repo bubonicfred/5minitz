@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import {_} from 'meteor/underscore';
+import {_} from 'lodash';
 
 const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 
@@ -10,7 +10,8 @@ const getVisibilityKeys = () => {
         mozHidden: 'mozvisibilitychange',
         msHidden: 'msvisibilitychange'
     };
-    let stateKey, eventKey;
+    let stateKey;
+    let eventKey;
 
     for (stateKey in keys) {
         if (stateKey in document) {
@@ -19,8 +20,8 @@ const getVisibilityKeys = () => {
         }
     }
     return {
-        stateKey: stateKey,
-        eventKey: eventKey
+        stateKey,
+        eventKey
     };
 };
 
