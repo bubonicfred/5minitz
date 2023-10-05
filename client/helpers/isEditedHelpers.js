@@ -1,30 +1,37 @@
-import { Meteor } from 'meteor/meteor';
-import {formatDateISO8601Time} from '../../imports/helpers/date';
-import {ConfirmationDialogFactory} from './confirmationDialogFactory';
-import { User } from '/imports/user';
-import { i18n } from 'meteor/universe:i18n';
+import { User } from "/imports/user";
+import { Meteor } from "meteor/meteor";
+import { i18n } from "meteor/universe:i18n";
 
-export function isEditedHandling(element, unset, setIsEdited, evt, confirmationDialogTemplate) {
-    // Attention: .isEditedBy and .isEditedDate may be null!
-    if ((element.isEditedBy != undefined && element.isEditedDate != undefined)) {
+import { formatDateISO8601Time } from "../../imports/helpers/date";
 
-        const user = Meteor.users.findOne({_id: element.isEditedBy});
+import { ConfirmationDialogFactory } from "./confirmationDialogFactory";
 
-        const tmplData = {
-            isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
-            isEditedDate: formatDateISO8601Time(element.isEditedDate)
-        };
+export function isEditedHandling(
+  element,
+  unset,
+  setIsEdited,
+  evt,
+  confirmationDialogTemplate,
+) {
+  // Attention: .isEditedBy and .isEditedDate may be null!
+  if (element.isEditedBy != undefined && element.isEditedDate != undefined) {
+    const user = Meteor.users.findOne({ _id: element.isEditedBy });
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-            unset,
-            i18n.__('Dialog.IsEditedHandling.title'),
-            confirmationDialogTemplate,
-            tmplData,
-            i18n.__('Dialog.IsEditedHandling.button')
-        ).show();
+    const tmplData = {
+      isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+      isEditedDate: formatDateISO8601Time(element.isEditedDate),
+    };
 
-        evt.preventDefault();
-        return;
-    }
-    setIsEdited();
+    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+      unset,
+      i18n.__("Dialog.IsEditedHandling.title"),
+      confirmationDialogTemplate,
+      tmplData,
+      i18n.__("Dialog.IsEditedHandling.button"),
+    ).show();
+
+    evt.preventDefault();
+    return;
+  }
+  setIsEdited();
 }
