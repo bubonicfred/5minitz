@@ -1,8 +1,10 @@
-import { Meteor } from "meteor/meteor";
-import { formatDateISO8601Time } from "../../imports/helpers/date";
-import { ConfirmationDialogFactory } from "./confirmationDialogFactory";
 import { User } from "/imports/user";
+import { Meteor } from "meteor/meteor";
 import { i18n } from "meteor/universe:i18n";
+
+import { formatDateISO8601Time } from "../../imports/helpers/date";
+
+import { ConfirmationDialogFactory } from "./confirmationDialogFactory";
 
 export function isEditedHandling(
   element,

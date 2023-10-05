@@ -1,5 +1,5 @@
-import { Meteor } from "meteor/meteor";
 import { _ } from "lodash";
+import { Meteor } from "meteor/meteor";
 
 const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 
