@@ -21,7 +21,7 @@ _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 - Track open action items and unfinished topics across meetings
 - Full privacy: Host your own server - it's easy!
 
-<a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
+Also the name is not set in stone.
 
 _(Click to enlarge screen shot)_
 
@@ -31,7 +31,8 @@ _(Click to enlarge screen shot)_
 
 _(Click to play Demo Video)_
 
-Documentation is "continuously" not finished... Nevertheless these WIP docs may be of help:
+Documentation is "continuously" not finished... Nevertheless these WIP docs may
+be of help:
 
 - [FAQ - Frequently Asked Questions](doc/faq.md)
 - [User Doc](doc/user/usermanual.md)
@@ -55,16 +56,18 @@ Documentation is "continuously" not finished... Nevertheless these WIP docs may 
 
 To quickly set up a local demo of 4Minitz at your site for evaluation and
 testing you can use our sample
-[Docker Compose configuration file](https://raw.githubusercontent.com/4minitz/4minitz/develop/docker-compose.yml) and run it with
+[Docker Compose configuration file](docker-compose.yml)
+and run it with
 
 ```sh
 docker-compose up
 ```
+TODO:update docker-compose
+You can now access 4Minitz by pointing your browser to
+[http://localhost:3100](http://localhost:3100).
 
-You can now access 4Minitz by pointing your browser to [http://localhost:3100](http://localhost:3100).
-
-If you don't want to use `docker-compose` you can use just docker by
-starting the two containers manually:
+If you don't want to use `docker-compose` you can use just docker by starting
+the two containers manually:
 
 ```sh
 docker run --rm --name mongo mongo
@@ -76,9 +79,8 @@ docker run --rm --name 4minitz \
     4minitz/4minitz:stable
 ```
 
-Don't miss the [Admin Guide](doc/admin/adminguide.md)
-with a more comprehensive coverage of the real production
-building & installation topic! Especially see
+Don't miss the [Admin Guide](doc/admin/adminguide.md) with a more comprehensive
+coverage of the real production building & installation topic! Especially see
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
 ## Development environment (Linux, Mac)

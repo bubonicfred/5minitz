@@ -7,14 +7,15 @@ import { FlashMessage } from "./helpers/flashMessage";
 
 // reset document title on route exit
 // To set a route specific title use a helper in the according template
-const resetDocumentTitle = () => {
-  document.title = "4Minitz!";
+const resetDocumentTitle = function () {
+    document.title = '4Minitz!'
 };
 
-FlowRouter.route("/", {
-  action() {
-    BlazeLayout.render("appLayout", { main: "home" });
-  },
+
+FlowRouter.route('/', {
+    action() {
+        BlazeLayout.render('appLayout', {main: 'home'});
+    }
 });
 
 FlowRouter.route("/admin", {
