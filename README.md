@@ -1,11 +1,35 @@
+master/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=master)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
+develop/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
+[![DeepSource](https://app.deepsource.com/gh/bubonicfred/4minitz.svg/?label=active+issues&show_trend=true&token=1tQ4rdje5JBGoo8W5wsWKdkF)](https://app.deepsource.com/gh/bubonicfred/4minitz/)
+[![Depfu](https://badges.depfu.com/badges/86599f7e870f346f0c5d05e0d59c6a07/overview.svg)](https://depfu.com/github/bubonicfred/4minitz?project_id=30475)
 
+# 4Minitz
 
+This is an attempt to maintain 4minitz.
 
+The buildfix branch is mainly just maintenance patches. While develope_new will potentially receive breaking changes. All changes to buildfix get ported to develop_new at the moment.
 
+_Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 
+- Create a meeting series and invite others
+- Specify moderators, invited and informed users
+- Create an agenda with multiple topics
+- Attend a meeting via web with reactive live updates
+- 1-button sending of agenda, minutes and action items by email
+- Use labels to tag items for later retrieval
+- Upload binary attachments to minutes (e.g., presentations, photos)
+- Track open action items and unfinished topics across meetings
+- Full privacy: Host your own server - it's easy!
 
+Also the name is not set in stone.
 
+_(Click to enlarge screen shot)_
 
+<br>
+
+[![4Minitz Demo Video](doc/4Minitz_Youtube_Thumbnail.png)](https://www.youtube.com/watch?v=v28q6AaEySQ)
+
+_(Click to play Demo Video)_
 
 Documentation is "continuously" not finished... Nevertheless these WIP docs may
 be of help:
@@ -17,10 +41,16 @@ be of help:
 
 ## External Project Links
 
-
+- [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1) - organizes our project TODOs
+- [4Minitz Demo Server](https://www.4minitz.com) - well, our Demo server ;-)
+- [GitHub Actions](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22) - Runs unit and end2end tests on each commit
+- [Code Climate](https://codeclimate.com/github/4minitz/4minitz) - Keeps an eye on our code quality
 - [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements
 - [Docker Hub](https://hub.docker.com/r/4minitz/4minitz/) - Spin up your own 4Minitz server in seconds
 
+## 4Minitz is proudly sponsored by
+
+<a href="http://www.methodpark.de"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/sponsor_methodpark.png" height="50px" alt="Method Park"></a>
 
 ## Deployment Quick Start
 
