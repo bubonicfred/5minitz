@@ -1,14 +1,14 @@
-import { Meteor } from "meteor/meteor";
-import { _ } from "lodash";
+import {_} from "lodash";
+import {Meteor} from "meteor/meteor";
 
 const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 
 const getVisibilityKeys = () => {
   const keys = {
-    hidden: "visibilitychange",
-    webkitHidden: "webkitvisibilitychange",
-    mozHidden: "mozvisibilitychange",
-    msHidden: "msvisibilitychange",
+    hidden : "visibilitychange",
+    webkitHidden : "webkitvisibilitychange",
+    mozHidden : "mozvisibilitychange",
+    msHidden : "msvisibilitychange",
   };
   let stateKey;
   let eventKey;
@@ -33,9 +33,7 @@ const removeVisiblityListener = (listener) => {
   document.removeEventListener(getVisibilityKeys().eventKey, listener);
 };
 
-const isVisible = () => {
-  return !document[getVisibilityKeys().stateKey];
-};
+const isVisible = () => { return !document[getVisibilityKeys().stateKey]; };
 
 export class UserTracker {
   constructor(activeRoute) {
@@ -51,9 +49,7 @@ export class UserTracker {
     };
   }
 
-  _setActiveRoute() {
-    Meteor.call("onlineUsers.enterRoute", this.activeRoute);
-  }
+  _setActiveRoute() { Meteor.call("onlineUsers.enterRoute", this.activeRoute); }
 
   _clearActiveRoute() {
     Meteor.call("onlineUsers.leaveRoute", this.activeRoute);
@@ -68,8 +64,8 @@ export class UserTracker {
 
   _startTimer() {
     this.timerHandler = Meteor.setInterval(
-      _.bind(this._setActiveRoute, this),
-      KEEP_ALIVE_INTERVAL_IN_MS,
+        _.bind(this._setActiveRoute, this),
+        KEEP_ALIVE_INTERVAL_IN_MS,
     );
   }
 
@@ -85,7 +81,5 @@ export class UserTracker {
     window.removeEventListener("beforeunload", this.beforeUnloadListener);
   }
 
-  _stopTimer() {
-    Meteor.clearInterval(this.timerHandler);
-  }
+  _stopTimer() { Meteor.clearInterval(this.timerHandler); }
 }
