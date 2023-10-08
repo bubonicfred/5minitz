@@ -84,7 +84,6 @@ coverage of the real production building & installation topic! Especially see
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
 ## Development environment (Linux, Mac)
-
 **Attention:** This is not a proper setup for production deployment!
 It is intended for developers and so it has some security drawbacks (No
 password protection for MongoDB) and also consumes some amount of extra RAM
@@ -92,7 +91,6 @@ password protection for MongoDB) and also consumes some amount of extra RAM
 with a more comprehensive coverage of the real production installation topic!
 
 ### Prerequisites
-
 4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). So, first install the current version of meteor:
 
 ```sh
@@ -100,7 +98,7 @@ curl https://install.meteor.com/ | sh
 meteor --version
 ```
 
-On Windows? [Download the meteor installer](https://install.meteor.com/windows).
+On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
 As an experienced Windows admin you sure can transfer the below steps for Linux and Mac to your OS.
 
 ### Run development version (Linux & Mac)
@@ -114,10 +112,11 @@ cp settings_sample.json settings.json
 ./runapp.sh
 ```
 
-Wait some time for meteor to finish downloading and building.
-You can reach 4Minitz via the default port 3100 by opening
+Wait some time for meteor to finish downloading and building. 
+You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
 
 **Hint:** There is a settings_sample.json file that has quite a few configuration options
 (like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
-on this topic.
+ on this topic.
+ 
