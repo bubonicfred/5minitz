@@ -33,7 +33,6 @@ let orphanFlashMessage = null;
 const filterClosedTopics = new ReactiveVar(false);
 const openPrintDialog = () => {
   const ua = navigator.userAgent.toLowerCase();
-  const isAndroid = ua.includes("android");
 
   window.print();
 };
