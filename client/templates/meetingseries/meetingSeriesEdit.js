@@ -6,6 +6,7 @@ import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 import { IsEditedService } from "../../../imports/services/isEditedService";

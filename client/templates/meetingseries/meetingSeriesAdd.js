@@ -2,6 +2,7 @@ import { handleError } from "/client/helpers/handleError";
 import { MeetingSeries } from "/imports/meetingseries";
 import { $ } from "meteor/jquery";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+
 import { Template } from "meteor/templating";
 import { ReactiveDict } from "meteor/reactive-dict";
 function clearForm(template) {

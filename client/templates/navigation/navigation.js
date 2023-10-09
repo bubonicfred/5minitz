@@ -1,10 +1,12 @@
-import { Template } from "meteor/templating";
-import { Meteor } from "meteor/meteor";
 import { GlobalSettings } from "/imports/config/GlobalSettings";
+import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { AccountsTemplates } from "meteor/useraccounts:core";
-import { IsEditedService } from "../../../imports/services/isEditedService";
 import { ReactiveDict } from "meteor/reactive-dict";
+import { Template } from "meteor/templating";
+import { AccountsTemplates } from "meteor/useraccounts:core";
+
+import { IsEditedService } from "../../../imports/services/isEditedService";
+
 Template.navigation.helpers({
   logoHTML() {
     return GlobalSettings.getBrandingLogoHTML();
@@ -39,7 +41,10 @@ Template.navigation.events({
   },
 
   "click #navbar-dlgEditProfile": function (evt, tmpl) {
-    ReactiveDict.set("editProfile.userID"); // per default use "current" user. Admin may edit others
+
+    ReactiveDict.set("editProfile.userID"); // per default use "current" user.
+    // Admin may edit others
+
     tmpl.$("#dlgEditProfile").modal("show");
   },
 

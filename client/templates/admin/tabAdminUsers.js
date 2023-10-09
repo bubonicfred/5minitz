@@ -1,11 +1,12 @@
+import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
 import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
+import { ReactiveVar } from "meteor/reactive-var";
 
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
-import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
-import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
-import { ReactiveDict } from "meteor/reactive-dict";
+
 
 const _filterUsers = new ReactiveVar("");
 const _showInactive = new ReactiveVar(false);
