@@ -48,7 +48,7 @@ const togglePrintView = (switchOn) => {
     ReactiveDict.set("minutesedit.PrintViewActive", switchOn);
   }
 
-  if (ReactiveDict.get("minutesedit.PrintViewActive")) {
+  if (ReactiveDict.equals("minutesedit.PrintViewActive", true)) {
     // expand all topics, but save current state before!
     ReactiveDict.set(
       `minutesedit.collapsetopics-save4print.${_minutesID}`,
@@ -74,21 +74,21 @@ const togglePrintView = (switchOn) => {
     Meteor.setTimeout(() => {
       openPrintDialog();
     }, 500);
-  } else {
-    // change back normal checkboxes to material checkboxes after printing
-    $("div.print-checkbox").toggleClass("checkbox print-checkbox");
-    $(".expand-collapse-triangle").show();
-    $(".collapse").removeClass("in");
-    // restore old topic collapsible state
-    ReactiveDict.set(
-      `minutesedit.collapsetopics.${_minutesID}`,
-      ReactiveDict.get(`minutesedit.collapsetopics-save4print.${_minutesID}`)
-    );
+    return;
   }
+  // change back normal checkboxes to material checkboxes after printing
+  $("div.print-checkbox").toggleClass("checkbox print-checkbox");
+  $(".expand-collapse-triangle").show();
+  $(".collapse").removeClass("in");
+  // restore old topic collapsible state
+  ReactiveDict.set(
+    `minutesedit.collapsetopics.${_minutesID}`,
+    ReactiveDict.get(`minutesedit.collapsetopics-save4print.${_minutesID}`)
+  );
 };
 
 // Automatically restore view after printing
-(() => {
+{
   const afterPrint = () => {
     togglePrintView(false);
   };
@@ -103,7 +103,7 @@ const togglePrintView = (switchOn) => {
   }
 
   window.onafterprint = afterPrint;
-})();
+}
 
 // Global keyboard shortcut handler for this template
 // In Meteor global key events can only be bound to the template on <INPUT>
@@ -140,18 +140,18 @@ const handleTemplatesGlobalKeyboardShortcuts = (switchOn) => {
 };
 
 Template.minutesedit.onRendered(function () {
-  const tmpl = this; // store for second, inner callback
   // Ugly hack...   :-(
   // For some strange reason, our DOM element is not available immediately
   // (Blaze API tells us differently!) - so, we give it some time to settle
   Meteor.setTimeout(() => {
-    const target = tmpl.find("#editGlobalNotes");
-    if (target) {
-      target.style.height = 0;
-      target.style.overflow = "auto";
-      target.style.height = `${target.scrollHeight}px`;
-      target.style.maxHeight = "700px";
+    const target = this.find("#editGlobalNotes");
+    if (!target) {
+      return;
     }
+    target.style.height = 0;
+    target.style.overflow = "auto";
+    target.style.height = `${target.scrollHeight}px`;
+    target.style.maxHeight = "700px";
   }, 2000);
 
   filterClosedTopics.set(false);
@@ -167,15 +167,16 @@ Template.minutesedit.onCreated(function () {
     this.currentMinuteLoaded.set(
       this.subscribe("minutes", undefined, _minutesID)
     );
-    if (this.currentMinuteLoaded.get().ready()) {
-      const meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
-      this.subscribe("minutes", meetingSeriesId);
-      this.subscribe("meetingSeriesDetails", meetingSeriesId);
-      this.subscribe("files.attachments.all", meetingSeriesId, _minutesID);
-      this.subscribe("files.protocols.all", meetingSeriesId, _minutesID);
-
-      this.minutesReady.set(this.subscriptionsReady());
+    if (!this.currentMinuteLoaded.get().ready()) {
+      return;
     }
+    const meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+    this.subscribe("minutes", meetingSeriesId);
+    this.subscribe("meetingSeriesDetails", meetingSeriesId);
+    this.subscribe("files.attachments.all", meetingSeriesId, _minutesID);
+    this.subscribe("files.protocols.all", meetingSeriesId, _minutesID);
+
+    this.minutesReady.set(this.subscriptionsReady());
   });
 
   ReactiveDict.set("minutesedit.checkParent", false);
@@ -207,8 +208,8 @@ const isModerator = () => {
 };
 
 const toggleTopicSorting = () => {
-  let topicList = $("#topicPanel"),
-    isFinalized = isMinuteFinalized();
+  const topicList = $("#topicPanel");
+  const isFinalized = isMinuteFinalized();
 
   if (!isFinalized && isModerator()) {
     topicList.sortable("enable");
@@ -227,9 +228,9 @@ const updateTopicSorting = (event, ui) => {
 
   // Attention: In the DOM we only see the currently visible topics.
   // Some topics may be hidden due to "hide closed topics" feature
-  let sorting = $("#topicPanel").find("> div.well"),
-    minute = new Minutes(_minutesID),
-    newTopicSorting = [];
+  const sorting = $("#topicPanel").find("> div.well");
+  const minute = new Minutes(_minutesID);
+  let newTopicSorting = [];
 
   // In visible topics find new target pos
   let newTargetPos = sorting.length - 1;
@@ -240,10 +241,10 @@ const updateTopicSorting = (event, ui) => {
   }
   // In visible topics find ID of the following topic, or '' if dragged to end
   // of list
-  let followerTopicID = ""; // The ID of the topic below the dragged one
-  if (newTargetPos < sorting.length - 1) {
-    followerTopicID = $(sorting[newTargetPos + 1]).attr("data-id");
-  }
+  const followerTopicID =
+    newTargetPos < sorting.length - 1
+      ? $(sorting[newTargetPos + 1]).attr("data-id")
+      : ""; // The ID of the topic below the dragged one
   // In *all* topics before(!) the drag operation find
   // * position of dragged topic and
   // * position of follower after drag operation
@@ -282,7 +283,7 @@ const updateTopicSorting = (event, ui) => {
 
 const openPrintDialog = () => {
   const ua = navigator.userAgent.toLowerCase();
-  const isAndroid = ua.indexOf("android") > -1;
+  const isAndroid = ua.includes("android");
 
   window.print();
 };
@@ -366,7 +367,7 @@ Template.minutesedit.helpers({
     }, 2500);
   },
 
-  checkParentSeries: function () {
+  checkParentSeries() {
     if (!ReactiveDict.get("minutesedit.checkParent")) return;
 
     const aMin = new Minutes(_minutesID);
@@ -386,7 +387,7 @@ Template.minutesedit.helpers({
     }
   },
 
-  meetingSeries: function () {
+  meetingSeries() {
     const aMin = new Minutes(_minutesID);
     if (aMin) {
       return aMin.parentMeetingSeries();
@@ -394,7 +395,7 @@ Template.minutesedit.helpers({
     return null;
   },
 
-  minutes: function () {
+  minutes() {
     const aMin = new Minutes(_minutesID);
     if (aMin) {
       return aMin;
@@ -402,15 +403,15 @@ Template.minutesedit.helpers({
     return null;
   },
 
-  isFinalized: function () {
+  isFinalized() {
     return isMinuteFinalized();
   },
 
-  getFinalizedText: function () {
+  getFinalizedText() {
     return Finalizer.finalizedInfo(_minutesID);
   },
 
-  finalizeHistoryTooltip: function (buttontype) {
+  finalizeHistoryTooltip(buttontype) {
     const aMin = new Minutes(_minutesID);
     let tooltip = buttontype ? `${i18n.__(buttontype)}\n` : "";
     if (aMin.finalizedHistory) {
@@ -423,7 +424,7 @@ Template.minutesedit.helpers({
     return tooltip;
   },
 
-  disableUIControl: function () {
+  disableUIControl() {
     const aMin = new Minutes(_minutesID);
     const usrRole = new UserRoles();
     return aMin.isFinalized ||
@@ -432,28 +433,26 @@ Template.minutesedit.helpers({
       : "";
   },
 
-  isUnfinalizeAllowed: function () {
+  isUnfinalizeAllowed() {
     return Finalizer.isUnfinalizeMinutesAllowed(_minutesID);
   },
 
-  isModeratorOfParentSeries: function () {
+  isModeratorOfParentSeries() {
     const aMin = new Minutes(_minutesID);
     const usrRole = new UserRoles();
 
     return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
   },
 
-  getTopicsListConfig: function () {
+  getTopicsListConfig() {
     const aMin = new Minutes(_minutesID);
     let filteredTopics = aMin.topics;
     if (filterClosedTopics.get()) {
       filteredTopics = aMin.topics.filter(
         (topic) => topic.isOpen && !topic.isSkipped
       );
-    } else {
-      if (!isModerator()) {
-        filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
-      }
+    } else if (!isModerator()) {
+      filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
     }
 
     return new TopicListConfig(
@@ -474,31 +473,31 @@ Template.minutesedit.helpers({
     }
   },
 
-  minutesPath: function (minutesId) {
+  minutesPath(minutesId) {
     return Blaze._globalHelpers.pathFor("/minutesedit/:_id", {
       _id: minutesId,
     });
   },
 
-  previousMinutes: function () {
+  previousMinutes() {
     const aMin = new Minutes(_minutesID);
     return MinutesFinder.previousMinutes(aMin);
   },
 
-  nextMinutes: function () {
+  nextMinutes() {
     const aMin = new Minutes(_minutesID);
     return MinutesFinder.nextMinutes(aMin);
   },
 
-  displayCreateNextMinutes: function () {
+  displayCreateNextMinutes() {
     return isModerator() && isMinuteFinalized();
   },
 
-  isDocumentGenerationAllowed: function () {
+  isDocumentGenerationAllowed() {
     return Meteor.settings.public.docGeneration.enabled === true;
   },
 
-  theProtocol: function () {
+  theProtocol() {
     return DocumentGeneration.getProtocolForMinute(_minutesID);
   },
 });
@@ -609,9 +608,9 @@ Template.minutesedit.events({
           {},
           i18n.__("Dialog.ConfirmSendAgenda.button")
         ).show();
-      } else {
-        await sendAgenda();
+        return;
       }
+      await sendAgenda();
     };
 
     QualityTestRunner.run(
@@ -625,7 +624,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
-      "Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id
+      `Finalize minutes: ${aMin._id} from series: ${aMin.meetingSeries_id}`
     );
 
     const doFinalize = () => {
