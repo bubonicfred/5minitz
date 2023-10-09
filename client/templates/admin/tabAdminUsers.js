@@ -7,7 +7,6 @@ import { ReactiveVar } from "meteor/reactive-var";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 
-
 const _filterUsers = new ReactiveVar("");
 const _showInactive = new ReactiveVar(false);
 const _showOnline = new ReactiveVar(false);
