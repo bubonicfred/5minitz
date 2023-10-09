@@ -6,7 +6,7 @@ import isEmail from "validator/lib/isEmail";
 import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
 import { addCustomValidator } from "../../helpers/customFieldValidator";
 import { FlashMessage } from "../../helpers/flashMessage";
-import { ReactiveDict } from 'meteor/reactive-dict';
+import { ReactiveDict } from "meteor/reactive-dict";
 
 Template.profileEditDialog.onRendered(() => {
   addCustomValidator(
@@ -64,7 +64,8 @@ Template.profileEditDialog.events({
 
     const uEmailAddress = tmpl.find("#id_emailAddress").value;
 
-    const userEditsOwnProfile = ReactiveDict.get("editProfile.userID") === undefined;
+    const userEditsOwnProfile =
+      ReactiveDict.get("editProfile.userID") === undefined;
     if (Meteor.settings.public.sendVerificationEmail && userEditsOwnProfile) {
       const changeUserMail = () => {
         updateUserProfile(tmpl);
