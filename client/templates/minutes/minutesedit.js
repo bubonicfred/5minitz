@@ -31,7 +31,12 @@ let _minutesID; // the ID of these minutes
 let orphanFlashMessage = null;
 
 const filterClosedTopics = new ReactiveVar(false);
+const openPrintDialog = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  const isAndroid = ua.includes("android");
 
+  window.print();
+};
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
@@ -42,7 +47,7 @@ const togglePrintView = (switchOn) => {
     // toggle on <=> off
     ReactiveDict.set(
       "minutesedit.PrintViewActive",
-      !ReactiveDict.get("minutesedit.PrintViewActive"),
+      !ReactiveDict.get("minutesedit.PrintViewActive")
     );
   } else {
     ReactiveDict.set("minutesedit.PrintViewActive", switchOn);
@@ -52,7 +57,7 @@ const togglePrintView = (switchOn) => {
     // expand all topics, but save current state before!
     ReactiveDict.set(
       `minutesedit.collapsetopics-save4print.${_minutesID}`,
-      ReactiveDict.get(`minutesedit.collapsetopics.${_minutesID}`),
+      ReactiveDict.get(`minutesedit.collapsetopics.${_minutesID}`)
     );
     ReactiveDict.set(`minutesedit.collapsetopics.${_minutesID}`);
 
@@ -83,7 +88,7 @@ const togglePrintView = (switchOn) => {
   // restore old topic collapsible state
   ReactiveDict.set(
     `minutesedit.collapsetopics.${_minutesID}`,
-    ReactiveDict.get(`minutesedit.collapsetopics-save4print.${_minutesID}`),
+    ReactiveDict.get(`minutesedit.collapsetopics-save4print.${_minutesID}`)
   );
 };
 
@@ -165,7 +170,7 @@ Template.minutesedit.onCreated(function () {
     _minutesID = FlowRouter.getParam("_id");
 
     this.currentMinuteLoaded.set(
-      this.subscribe("minutes", undefined, _minutesID),
+      this.subscribe("minutes", undefined, _minutesID)
     );
     if (!this.currentMinuteLoaded.get().ready()) {
       return;
@@ -249,10 +254,10 @@ const updateTopicSorting = (event, ui) => {
   // * position of dragged topic and
   // * position of follower after drag operation
   const oldDragTopicPos = minute.topics.findIndex(
-    (t) => t._id === draggedTopicID,
+    (t) => t._id === draggedTopicID
   );
   const oldFollowerPos = minute.topics.findIndex(
-    (t) => t._id === followerTopicID,
+    (t) => t._id === followerTopicID
   );
 
   // Perform position change in complete topic array coming from DB
@@ -267,7 +272,7 @@ const updateTopicSorting = (event, ui) => {
   } else {
     const lastVisibleTopicId = $(sorting[sorting.length - 2]).attr("data-id");
     const lastVisibleTopicPos = newTopicSorting.findIndex(
-      (t) => t._id === lastVisibleTopicId,
+      (t) => t._id === lastVisibleTopicId
     );
 
     // we want to add the topic AFTER the last visible topic, not before
@@ -279,13 +284,6 @@ const updateTopicSorting = (event, ui) => {
     $("#topicPanel").sortable("cancel");
     handleError(error);
   });
-};
-
-const openPrintDialog = () => {
-  const ua = navigator.userAgent.toLowerCase();
-  const isAndroid = ua.includes("android");
-
-  window.print();
 };
 
 let sendActionItems = true;
@@ -382,7 +380,7 @@ Template.minutesedit.helpers({
         i18n.__("FlashMessages.error"),
         i18n.__("FlashMessages.minuteLinkErr"),
         "alert-danger",
-        -1,
+        -1
       ).show();
     }
   },
@@ -449,7 +447,7 @@ Template.minutesedit.helpers({
     let filteredTopics = aMin.topics;
     if (filterClosedTopics.get()) {
       filteredTopics = aMin.topics.filter(
-        (topic) => topic.isOpen && !topic.isSkipped,
+        (topic) => topic.isOpen && !topic.isSkipped
       );
     } else if (!isModerator()) {
       filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
@@ -459,7 +457,7 @@ Template.minutesedit.helpers({
       filteredTopics,
       _minutesID,
       /*readonly*/ isMinuteFinalized() || !isModerator(),
-      aMin.parentMeetingSeriesID(),
+      aMin.parentMeetingSeriesID()
     );
   },
 
@@ -511,7 +509,7 @@ Template.minutesedit.events({
   "click #btnCreateNewMinutes": function (evt) {
     evt.preventDefault();
     const ms = new MeetingSeries(
-      new Minutes(_minutesID).parentMeetingSeriesID(),
+      new Minutes(_minutesID).parentMeetingSeriesID()
     );
     const routeToNewMinutes = (newMinutesId) => {
       ReactiveDict.set("minutesedit.checkParent", false);
@@ -526,7 +524,7 @@ Template.minutesedit.events({
           project: ms.project,
           name: ms.name,
         },
-        i18n.__("Buttons.create"),
+        i18n.__("Buttons.create")
       );
     confirmationDialog.show();
   },
@@ -574,7 +572,7 @@ Template.minutesedit.events({
     const sendBtn = tmpl.$("#btn_sendAgenda");
     const aMin = new Minutes(_minutesID);
     console.log(
-      `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`,
+      `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`
     );
 
     const sendAgenda = async () => {
@@ -584,7 +582,7 @@ Template.minutesedit.events({
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.agendaSentOK", { result }),
-          "alert-success",
+          "alert-success"
         ).show();
       } catch (error) {
         handleError(error);
@@ -606,7 +604,7 @@ Template.minutesedit.events({
             agendaSentTime: moment(date).format("h:mm"),
           }),
           {},
-          i18n.__("Dialog.ConfirmSendAgenda.button"),
+          i18n.__("Dialog.ConfirmSendAgenda.button")
         ).show();
         return;
       }
@@ -616,7 +614,7 @@ Template.minutesedit.events({
     QualityTestRunner.run(
       QualityTestRunner.TRIGGERS.sendAgenda,
       aMin,
-      agendaCheckDate,
+      agendaCheckDate
     );
   },
 
@@ -624,7 +622,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
-      `Finalize minutes: ${aMin._id} from series: ${aMin.meetingSeries_id}`,
+      `Finalize minutes: ${aMin._id} from series: ${aMin.meetingSeries_id}`
     );
 
     const doFinalize = () => {
@@ -633,7 +631,7 @@ Template.minutesedit.events({
         i18n.__("FlashMessages.finalizeProgress1"),
         i18n.__("FlashMessages.finalizeProgress2"),
         "alert-info",
-        -1,
+        -1
       ).show();
       // Force closing the dialog before starting the finalize process
       Meteor.setTimeout(() => {
@@ -641,14 +639,14 @@ Template.minutesedit.events({
           aMin._id,
           sendActionItems,
           sendInformationItems,
-          handleError,
+          handleError
         );
         tmpl.$("#btn_finalizeMinutes").prop("disabled", true);
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.finalizeOK"),
           FlashMessage.TYPES().SUCCESS,
-          3000,
+          3000
         ).show();
         msg.hideMe();
         toggleTopicSorting();
@@ -668,7 +666,7 @@ Template.minutesedit.events({
             sendActionItems: sendActionItems ? "checked" : "",
             sendInformationItems: sendInformationItems ? "checked" : "",
           },
-          i18n.__("Dialog.ConfirmFinalizeMinutes.button"),
+          i18n.__("Dialog.ConfirmFinalizeMinutes.button")
         ).show();
       } else {
         doFinalize();
@@ -678,7 +676,7 @@ Template.minutesedit.events({
     QualityTestRunner.run(
       QualityTestRunner.TRIGGERS.finalize,
       aMin,
-      processFinalize,
+      processFinalize
     );
   },
 
@@ -689,7 +687,7 @@ Template.minutesedit.events({
       "Un-Finalize minutes: " +
         aMin._id +
         " from series: " +
-        aMin.meetingSeries_id,
+        aMin.meetingSeries_id
     );
     Finalizer.unfinalize(aMin._id);
 
@@ -704,7 +702,7 @@ Template.minutesedit.events({
       "Remove Meeting Minute " +
         this._id +
         " from Series: " +
-        this.meetingSeries_id,
+        this.meetingSeries_id
     );
 
     const deleteMinutesCallback = () => {
@@ -731,7 +729,7 @@ Template.minutesedit.events({
       deleteMinutesCallback,
       i18n.__("Dialog.ConfirmDelete.title"),
       "confirmationDialogDeleteMinutes",
-      tmplData,
+      tmplData
     ).show();
   },
 
@@ -744,7 +742,7 @@ Template.minutesedit.events({
     }
     ReactiveDict.set(
       `minutesedit.collapsetopics.${_minutesID}`,
-      sessionCollapse,
+      sessionCollapse
     );
   },
 
@@ -766,13 +764,13 @@ Template.minutesedit.events({
         i18n.__("Dialog.ConfirmGenerateProtocol.title"),
         "confirmPlainText",
         { plainText: i18n.__("Dialog.ConfirmGenerateProtocol.body") },
-        i18n.__("Dialog.ConfirmGenerateProtocol.button"),
+        i18n.__("Dialog.ConfirmGenerateProtocol.button")
       ).show();
     };
 
     DocumentGeneration.downloadMinuteProtocol(
       _minutesID,
-      noProtocolExistsDialog,
+      noProtocolExistsDialog
     ).catch(handleError);
   },
 
