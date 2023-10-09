@@ -25,7 +25,7 @@ function updateUserProfile(tmpl) {
 
   tmpl.$("#btnEditProfileSave").prop("disabled", true);
 
-  const editUserId = Session.get("editProfile.userID")
+  const editUserId = Session.equals("editProfile.userID", true)
     ? Session.get("editProfile.userID")
     : Meteor.userId();
   Meteor.call(
