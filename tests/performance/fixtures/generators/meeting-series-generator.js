@@ -1,8 +1,8 @@
-import { _ } from "underscore";
+import {_} from "underscore";
 
-import { DateHelper } from "../lib/date-helper";
-import { Random } from "../lib/random";
-import { gMSV } from "../lib/gMSV";
+import {DateHelper} from "../lib/date-helper";
+import {gMSV} from "../lib/gMSV";
+import {Random} from "../lib/random";
 
 export class MeetingSeriesGenerator {
   /**
@@ -18,22 +18,20 @@ export class MeetingSeriesGenerator {
 
   generate() {
     this.series = {
-      _id: Random.generateId(),
-      project: gMSV.generateMeetingSeriesValues().project,
-      name: gMSV.generateMeetingSeriesValues().name,
-      createdAt: new Date(),
-      lastMinutesDate: DateHelper.formatDateISO8601(new Date()),
-      visibleFor: [this.user._id],
-      availableLabels: [],
-      minutes: [],
-      additionalResponsibles: [],
+      _id : Random.generateId(),
+      project : gMSV.generateMeetingSeriesValues().project,
+      name : gMSV.generateMeetingSeriesValues().name,
+      createdAt : new Date(),
+      lastMinutesDate : DateHelper.formatDateISO8601(new Date()),
+      visibleFor : [ this.user._id ],
+      availableLabels : [],
+      minutes : [],
+      additionalResponsibles : [],
     };
     return this.series;
   }
 
-  addAllMinutes(minutes) {
-    minutes.forEach(_.bind(this.addMinutes, this));
-  }
+  addAllMinutes(minutes) { minutes.forEach(_.bind(this.addMinutes, this)); }
 
   addMinutes(aMinutes) {
     this.series.minutes.push(aMinutes._id);

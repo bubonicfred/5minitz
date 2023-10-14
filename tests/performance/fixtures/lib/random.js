@@ -8,9 +8,9 @@ export class Random {
     // string length:
     // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
     return randomstring.generate({
-      length: 17,
-      readable: true,
-      charset: "alphanumeric",
+      length : 17,
+      readable : true,
+      charset : "alphanumeric",
     });
   }
 
