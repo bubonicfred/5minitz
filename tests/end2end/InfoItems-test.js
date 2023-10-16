@@ -288,7 +288,7 @@ describe("Info Items", () => {
     ).value;
     expect(
       infoItemExpandElementText,
-      `Info Item 2 should be edited correctly`,
+      "Info Item 2 should be edited correctly",
     ).to.have.string("Info Item #2 - changed");
   });
 });
