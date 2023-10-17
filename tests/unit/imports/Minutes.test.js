@@ -256,12 +256,8 @@ describe("Minutes", () => {
       minute.update(updateDocPart);
       const sentObj = JSON.parse(JSON.stringify(updateDocPart));
       sentObj._id = minute._id;
-      expect(
-        Meteor.callPromise.calledWithExactly(
-          "minutes.update",
-          sentObj,
-        ),
-      ).to.be.true;
+      expect(Meteor.callPromise.calledWithExactly("minutes.update", sentObj)).to
+        .be.true;
     });
 
     it("updates the changed property of the minute object", async function () {
@@ -280,12 +276,8 @@ describe("Minutes", () => {
     it("uses the workflow.addMinutes method to save a new minutes document", () => {
       delete minute._id;
       minute.save();
-      expect(
-        Meteor.call.calledWithExactly(
-          "workflow.addMinutes",
-          minute,
-        ),
-      ).to.be.true;
+      expect(Meteor.call.calledWithExactly("workflow.addMinutes", minute)).to.be
+        .true;
     });
 
     it("sets the createdAt-property if it is not set", () => {
