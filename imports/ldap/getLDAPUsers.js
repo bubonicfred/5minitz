@@ -64,7 +64,7 @@ const inactivityStrategies = {
 function isInactive(inactivitySettings, entry) {
   const strategy = inactivitySettings?.strategy || "none";
   const strategyFunction =
-  inactivityStrategies[strategy] || inactivityStrategies.none;
+    inactivityStrategies[strategy] || inactivityStrategies.none;
 
   return strategyFunction(inactivitySettings, entry);
 }
@@ -74,7 +74,11 @@ const _fetchLDAPUsers = (connection) => {
   const settings = connection.settings;
   const base = settings.serverDn;
   const searchDn = _.get(settings, "propertyMap.username", "cn");
-  const userLongNameAttribute = _.get(settings, "propertyMap.longname", searchDn);
+  const userLongNameAttribute = _.get(
+    settings,
+    "propertyMap.longname",
+    searchDn,
+  );
   const emailAttribute = _.get(settings, "propertyMap.email", searchDn);
   const filter = `(&(${searchDn}=*)${settings.searchFilter})`;
   const scope = "sub";
