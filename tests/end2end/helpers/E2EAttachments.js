@@ -30,7 +30,7 @@ export class E2EAttachments {
     // Different file upload mechanisms for headless and desktop browsers
     if (E2EGlobal.browserIsPhantomJS()) {
       browser.execute(() => {
-        $("#btnUploadAttachment").attr("style", "").focus(); // remove display:none style so that focus() works
+        $("#btnUploadAttachment").attr("style", "").trigger("focus"); // remove display:none style so that focus() works
       });
       browser.keys(filename); // send filename as keystrokes
     } else {

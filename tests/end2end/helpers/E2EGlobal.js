@@ -199,11 +199,11 @@ export class E2EGlobal {
   static saveScreenshot(filename) {
     const dateStr = `${new Date().toISOString().replace(/[^0-9]/g, "")}_`;
     filename =
-      E2EGlobal.getTestSpecFilename() +
-      "_" +
-      dateStr +
-      (filename ? "_" : "") +
-      filename;
+      `${E2EGlobal.getTestSpecFilename()
+      }_${
+      dateStr
+      }${filename ? "_" : ""
+      }${filename}`;
     const fullpath = `./tests/snapshots/${filename}.png`;
     browser.saveScreenshot(fullpath);
     console.log("Screenshot taken: ", fullpath);

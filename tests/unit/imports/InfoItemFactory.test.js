@@ -7,7 +7,7 @@ const TestSetup = {
   actionItemConstructorCallCount: 0,
   infoItemConstructorArguments: [],
   actionItemConstructorArguments: [],
-  reset: function () {
+  reset () {
     this.nextItemIsAnActionItem = false;
     this.infoItemConstructorCallCount = 0;
     this.actionItemConstructorCallCount = 0;
