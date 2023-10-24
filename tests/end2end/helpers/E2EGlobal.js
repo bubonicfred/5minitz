@@ -79,8 +79,8 @@ export class E2EGlobal {
       } catch (e) {
         const message = e.toString();
         const retryMakesSense =
-        message.includes("Other element would receive the click") ||
-        message.includes("Element is not clickable at point");
+          message.includes("Other element would receive the click") ||
+          message.includes("Element is not clickable at point");
 
         if (!retryMakesSense) {
           console.log(`Unexpected exception: ${e}`);
@@ -131,13 +131,12 @@ export class E2EGlobal {
   }
 
   static formatTimeISO8601(aDate) {
-
     try {
       const tzoffset = aDate.getTimezoneOffset() * 60_000; //offset in milliseconds
       return new Date(aDate - tzoffset)
-      .toISOString()
-      .substr(0, 19)
-      .replace("T", " "); // YYYY-MM-DD hh:mm:ss
+        .toISOString()
+        .substr(0, 19)
+        .replace("T", " "); // YYYY-MM-DD hh:mm:ss
     } catch (e) {
       return "NaN-NaN-NaN 00:00:00";
     }
@@ -195,12 +194,9 @@ export class E2EGlobal {
    */
   static saveScreenshot(filename) {
     const dateStr = `${new Date().toISOString().replace(/[^0-9]/g, "")}_`;
-    filename =
-      `${E2EGlobal.getTestSpecFilename()
-      }_${
-      dateStr
-      }${filename ? "_" : ""
-      }${filename}`;
+    filename = `${E2EGlobal.getTestSpecFilename()}_${dateStr}${
+      filename ? "_" : ""
+    }${filename}`;
     const fullpath = `./tests/snapshots/${filename}.png`;
     browser.saveScreenshot(fullpath);
     console.log("Screenshot taken: ", fullpath);

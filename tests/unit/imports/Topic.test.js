@@ -47,7 +47,7 @@ const dummySeries = new MeetingSeries(meetingSeriesId);
 
 const Random = {
   i: 1,
-  id () {
+  id() {
     return this.i++;
   },
 };

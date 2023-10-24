@@ -177,9 +177,7 @@ export class E2EApp {
         E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
       if (indexOrUsername === -1) {
         console.log(
-          `Error {E2EApp.loginUser} : Could not find user ${
-            orgUserName
-            }. Fallback: index=0.`,
+          `Error {E2EApp.loginUser} : Could not find user ${orgUserName}. Fallback: index=0.`,
         );
         indexOrUsername = 0;
       }
