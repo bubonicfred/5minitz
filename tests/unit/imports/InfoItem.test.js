@@ -42,13 +42,13 @@ describe("InfoItem", () => {
       _id: "AaBbCcDd",
       _infoItems: [],
       upsertInfoItem: sinon.stub(),
-      findInfoItem: function (id) {
+      findInfoItem (id) {
         const index = subElementsHelper.findIndexById(id, this._infoItems);
         if (index == undefined) return undefined;
         return new InfoItem(this, this._infoItems[index]);
       },
       // test-only method
-      addInfoItem: function (infoItem) {
+      addInfoItem (infoItem) {
         infoItem._infoItemDoc.createdInMinute = "AaBbCcDd01";
         this._infoItems.push(infoItem._infoItemDoc);
       },

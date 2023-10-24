@@ -27,8 +27,8 @@ let globalWarningCount = 0;
 console.log("Test_I18N_Resources");
 console.log("-------------------");
 console.log(
-  "Test if all needed string resources used in code are present in YAML: " +
-    en_yaml,
+  `Test if all needed string resources used in code are present in YAML: ${
+    en_yaml}`,
 );
 
 const dictKeysFromYaml = {};

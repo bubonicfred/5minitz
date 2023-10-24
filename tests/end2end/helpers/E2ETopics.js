@@ -191,8 +191,8 @@ export class E2ETopics {
 
   static openInfoItemEditor(topicIndex, infoItemIndex) {
     const selector =
-      E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) +
-      ".btnEditInfoItem";
+      `${E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex)
+      }.btnEditInfoItem`;
 
     browser.waitForVisible(selector);
     E2EGlobal.clickWithRetry(selector);
@@ -216,13 +216,13 @@ export class E2ETopics {
 
   static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
     const selOpenMenu =
-      E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) +
-      "#btnItemDropdownMenu";
+      `${E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex)
+      }#btnItemDropdownMenu`;
     browser.waitForVisible(selOpenMenu);
     E2EGlobal.clickWithRetry(selOpenMenu);
     const selDelete =
-      E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) +
-      "#btnDelInfoItem";
+      `${E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex)
+      }#btnDelInfoItem`;
     browser.waitForVisible(selDelete);
     E2EGlobal.clickWithRetry(selDelete);
 
@@ -314,9 +314,9 @@ export class E2ETopics {
 
   static isTopicRecurring(topicIndex) {
     return this._isSelectorVisible(
-      "#topicPanel .well:nth-child(" +
-        topicIndex +
-        ") .js-toggle-recurring span",
+      `#topicPanel .well:nth-child(${
+        topicIndex
+        }) .js-toggle-recurring span`,
     );
   }
 
@@ -383,8 +383,8 @@ export class E2ETopics {
 
   static isActionItemClosed(topicIndex, infoItemIndex) {
     const selector =
-      E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) +
-      ".btnToggleAIState";
+      `${E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex)
+      }.btnToggleAIState`;
 
     return E2EGlobal.isCheckboxSelected(selector);
   }
@@ -423,11 +423,11 @@ export class E2ETopics {
 
   static getInfoItemSelector(topicIndex, infoItemIndex) {
     return (
-      "#topicPanel .well:nth-child(" +
-      topicIndex +
-      ") .topicInfoItem:nth-child(" +
-      infoItemIndex +
-      ") "
+      `#topicPanel .well:nth-child(${
+      topicIndex
+      }) .topicInfoItem:nth-child(${
+      infoItemIndex
+      }) `
     );
   }
 
@@ -579,9 +579,9 @@ export class E2ETopics {
     let parentSel = topicIndexOrSelectorForParentElement;
     if (!isNaN(parentSel)) {
       parentSel =
-        "#topicPanel .well:nth-child(" +
-        topicIndexOrSelectorForParentElement +
-        ")";
+        `#topicPanel .well:nth-child(${
+        topicIndexOrSelectorForParentElement
+        })`;
     }
     const selector = `${parentSel} .topicInfoItem`;
     try {
