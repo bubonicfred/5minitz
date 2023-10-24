@@ -23,9 +23,13 @@
         "plugin:node/recommended",
         "plugin:you-dont-need-lodash-underscore/compatible",
         "plugin:no-jquery/all",
-        "plugin:promise/recommended"
-
+        "plugin:promise/recommended",
+        "plugin:mocha-cleanup/recommended",
+        "plugin:mocha/recommended"
     ],
+
+
+
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
@@ -42,6 +46,7 @@
         "@babel/object-curly-spacing": ["error", "always"],
         "@babel/semi": "error",
         "prefer-template": "error",
-        "eqeqeq": ["error", "smart"]
+        "eqeqeq": ["error", "smart"],
+        "object-shorthand": ["error", "always"]
     }
 }
