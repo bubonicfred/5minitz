@@ -60,12 +60,12 @@ export class BroadcastMessage {
     const allMsgs = [];
     BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
       const oneMsg =
-        `Message: ${msg._id} ` +
-        formatDateISO8601Time(msg.createdAt) +
-        " dismissed:" +
-        msg.dismissForUserIDs.length +
-        "\n" +
-        msg.text;
+        `Message: ${msg._id} ${
+        formatDateISO8601Time(msg.createdAt)
+        } dismissed:${
+        msg.dismissForUserIDs.length
+        }\n${
+        msg.text}`;
       console.log(oneMsg);
       allMsgs.push(oneMsg);
     });

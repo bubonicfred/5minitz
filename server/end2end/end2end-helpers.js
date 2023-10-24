@@ -30,8 +30,8 @@ if (Meteor.settings.isEnd2EndTest) {
       console.log("-------------------------- E2E-METHOD: resetMyApp ");
       AttachmentsCollection.remove({});
       console.log(
-        "Count AttachmentsCollection after reset:" +
-          AttachmentsCollection.find().count(),
+        `Count AttachmentsCollection after reset:${
+          AttachmentsCollection.find().count()}`,
       );
       // remove the meeting series attachment dir
       MeetingSeriesSchema.getCollection()
@@ -48,8 +48,8 @@ if (Meteor.settings.isEnd2EndTest) {
       console.log(`Count Minutes after reset:${MinutesSchema.find().count()}`);
       TestMailCollection.remove({});
       console.log(
-        "Count saved test mails after reset:" +
-          TestMailCollection.find().count(),
+        `Count saved test mails after reset:${
+          TestMailCollection.find().count()}`,
       );
       BroadcastMessageSchema.remove({});
       TopicSchema.remove({});

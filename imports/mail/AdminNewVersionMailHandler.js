@@ -13,12 +13,12 @@ export class AdminNewVersionMailHandler {
     this._masterMessageTxt = "";
     Object.keys(masterMessage).map((msgVersion) => {
       this._masterMessageTxt =
-        this._masterMessageTxt +
-        "\n* Version " +
-        msgVersion +
-        ":\n" +
-        masterMessage[msgVersion] +
-        "\n";
+        `${this._masterMessageTxt
+        }\n* Version ${
+        msgVersion
+        }:\n${
+        masterMessage[msgVersion]
+        }\n`;
     });
     if (this._masterMessageTxt !== "") {
       this._masterMessageTxt = `Version Hints:\n${this._masterMessageTxt}\n`;

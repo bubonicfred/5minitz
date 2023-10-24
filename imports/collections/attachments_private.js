@@ -71,9 +71,9 @@ export const AttachmentsCollection = new FilesCollection({
       );
       if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
         return (
-          'Denied file extension: "' +
-          file.extension +
-          '". Please upload other file type.'
+          `Denied file extension: "${
+          file.extension
+          }". Please upload other file type.`
         );
       }
     }
@@ -94,17 +94,17 @@ export const AttachmentsCollection = new FilesCollection({
     // fileObj.meta.parentseries_id);
 
     return (
-      "Non-allowed file extension. Please upload file type of:<br>" +
-      Meteor.settings.public.attachments.allowExtensions
+      `Non-allowed file extension. Please upload file type of:<br>${
+      Meteor.settings.public.attachments.allowExtensions}`
     );
   },
 
   onAfterUpload(file) {
     console.log(
-      "Successfully uploaded attachment file: " +
-        file.name +
-        " to " +
-        file.path,
+      `Successfully uploaded attachment file: ${
+        file.name
+        } to ${
+        file.path}`,
     );
     AttachmentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
@@ -131,8 +131,8 @@ export const AttachmentsCollection = new FilesCollection({
     const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.parentseries_id)) {
       console.log(
-        "Attachment download prohibited. User has no view role for meeting series: " +
-          file.meta.parentseries_id,
+        `Attachment download prohibited. User has no view role for meeting series: ${
+          file.meta.parentseries_id}`,
       );
       return false;
     }
@@ -180,8 +180,8 @@ Meteor.methods({
     // mayRemove() checks for not-finalized minutes and sufficient user role
     if (!att.mayRemove()) {
       console.log(
-        "Attachment removal prohibited. User has no sufficient role for meeting series: " +
-          file.meta.parentseries_id,
+        `Attachment removal prohibited. User has no sufficient role for meeting series: ${
+          file.meta.parentseries_id}`,
       );
       return false;
     }

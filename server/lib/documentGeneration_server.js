@@ -26,8 +26,8 @@ createDocumentStoragePath = (fileObj) => {
   fs.ensureDirSync(absoluteDocumentPath, (err) => {
     if (err) {
       console.error(
-        "ERROR: Could not create path for protocol storage: " +
-          absoluteDocumentPath,
+        `ERROR: Could not create path for protocol storage: ${
+          absoluteDocumentPath}`,
       );
     }
   });
@@ -62,10 +62,10 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     if (!fs.existsSync(filepath)) {
       throw new Meteor.Error(
         "runtime-error",
-        "Error at PDF generation: " +
-          fileNameForErrorMsg +
-          " not found at: " +
-          filepath,
+        `Error at PDF generation: ${
+          fileNameForErrorMsg
+          } not found at: ${
+          filepath}`,
       );
     }
   };
@@ -90,13 +90,13 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
       : "";
 
   exec(
-    exePath +
-      additionalArguments +
-      ' "' +
-      tempFileName +
-      '" "' +
-      outputPath +
-      '"',
+    `${exePath +
+      additionalArguments
+      } "${
+      tempFileName
+      }" "${
+      outputPath
+      }"`,
     {
       stdio: "ignore", // surpress progess messages from pdf generation in
       // server console
@@ -119,24 +119,24 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     const inputPath = outputPath;
     outputPath = `${getDocumentStorageRootDirectory()}/TemporaryProtocol-A.pdf`; // eslint-disable-line
     additionalArguments =
-      " -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE" +
-      " -dColorConversionStrategy=/" +
-      icctype +
-      " -sProcessColorModel=Device" +
-      icctype +
-      " -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=";
+      ` -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE` +
+      ` -dColorConversionStrategy=/${
+      icctype
+      } -sProcessColorModel=Device${
+      icctype
+      } -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=`;
 
     try {
       exec(
-        exePath +
-          additionalArguments +
-          '"' +
-          outputPath +
-          '" "' +
-          Meteor.settings.docGeneration.pathToPDFADefinitionFile +
-          '" "' +
-          inputPath +
-          '"',
+        `${exePath +
+          additionalArguments
+          }"${
+          outputPath
+          }" "${
+          Meteor.settings.docGeneration.pathToPDFADefinitionFile
+          }" "${
+          inputPath
+          }"`,
         {
           stdio: "ignore", // surpress progess messages from pdf generation
           // in server console
@@ -177,8 +177,8 @@ if (Meteor.settings.docGeneration?.enabled) {
         "             Ensure write access to path specified in your settings.json",
       );
       console.error(
-        "             Current Document Storage Path setting is: " +
-          absoluteTargetPath,
+        `             Current Document Storage Path setting is: ${
+          absoluteTargetPath}`,
       );
       // Now switch off feature!
       Meteor.settings.docGeneration.enabled = false;

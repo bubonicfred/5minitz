@@ -48,8 +48,8 @@ export class MailgunMail extends Mail {
       return; // everything seems to be ok
     }
     const msg =
-      "Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: " +
-      result.content;
+      `Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: ${
+      result.content}`;
     throw new Error(msg);
   }
 }

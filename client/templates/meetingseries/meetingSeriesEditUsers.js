@@ -91,9 +91,9 @@ Template.meetingSeriesEditUsers.helpers({
     const currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
     const userName = this.getUser().username;
     let rolesHTML =
-      '<select id="roleSelect' +
-      userName +
-      '" class="form-control user-role-select">';
+      `<select id="roleSelect${
+      userName
+      }" class="form-control user-role-select">`;
     const rolesNames = UserRoles.allRolesNames();
     const rolesNums = UserRoles.allRolesNumerical();
     for (const i in rolesNames) {

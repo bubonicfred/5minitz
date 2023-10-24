@@ -49,10 +49,10 @@ Template.tabMinutesList.events({
 
     const leaveSeriesCallback = () => {
       console.log(
-        "User: " +
-          Meteor.user().username +
-          " is leaving Meeting Series: " +
-          this.meetingSeriesId,
+        `User: ${
+          Meteor.user().username
+          } is leaving Meeting Series: ${
+          this.meetingSeriesId}`,
       );
       MeetingSeries.leave(ms).catch(handleError());
       FlowRouter.go("/");

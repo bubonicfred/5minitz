@@ -30,8 +30,8 @@ calculateAndCreateStoragePath = (fileObj) => {
   fs.ensureDirSync(absAttachmentStoragePath, (err) => {
     if (err) {
       console.error(
-        "ERROR: Could not create path for attachment upload: " +
-          absAttachmentStoragePath,
+        `ERROR: Could not create path for attachment upload: ${
+          absAttachmentStoragePath}`,
       );
     }
   });
@@ -49,10 +49,10 @@ removeMeetingSeriesAttachmentDir = (meetingseries_id) => {
   fs.remove(storagePath, (err) => {
     if (err) {
       console.error(
-        "Could not remove attachment dir:" +
-          storagePath +
-          " of meeting series with ID:" +
-          meetingseries_id,
+        `Could not remove attachment dir:${
+          storagePath
+          } of meeting series with ID:${
+          meetingseries_id}`,
       );
     }
   });
@@ -73,8 +73,8 @@ if (Meteor.settings.attachments?.enabled) {
         "             Ensure write access to path specified in your settings.json",
       );
       console.error(
-        "             Current attachments.storagePath setting is: " +
-          settingsPath,
+        `             Current attachments.storagePath setting is: ${
+          settingsPath}`,
       );
       if (!path.isAbsolute(settingsPath)) {
         console.error(`             Which maps to: ${absoluteTargetPath}`);

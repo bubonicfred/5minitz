@@ -92,8 +92,8 @@ export const DocumentsCollection = new FilesCollection({
     const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.meetingSeriesId)) {
       console.log(
-        "Protocol download prohibited. User has no view role for meeting series: " +
-          file.meta.meetingSeriesId,
+        `Protocol download prohibited. User has no view role for meeting series: ${
+          file.meta.meetingSeriesId}`,
       );
       return false;
     }
@@ -237,8 +237,8 @@ Meteor.methods({
     if (!storeFileFunction) {
       throw new Meteor.Error(
         "Cannot create protocol",
-        "The protocol could not be created since the format assigned in the settings.json is not supported: " +
-          Meteor.settings.public.docGeneration.format,
+        `The protocol could not be created since the format assigned in the settings.json is not supported: ${
+          Meteor.settings.public.docGeneration.format}`,
       );
     }
 

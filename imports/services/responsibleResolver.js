@@ -32,10 +32,10 @@ export class ResponsibleResolver {
           return freetextMail;
         } else {
           console.log(
-            "WARNING: Invalid mail address for responsible: >" +
-              freetextMail +
-              "< " +
-              userNameFromDB,
+            `WARNING: Invalid mail address for responsible: >${
+              freetextMail
+              }< ${
+              userNameFromDB}`,
           );
           return null;
         }
