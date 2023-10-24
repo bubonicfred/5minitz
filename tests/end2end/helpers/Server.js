@@ -2,14 +2,14 @@ const DDPClient = require("meteor-sdk");
 const Future = require("fibers/future");
 
 const ddpclient = new DDPClient({
-  host : "localhost",
-  port : 3100,
-  ssl : false,
-  autoReconnect : true,
-  autoReconnectTimer : 500,
-  maintainCollections : true,
-  ddpVersion : "1",
-  useSockJs : true,
+  host: "localhost",
+  port: 3100,
+  ssl: false,
+  autoReconnect: true,
+  autoReconnectTimer: 500,
+  maintainCollections: true,
+  ddpVersion: "1",
+  useSockJs: true,
 });
 
 function connect() {
@@ -25,7 +25,9 @@ function connect() {
   return future;
 }
 
-function close() { ddpclient.close(); }
+function close() {
+  ddpclient.close();
+}
 
 function call() {
   const future = new Future();
@@ -41,11 +43,17 @@ function call() {
 }
 
 const server = {
-  connect() { return connect().wait(); },
+  connect() {
+    return connect().wait();
+  },
 
-  close() { close(); },
+  close() {
+    close();
+  },
 
-  call() { return call.apply(this, arguments).wait(); },
+  call() {
+    return call.apply(this, arguments).wait();
+  },
 };
 
 global.server = server;
