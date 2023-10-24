@@ -5,7 +5,6 @@ import { formatDateISO8601 } from "/imports/helpers/date";
 import { subElementsHelper } from "/imports/helpers/subElements";
 import { MinutesFinder } from "/imports/services/minutesFinder";
 import { _ } from "lodash";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import moment from "moment/moment";
@@ -245,7 +244,7 @@ export class MeetingSeries {
         "Call save() before using addVisibleUser()",
       );
     }
-    if (!$.isArray(newVisibleForArray)) {
+    if (!Array.isArray(newVisibleForArray)) {
       throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
     }
 
