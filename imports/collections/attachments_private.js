@@ -70,11 +70,7 @@ export const AttachmentsCollection = new FilesCollection({
         "i",
       );
       if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
-        return (
-          `Denied file extension: "${
-          file.extension
-          }". Please upload other file type.`
-        );
+        return `Denied file extension: "${file.extension}". Please upload other file type.`;
       }
     }
     // If allowExtensions is undefined, every extension is allowed!
@@ -93,18 +89,12 @@ export const AttachmentsCollection = new FilesCollection({
     // console.log("Upload attachment '"+fileObj.name +"' for meeting series " +
     // fileObj.meta.parentseries_id);
 
-    return (
-      `Non-allowed file extension. Please upload file type of:<br>${
-      Meteor.settings.public.attachments.allowExtensions}`
-    );
+    return `Non-allowed file extension. Please upload file type of:<br>${Meteor.settings.public.attachments.allowExtensions}`;
   },
 
   onAfterUpload(file) {
     console.log(
-      `Successfully uploaded attachment file: ${
-        file.name
-        } to ${
-        file.path}`,
+      `Successfully uploaded attachment file: ${file.name} to ${file.path}`,
     );
     AttachmentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
@@ -131,8 +121,7 @@ export const AttachmentsCollection = new FilesCollection({
     const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.parentseries_id)) {
       console.log(
-        `Attachment download prohibited. User has no view role for meeting series: ${
-          file.meta.parentseries_id}`,
+        `Attachment download prohibited. User has no view role for meeting series: ${file.meta.parentseries_id}`,
       );
       return false;
     }
@@ -180,8 +169,7 @@ Meteor.methods({
     // mayRemove() checks for not-finalized minutes and sufficient user role
     if (!att.mayRemove()) {
       console.log(
-        `Attachment removal prohibited. User has no sufficient role for meeting series: ${
-          file.meta.parentseries_id}`,
+        `Attachment removal prohibited. User has no sufficient role for meeting series: ${file.meta.parentseries_id}`,
       );
       return false;
     }

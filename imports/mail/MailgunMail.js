@@ -47,9 +47,7 @@ export class MailgunMail extends Mail {
     if (result.data && result.data.message === "Queued. Thank you.") {
       return; // everything seems to be ok
     }
-    const msg =
-      `Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: ${
-      result.content}`;
+    const msg = `Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: ${result.content}`;
     throw new Error(msg);
   }
 }

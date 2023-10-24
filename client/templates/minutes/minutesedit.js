@@ -410,11 +410,9 @@ Template.minutesedit.helpers({
     const aMin = new Minutes(_minutesID);
     let tooltip = buttontype ? `${i18n.__(buttontype)}\n` : "";
     if (aMin.finalizedHistory) {
-      tooltip +=
-        `\n${
-        i18n.__("Minutes.history")
-        }:\n${
-        aMin.finalizedHistory.join("\n")}`;
+      tooltip += `\n${i18n.__(
+        "Minutes.history",
+      )}:\n${aMin.finalizedHistory.join("\n")}`;
     }
     return tooltip;
   },
@@ -681,10 +679,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
-      `Un-Finalize minutes: ${
-        aMin._id
-        } from series: ${
-        aMin.meetingSeries_id}`,
+      `Un-Finalize minutes: ${aMin._id} from series: ${aMin.meetingSeries_id}`,
     );
     Finalizer.unfinalize(aMin._id);
 
@@ -696,10 +691,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
-      `Remove Meeting Minute ${
-        this._id
-        } from Series: ${
-        this.meetingSeries_id}`,
+      `Remove Meeting Minute ${this._id} from Series: ${this.meetingSeries_id}`,
     );
 
     const deleteMinutesCallback = () => {

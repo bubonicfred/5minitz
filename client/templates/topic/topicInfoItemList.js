@@ -383,14 +383,9 @@ Template.topicInfoItemList.helpers({
     const seriesId = context.getSeriesId(infoItem._id);
     const ms = new MeetingSeries(seriesId);
     const aTopic = createTopic(seriesId, topicId);
-    return (
-      `Meeting Series:\n    ${
-      ms.project
-      }:${
-      ms.name
-      }\nTopic:\n    ${
-      aTopic.getDocument().subject}`
-    );
+    return `Meeting Series:\n    ${ms.project}:${ms.name}\nTopic:\n    ${
+      aTopic.getDocument().subject
+    }`;
   },
 });
 
@@ -456,13 +451,11 @@ Template.topicInfoItemList.events({
       // not-sticky && delte-not-allowed
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ItemDeleteError.title"),
-        `${i18n.__("Dialog.ItemDeleteError.body1")
-          } ${
+        `${i18n.__("Dialog.ItemDeleteError.body1")} ${
           item.isActionItem()
             ? i18n.__("Dialog.ItemDeleteError.body2a")
             : i18n.__("Dialog.ItemDeleteError.body2b")
-          } ${
-          i18n.__("Dialog.ItemDeleteError.body3")}`,
+        } ${i18n.__("Dialog.ItemDeleteError.body3")}`,
       ).show();
     });
   },

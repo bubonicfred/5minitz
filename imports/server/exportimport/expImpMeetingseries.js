@@ -37,9 +37,7 @@ class ExpImpMeetingSeries {
         .then((doc) => {
           if (doc) {
             return reject(
-              `Meeting series with ID: ${
-                msID
-                } already exists. Cannot import.`,
+              `Meeting series with ID: ${msID} already exists. Cannot import.`,
             );
           }
           const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;

@@ -108,14 +108,11 @@ class ExpImpUsers {
           if (doc) {
             console.log(`Found ${doc.length} target users in current user DB.`);
             console.log(
-              `Will copy over ${
-                usrCopyIDs.length
-                } export users to current user DB.`,
+              `Will copy over ${usrCopyIDs.length} export users to current user DB.`,
             );
             if (doc.length !== usrMapTargetIDs.length) {
               return reject(
-                `Not all to-be patched target users found in current user DB: ${
-                  usrMapTargetIDs}`,
+                `Not all to-be patched target users found in current user DB: ${usrMapTargetIDs}`,
               );
             }
             // Check#2: All copy-users MUST NOT exist!
@@ -128,9 +125,11 @@ class ExpImpUsers {
                     return { _id: usr._id, username: usr.username };
                   });
                   return reject(
-                    `${shouldBeEmpty.length
-                      } to-be copied user(s) already exists:\n${
-                      JSON.stringify(errorUsers)}`,
+                    `${
+                      shouldBeEmpty.length
+                    } to-be copied user(s) already exists:\n${JSON.stringify(
+                      errorUsers,
+                    )}`,
                   );
                 }
                 resolve({ db, usrMap });

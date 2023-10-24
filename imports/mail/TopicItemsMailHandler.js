@@ -57,16 +57,9 @@ export class TopicItemsMailHandler {
   }
 
   _getSubjectPrefix() {
-    return (
-      `[${
-      this._minute.parentMeetingSeries().project
-      }] ${
+    return `[${this._minute.parentMeetingSeries().project}] ${
       this._minute.parentMeetingSeries().name
-      } ${
-      i18n.__("Minutes.dateOn")
-      } ${
-      this._minute.date}`
-    );
+    } ${i18n.__("Minutes.dateOn")} ${this._minute.date}`;
   }
 
   _buildMail(subject, emailData) {
