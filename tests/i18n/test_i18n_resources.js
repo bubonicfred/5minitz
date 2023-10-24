@@ -12,7 +12,8 @@
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const IGNOREKEYS = {
-  "UserRoles.role": true, // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
+  "UserRoles.role" :
+      true, // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
 };
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -27,7 +28,8 @@ let globalWarningCount = 0;
 console.log("Test_I18N_Resources");
 console.log("-------------------");
 console.log(
-  `Test if all needed string resources used in code are present in YAML: ${en_yaml}`,
+    `Test if all needed string resources used in code are present in YAML: ${
+        en_yaml}`,
 );
 
 const dictKeysFromYaml = {};
@@ -44,16 +46,10 @@ function collectFilesRecursive(dir, extension) {
     if (stat?.isDirectory()) {
       /* Recurse into a subdirectory */
       const aDir = file;
-      if (
-        !aDir.endsWith("/node_modules") &&
-        !aDir.endsWith("/.deploy") &&
-        !aDir.endsWith("/.docker") &&
-        !aDir.endsWith("/.meteor") &&
-        !aDir.endsWith("/migrations") &&
-        !aDir.endsWith("/packages") &&
-        !aDir.endsWith("/doc") &&
-        !aDir.endsWith("/tests")
-      ) {
+      if (!aDir.endsWith("/node_modules") && !aDir.endsWith("/.deploy") &&
+          !aDir.endsWith("/.docker") && !aDir.endsWith("/.meteor") &&
+          !aDir.endsWith("/migrations") && !aDir.endsWith("/packages") &&
+          !aDir.endsWith("/doc") && !aDir.endsWith("/tests")) {
         results = results.concat(collectFilesRecursive(aDir, extension));
       }
     } else {
@@ -88,7 +84,8 @@ function checkCodeUsage(extension, keyPattern) {
   let localErrorCount = 0;
   const files_js = collectFilesRecursive(`${__dirname}/../..`, extension);
 
-  // Find all i18n __ keys used in this file, according to regexp key pattern provided
+  // Find all i18n __ keys used in this file, according to regexp key pattern
+  // provided
   files_js.forEach((jsFile) => {
     const content = fs.readFileSync(jsFile, "utf8");
     let m;
@@ -97,8 +94,8 @@ function checkCodeUsage(extension, keyPattern) {
       if (m && !IGNOREKEYS[m[1]]) {
         // we have a match that is NOT in IGNOREKEYS
         dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]]
-          ? `${dictKeysFromCode[m[1]]}\n${jsFile}`
-          : jsFile;
+                                     ? `${dictKeysFromCode[m[1]]}\n${jsFile}`
+                                     : jsFile;
         count++;
       }
     } while (m);
@@ -131,7 +128,8 @@ try {
   console.log(e);
   anyErrorExitCodeToShell = 10;
 }
-// Recursively walk the YAML JS object, build key pathes like: 'Admin.Users.State.column'
+// Recursively walk the YAML JS object, build key pathes like:
+// 'Admin.Users.State.column'
 if (yaml_doc) {
   buildFullPathes(yaml_doc, ""); // ==> results in dictKeysFromYaml
 } else {
@@ -146,10 +144,12 @@ console.log("");
 // js: i18n.__('Admin.Users.State.inactive'); => Admin.Users.State.inactive
 checkCodeUsage(".js", /i18n\.__\s*\(\s*["']([^"']+)/gm);
 
-// html: {{__ 'Dialog.ConfirmDeleteTopic.allowed'}} => Dialog.ConfirmDeleteTopic.allowed
+// html: {{__ 'Dialog.ConfirmDeleteTopic.allowed'}} =>
+// Dialog.ConfirmDeleteTopic.allowed
 checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 
-// ---------------------------------------------------------------  YAML Warnings
+// ---------------------------------------------------------------  YAML
+// Warnings
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
     console.log(`I18N-Warning: >${keyFromYaml}< from YAML never used in code.`);
