@@ -1,10 +1,10 @@
-import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
-import { Template } from "meteor/templating";
-import { $ } from "meteor/jquery";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import {$} from "meteor/jquery";
+import {Meteor} from "meteor/meteor";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {ReactiveVar} from "meteor/reactive-var";
+import {Template} from "meteor/templating";
 
-Template.admin.onCreated(function () {
+Template.admin.onCreated(function() {
   // The default Tab
   this.activeTabTemplate = new ReactiveVar("tabAdminUsers");
   this.activeTabId = new ReactiveVar("tab_users");
@@ -22,9 +22,7 @@ Template.admin.helpers({
     return Template.instance().activeTabId.get() === tabId ? "active" : "";
   },
 
-  tab() {
-    return Template.instance().activeTabTemplate.get();
-  },
+  tab() { return Template.instance().activeTabTemplate.get(); },
 });
 
 Template.admin.events({

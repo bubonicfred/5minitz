@@ -1,9 +1,9 @@
-import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
-import { MinutesSchema } from "/imports/collections/minutes.schema";
-import { Meteor } from "meteor/meteor";
+import {MeetingSeriesSchema} from "/imports/collections/meetingseries.schema";
+import {MinutesSchema} from "/imports/collections/minutes.schema";
+import {Meteor} from "meteor/meteor";
 
-import { updateTopicsOfMinutes } from "./helpers/updateMinutes";
-import { updateTopicsOfSeriesPre16 } from "./helpers/updateSeries";
+import {updateTopicsOfMinutes} from "./helpers/updateMinutes";
+import {updateTopicsOfSeriesPre16} from "./helpers/updateSeries";
 
 // ActionItems: convert the responsible (string) => responsibles (array) fields
 export class MigrateV6 {
@@ -17,7 +17,7 @@ export class MigrateV6 {
             oneResp = oneResp.trim();
             // let's try if this is a valid username.
             // If yes: we store this user's _id instead of its name!
-            const userTry = Meteor.users.findOne({ username: oneResp });
+            const userTry = Meteor.users.findOne({username : oneResp});
             if (userTry) {
               oneResp = userTry._id;
             }
@@ -43,36 +43,28 @@ export class MigrateV6 {
   }
 
   static up() {
-    MinutesSchema.getCollection()
-      .find()
-      .forEach((minute) => {
-        MigrateV6._upgradeTopics(minute.topics);
-        updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
-      });
+    MinutesSchema.getCollection().find().forEach((minute) => {
+      MigrateV6._upgradeTopics(minute.topics);
+      updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
+    });
 
-    MeetingSeriesSchema.getCollection()
-      .find()
-      .forEach((series) => {
-        MigrateV6._upgradeTopics(series.openTopics);
-        MigrateV6._upgradeTopics(series.topics);
-        updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
-      });
+    MeetingSeriesSchema.getCollection().find().forEach((series) => {
+      MigrateV6._upgradeTopics(series.openTopics);
+      MigrateV6._upgradeTopics(series.topics);
+      updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
+    });
   }
 
   static down() {
-    MinutesSchema.getCollection()
-      .find()
-      .forEach((minute) => {
-        MigrateV6._downgradeTopics(minute.topics);
-        updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
-      });
+    MinutesSchema.getCollection().find().forEach((minute) => {
+      MigrateV6._downgradeTopics(minute.topics);
+      updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
+    });
 
-    MeetingSeriesSchema.getCollection()
-      .find()
-      .forEach((series) => {
-        MigrateV6._downgradeTopics(series.openTopics);
-        MigrateV6._downgradeTopics(series.topics);
-        updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
-      });
+    MeetingSeriesSchema.getCollection().find().forEach((series) => {
+      MigrateV6._downgradeTopics(series.openTopics);
+      MigrateV6._downgradeTopics(series.topics);
+      updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
+    });
   }
 }

@@ -1,5 +1,5 @@
-import { MinutesSchema } from "/imports/collections/minutes.schema";
-import { TopicSchema } from "/imports/collections/topic.schema";
+import {MinutesSchema} from "/imports/collections/minutes.schema";
+import {TopicSchema} from "/imports/collections/topic.schema";
 
 export class MigrateV23 {
   static migrateTopicCollection() {
@@ -11,7 +11,7 @@ export class MigrateV23 {
       }
 
       const responsibles = [];
-      TopicSchema.getCollection().update(topic._id, { $set: { responsibles } });
+      TopicSchema.getCollection().update(topic._id, {$set : {responsibles}});
     });
   }
 
@@ -22,11 +22,12 @@ export class MigrateV23 {
       // field:
       //  * keep responsibles if they are set properly
       //  * set responsibles to [] if they are null
-      const topics = minutes.topics.map((topic) => ({
-        ...topic,
-        responsibles: topic.responsibles || [],
-      }));
-      MinutesSchema.getCollection().update(minutes._id, { $set: { topics } });
+      const topics =
+          minutes.topics.map((topic) => ({
+                               ...topic,
+                               responsibles : topic.responsibles || [],
+                             }));
+      MinutesSchema.getCollection().update(minutes._id, {$set : {topics}});
     });
   }
 

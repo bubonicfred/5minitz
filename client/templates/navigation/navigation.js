@@ -1,16 +1,14 @@
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { Meteor } from "meteor/meteor";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { ReactiveDict } from "meteor/reactive-dict";
-import { Template } from "meteor/templating";
-import { AccountsTemplates } from "meteor/useraccounts:core";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {Meteor} from "meteor/meteor";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {ReactiveDict} from "meteor/reactive-dict";
+import {Template} from "meteor/templating";
+import {AccountsTemplates} from "meteor/useraccounts:core";
 
-import { IsEditedService } from "../../../imports/services/isEditedService";
+import {IsEditedService} from "../../../imports/services/isEditedService";
 
 Template.navigation.helpers({
-  logoHTML() {
-    return GlobalSettings.getBrandingLogoHTML();
-  },
+  logoHTML() { return GlobalSettings.getBrandingLogoHTML(); },
   displayUsername() {
     if (Meteor.user().profile?.name) {
       return Meteor.user().profile.name;
@@ -47,7 +45,5 @@ Template.navigation.events({
     tmpl.$("#dlgEditProfile").modal("show");
   },
 
-  "click #navbar-dlgLocale"(evt, tmpl) {
-    tmpl.$("#dlgLocale").modal("show");
-  },
+  "click #navbar-dlgLocale"(evt, tmpl) { tmpl.$("#dlgLocale").modal("show"); },
 });
