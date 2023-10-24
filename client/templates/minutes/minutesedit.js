@@ -114,7 +114,7 @@ const togglePrintView = (switchOn) => {
 // http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
 const handleTemplatesGlobalKeyboardShortcuts = (switchOn) => {
   if (switchOn) {
-    $(document).keydown((evt) => {
+    $(document).on("keydown", (evt) => {
       if ($(".modal.in").length > 0) {
         // any modal dialog open?
         return;

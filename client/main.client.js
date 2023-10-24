@@ -56,7 +56,7 @@ $(document).arrive(
 );
 
 $(document).arrive(".clear-on-escape", function () {
-  $(this).keydown((event) => {
+  $(this).on("keydown", (event) => {
     if (event.which === 27 /*ESC*/) {
       $(this).val("");
     }

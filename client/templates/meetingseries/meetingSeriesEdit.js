@@ -201,7 +201,7 @@ Template.meetingSeriesEdit.events({
     // switch to "invited users" tab once, if desired
     if (ReactiveDict.equals("meetingSeriesEdit.showUsersPanel", true)) {
       ReactiveDict.set("meetingSeriesEdit.showUsersPanel", false);
-      $("#btnShowHideInvitedUsers").click();
+      $("#btnShowHideInvitedUsers").trigger("click");
       Meteor.setTimeout(() => {
         tmpl.find("#edt_AddUser").focus();
       }, 500);
