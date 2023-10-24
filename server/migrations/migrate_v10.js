@@ -1,10 +1,10 @@
-import {MeetingSeriesSchema} from '/imports/collections/meetingseries.schema';
-import {MinutesSchema} from '/imports/collections/minutes.schema';
-import {MinutesFinder} from '/imports/services/minutesFinder';
-import {Meteor} from 'meteor/meteor';
+import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
+import { MinutesSchema } from "/imports/collections/minutes.schema";
+import { MinutesFinder } from "/imports/services/minutesFinder";
+import { Meteor } from "meteor/meteor";
 
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
-import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
+import { updateTopicsOfMinutes } from "./helpers/updateMinutes";
+import { updateTopicsOfSeriesPre16 } from "./helpers/updateSeries";
 
 function saveSeries(series) {
   updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
@@ -36,7 +36,9 @@ class MigrateSeriesUp {
    * @private
    */
   _updateTopicsOfMinutes(minutes) {
-    minutes.topics.forEach(topic => { this._updateTopic(topic, minutes._id); });
+    minutes.topics.forEach((topic) => {
+      this._updateTopic(topic, minutes._id);
+    });
     return minutes;
   }
 
@@ -45,24 +47,32 @@ class MigrateSeriesUp {
       topic.createdInMinute = this.topicParentMinuteMap[topic._id];
     } else {
       if (!minutesId) {
-        throw new Meteor.Error('illegal-state',
-                               'Cannot update topic with unknown minutes id');
+        throw new Meteor.Error(
+          "illegal-state",
+          "Cannot update topic with unknown minutes id",
+        );
       }
       topic.createdInMinute = minutesId;
       this.topicParentMinuteMap[topic._id] = minutesId;
     }
   }
 
-  _isExistingTopic(topicId) { return !!this.topicParentMinuteMap[topicId]; }
+  _isExistingTopic(topicId) {
+    return !!this.topicParentMinuteMap[topicId];
+  }
 
   _updateTopicsOfSeries() {
-    this.series.topics.forEach(topic => {
-      this._updateTopic(topic,
-                        false /*all topics should already exist in map!*/);
+    this.series.topics.forEach((topic) => {
+      this._updateTopic(
+        topic,
+        false /*all topics should already exist in map!*/,
+      );
     });
-    this.series.openTopics.forEach(topic => {
-      this._updateTopic(topic,
-                        false /*all topics should already exist in map!*/);
+    this.series.openTopics.forEach((topic) => {
+      this._updateTopic(
+        topic,
+        false /*all topics should already exist in map!*/,
+      );
     });
   }
 }
@@ -70,28 +80,36 @@ class MigrateSeriesUp {
 // add "createdInMinute" attribute for topics
 // --> update all existing topics in all minutes and meeting series!
 export class MigrateV10 {
-
   static up() {
     console.log(
-        '% Progress - updating all topics. This might take several minutes...');
+      "% Progress - updating all topics. This might take several minutes...",
+    );
     const allSeries = MeetingSeriesSchema.getCollection().find();
-    allSeries.forEach(series => { (new MigrateSeriesUp(series)).run(); });
+    allSeries.forEach((series) => {
+      new MigrateSeriesUp(series).run();
+    });
   }
 
   static down() {
-    MeetingSeriesSchema.getCollection().find().forEach(series => {
-      series.topics = MigrateV10._downgradeTopics(series.topics);
-      series.openTopics = MigrateV10._downgradeTopics(series.openTopics);
-      saveSeries(series);
-    });
-    MinutesSchema.getCollection().find().forEach(minutes => {
-      minutes.topics = MigrateV10._downgradeTopics(minutes.topics);
-      saveMinutes(minutes);
-    });
+    MeetingSeriesSchema.getCollection()
+      .find()
+      .forEach((series) => {
+        series.topics = MigrateV10._downgradeTopics(series.topics);
+        series.openTopics = MigrateV10._downgradeTopics(series.openTopics);
+        saveSeries(series);
+      });
+    MinutesSchema.getCollection()
+      .find()
+      .forEach((minutes) => {
+        minutes.topics = MigrateV10._downgradeTopics(minutes.topics);
+        saveMinutes(minutes);
+      });
   }
 
   static _downgradeTopics(topics) {
-    topics.forEach(topic => { delete topic.createdInMinute; });
+    topics.forEach((topic) => {
+      delete topic.createdInMinute;
+    });
     return topics;
   }
 }
