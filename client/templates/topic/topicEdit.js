@@ -55,7 +55,7 @@ Template.topicEdit.helpers({
 });
 
 Template.topicEdit.events({
-  async "submit #frmDlgAddTopic" (evt, tmpl) {
+  async "submit #frmDlgAddTopic"(evt, tmpl) {
     const saveButton = $("#btnTopicSave");
 
     try {
@@ -90,7 +90,7 @@ Template.topicEdit.events({
     }
   },
 
-  "hidden.bs.modal #dlgAddTopic" (evt, tmpl) {
+  "hidden.bs.modal #dlgAddTopic"(evt, tmpl) {
     $("#frmDlgAddTopic")[0].reset();
     const subjectNode = tmpl.$("#id_subject");
     subjectNode.parent().removeClass("has-error");
@@ -99,7 +99,7 @@ Template.topicEdit.events({
     Session.set("topicEditTopicId", null);
   },
 
-  "show.bs.modal #dlgAddTopic" (evt) {
+  "show.bs.modal #dlgAddTopic"(evt) {
     const topic = getEditTopic();
 
     if (topic !== false) {
@@ -143,18 +143,18 @@ Template.topicEdit.events({
     cancelButton.prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgAddTopic" (evt, tmpl) {
+  "shown.bs.modal #dlgAddTopic"(evt, tmpl) {
     $("#dlgAddTopic").find("input").trigger("change"); // ensure new values trigger placeholder animation
     tmpl.find("#id_subject").focus();
   },
 
-  "click #btnTopicCancel" (evt) {
+  "click #btnTopicCancel"(evt) {
     evt.preventDefault();
 
     closePopupAndUnsetIsEdited();
   },
 
-  "click .close" (evt) {
+  "click .close"(evt) {
     evt.preventDefault();
 
     closePopupAndUnsetIsEdited();

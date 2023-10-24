@@ -86,14 +86,14 @@ Template.passwordChangeDialog.events({
     });
   },
 
-  "show.bs.modal #dlgChangePassword" (evt, tmpl) {
+  "show.bs.modal #dlgChangePassword"(evt, tmpl) {
     tmpl.find("#id_oldPassword").value = "";
     tmpl.find("#id_newPassword1").value = "";
     tmpl.find("#id_newPassword2").value = "";
     tmpl.$("#btnChangePasswordSave").prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgChangePassword" (evt, tmpl) {
+  "shown.bs.modal #dlgChangePassword"(evt, tmpl) {
     tmpl.find("#id_oldPassword").focus();
   },
 });

@@ -28,7 +28,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  "broadcastmessage.dismiss" () {
+  "broadcastmessage.dismiss"() {
     if (!Meteor.userId()) {
       return;
     }
@@ -42,7 +42,7 @@ Meteor.methods({
     });
   },
 
-  "broadcastmessage.show" (message, active = true) {
+  "broadcastmessage.show"(message, active = true) {
     if (!Meteor.userId()) {
       return;
     }
@@ -65,7 +65,7 @@ Meteor.methods({
     return id;
   },
 
-  "broadcastmessage.remove" (messageId) {
+  "broadcastmessage.remove"(messageId) {
     console.log(`broadcastmessage.remove: ${messageId}`);
     if (!Meteor.userId()) {
       return;
@@ -78,7 +78,7 @@ Meteor.methods({
     BroadcastMessageSchema.remove(messageId);
   },
 
-  "broadcastmessage.toggleActive" (messageId) {
+  "broadcastmessage.toggleActive"(messageId) {
     console.log(`broadcastmessage.toggleActive: ${messageId}`);
     if (!Meteor.userId()) {
       return;

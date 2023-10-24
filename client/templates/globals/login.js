@@ -58,7 +58,7 @@ Template.login.helpers({
 });
 
 Template.login.events({
-  "click .nav-tabs li" (event) {
+  "click .nav-tabs li"(event) {
     const currentTab = $(event.target).closest("li");
 
     currentTab.addClass("active");
@@ -67,11 +67,11 @@ Template.login.events({
     ReactiveDict.set("currentLoginForm", currentTab.data("template"));
   },
 
-  "click #btnLegalNotice" () {
+  "click #btnLegalNotice"() {
     window.open(GlobalSettings.getLegalNoticeExternalUrl());
   },
 
-  "click #tab_standard" () {
+  "click #tab_standard"() {
     AccountsTemplates.setState("signIn");
   },
 });

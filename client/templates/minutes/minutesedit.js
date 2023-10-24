@@ -496,12 +496,12 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
-  "click #checkHideClosedTopics" (evt) {
+  "click #checkHideClosedTopics"(evt) {
     const isChecked = evt.target.checked;
     filterClosedTopics.set(isChecked);
   },
 
-  "click #btnCreateNewMinutes" (evt) {
+  "click #btnCreateNewMinutes"(evt) {
     evt.preventDefault();
     const ms = new MeetingSeries(
       new Minutes(_minutesID).parentMeetingSeriesID(),
@@ -524,7 +524,7 @@ Template.minutesedit.events({
     confirmationDialog.show();
   },
 
-  "dp.change #id_minutesdatePicker" (evt, tmpl) {
+  "dp.change #id_minutesdatePicker"(evt, tmpl) {
     const aMin = new Minutes(_minutesID);
     if (aMin.isFinalized || !aMin.isCurrentUserModerator()) {
       // event will be called on page load
@@ -562,7 +562,7 @@ Template.minutesedit.events({
     aMin.update({ globalNote }).catch(handleError);
   },
 
-  async "click #btn_sendAgenda" (evt, tmpl) {
+  async "click #btn_sendAgenda"(evt, tmpl) {
     evt.preventDefault();
     const sendBtn = tmpl.$("#btn_sendAgenda");
     const aMin = new Minutes(_minutesID);
@@ -613,7 +613,7 @@ Template.minutesedit.events({
     );
   },
 
-  "click #btn_finalizeMinutes" (evt, tmpl) {
+  "click #btn_finalizeMinutes"(evt, tmpl) {
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
@@ -675,7 +675,7 @@ Template.minutesedit.events({
     );
   },
 
-  "click #btn_unfinalizeMinutes" (evt) {
+  "click #btn_unfinalizeMinutes"(evt) {
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
@@ -687,7 +687,7 @@ Template.minutesedit.events({
     ReactiveDict.set("participants.expand", true);
   },
 
-  "click #btn_deleteMinutes" (evt) {
+  "click #btn_deleteMinutes"(evt) {
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     console.log(
@@ -722,7 +722,7 @@ Template.minutesedit.events({
     ).show();
   },
 
-  "click #btnCollapseAll" () {
+  "click #btnCollapseAll"() {
     const aMin = new Minutes(_minutesID);
     const sessionCollapse = {};
     for (const topicIndex in aMin.topics) {
@@ -735,16 +735,16 @@ Template.minutesedit.events({
     );
   },
 
-  "click #btnExpandAll" () {
+  "click #btnExpandAll"() {
     ReactiveDict.set(`minutesedit.collapsetopics.${_minutesID}`);
   },
 
-  "click #btn_printMinutes" (evt) {
+  "click #btn_printMinutes"(evt) {
     evt.preventDefault();
     togglePrintView();
   },
 
-  "click #btn_dynamicallyGenerateProtocol" (evt) {
+  "click #btn_dynamicallyGenerateProtocol"(evt) {
     evt.preventDefault();
 
     const noProtocolExistsDialog = (downloadHTML) => {
@@ -763,7 +763,7 @@ Template.minutesedit.events({
     ).catch(handleError);
   },
 
-  "click #btnPinGlobalNote" (evt) {
+  "click #btnPinGlobalNote"(evt) {
     evt.preventDefault();
     if (!isModerator() || isMinuteFinalized()) {
       return;
@@ -778,10 +778,10 @@ Template.minutesedit.events({
 // pass event handler for the send-email checkbox to the confirmation dialog
 // so we can track changes
 Template.confirmationDialog.events({
-  "change #cbSendAI" (evt) {
+  "change #cbSendAI"(evt) {
     sendActionItems = evt.target.checked;
   },
-  "change #cbSendII" (evt) {
+  "change #cbSendII"(evt) {
     sendInformationItems = evt.target.checked;
   },
 });

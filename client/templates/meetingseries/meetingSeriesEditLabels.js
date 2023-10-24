@@ -77,7 +77,7 @@ function saveLabel(tmpl, context) {
 }
 
 Template.meetingSeriesEditLabels.events({
-  "click .evt-btn-edit-label" (evt, tmpl) {
+  "click .evt-btn-edit-label"(evt, tmpl) {
     evt.preventDefault();
     const labelId = this._id;
     const row = tmpl.$(`#row-label-${labelId}`);
@@ -86,7 +86,7 @@ Template.meetingSeriesEditLabels.events({
     row.find("[name='labelName']").focus();
   },
 
-  "click .evt-btn-edit-cancel" (evt, tmpl) {
+  "click .evt-btn-edit-cancel"(evt, tmpl) {
     evt.preventDefault();
     const labelId = this._id;
     const row = tmpl.$(`#row-label-${labelId}`);
@@ -104,7 +104,7 @@ Template.meetingSeriesEditLabels.events({
     row.find(".view-edit").hide();
   },
 
-  "submit .label-form" (evt, tmpl) {
+  "submit .label-form"(evt, tmpl) {
     evt.preventDefault();
     saveLabel(tmpl, this);
   },
@@ -120,12 +120,12 @@ Template.meetingSeriesEditLabels.events({
     row.find(".view-edit").hide();
   },
 
-  "click .evt-btn-edit-save" (evt, tmpl) {
+  "click .evt-btn-edit-save"(evt, tmpl) {
     evt.preventDefault();
     submitLabelForm(tmpl, this);
   },
 
-  "click .evt-btn-delete-label" (evt, tmpl) {
+  "click .evt-btn-delete-label"(evt, tmpl) {
     evt.preventDefault();
     const labelId = this._id;
     const aSeries = new MeetingSeries(tmpl.data.meetingSeriesId);
@@ -133,7 +133,7 @@ Template.meetingSeriesEditLabels.events({
     aSeries.save();
   },
 
-  "click .evt-btn-add-label" (evt, tmpl) {
+  "click .evt-btn-add-label"(evt, tmpl) {
     evt.preventDefault();
     const labelDoc = {
       name: i18n.__("MeetingSeries.Labels.new"),

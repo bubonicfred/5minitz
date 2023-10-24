@@ -49,7 +49,7 @@ Template.broadcastMessageDialog.helpers({
 });
 
 Template.broadcastMessageDialog.events({
-  "click #btnDismissBroadcast" (evt) {
+  "click #btnDismissBroadcast"(evt) {
     evt.preventDefault();
     BroadcastMessage.dismissForMe();
   },

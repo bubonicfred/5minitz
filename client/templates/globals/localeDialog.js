@@ -30,7 +30,7 @@ Template.localeDialog.events({
     tmpl.$("#dlgLocale").modal("hide");
   },
 
-  "show.bs.modal #dlgLocale" (evt, tmpl) {
+  "show.bs.modal #dlgLocale"(evt, tmpl) {
     // preselect the current locale, if user is logged in
     let locID = `#loc-${I18nHelper.getLanguageLocale()}`; // might be 'en-US'
     const select = tmpl.find(locID);

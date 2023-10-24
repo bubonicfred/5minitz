@@ -55,7 +55,7 @@ Template.home.helpers({
 });
 
 Template.home.events({
-  "click .nav-tabs li" (event, tmpl) {
+  "click .nav-tabs li"(event, tmpl) {
     const currentTab = $(event.target).closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));

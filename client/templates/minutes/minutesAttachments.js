@@ -131,7 +131,7 @@ Template.minutesAttachments.helpers({
 });
 
 Template.minutesAttachments.events({
-  "change #btnUploadAttachment" (e, template) {
+  "change #btnUploadAttachment"(e, template) {
     if (!e.currentTarget.files?.[0]) {
       return;
     }
@@ -160,7 +160,7 @@ Template.minutesAttachments.events({
     });
   },
 
-  "click #btnDelAttachment" (evt) {
+  "click #btnDelAttachment"(evt) {
     evt.preventDefault();
     console.log(`Remove Attachment: ${this._id}`);
 
@@ -173,13 +173,13 @@ Template.minutesAttachments.events({
     ).show();
   },
 
-  "click #btnToggleUpload" (e) {
+  "click #btnToggleUpload"(e) {
     e.preventDefault();
     this.toggle();
     return false;
   },
 
-  "click #btnAbortUpload" (e) {
+  "click #btnAbortUpload"(e) {
     e.preventDefault();
     this.abort();
     return false;

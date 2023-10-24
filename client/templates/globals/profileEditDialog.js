@@ -89,7 +89,7 @@ Template.profileEditDialog.events({
     }
   },
 
-  "show.bs.modal #dlgEditProfile" (evt, tmpl) {
+  "show.bs.modal #dlgEditProfile"(evt, tmpl) {
     const otherUserId = ReactiveDict.get("editProfile.userID"); // admin edit mode, undefined otherwise
     const usr = Meteor.users.findOne(
       otherUserId ? otherUserId : Meteor.userId(),
@@ -101,7 +101,7 @@ Template.profileEditDialog.events({
     tmpl.$("#btnEditProfileSave").prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgEditProfile" (evt, tmpl) {
+  "shown.bs.modal #dlgEditProfile"(evt, tmpl) {
     tmpl.find("#id_longName").focus();
   },
 });

@@ -18,18 +18,18 @@ Template.admin.helpers({
   },
 
   // give active tab some CSS highlighting
-  isTabActive (tabId) {
+  isTabActive(tabId) {
     return Template.instance().activeTabId.get() === tabId ? "active" : "";
   },
 
-  tab () {
+  tab() {
     return Template.instance().activeTabTemplate.get();
   },
 });
 
 Template.admin.events({
   // Switch between tabs via user click on <li>
-  "click .nav-tabs li" (event, tmpl) {
+  "click .nav-tabs li"(event, tmpl) {
     const currentTab = $(event.target).closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));

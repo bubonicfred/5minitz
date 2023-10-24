@@ -30,17 +30,17 @@ Template.aboutDialog.helpers({
 });
 
 Template.aboutDialog.events({
-  "click #about-4minitz-logo" () {
+  "click #about-4minitz-logo"() {
     showStatistics.set(!showStatistics.get());
   },
 
-  "click #btnLegalNotice" () {
+  "click #btnLegalNotice"() {
     $("#dlgAbout").modal("hide");
     $(".modal-backdrop").remove(); // The backdrop was sticky - we remove it manually...
     window.open(GlobalSettings.getLegalNoticeExternalUrl());
   },
 
-  "show.bs.modal #dlgAbout" () {
+  "show.bs.modal #dlgAbout"() {
     Meteor.call("gitVersionInfo", (error, result) => {
       if (error) {
         console.error(`err:${error}`);
