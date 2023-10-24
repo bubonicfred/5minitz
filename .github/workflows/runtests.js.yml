@@ -5,8 +5,8 @@ jobs:
   UnitTestsAndI18n:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '18.13.0'
 
@@ -35,8 +35,8 @@ jobs:
           - tests/end2end/MeetingSeries-test.js
           - tests/end2end/MeetingSeriesEdit-test.js
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '^14.21.3'
 
