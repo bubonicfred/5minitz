@@ -1,11 +1,11 @@
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
-import { GlobalSettings } from "../config/GlobalSettings";
-import { DocumentGeneration } from "../documentGeneration";
+import {GlobalSettings} from "../config/GlobalSettings";
+import {DocumentGeneration} from "../documentGeneration";
 
-import { TemplateRenderer } from "./../server_side_templates/TemplateRenderer";
-import { MailFactory } from "./MailFactory";
+import {TemplateRenderer} from "./../server_side_templates/TemplateRenderer";
+import {MailFactory} from "./MailFactory";
 
 export class TopicItemsMailHandler {
   constructor(sender, recipients, minute, templateName) {
@@ -15,7 +15,7 @@ export class TopicItemsMailHandler {
     this._templateName = templateName;
     this._currentRecipient = "";
     this._sendOneMailToAllRecipients =
-      GlobalSettings.isTrustedIntranetInstallation();
+        GlobalSettings.isTrustedIntranetInstallation();
   }
 
   send() {
@@ -34,17 +34,16 @@ export class TopicItemsMailHandler {
 
   _sendMail() {
     throw new Meteor.Error(
-      "illegal-state",
-      "abstract method _sendMail not implemented.",
+        "illegal-state",
+        "abstract method _sendMail not implemented.",
     );
   }
 
   _getCurrentMailAddress() {
     if (typeof this._currentRecipient === "string") {
       return this._currentRecipient;
-    } else if (
-      Object.prototype.hasOwnProperty.call(this._currentRecipient, "address")
-    ) {
+    } else if (Object.prototype.hasOwnProperty.call(this._currentRecipient,
+                                                    "address")) {
       return this._currentRecipient.address;
     } else {
       // we should send the mail to multiple recipients -> return array of
@@ -55,14 +54,12 @@ export class TopicItemsMailHandler {
     }
   }
 
-  _getSubject() {
-    return this._getSubjectPrefix();
-  }
+  _getSubject() { return this._getSubjectPrefix(); }
 
   _getSubjectPrefix() {
     return `[${this._minute.parentMeetingSeries().project}] ${
-      this._minute.parentMeetingSeries().name
-    } ${i18n.__("Minutes.dateOn")} ${this._minute.date}`;
+        this._minute.parentMeetingSeries().name} ${i18n.__("Minutes.dateOn")} ${
+        this._minute.date}`;
   }
 
   _buildMail(subject, emailData) {
@@ -77,22 +74,23 @@ export class TopicItemsMailHandler {
 
   _getTmplRenderer() {
     const recipientsName = Object.prototype.hasOwnProperty.call(
-      this._currentRecipient,
-      "name",
-    )
-      ? this._currentRecipient.name
-      : "";
+                               this._currentRecipient,
+                               "name",
+                               )
+                               ? this._currentRecipient.name
+                               : "";
     return new TemplateRenderer(
-      this._templateName,
-      "server_templates/email",
-    ).addData("name", recipientsName);
+               this._templateName,
+               "server_templates/email",
+               )
+        .addData("name", recipientsName);
   }
 
   _getMailer() {
     if (!this._mailer) {
       this._mailer = MailFactory.getMailer(
-        this._sender,
-        this._getCurrentMailAddress(),
+          this._sender,
+          this._getCurrentMailAddress(),
       );
     }
     return this._mailer;
