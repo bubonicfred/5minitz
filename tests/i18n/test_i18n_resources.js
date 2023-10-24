@@ -27,8 +27,7 @@ let globalWarningCount = 0;
 console.log("Test_I18N_Resources");
 console.log("-------------------");
 console.log(
-  `Test if all needed string resources used in code are present in YAML: ${
-    en_yaml}`,
+  `Test if all needed string resources used in code are present in YAML: ${en_yaml}`,
 );
 
 const dictKeysFromYaml = {};
@@ -97,7 +96,9 @@ function checkCodeUsage(extension, keyPattern) {
       m = keyPattern.exec(content);
       if (m && !IGNOREKEYS[m[1]]) {
         // we have a match that is NOT in IGNOREKEYS
-        dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]] ? `${dictKeysFromCode[m[1]]}\n${jsFile}` : jsFile;
+        dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]]
+          ? `${dictKeysFromCode[m[1]]}\n${jsFile}`
+          : jsFile;
         count++;
       }
     } while (m);

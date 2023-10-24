@@ -43,15 +43,15 @@ function call() {
 }
 
 const server = {
-  connect () {
+  connect() {
     return connect().wait();
   },
 
-  close () {
+  close() {
     close();
   },
 
-  call () {
+  call() {
     return call.apply(this, arguments).wait();
   },
 };
