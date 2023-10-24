@@ -21,7 +21,6 @@
         "plugin:import/recommended",
         "prettier",
         "plugin:node/recommended",
-        "plugin:you-dont-need-momentjs/recommended",
         "plugin:you-dont-need-lodash-underscore/compatible",
         "plugin:no-jquery/all",
         "plugin:promise/recommended"
