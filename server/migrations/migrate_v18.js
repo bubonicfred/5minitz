@@ -1,32 +1,34 @@
-import {MeetingSeriesSchema} from '/imports/collections/meetingseries.schema';
-import {MinutesSchema} from '/imports/collections/minutes.schema';
-import {TopicSchema} from '/imports/collections/topic.schema';
+import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
+import { MinutesSchema } from "/imports/collections/minutes.schema";
+import { TopicSchema } from "/imports/collections/topic.schema";
 
-import {MinutesFinder} from '../../imports/services/minutesFinder';
+import { MinutesFinder } from "../../imports/services/minutesFinder";
 
-import {MinutesIterator} from './helpers/minutesIterator';
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
+import { MinutesIterator } from "./helpers/minutesIterator";
+import { updateTopicsOfMinutes } from "./helpers/updateMinutes";
 
 // add "createdAt" and "updatedAt" field for topics
 // --> updates all existing topics in all minutes and the topics collection!
 export class MigrateV18 {
-
   static up() {
     const minutesHandler = new MinutesHandler();
-    const minutesIterator =
-        new MinutesIterator(minutesHandler, MinutesFinder, MeetingSeriesSchema);
+    const minutesIterator = new MinutesIterator(
+      minutesHandler,
+      MinutesFinder,
+      MeetingSeriesSchema,
+    );
     minutesIterator.iterate();
   }
 
   static down() {
-    const transformTopic = topic => {
+    const transformTopic = (topic) => {
       delete topic.createdAt;
       delete topic.updatedAt;
-      topic.infoItems = topic.infoItems.map(item => {
+      topic.infoItems = topic.infoItems.map((item) => {
         delete item.createdAt;
         delete item.updatedAt;
         if (item.details) {
-          item.details = item.details.map(detail => {
+          item.details = item.details.map((detail) => {
             delete detail.createdAt;
             delete detail.updatedAt;
             return detail;
@@ -37,20 +39,23 @@ export class MigrateV18 {
       return topic;
     };
 
-    TopicSchema.getCollection().find().forEach(topic => {
-      topic = transformTopic(topic);
-      TopicSchema.getCollection().update(topic._id, {$set : topic});
-    });
+    TopicSchema.getCollection()
+      .find()
+      .forEach((topic) => {
+        topic = transformTopic(topic);
+        TopicSchema.getCollection().update(topic._id, { $set: topic });
+      });
 
-    MinutesSchema.getCollection().find().forEach(minutes => {
-      minutes.topics = minutes.topics.map(transformTopic);
-      updateTopicFieldOfMinutes(minutes);
-    });
+    MinutesSchema.getCollection()
+      .find()
+      .forEach((minutes) => {
+        minutes.topics = minutes.topics.map(transformTopic);
+        updateTopicFieldOfMinutes(minutes);
+      });
   }
 }
 
 class MinutesHandler {
-
   constructor() {
     this.currentMinutes = null;
     this.finalizedTopicsDictionary = {};
@@ -65,14 +70,14 @@ class MinutesHandler {
   }
 
   _updateTopicsOfMeetingSeries() {
-    Object.keys(this.finalizedTopicsDictionary).forEach(key => {
+    Object.keys(this.finalizedTopicsDictionary).forEach((key) => {
       const topic = this.finalizedTopicsDictionary[key];
       TopicSchema.getCollection().update(topic._id, {
-        $set : {
-          updatedAt : topic.updatedAt,
-          createdAt : topic.createdAt,
-          infoItems : topic.infoItems
-        }
+        $set: {
+          updatedAt: topic.updatedAt,
+          createdAt: topic.createdAt,
+          infoItems: topic.infoItems,
+        },
       });
     });
   }
@@ -80,18 +85,22 @@ class MinutesHandler {
   nextMinutes(minutes) {
     this.currentMinutes = minutes;
     this.realisticCreatedAtDate = this._calcRealisticCreatedAtDate();
-    minutes.topics = minutes.topics.map(topic => {
-      topic.infoItems = topic.infoItems.map(item => this._handleInfoItem(item));
+    minutes.topics = minutes.topics.map((topic) => {
+      topic.infoItems = topic.infoItems.map((item) =>
+        this._handleInfoItem(item),
+      );
       return this._handleTopic(topic);
     });
     updateTopicFieldOfMinutes(minutes);
   }
 
-  _calcRealisticCreatedAtDate() { return this.currentMinutes.createdAt; }
+  _calcRealisticCreatedAtDate() {
+    return this.currentMinutes.createdAt;
+  }
 
   _handleInfoItem(item) {
     if (item.details) {
-      item.details = item.details.map(detail => {
+      item.details = item.details.map((detail) => {
         return this._handleElement(detail, this.finalizedItemDetailsDictionary);
       });
     }
@@ -116,7 +125,9 @@ class MinutesHandler {
     return element;
   }
 
-  static _isKnownElement(id, dictionary) { return !!dictionary[id]; }
+  static _isKnownElement(id, dictionary) {
+    return !!dictionary[id];
+  }
 }
 
 function updateTopicFieldOfMinutes(minutes) {
