@@ -1,7 +1,7 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
-import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
+import { updateTopicsOfMinutes } from './helpers/updateMinutes';
+import { updateTopicsOfSeriesPre16 } from './helpers/updateSeries';
 
 // add the isRecurring field to all topics
 export class MigrateV5 {

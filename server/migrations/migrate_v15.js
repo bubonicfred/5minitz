@@ -1,4 +1,4 @@
-import {MigrateItemsPre16} from './helpers/migrateItems';
+import { MigrateItemsPre16 } from './helpers/migrateItems';
 
 const DEFAULT_PRIORITY = 3;
 

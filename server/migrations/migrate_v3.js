@@ -1,4 +1,4 @@
-import {MigrateItemsPre16} from './helpers/migrateItems';
+import { MigrateItemsPre16 } from './helpers/migrateItems';
 
 // convert the participants fields
 export class MigrateV3 {

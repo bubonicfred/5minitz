@@ -9,7 +9,7 @@ function saveMinutes(minutes) {
                     'topics': min.topics,
                 }
             },
-            {bypassCollection2: true}
+            { bypassCollection2: true }
         );
     });
 }
@@ -22,7 +22,7 @@ function saveTopics(topics) {
                     'infoItems': topic.infoItems,
                 }
             },
-            {bypassCollection2: true}
+            { bypassCollection2: true }
         );
     });
 }

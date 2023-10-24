@@ -27,7 +27,7 @@ export class MigrateV9 {
                         'finalizedHistory': minute.finalizedHistory
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }
@@ -42,13 +42,13 @@ export class MigrateV9 {
                         'isUnfinalized': ! minute.isFinalized
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
         // delete the participantsAdditional attribute from all minutes
         MinutesSchema.getCollection().update({},
-            {$unset: { finalizedVersion: 0,
-                finalizedHistory: 0}},
-            {multi: true, bypassCollection2: true});
+            { $unset: { finalizedVersion: 0,
+                finalizedHistory: 0 } },
+            { multi: true, bypassCollection2: true });
     }
 }

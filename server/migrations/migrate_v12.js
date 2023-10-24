@@ -3,8 +3,8 @@ import { Random } from 'meteor/random';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
-import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
+import { updateTopicsOfSeriesPre16 } from './helpers/updateSeries';
+import { updateTopicsOfMinutes } from './helpers/updateMinutes';
 
 function saveSeries(series) {
     updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
@@ -105,14 +105,14 @@ class MigrateSeriesUp {
             if(!detail._id) {
                 detail._id = Random.id();
                 detail.createdInMinute = minutesId;
-                this.topicParentMinuteMap[detail.text+infoItem._id] = {id: detail._id, createdInMinute: detail.createdInMinute};
+                this.topicParentMinuteMap[detail.text+infoItem._id] = { id: detail._id, createdInMinute: detail.createdInMinute };
             }
         }
         // for details that were created in a prev. minute but an item is pinned and they occur in the following minute
         else{
             detail._id = prevDetail._id;
             detail.createdInMinute = prevDetail.createdInMinute;
-            this.topicParentMinuteMap[detail.text+infoItem._id] = {id: detail._id, createdInMinute: detail.createdInMinute};
+            this.topicParentMinuteMap[detail.text+infoItem._id] = { id: detail._id, createdInMinute: detail.createdInMinute };
         }
         return detail;
     }

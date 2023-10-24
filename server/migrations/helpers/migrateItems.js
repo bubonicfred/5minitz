@@ -27,7 +27,7 @@ export class MigrateItemsPre16 {
                         'topics': minute.topics
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
 
@@ -43,7 +43,7 @@ export class MigrateItemsPre16 {
                         'openTopics': series.openTopics
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }

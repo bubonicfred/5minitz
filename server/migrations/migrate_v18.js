@@ -1,9 +1,9 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
-import {MinutesFinder} from '../../imports/services/minutesFinder';
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
-import {MinutesIterator} from './helpers/minutesIterator';
+import { MinutesFinder } from '../../imports/services/minutesFinder';
+import { updateTopicsOfMinutes } from './helpers/updateMinutes';
+import { MinutesIterator } from './helpers/minutesIterator';
 
 // add "createdAt" and "updatedAt" field for topics
 // --> updates all existing topics in all minutes and the topics collection!

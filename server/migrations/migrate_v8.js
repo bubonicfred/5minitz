@@ -11,7 +11,7 @@ export class MigrateV8 {
                         'additionalResponsibles': []
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }
@@ -25,7 +25,7 @@ export class MigrateV8 {
                         'additionalResponsibles': ''
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }

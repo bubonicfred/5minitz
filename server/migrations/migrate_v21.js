@@ -1,8 +1,8 @@
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
-import {MinutesFinder} from '../../imports/services/minutesFinder';
-import {TopicsFinder} from '../../imports/services/topicsFinder';
-import {MinutesIterator} from './helpers/minutesIterator';
+import { MinutesFinder } from '../../imports/services/minutesFinder';
+import { TopicsFinder } from '../../imports/services/topicsFinder';
+import { MinutesIterator } from './helpers/minutesIterator';
 
 // This Migration corrects the bug introduced in MigrationV18
 // MigrationV18 removes some items in the topics collection.
@@ -49,7 +49,7 @@ class MinutesHandler {
                 topicInCollection.infoItems = topicInCollection.infoItems.concat(missingItems);
                 TopicSchema.getCollection().update(
                     topicInCollection._id,
-                    {$set: {infoItems: topicInCollection.infoItems}}
+                    { $set: { infoItems: topicInCollection.infoItems } }
                 );
                 recoveredItemsCounter += missingItems.length;
             }

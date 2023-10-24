@@ -16,7 +16,7 @@ export class MigrateV17 {
                         'lastMinutesId': lastMinId
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }
@@ -31,7 +31,7 @@ export class MigrateV17 {
                         'lastMinutesId': null
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }

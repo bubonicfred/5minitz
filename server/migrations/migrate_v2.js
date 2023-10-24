@@ -18,7 +18,7 @@ export class MigrateV2 {
                         'participants': []
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }
@@ -33,12 +33,12 @@ export class MigrateV2 {
                         'participants': minute.participantsAdditional
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
         // delete the participantsAdditional attribute from all minutes
         MinutesSchema.getCollection().update({},
-            {$unset: { participantsAdditional: 1 }},
-            {multi: true, bypassCollection2: true});
+            { $unset: { participantsAdditional: 1 } },
+            { multi: true, bypassCollection2: true });
     }
 }

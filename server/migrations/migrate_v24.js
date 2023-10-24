@@ -2,7 +2,7 @@ import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 export class MigrateV24 {
     static fixDetails(detail) {
-        return {...detail};
+        return { ...detail };
     }
 
     static fixItem(infoOrActionItem) {
@@ -12,19 +12,19 @@ export class MigrateV24 {
         // Copying their properties with Object.assign() or using the
         // spread operator gets rid of that metadata.
         const fixedDetails = infoOrActionItem.details.map(detail => this.fixDetails(detail));
-        return {...infoOrActionItem, details: fixedDetails};
+        return { ...infoOrActionItem, details: fixedDetails };
     }
 
     static fixTopic(topic) {
         const fixedInfoItems = topic.infoItems.map(item => this.fixItem(item));
-        return {...topic, infoItems: fixedInfoItems};
+        return { ...topic, infoItems: fixedInfoItems };
     }
 
     static migrateMinutesCollection() {
         const minutes = MinutesSchema.find({});
         minutes.forEach(singleMinute => {
             const topics = singleMinute.topics.map(topic => this.fixTopic(topic));
-            MinutesSchema.getCollection().update(singleMinute._id, {$set: {topics}});
+            MinutesSchema.getCollection().update(singleMinute._id, { $set: { topics } });
         });
     }
 

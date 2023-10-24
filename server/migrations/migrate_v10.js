@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
-import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
-import {updateTopicsOfMinutes} from './helpers/updateMinutes';
+import { updateTopicsOfSeriesPre16 } from './helpers/updateSeries';
+import { updateTopicsOfMinutes } from './helpers/updateMinutes';
 
 function saveSeries(series) {
     updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());

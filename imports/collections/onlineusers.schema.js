@@ -8,8 +8,8 @@ export const OnlineUsersSchema = SchemaClass.create({
     name: 'OnlineUsersSchema',
     collection: OnlineUsersCollection,
     fields: {
-        userId: {type: String, validators: [{type: 'meteorId'}]},
-        activeRoute: {type: String},
-        updatedAt: {type: Date}
+        userId: { type: String, validators: [{ type: 'meteorId' }] },
+        activeRoute: { type: String },
+        updatedAt: { type: Date }
     }
 });

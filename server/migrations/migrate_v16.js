@@ -23,7 +23,7 @@ export class MigrateV16 {
                         'openTopics': ''
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
     }
@@ -32,7 +32,7 @@ export class MigrateV16 {
         MeetingSeriesSchema.getCollection().find().forEach(series => {
             const topicsOfSeries = [];
             const openTopicsOfSeries = [];
-            TopicSchema.getCollection().find({ parentId: series._id}).forEach(topic => {
+            TopicSchema.getCollection().find({ parentId: series._id }).forEach(topic => {
                 topicsOfSeries.unshift(topic);
                 if (topic.isOpen) {
                     openTopicsOfSeries.unshift(topic);
@@ -47,7 +47,7 @@ export class MigrateV16 {
                         'openTopics': openTopicsOfSeries
                     }
                 },
-                {bypassCollection2: true}
+                { bypassCollection2: true }
             );
         });
 
