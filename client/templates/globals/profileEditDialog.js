@@ -1,20 +1,20 @@
-import {Meteor} from "meteor/meteor";
-import {ReactiveDict} from "meteor/reactive-dict";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 import isEmail from "validator/lib/isEmail";
 
-import {
-  ConfirmationDialogFactory
-} from "../../helpers/confirmationDialogFactory";
-import {addCustomValidator} from "../../helpers/customFieldValidator";
-import {FlashMessage} from "../../helpers/flashMessage";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { addCustomValidator } from "../../helpers/customFieldValidator";
+import { FlashMessage } from "../../helpers/flashMessage";
 
 Template.profileEditDialog.onRendered(() => {
   addCustomValidator(
-      "#id_emailAddress",
-      (value) => { return isEmail(value); },
-      "Not a valid E-Mail address",
+    "#id_emailAddress",
+    (value) => {
+      return isEmail(value);
+    },
+    "Not a valid E-Mail address",
   );
 });
 
@@ -25,27 +25,26 @@ function updateUserProfile(tmpl) {
   tmpl.$("#btnEditProfileSave").prop("disabled", true);
 
   const editUserId = ReactiveDict.equals("editProfile.userID", true)
-                         ? ReactiveDict.get("editProfile.userID")
-                         : Meteor.userId();
+    ? ReactiveDict.get("editProfile.userID")
+    : Meteor.userId();
   Meteor.call(
-      "users.editProfile",
-      editUserId,
-      uEmailAddress,
-      uLongName,
-      (error) => {
-        if (error) {
-          new FlashMessage(i18n.__("FlashMessages.error"), error.reason).show();
-        } else {
-          new FlashMessage(
-              i18n.__("FlashMessages.ok"),
-              i18n.__("FlashMessages.profileEditOK"),
-              "alert-success",
-              2000,
-              )
-              .show();
-          tmpl.$("#dlgEditProfile").modal("hide");
-        }
-      },
+    "users.editProfile",
+    editUserId,
+    uEmailAddress,
+    uLongName,
+    (error) => {
+      if (error) {
+        new FlashMessage(i18n.__("FlashMessages.error"), error.reason).show();
+      } else {
+        new FlashMessage(
+          i18n.__("FlashMessages.ok"),
+          i18n.__("FlashMessages.profileEditOK"),
+          "alert-success",
+          2000,
+        ).show();
+        tmpl.$("#dlgEditProfile").modal("hide");
+      }
+    },
   );
 
   tmpl.$("#btnEditProfileSave").prop("disabled", false);
@@ -66,7 +65,7 @@ Template.profileEditDialog.events({
     const uEmailAddress = tmpl.find("#id_emailAddress").value;
 
     const userEditsOwnProfile =
-        ReactiveDict.get("editProfile.userID") === undefined;
+      ReactiveDict.get("editProfile.userID") === undefined;
     if (Meteor.settings.public.sendVerificationEmail && userEditsOwnProfile) {
       const changeUserMail = () => {
         updateUserProfile(tmpl);
@@ -77,15 +76,13 @@ Template.profileEditDialog.events({
       if (Meteor.user().emails[0].address === uEmailAddress) {
         updateUserProfile(tmpl);
       } else {
-        ConfirmationDialogFactory
-            .makeWarningDialogWithTemplate(
-                changeUserMail,
-                i18n.__("Profile.WarningEMailChange.title"),
-                "confirmPlainText",
-                {plainText : i18n.__("Profile.WarningEMailChange.body")},
-                i18n.__("Profile.WarningEMailChange.button"),
-                )
-            .show();
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+          changeUserMail,
+          i18n.__("Profile.WarningEMailChange.title"),
+          "confirmPlainText",
+          { plainText: i18n.__("Profile.WarningEMailChange.body") },
+          i18n.__("Profile.WarningEMailChange.button"),
+        ).show();
       }
     } else {
       updateUserProfile(tmpl);
@@ -93,10 +90,9 @@ Template.profileEditDialog.events({
   },
 
   "show.bs.modal #dlgEditProfile"(evt, tmpl) {
-    const otherUserId = ReactiveDict.get(
-        "editProfile.userID"); // admin edit mode, undefined otherwise
+    const otherUserId = ReactiveDict.get("editProfile.userID"); // admin edit mode, undefined otherwise
     const usr = Meteor.users.findOne(
-        otherUserId ? otherUserId : Meteor.userId(),
+      otherUserId ? otherUserId : Meteor.userId(),
     );
     if (usr.profile) {
       tmpl.find("#id_longName").value = usr.profile.name;
@@ -105,6 +101,7 @@ Template.profileEditDialog.events({
     tmpl.$("#btnEditProfileSave").prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgEditProfile"(evt,
-                                   tmpl) { tmpl.find("#id_longName").focus(); },
+  "shown.bs.modal #dlgEditProfile"(evt, tmpl) {
+    tmpl.find("#id_longName").focus();
+  },
 });

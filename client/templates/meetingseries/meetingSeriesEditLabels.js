@@ -1,18 +1,18 @@
-import {ColorHelper} from "/imports/ColorHelper";
-import {Label} from "/imports/label";
-import {MeetingSeries} from "/imports/meetingseries";
-import {$} from "meteor/jquery";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { ColorHelper } from "/imports/ColorHelper";
+import { Label } from "/imports/label";
+import { MeetingSeries } from "/imports/meetingseries";
+import { $ } from "meteor/jquery";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-import {addCustomValidator} from "../../helpers/customFieldValidator";
+import { addCustomValidator } from "../../helpers/customFieldValidator";
 
 const initColorPicker = (selector) => {
   setTimeout(() => {
     $(selector).pickAColor({
-      showSavedColors : false,
-      showAdvanced : false,
-      inlineDropdown : false,
+      showSavedColors: false,
+      showAdvanced: false,
+      inlineDropdown: false,
     });
     $(".hex-pound").hide();
   }, 50);
@@ -22,14 +22,18 @@ Template.meetingSeriesEditLabels.onRendered(() => {
   initColorPicker(".pick-a-color");
 
   addCustomValidator(
-      ".label-color-field",
-      (value) => { return ColorHelper.isValidHexColorString(value); },
-      i18n.__("MeetingSeries.Labels.Error.hexValue"),
+    ".label-color-field",
+    (value) => {
+      return ColorHelper.isValidHexColorString(value);
+    },
+    i18n.__("MeetingSeries.Labels.Error.hexValue"),
   );
 });
 
 Template.meetingSeriesEditLabels.helpers({
-  getColorNum() { return this.color.substr(1); },
+  getColorNum() {
+    return this.color.substr(1);
+  },
 
   getLabels() {
     const aSeries = new MeetingSeries(this.meetingSeriesId);
@@ -63,9 +67,9 @@ function saveLabel(tmpl, context) {
   }
 
   const labelDoc = {
-    _id : labelId,
-    name : labelName,
-    color : labelColor,
+    _id: labelId,
+    name: labelName,
+    color: labelColor,
   };
 
   const label = new Label(labelDoc);
@@ -132,8 +136,8 @@ Template.meetingSeriesEditLabels.events({
   "click .evt-btn-add-label"(evt, tmpl) {
     evt.preventDefault();
     const labelDoc = {
-      name : i18n.__("MeetingSeries.Labels.new"),
-      color : "#cccccc",
+      name: i18n.__("MeetingSeries.Labels.new"),
+      color: "#cccccc",
     };
 
     const label = new Label(labelDoc);

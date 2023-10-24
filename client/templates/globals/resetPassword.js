@@ -1,11 +1,11 @@
-import {handleError} from "/client/helpers/handleError";
-import {Accounts} from "meteor/accounts-base";
-import {$} from "meteor/jquery";
-import {FlowRouter} from "meteor/ostrio:flow-router-extra";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { handleError } from "/client/helpers/handleError";
+import { Accounts } from "meteor/accounts-base";
+import { $ } from "meteor/jquery";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-import {FlashMessage} from "../../helpers/flashMessage";
+import { FlashMessage } from "../../helpers/flashMessage";
 
 Template.resetPassword.events({
   "submit #at-pwd-form"(event) {
@@ -17,11 +17,10 @@ Template.resetPassword.events({
       } else {
         FlowRouter.go("/");
         new FlashMessage(
-            i18n.__("FlashMessages.ok"),
-            i18n.__("FlashMessages.passwordResetOK"),
-            "alert-success",
-            )
-            .show();
+          i18n.__("FlashMessages.ok"),
+          i18n.__("FlashMessages.passwordResetOK"),
+          "alert-success",
+        ).show();
       }
     });
   },
