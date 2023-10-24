@@ -11,9 +11,9 @@ export class E2EGlobal {
   }
 
   static setValueSafe(selector, string, retries = 5) {
-    let currentValue = browser.getValue(selector),
-      isInteractable = true,
-      count = 0;
+    let currentValue = browser.getValue(selector);
+    let isInteractable = true;
+    let count = 0;
 
     if (string.includes("\n")) {
       throw new Error("Entering newlines with setValueSafe is not supported.");
@@ -26,11 +26,11 @@ export class E2EGlobal {
         isInteractable = true;
         browser.setValue(selector, string);
       } catch (e) {
-        const message = e.toString(),
-          notInteractable = message.includes(
-            "Element is not currently interactable and may not be manipulated",
-          ),
-          cannotFocusElement = message.includes("Cannot focus element");
+        const message = e.toString();
+        const notInteractable = message.includes(
+          "Element is not currently interactable and may not be manipulated",
+        );
+        const cannotFocusElement = message.includes("Cannot focus element");
 
         if (notInteractable || cannotFocusElement) {
           isInteractable = false;
@@ -48,11 +48,10 @@ export class E2EGlobal {
 
   static pollingInterval = 250;
 
-  static waitUntil(predicate, timeout = 10000) {
+  static waitUntil(predicate, timeout = 10_000) {
     const start = new Date();
     let current = new Date();
 
-    const i = 0;
     while (current - start < timeout) {
       try {
         predicate();
@@ -65,7 +64,7 @@ export class E2EGlobal {
     throw new Error("waitUntil timeout");
   }
 
-  static clickWithRetry(selector, timeout = 10000) {
+  static clickWithRetry(selector, timeout = 10_000) {
     browser.scroll(selector);
     E2EGlobal.waitSomeTime(100);
 
@@ -78,10 +77,10 @@ export class E2EGlobal {
         E2EGlobal.waitSomeTime(100);
         return;
       } catch (e) {
-        const message = e.toString(),
-          retryMakesSense =
-            message.includes("Other element would receive the click") ||
-            message.includes("Element is not clickable at point");
+        const message = e.toString();
+        const retryMakesSense =
+        message.includes("Other element would receive the click") ||
+        message.includes("Element is not clickable at point");
 
         if (!retryMakesSense) {
           console.log(`Unexpected exception: ${e}`);
@@ -132,18 +131,16 @@ export class E2EGlobal {
   }
 
   static formatTimeISO8601(aDate) {
-    let isoString = "";
 
     try {
-      const tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
-      isoString = new Date(aDate - tzoffset)
-        .toISOString()
-        .substr(0, 19)
-        .replace("T", " "); // YYYY-MM-DD hh:mm:ss
+      const tzoffset = aDate.getTimezoneOffset() * 60_000; //offset in milliseconds
+      return new Date(aDate - tzoffset)
+      .toISOString()
+      .substr(0, 19)
+      .replace("T", " "); // YYYY-MM-DD hh:mm:ss
     } catch (e) {
-      isoString = "NaN-NaN-NaN 00:00:00";
+      return "NaN-NaN-NaN 00:00:00";
     }
-    return isoString;
   }
 
   static browserName() {
@@ -215,9 +212,9 @@ export class E2EGlobal {
       return num % 2;
     }
 
-    const keys = keysAndPauses.filter((_, index) => !isOdd(index)),
-      pauses = keysAndPauses.filter((_, index) => isOdd(index)),
-      numberOfKeys = keys.length;
+    const keys = keysAndPauses.filter((_, index) => !isOdd(index));
+    const pauses = keysAndPauses.filter((_, index) => isOdd(index));
+    const numberOfKeys = keys.length;
 
     for (let i = 0; i < numberOfKeys; ++i) {
       browser.keys(keys[i]);

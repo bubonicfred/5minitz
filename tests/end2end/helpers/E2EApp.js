@@ -53,9 +53,9 @@ export class E2EApp {
 
   static loginFailed() {
     const standardLoginErrorAlertExists = browser.isExisting(
-        ".at-error.alert.alert-danger",
-      ),
-      generalAlertExists = browser.isExisting(".alert.alert-danger");
+      ".at-error.alert.alert-danger",
+    );
+    const generalAlertExists = browser.isExisting(".alert.alert-danger");
     let generalAlertShowsLoginFailure = false;
 
     try {
@@ -132,7 +132,7 @@ export class E2EApp {
           const userMenuExists = browser.isExisting("#navbar-usermenu");
           return userMenuExists || E2EApp.loginFailed();
         },
-        20000,
+        20_000,
         "The login could not been processed in time",
       );
 

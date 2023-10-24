@@ -3,7 +3,7 @@ import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
+import _ from "lodash";
 
 class MeteorError {}
 const Meteor = {
@@ -273,7 +273,8 @@ describe("Topic", () => {
   });
 
   describe("#upsertInfoItem", () => {
-    let myTopic, topicItemDoc;
+    let myTopic;
+    let topicItemDoc;
 
     beforeEach(() => {
       myTopic = new Topic(dummyMinute._id, topicDoc);
@@ -468,7 +469,7 @@ describe("Topic", () => {
 
     // the save-method should call the upsertTopic-Method of the parent Minute
     // so we spy on it
-    var spy = sinon.spy(dummyMinute, "upsertTopic");
+    const spy = sinon.spy(dummyMinute, "upsertTopic");
 
     myTopic.save();
 
