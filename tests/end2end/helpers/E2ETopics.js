@@ -1,5 +1,5 @@
-import { E2EGlobal } from "./E2EGlobal";
-import { E2EApp } from "./E2EApp";
+import {E2EApp} from "./E2EApp";
+import {E2EGlobal} from "./E2EGlobal";
 
 export class E2ETopics {
   static addTopicToMinutes(aTopic, aResponsible) {
@@ -40,10 +40,12 @@ export class E2ETopics {
   }
 
   static deleteTopic(topicIndex, confirmDialog) {
-    const selectorMenu = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+    const selectorMenu =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     browser.waitForVisible(selectorMenu);
     E2EGlobal.clickWithRetry(selectorMenu);
-    const selectorDeleteBtn = `#topicPanel .well:nth-child(${topicIndex}) #btnDelTopic`;
+    const selectorDeleteBtn =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnDelTopic`;
     browser.waitForVisible(selectorDeleteBtn);
     E2EGlobal.clickWithRetry(selectorDeleteBtn);
     if (confirmDialog === undefined) {
@@ -61,9 +63,11 @@ export class E2ETopics {
   static responsible2ItemEnterFreetext(theText) {
     E2EGlobal.waitSomeTime();
 
-    // &%$#$@! - the following does not work => Uncaught Error: element not visible
-    // browser.element(".form-group-responsibles .select2-selection").click();
-    // ... so we take this as workaround: click into first select2 then Tab/Tab to the next one
+    // &%$#$@! - the following does not work => Uncaught Error: element not
+    // visible browser.element(".form-group-responsibles
+    // .select2-selection").click();
+    // ... so we take this as workaround: click into first select2 then Tab/Tab
+    // to the next one
 
     browser.element(".form-group-labels .select2-selection").click();
     browser.keys("\uE004\uE004"); // 2 x Tab to reach next select2
@@ -154,27 +158,28 @@ export class E2ETopics {
   }
 
   static openInfoItemDialog(topicIndex, type = "infoItem") {
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+    const selector =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
 
     browser.waitForVisible(selector, 2000);
     E2EGlobal.clickWithRetry(selector);
     const typeClass =
-      type === "actionItem" ? ".addTopicActionItem" : ".addTopicInfoItem";
+        type === "actionItem" ? ".addTopicActionItem" : ".addTopicInfoItem";
     E2EGlobal.clickWithRetry(
-      `#topicPanel .well:nth-child(${topicIndex}) ${typeClass}`,
+        `#topicPanel .well:nth-child(${topicIndex}) ${typeClass}`,
     );
 
     browser.waitForVisible("#id_item_subject", 5000);
   }
 
   static addInfoItemToTopic(
-    infoItemDoc,
-    topicIndex,
-    autoCloseDetailInput = true,
+      infoItemDoc,
+      topicIndex,
+      autoCloseDetailInput = true,
   ) {
     const type = Object.prototype.hasOwnProperty.call(infoItemDoc, "itemType")
-      ? infoItemDoc.itemType
-      : "infoItem";
+                     ? infoItemDoc.itemType
+                     : "infoItem";
     this.openInfoItemDialog(topicIndex, type);
     this.insertInfoItemDataIntoDialog(infoItemDoc);
     this.submitInfoItemDialog();
@@ -184,15 +189,16 @@ export class E2ETopics {
       return;
     }
     E2EGlobal.waitSomeTime(600);
-    browser.keys(["Escape"]);
+    browser.keys([ "Escape" ]);
     E2EGlobal.waitSomeTime();
   }
 
   static openInfoItemEditor(topicIndex, infoItemIndex) {
-    const selector = `${E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
-    )}.btnEditInfoItem`;
+    const selector = `${
+        E2ETopics.getInfoItemSelector(
+            topicIndex,
+            infoItemIndex,
+            )}.btnEditInfoItem`;
 
     browser.waitForVisible(selector);
     E2EGlobal.clickWithRetry(selector);
@@ -215,16 +221,18 @@ export class E2ETopics {
   }
 
   static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
-    const selOpenMenu = `${E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
-    )}#btnItemDropdownMenu`;
+    const selOpenMenu = `${
+        E2ETopics.getInfoItemSelector(
+            topicIndex,
+            infoItemIndex,
+            )}#btnItemDropdownMenu`;
     browser.waitForVisible(selOpenMenu);
     E2EGlobal.clickWithRetry(selOpenMenu);
-    const selDelete = `${E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
-    )}#btnDelInfoItem`;
+    const selDelete = `${
+        E2ETopics.getInfoItemSelector(
+            topicIndex,
+            infoItemIndex,
+            )}#btnDelInfoItem`;
     browser.waitForVisible(selDelete);
     E2EGlobal.clickWithRetry(selDelete);
 
@@ -251,11 +259,11 @@ export class E2ETopics {
     if (infoItemDoc.priority) {
       const nthChild = infoItemDoc.priority;
       E2EGlobal.clickWithRetry(
-        `#id_item_priority option:nth-child(${nthChild})`,
+          `#id_item_priority option:nth-child(${nthChild})`,
       );
     }
 
-    //todo: set other fields (duedate)
+    // todo: set other fields (duedate)
   }
 
   static submitInfoItemDialog() {
@@ -270,7 +278,8 @@ export class E2ETopics {
   }
 
   static toggleRecurringTopic(topicIndex) {
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+    const selector =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'recurring icon' to be hidden!
@@ -280,15 +289,18 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.clickWithRetry(
-      `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-recurring`,
+        `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-recurring`,
     );
   }
 
   static toggleSkipTopic(topicIndex, useDropDownMenu = true) {
-    // The 2nd parameter determines if the skip should be done via the dropdown-menu or by directly clicking the IsSkipped-Icon shown on the topic.
-    // The latter one will of course only work if the topic is currently skipped
+    // The 2nd parameter determines if the skip should be done via the
+    // dropdown-menu or by directly clicking the IsSkipped-Icon shown on the
+    // topic. The latter one will of course only work if the topic is currently
+    // skipped
     if (useDropDownMenu) {
-      const selector = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+      const selector =
+          `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
       try {
         // we use the "_org" / non screen shot version here intentionally,
         // as we often expect the 'recurring icon' to be hidden!
@@ -298,31 +310,32 @@ export class E2ETopics {
       }
       E2EGlobal.clickWithRetry(selector);
       E2EGlobal.clickWithRetry(
-        `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped`,
+          `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped`,
       );
       return;
     }
     E2EGlobal.waitSomeTime();
     E2EGlobal.clickWithRetry(
-      `#topicPanel .well:nth-child(${topicIndex}) #topicIsSkippedIcon`,
+        `#topicPanel .well:nth-child(${topicIndex}) #topicIsSkippedIcon`,
     );
   }
 
   static isTopicClosed(topicIndex) {
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) .btnToggleState`;
+    const selector =
+        `#topicPanel .well:nth-child(${topicIndex}) .btnToggleState`;
 
     return E2EGlobal.isCheckboxSelected(selector);
   }
 
   static isTopicRecurring(topicIndex) {
     return this._isSelectorVisible(
-      `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-recurring span`,
+        `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-recurring span`,
     );
   }
 
   static isTopicSkipped(topicIndex) {
     return this._isSelectorVisible(
-      `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped span`,
+        `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped span`,
     );
   }
 
@@ -338,9 +351,11 @@ export class E2ETopics {
   }
 
   static hasDropDownMenuButton(topicIndex, buttonSelector) {
-    if (!buttonSelector) return false;
+    if (!buttonSelector)
+      return false;
 
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+    const selector =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'dropdown icon' to be hidden!
@@ -350,12 +365,13 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     return browser.isVisible(
-      `#topicPanel .well:nth-child(${topicIndex}) ${buttonSelector}`,
+        `#topicPanel .well:nth-child(${topicIndex}) ${buttonSelector}`,
     );
   }
 
   static reOpenTopic(topicIndex) {
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
+    const selector =
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'recurring icon' to be hidden!
@@ -365,15 +381,15 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.clickWithRetry(
-      `#topicPanel .well:nth-child(${topicIndex}) #btnReopenTopic`,
+        `#topicPanel .well:nth-child(${topicIndex}) #btnReopenTopic`,
     );
     E2EApp.confirmationDialogAnswer(true);
   }
 
   static toggleActionItem(topicIndex, infoItemIndex) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
+        topicIndex,
+        infoItemIndex,
     );
 
     const selector = `${selectInfoItem}.checkboxLabel`;
@@ -382,18 +398,19 @@ export class E2ETopics {
   }
 
   static isActionItemClosed(topicIndex, infoItemIndex) {
-    const selector = `${E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
-    )}.btnToggleAIState`;
+    const selector = `${
+        E2ETopics.getInfoItemSelector(
+            topicIndex,
+            infoItemIndex,
+            )}.btnToggleAIState`;
 
     return E2EGlobal.isCheckboxSelected(selector);
   }
 
   static toggleInfoItemStickyState(topicIndex, infoItemIndex) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
+        topicIndex,
+        infoItemIndex,
     );
     const selectorOpenMenu = `${selectInfoItem}#btnItemDropdownMenu`;
     try {
@@ -409,8 +426,8 @@ export class E2ETopics {
 
   static isInfoItemSticky(topicIndex, infoItemIndex) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
+        topicIndex,
+        infoItemIndex,
     );
 
     const selector = `${selectInfoItem}.btnPinInfoItem span`;
@@ -423,7 +440,8 @@ export class E2ETopics {
   }
 
   static getInfoItemSelector(topicIndex, infoItemIndex) {
-    return `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(${infoItemIndex}) `;
+    return `#topicPanel .well:nth-child(${
+        topicIndex}) .topicInfoItem:nth-child(${infoItemIndex}) `;
   }
 
   static expandDetails(selectorForInfoItem) {
@@ -439,8 +457,8 @@ export class E2ETopics {
 
   static expandDetailsForActionItem(topicIndex, infoItemIndex) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
+        topicIndex,
+        infoItemIndex,
     );
 
     E2ETopics.expandDetails(selectInfoItem);
@@ -453,14 +471,14 @@ export class E2ETopics {
   }
 
   static addFirstDetailsToNewInfoItem(
-    infoItemDoc,
-    topicIndex,
-    detailsText,
-    autoCloseDetailInput = true,
+      infoItemDoc,
+      topicIndex,
+      detailsText,
+      autoCloseDetailInput = true,
   ) {
     const type = Object.prototype.hasOwnProperty.call(infoItemDoc, "itemType")
-      ? infoItemDoc.itemType
-      : "infoItem";
+                     ? infoItemDoc.itemType
+                     : "infoItem";
     this.openInfoItemDialog(topicIndex, type);
     this.insertInfoItemDataIntoDialog(infoItemDoc);
 
@@ -474,18 +492,19 @@ export class E2ETopics {
    * @param topicIndex index of the chosen topic (1=topmost ... n=#topics)
    * @param infoItemIndex index of the chosen AI (1=topmost ... n=#info items)
    * @param detailsText text to set
-   * @param doBeforeSubmit callback, which will be called before submitting the changes
+   * @param doBeforeSubmit callback, which will be called before submitting the
+   *     changes
    * @returns {boolean}
    */
   static addDetailsToActionItem(
-    topicIndex,
-    infoItemIndex,
-    detailsText,
-    doBeforeSubmit,
-  ) {
-    const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,
       infoItemIndex,
+      detailsText,
+      doBeforeSubmit,
+  ) {
+    const selectInfoItem = E2ETopics.getInfoItemSelector(
+        topicIndex,
+        infoItemIndex,
     );
 
     const selOpenMenu = `${selectInfoItem}#btnItemDropdownMenu`;
@@ -512,19 +531,19 @@ export class E2ETopics {
     if (doBeforeSubmit) {
       doBeforeSubmit(selFocusedInput);
     }
-    browser.keys(["Tab"]);
+    browser.keys([ "Tab" ]);
     E2EGlobal.waitSomeTime(400);
   }
 
   static editDetailsForActionItem(
-    topicIndex,
-    infoItemIndex,
-    detailIndex,
-    detailsText,
-  ) {
-    const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,
       infoItemIndex,
+      detailIndex,
+      detailsText,
+  ) {
+    const selectInfoItem = E2ETopics.getInfoItemSelector(
+        topicIndex,
+        infoItemIndex,
     );
     E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
@@ -546,7 +565,7 @@ export class E2ETopics {
       return false;
     }
     E2EGlobal.setValueSafe(selFocusedInput, detailsText);
-    browser.keys(["Tab"]);
+    browser.keys([ "Tab" ]);
   }
 
   static getTopicsForMinute() {
@@ -573,7 +592,8 @@ export class E2ETopics {
   static getItemsForTopic(topicIndexOrSelectorForParentElement) {
     let parentSel = topicIndexOrSelectorForParentElement;
     if (!isNaN(parentSel)) {
-      parentSel = `#topicPanel .well:nth-child(${topicIndexOrSelectorForParentElement})`;
+      parentSel = `#topicPanel .well:nth-child(${
+          topicIndexOrSelectorForParentElement})`;
     }
     const selector = `${parentSel} .topicInfoItem`;
     try {
@@ -607,8 +627,8 @@ export class E2ETopics {
 
   static getDetailsForItem(topicIndex, infoItemIndex) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
-      topicIndex,
-      infoItemIndex,
+        topicIndex,
+        infoItemIndex,
     );
 
     E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
