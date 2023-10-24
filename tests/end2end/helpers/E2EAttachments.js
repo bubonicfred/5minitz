@@ -42,7 +42,7 @@ export class E2EAttachments {
   static getChromeDownloadDirectory() {
     // .meteor/chimp_config.js configures chrome download dir relative to cwd()
     const chimpopts = require("../../../.meteor/chimp_config");
-    let downloadDir =
+    const downloadDir =
       chimpopts.webdriverio.desiredCapabilities.chromeOptions.prefs[
         "download.default_directory"
       ];
@@ -50,8 +50,7 @@ export class E2EAttachments {
       downloadDir,
       ".meteor/chimp_config.js must specify download.default_directory",
     ).to.be.ok;
-    downloadDir = `${process.cwd()}/${downloadDir}`;
-    return downloadDir;
+    return `${process.cwd()}/${downloadDir}`;
   }
 
   static switchToUserWithDifferentRole(

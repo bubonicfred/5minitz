@@ -72,10 +72,10 @@ function buildFullPathes(obj, stack, separator = ".") {
   for (const property in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, property)) {
       if (typeof obj[property] == "object") {
-        if (!stack) {
-          buildFullPathes(obj[property], property);
-        } else {
+        if (stack) {
           buildFullPathes(obj[property], stack + separator + property);
+        } else {
+          buildFullPathes(obj[property], property);
         }
       } else {
         dictKeysFromYaml[stack + separator + property] = 0; // Remember leaf!
@@ -92,17 +92,12 @@ function checkCodeUsage(extension, keyPattern) {
   // Find all i18n __ keys used in this file, according to regexp key pattern provided
   files_js.forEach((jsFile) => {
     const content = fs.readFileSync(jsFile, "utf8");
-    const re = keyPattern;
     let m;
     do {
-      m = re.exec(content);
+      m = keyPattern.exec(content);
       if (m && !IGNOREKEYS[m[1]]) {
         // we have a match that is NOT in IGNOREKEYS
-        if (dictKeysFromCode[m[1]]) {
-          dictKeysFromCode[m[1]] = `${dictKeysFromCode[m[1]]}\n${jsFile}`;
-        } else {
-          dictKeysFromCode[m[1]] = jsFile;
-        }
+        dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]] ? `${dictKeysFromCode[m[1]]}\n${jsFile}` : jsFile;
         count++;
       }
     } while (m);

@@ -144,7 +144,7 @@ export class E2ETopics {
     E2EGlobal.clickWithRetry("#btnTopicSave");
 
     const waitForInvisible = true;
-    browser.waitForVisible("#dlgAddTopic", 10000, waitForInvisible);
+    browser.waitForVisible("#dlgAddTopic", 10_000, waitForInvisible);
     E2EGlobal.waitSomeTime(700);
   }
 
@@ -158,10 +158,7 @@ export class E2ETopics {
 
     browser.waitForVisible(selector, 2000);
     E2EGlobal.clickWithRetry(selector);
-    let typeClass = ".addTopicInfoItem";
-    if (type === "actionItem") {
-      typeClass = ".addTopicActionItem";
-    }
+    const typeClass = type === "actionItem" ? ".addTopicActionItem" : ".addTopicInfoItem";
     E2EGlobal.clickWithRetry(
       `#topicPanel .well:nth-child(${topicIndex}) ${typeClass}`,
     );
@@ -182,11 +179,12 @@ export class E2ETopics {
     this.submitInfoItemDialog();
 
     E2EGlobal.waitSomeTime();
-    if (autoCloseDetailInput) {
-      E2EGlobal.waitSomeTime(600);
-      browser.keys(["Escape"]);
-      E2EGlobal.waitSomeTime();
+    if (!autoCloseDetailInput) {
+      return;
     }
+    E2EGlobal.waitSomeTime(600);
+    browser.keys(["Escape"]);
+    E2EGlobal.waitSomeTime();
   }
 
   static openInfoItemEditor(topicIndex, infoItemIndex) {
@@ -298,12 +296,12 @@ export class E2ETopics {
       E2EGlobal.clickWithRetry(
         `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped`,
       );
-    } else {
-      E2EGlobal.waitSomeTime();
-      E2EGlobal.clickWithRetry(
-        `#topicPanel .well:nth-child(${topicIndex}) #topicIsSkippedIcon`,
-      );
+      return;
     }
+    E2EGlobal.waitSomeTime();
+    E2EGlobal.clickWithRetry(
+      `#topicPanel .well:nth-child(${topicIndex}) #topicIsSkippedIcon`,
+    );
   }
 
   static isTopicClosed(topicIndex) {
