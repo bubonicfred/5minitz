@@ -70,13 +70,13 @@ jobs:
           path: tests/snapshots
       - name: Upload E2E log artifacts
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: E2E Logs
           path: tests/end2end/logs
       - name: Upload E2E MongoDB artifacts
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: E2E Mongodump
           path: tests/mongodump
