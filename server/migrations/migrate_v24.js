@@ -1,7 +1,9 @@
-import {MinutesSchema} from "/imports/collections/minutes.schema";
+import { MinutesSchema } from "/imports/collections/minutes.schema";
 
 export class MigrateV24 {
-  static fixDetails(detail) { return {...detail}; }
+  static fixDetails(detail) {
+    return { ...detail };
+  }
 
   static fixItem(infoOrActionItem) {
     // the objects we get passed in from the database look fine
@@ -9,15 +11,15 @@ export class MigrateV24 {
     // objects again. Maybe there is some metadata attached to them?
     // Copying their properties with Object.assign() or using the
     // spread operator gets rid of that metadata.
-    const fixedDetails = infoOrActionItem.details.map(
-        (detail) => this.fixDetails(detail),
+    const fixedDetails = infoOrActionItem.details.map((detail) =>
+      this.fixDetails(detail),
     );
-    return {...infoOrActionItem, details : fixedDetails};
+    return { ...infoOrActionItem, details: fixedDetails };
   }
 
   static fixTopic(topic) {
     const fixedInfoItems = topic.infoItems.map((item) => this.fixItem(item));
-    return {...topic, infoItems : fixedInfoItems};
+    return { ...topic, infoItems: fixedInfoItems };
   }
 
   static migrateMinutesCollection() {
@@ -25,12 +27,14 @@ export class MigrateV24 {
     minutes.forEach((singleMinute) => {
       const topics = singleMinute.topics.map((topic) => this.fixTopic(topic));
       MinutesSchema.getCollection().update(singleMinute._id, {
-        $set : {topics},
+        $set: { topics },
       });
     });
   }
 
-  static up() { this.migrateMinutesCollection(); }
+  static up() {
+    this.migrateMinutesCollection();
+  }
 
   static down() {
     // This migration fixes a bug introduced in migration #23.
