@@ -4,7 +4,7 @@
 // never available on the client. Because previously fs-extra stuff was inserted
 // into client code and broke loading the app in IE11
 
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 
 const fs = require("fs-extra");
 import * as path from "node:path";
@@ -15,22 +15,24 @@ calculateAndCreateStoragePath = (fileObj) => {
     return;
   }
   let absAttachmentStoragePath = Meteor.settings.attachments?.storagePath
-    ? Meteor.settings.attachments.storagePath
-    : "attachments";
+                                     ? Meteor.settings.attachments.storagePath
+                                     : "attachments";
   // make path absolute
   if (!path.isAbsolute(absAttachmentStoragePath)) {
     absAttachmentStoragePath = path.resolve(absAttachmentStoragePath);
   }
   // optionally: append sub directory for parent meeting series
   if (fileObj?.meta && fileObj.meta.parentseries_id) {
-    absAttachmentStoragePath = `${absAttachmentStoragePath}/${fileObj.meta.parentseries_id}`;
+    absAttachmentStoragePath =
+        `${absAttachmentStoragePath}/${fileObj.meta.parentseries_id}`;
   }
 
   // create target dir for attachment storage if it does not exist
   fs.ensureDirSync(absAttachmentStoragePath, (err) => {
     if (err) {
       console.error(
-        `ERROR: Could not create path for attachment upload: ${absAttachmentStoragePath}`,
+          `ERROR: Could not create path for attachment upload: ${
+              absAttachmentStoragePath}`,
       );
     }
   });
@@ -48,7 +50,8 @@ removeMeetingSeriesAttachmentDir = (meetingseries_id) => {
   fs.remove(storagePath, (err) => {
     if (err) {
       console.error(
-        `Could not remove attachment dir:${storagePath} of meeting series with ID:${meetingseries_id}`,
+          `Could not remove attachment dir:${
+              storagePath} of meeting series with ID:${meetingseries_id}`,
       );
     }
   });
@@ -57,7 +60,8 @@ removeMeetingSeriesAttachmentDir = (meetingseries_id) => {
 // check storagePath for attachments once at server bootstrapping
 if (Meteor.settings.attachments?.enabled) {
   console.log("Attachments upload feature: ENABLED");
-  const settingsPath = calculateAndCreateStoragePath(null); // eslint-disable-line
+  const settingsPath =
+      calculateAndCreateStoragePath(null); // eslint-disable-line
   const absoluteTargetPath = path.resolve(settingsPath);
   console.log(`attachmentsStoragePath:${absoluteTargetPath}`);
 
@@ -66,10 +70,11 @@ if (Meteor.settings.attachments?.enabled) {
       console.error("*** ERROR*** No write access to attachmentsStoragePath");
       console.error("             Uploads can not be saved.");
       console.error(
-        "             Ensure write access to path specified in your settings.json",
+          "             Ensure write access to path specified in your settings.json",
       );
       console.error(
-        `             Current attachments.storagePath setting is: ${settingsPath}`,
+          `             Current attachments.storagePath setting is: ${
+              settingsPath}`,
       );
       if (!path.isAbsolute(settingsPath)) {
         console.error(`             Which maps to: ${absoluteTargetPath}`);

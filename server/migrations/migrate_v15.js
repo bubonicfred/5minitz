@@ -1,18 +1,13 @@
-import { MigrateItemsPre16 } from "./helpers/migrateItems";
+import {MigrateItemsPre16} from "./helpers/migrateItems";
 
 const DEFAULT_PRIORITY = 3;
 
-const isActionItem = (item) => {
-  return item.itemType === "actionItem";
-};
+const isActionItem = (item) => { return item.itemType === "actionItem"; };
 
 const convertOldPriority = (priority) => {
   priority = priority ? priority.toUpperCase() : "";
-  if (
-    priority.startsWith("HIGH") ||
-    priority.startsWith("WICHTIG") ||
-    priority.startsWith("ASAP")
-  ) {
+  if (priority.startsWith("HIGH") || priority.startsWith("WICHTIG") ||
+      priority.startsWith("ASAP")) {
     return 1;
   } else if (priority.startsWith("MEDIUM") || priority.startsWith("MITTEL")) {
     return 3;

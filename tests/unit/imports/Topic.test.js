@@ -1,25 +1,22 @@
-import { expect } from "chai";
-import * as DateHelpers from "../../../imports/helpers/date";
-import * as SubElements from "../../../imports/helpers/subElements";
+import {expect} from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+
+import * as DateHelpers from "../../../imports/helpers/date";
+import * as SubElements from "../../../imports/helpers/subElements";
 
 class MeteorError {}
 const Meteor = {
-  call: sinon.stub(),
-  Error: MeteorError,
-  callPromise: sinon.stub(),
-  user: () => {
-    return { username: "unit-test" };
-  },
+  call : sinon.stub(),
+  Error : MeteorError,
+  callPromise : sinon.stub(),
+  user : () => { return {username : "unit-test"}; },
 };
 
 const meetingSeriesId = "AaBbCcDd01";
 class MeetingSeries {
-  constructor(id) {
-    this._id = id;
-  }
+  constructor(id) { this._id = id; }
   static findOne(id) {
     if (id === meetingSeriesId) {
       return dummySeries;
@@ -30,9 +27,7 @@ class MeetingSeries {
 
 const minuteId = "AaBbCcDd02";
 class Minutes {
-  constructor(id) {
-    this._id = id;
-  }
+  constructor(id) { this._id = id; }
   upsertTopic() {}
   static findOne(id) {
     if (id === minuteId) {
@@ -46,51 +41,49 @@ const dummyMinute = new Minutes(minuteId);
 const dummySeries = new MeetingSeries(meetingSeriesId);
 
 const Random = {
-  i: 1,
-  id() {
-    return this.i++;
-  },
+  i : 1,
+  id() { return this.i++; },
 };
 
 SubElements["@noCallThru"] = true;
 DateHelpers["@noCallThru"] = true;
 
-const { Label } = proxyquire("../../../imports/label", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
+const {Label} = proxyquire("../../../imports/label", {
+  "meteor/meteor" : {Meteor, "@noCallThru" : true},
+  "meteor/underscore" : {_, "@noCallThru" : true},
 });
 
-const { InfoItem } = proxyquire("../../../imports/infoitem", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/random": { Random, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
-  "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
-  "./label": { Label, "@noCallThru": true },
+const {InfoItem} = proxyquire("../../../imports/infoitem", {
+  "meteor/meteor" : {Meteor, "@noCallThru" : true},
+  "meteor/random" : {Random, "@noCallThru" : true},
+  "meteor/underscore" : {_, "@noCallThru" : true},
+  "/imports/user" : {null : null, "@noCallThru" : true},
+  "/imports/helpers/date" : DateHelpers,
+  "./label" : {Label, "@noCallThru" : true},
 });
 
-const { ActionItem } = proxyquire("../../../imports/actionitem", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "./infoitem": { InfoItem, "@noCallThru": true },
+const {ActionItem} = proxyquire("../../../imports/actionitem", {
+  "meteor/meteor" : {Meteor, "@noCallThru" : true},
+  "./infoitem" : {InfoItem, "@noCallThru" : true},
 });
 
-const { InfoItemFactory } = proxyquire("../../../imports/InfoItemFactory", {
-  "./infoitem": { InfoItem, "@noCallThru": true },
-  "./actionitem": { ActionItem, "@noCallThru": true },
+const {InfoItemFactory} = proxyquire("../../../imports/InfoItemFactory", {
+  "./infoitem" : {InfoItem, "@noCallThru" : true},
+  "./actionitem" : {ActionItem, "@noCallThru" : true},
 });
 
-const { Topic } = proxyquire("../../../imports/topic", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/random": { Random, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
-  "/imports/helpers/subElements": SubElements,
-  "./label": { Label, "@noCallThru": true },
-  "./infoitem": { InfoItem, "@noCallThru": true },
-  "./InfoItemFactory": { InfoItemFactory, "@noCallThru": true },
-  "./minutes": { Minutes, "@noCallThru": true },
-  "./meetingseries": { MeetingSeries, "@noCallThru": true },
-  "./helpers/promisedMethods": { null: null, "@noCallThru": true },
-  "./collections/minutes_private": { null: null, "@noCallThru": true },
+const {Topic} = proxyquire("../../../imports/topic", {
+  "meteor/meteor" : {Meteor, "@noCallThru" : true},
+  "meteor/random" : {Random, "@noCallThru" : true},
+  "meteor/underscore" : {_, "@noCallThru" : true},
+  "/imports/helpers/subElements" : SubElements,
+  "./label" : {Label, "@noCallThru" : true},
+  "./infoitem" : {InfoItem, "@noCallThru" : true},
+  "./InfoItemFactory" : {InfoItemFactory, "@noCallThru" : true},
+  "./minutes" : {Minutes, "@noCallThru" : true},
+  "./meetingseries" : {MeetingSeries, "@noCallThru" : true},
+  "./helpers/promisedMethods" : {null : null, "@noCallThru" : true},
+  "./collections/minutes_private" : {null : null, "@noCallThru" : true},
 });
 
 describe("Topic", () => {
@@ -98,8 +91,8 @@ describe("Topic", () => {
 
   beforeEach(() => {
     topicDoc = {
-      subject: "topic-subject",
-      infoItems: [],
+      subject : "topic-subject",
+      infoItems : [],
     };
   });
 
@@ -109,10 +102,11 @@ describe("Topic", () => {
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
 
-    it("can instantiate a topic with the parent minutes object instead of its id", () => {
-      const myTopic = new Topic(dummyMinute, topicDoc);
-      expect(myTopic._parentMinutes).to.equal(dummyMinute);
-    });
+    it("can instantiate a topic with the parent minutes object instead of its id",
+       () => {
+         const myTopic = new Topic(dummyMinute, topicDoc);
+         expect(myTopic._parentMinutes).to.equal(dummyMinute);
+       });
 
     it("sets the subject correctly", () => {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
@@ -138,24 +132,23 @@ describe("Topic", () => {
   });
 
   it("#findTopicIndexInArray", () => {
-    const topicArray = [topicDoc];
+    const topicArray = [ topicDoc ];
     const index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
     expect(index).to.equal(0);
   });
 
   describe("#hasOpenActionItem", () => {
-    it("returns false if the topic does not have any sub items", () => {
-      expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
-    });
+    it("returns false if the topic does not have any sub items",
+       () => { expect(Topic.hasOpenActionItem(topicDoc)).to.be.false; });
 
     it("returns true if the topic has at least one open action items", () => {
       topicDoc.infoItems.push({
-        itemType: "actionItem",
-        isOpen: false,
+        itemType : "actionItem",
+        isOpen : false,
       });
       topicDoc.infoItems.push({
-        itemType: "actionItem",
-        isOpen: true,
+        itemType : "actionItem",
+        isOpen : true,
       });
 
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
@@ -163,41 +156,43 @@ describe("Topic", () => {
 
     it("returns false if the topic has only closed action items", () => {
       topicDoc.infoItems.push({
-        itemType: "actionItem",
-        isOpen: false,
+        itemType : "actionItem",
+        isOpen : false,
       });
       topicDoc.infoItems.push({
-        itemType: "actionItem",
-        isOpen: false,
+        itemType : "actionItem",
+        isOpen : false,
       });
 
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
 
-    it("returns false if the topic has only info items (whose open state is unimportant)", () => {
-      topicDoc.infoItems.push({
-        itemType: "infoItem",
-        isOpen: false,
-      });
-      topicDoc.infoItems.push({
-        itemType: "infoItem",
-        isOpen: true,
-      });
-      topicDoc.infoItems.push({
-        itemType: "infoItem",
-        // isOpen: keep it "undefined"!!!
-      });
-      expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
-    });
+    it("returns false if the topic has only info items (whose open state is unimportant)",
+       () => {
+         topicDoc.infoItems.push({
+           itemType : "infoItem",
+           isOpen : false,
+         });
+         topicDoc.infoItems.push({
+           itemType : "infoItem",
+           isOpen : true,
+         });
+         topicDoc.infoItems.push({
+           itemType : "infoItem",
+           // isOpen: keep it "undefined"!!!
+         });
+         expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+       });
 
-    it("returns true if the topic has a open action item (object method call)", () => {
-      topicDoc.infoItems.push({
-        itemType: "actionItem",
-        isOpen: true,
-      });
-      const myTopic = new Topic(dummyMinute._id, topicDoc);
-      expect(myTopic.hasOpenActionItem()).to.be.true;
-    });
+    it("returns true if the topic has a open action item (object method call)",
+       () => {
+         topicDoc.infoItems.push({
+           itemType : "actionItem",
+           isOpen : true,
+         });
+         const myTopic = new Topic(dummyMinute._id, topicDoc);
+         expect(myTopic.hasOpenActionItem()).to.be.true;
+       });
   });
 
   describe("#invalidateIsNewFlag", () => {
@@ -206,10 +201,10 @@ describe("Topic", () => {
     beforeEach(() => {
       topicDoc.isNew = true;
       topicDoc.infoItems.push({
-        isOpen: true,
-        isNew: true,
-        itemType: "actionItem",
-        createdInMinute: dummyMinute._id,
+        isOpen : true,
+        isNew : true,
+        itemType : "actionItem",
+        createdInMinute : dummyMinute._id,
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
@@ -239,13 +234,10 @@ describe("Topic", () => {
   describe("#isRecurring", () => {
     let myTopic;
 
-    beforeEach(() => {
-      myTopic = new Topic(dummyMinute._id, topicDoc);
-    });
+    beforeEach(() => { myTopic = new Topic(dummyMinute._id, topicDoc); });
 
-    it("sets the default value correctly", () => {
-      expect(myTopic.isRecurring()).to.be.false;
-    });
+    it("sets the default value correctly",
+       () => { expect(myTopic.isRecurring()).to.be.false; });
 
     it("returns the correct value", () => {
       myTopic.getDocument().isRecurring = true;
@@ -256,9 +248,7 @@ describe("Topic", () => {
   describe("#toggleRecurring", () => {
     let myTopic;
 
-    beforeEach(() => {
-      myTopic = new Topic(dummyMinute._id, topicDoc);
-    });
+    beforeEach(() => { myTopic = new Topic(dummyMinute._id, topicDoc); });
 
     it("can change the value correctly", () => {
       myTopic.toggleRecurring();
@@ -280,8 +270,8 @@ describe("Topic", () => {
       myTopic = new Topic(dummyMinute._id, topicDoc);
 
       topicItemDoc = {
-        subject: "info-item-subject",
-        createdAt: new Date(),
+        subject : "info-item-subject",
+        createdAt : new Date(),
       };
     });
 
@@ -289,15 +279,17 @@ describe("Topic", () => {
       myTopic.upsertInfoItem(topicItemDoc);
 
       expect(
-        myTopic.getInfoItems().length,
-        "the topic should have exactly one item",
-      ).to.equal(1);
-      expect(myTopic.getInfoItems()[0]._id, "the item should have an id").to.not
-        .be.false;
+          myTopic.getInfoItems().length,
+          "the topic should have exactly one item",
+          )
+          .to.equal(1);
+      expect(myTopic.getInfoItems()[0]._id, "the item should have an id")
+          .to.not.be.false;
       expect(
-        myTopic.getInfoItems()[0].subject,
-        "the subject should be set correctly",
-      ).to.equal(topicItemDoc.subject);
+          myTopic.getInfoItems()[0].subject,
+          "the subject should be set correctly",
+          )
+          .to.equal(topicItemDoc.subject);
     });
 
     it("updates an existing info item", () => {
@@ -310,27 +302,30 @@ describe("Topic", () => {
       myTopic.upsertInfoItem(topicItem);
 
       expect(
-        myTopic.getInfoItems().length,
-        "the topic should have exactly one item",
-      ).to.equal(1);
+          myTopic.getInfoItems().length,
+          "the topic should have exactly one item",
+          )
+          .to.equal(1);
       expect(
-        myTopic.getInfoItems()[0]._id,
-        "the item should have an id",
-      ).to.equal(topicItem._id);
+          myTopic.getInfoItems()[0]._id,
+          "the item should have an id",
+          )
+          .to.equal(topicItem._id);
       expect(
-        myTopic.getInfoItems()[0].subject,
-        "the subject should be set correctly",
-      ).to.equal(topicItem.subject);
+          myTopic.getInfoItems()[0].subject,
+          "the subject should be set correctly",
+          )
+          .to.equal(topicItem.subject);
     });
   });
 
   it("#findInfoItem", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
     const infoItemDoc = {
-      _id: "AaBbCcDd01",
-      subject: "info-item-subject",
-      createdAt: new Date(),
-      createdInMinute: dummyMinute._id,
+      _id : "AaBbCcDd01",
+      subject : "info-item-subject",
+      createdAt : new Date(),
+      createdInMinute : dummyMinute._id,
     };
 
     // new info item is not added yet, so our topic should not find it
@@ -345,23 +340,24 @@ describe("Topic", () => {
     expect(foundItem, "the result should not be undefined").to.not.equal();
     // the subject of the found item should be equal to its initial value
     expect(
-      foundItem._infoItemDoc.subject,
-      "the correct info item should be found",
-    ).to.equal(infoItemDoc.subject);
+        foundItem._infoItemDoc.subject,
+        "the correct info item should be found",
+        )
+        .to.equal(infoItemDoc.subject);
   });
 
   it("#removeInfoItem", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     const infoItemDoc = {
-      _id: "AaBbCcDd01",
-      subject: "info-item-subject",
-      createdAt: new Date(),
+      _id : "AaBbCcDd01",
+      subject : "info-item-subject",
+      createdAt : new Date(),
     };
     const infoItemDoc2 = {
-      _id: "AaBbCcDd02",
-      subject: "info-item-subject2",
-      createdAt: new Date(),
+      _id : "AaBbCcDd02",
+      subject : "info-item-subject2",
+      createdAt : new Date(),
     };
 
     // now we add the info items to our topic
@@ -378,15 +374,17 @@ describe("Topic", () => {
 
     // check that there are now only one items
     expect(
-      diff,
-      "The length of the info items should be decreased by one",
-    ).to.equal(1);
+        diff,
+        "The length of the info items should be decreased by one",
+        )
+        .to.equal(1);
 
     // check that the first item is still part of our topic
     expect(
-      myTopic.getInfoItems()[0]._id,
-      "The other info item should not be removed.",
-    ).to.equal(infoItemDoc._id);
+        myTopic.getInfoItems()[0]._id,
+        "The other info item should not be removed.",
+        )
+        .to.equal(infoItemDoc._id);
   });
 
   describe("#tailorTopic", () => {
@@ -394,20 +392,20 @@ describe("Topic", () => {
 
     beforeEach(() => {
       topicDoc.infoItems.push({
-        subject: "myInfoItem",
-        createdInMinute: dummyMinute._id,
+        subject : "myInfoItem",
+        createdInMinute : dummyMinute._id,
       });
       topicDoc.infoItems.push({
-        subject: "myClosedActionItem",
-        isOpen: false,
-        itemType: "actionItem",
-        createdInMinute: dummyMinute._id,
+        subject : "myClosedActionItem",
+        isOpen : false,
+        itemType : "actionItem",
+        createdInMinute : dummyMinute._id,
       });
       topicDoc.infoItems.push({
-        subject: "myOpenActionItem",
-        isOpen: true,
-        itemType: "actionItem",
-        createdInMinute: dummyMinute._id,
+        subject : "myOpenActionItem",
+        isOpen : true,
+        itemType : "actionItem",
+        createdInMinute : dummyMinute._id,
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
@@ -430,35 +428,35 @@ describe("Topic", () => {
 
     beforeEach(() => {
       topicDoc.infoItems.push({
-        subject: "myInfoItem",
+        subject : "myInfoItem",
       });
       topicDoc.infoItems.push({
-        subject: "myClosedActionItem",
-        isOpen: false,
-        itemType: "actionItem",
+        subject : "myClosedActionItem",
+        isOpen : false,
+        itemType : "actionItem",
       });
       topicDoc.infoItems.push({
-        subject: "myOpenActionItem",
-        isOpen: true,
-        itemType: "actionItem",
+        subject : "myOpenActionItem",
+        isOpen : true,
+        itemType : "actionItem",
       });
       topicDoc.infoItems.push({
-        subject: "my2ndOpenActionItem",
-        isOpen: true,
-        itemType: "actionItem",
+        subject : "my2ndOpenActionItem",
+        isOpen : true,
+        itemType : "actionItem",
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("returns the correct amount of items", () => {
-      expect(myTopic.getOpenActionItems()).to.have.length(2);
-    });
+    it("returns the correct amount of items",
+       () => { expect(myTopic.getOpenActionItems()).to.have.length(2); });
 
     it("returns only open action items", () => {
       myTopic.getOpenActionItems().forEach((item) => {
-        expect(item, "the item should be a action item").to.have.ownProperty(
-          "isOpen",
-        );
+        expect(item, "the item should be a action item")
+            .to.have.ownProperty(
+                "isOpen",
+            );
         expect(item.isOpen, "the item should marked as open").to.be.true;
       });
     });
@@ -473,12 +471,13 @@ describe("Topic", () => {
 
     myTopic.save();
 
-    expect(spy.calledOnce, "the upsertTopic method should be called once").to.be
-      .true;
+    expect(spy.calledOnce, "the upsertTopic method should be called once")
+        .to.be.true;
     expect(
-      spy.calledWith(myTopic._topicDoc),
-      "the document should be sent to the upsertTopic method",
-    ).to.be.true;
+        spy.calledWith(myTopic._topicDoc),
+        "the document should be sent to the upsertTopic method",
+        )
+        .to.be.true;
 
     spy.restore();
   });
