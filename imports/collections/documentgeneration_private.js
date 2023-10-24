@@ -21,7 +21,7 @@ export const DocumentsCollection = new FilesCollection({
   // series. This will be run in method context on client and(!) server by the
   // Meteor-Files package So, server will always perform the last ultimate
   // check!
-  onBeforeUpload: function (file) {
+  onBeforeUpload (file) {
     if (!Meteor.settings.public.docGeneration.enabled) {
       return "Document Generation not enabled in settings.json";
     }
@@ -49,14 +49,14 @@ export const DocumentsCollection = new FilesCollection({
     return true;
   },
 
-  onAfterUpload: function (file) {
+  onAfterUpload (file) {
     console.log(`Successfully created protocol: ${file.name} to ${file.path}`);
     DocumentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
     });
   },
 
-  onBeforeRemove: function (file) {
+  onBeforeRemove (file) {
     if (!Meteor.userId()) {
       return "Document could not be removed. No user logged in.";
     }
@@ -71,7 +71,7 @@ export const DocumentsCollection = new FilesCollection({
   // role - or better. This will be run in method context on client and(!)
   // server by the Meteor-Files package So, server will always perform the last
   // ultimate check!
-  downloadCallback: function (file) {
+  downloadCallback (file) {
     if (!this.userId) {
       console.log("Protocol download prohibited. User not logged in.");
       return false;
@@ -140,7 +140,7 @@ Meteor.methods({
       _meetingSeries: minute.parentMeetingSeries(),
       _participants: minute.getParticipants(Meteor.users),
       _informed: minute.getInformed(Meteor.users),
-      _userArrayToString: function (users) {
+      _userArrayToString (users) {
         return users
           .map((user) => User.PROFILENAMEWITHFALLBACK(user))
           .join("; ");

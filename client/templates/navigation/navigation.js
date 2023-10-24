@@ -20,7 +20,7 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-  "click li #navbar-signout": function (event) {
+  "click li #navbar-signout" (event) {
     event.preventDefault();
     if (!Meteor.userId()) {
       return;
@@ -31,7 +31,7 @@ Template.navigation.events({
     FlowRouter.go("/");
   },
 
-  "click .navbar-brand": function () {
+  "click .navbar-brand" () {
     // When user clicks app logo
     // make sure user sees normal login sub template
     // (and not register / resend...) sub template
@@ -40,14 +40,14 @@ Template.navigation.events({
     ReactiveDict.set("gotoMeetingSeriesTab", true);
   },
 
-  "click #navbar-dlgEditProfile": function (evt, tmpl) {
+  "click #navbar-dlgEditProfile" (evt, tmpl) {
     ReactiveDict.set("editProfile.userID"); // per default use "current" user.
     // Admin may edit others
 
     tmpl.$("#dlgEditProfile").modal("show");
   },
 
-  "click #navbar-dlgLocale": function (evt, tmpl) {
+  "click #navbar-dlgLocale" (evt, tmpl) {
     tmpl.$("#dlgLocale").modal("show");
   },
 });

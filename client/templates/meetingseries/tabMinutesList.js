@@ -32,7 +32,7 @@ Template.tabMinutesList.helpers({
 });
 
 Template.tabMinutesList.events({
-  "click #btnAddMinutes": function (evt) {
+  "click #btnAddMinutes" (evt) {
     evt.preventDefault();
     const ms = new MeetingSeries(this.meetingSeriesId);
     ms.addNewMinutes(
@@ -44,7 +44,7 @@ Template.tabMinutesList.events({
     );
   },
 
-  "click #btnLeaveMeetingSeries": function () {
+  "click #btnLeaveMeetingSeries" () {
     const ms = new MeetingSeries(this.meetingSeriesId);
 
     const leaveSeriesCallback = () => {

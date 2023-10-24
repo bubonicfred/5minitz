@@ -65,7 +65,7 @@ Template.adminRegisterUser.events({
     );
   },
 
-  "show.bs.modal #dlgAdminRegisterUser": function (evt, tmpl) {
+  "show.bs.modal #dlgAdminRegisterUser" (evt, tmpl) {
     tmpl.find("#id_newUsrName").value = "";
     tmpl.find("#id_newUsrLongName").value = "";
     tmpl.find("#id_newUsrMail").value = "";
@@ -74,7 +74,7 @@ Template.adminRegisterUser.events({
     tmpl.$("#btnRegisterUserSave").prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgAdminRegisterUser": function (evt, tmpl) {
+  "shown.bs.modal #dlgAdminRegisterUser" (evt, tmpl) {
     tmpl.find("#id_newUsrName").focus();
   },
 });

@@ -100,13 +100,13 @@ Template.filterControl.helpers({
 });
 
 Template.filterControl.events({
-  "keyup #inputFilter": function (evt, tmpl) {
+  "keyup #inputFilter" (evt, tmpl) {
     evt.preventDefault();
     const query = tmpl.find("#inputFilter").value;
     performSearch(query, tmpl);
   },
 
-  "change #cbCaseSensitiveFilter": function (evt, tmpl) {
+  "change #cbCaseSensitiveFilter" (evt, tmpl) {
     evt.preventDefault();
     const input = tmpl.find("#inputFilter");
     toggleMatchCase(evt.target.checked, input);
@@ -114,7 +114,7 @@ Template.filterControl.events({
     focusInputField(tmpl);
   },
 
-  "change #filters": function (evt, tmpl) {
+  "change #filters" (evt, tmpl) {
     evt.preventDefault();
     const input = tmpl.find("#inputFilter");
     input.value = evt.target.value;
@@ -123,7 +123,7 @@ Template.filterControl.events({
     focusInputField(tmpl);
   },
 
-  "click #filter-usage": function (evt, tmpl) {
+  "click #filter-usage" (evt, tmpl) {
     evt.preventDefault();
     const keywords = tmpl.data.config.filterKeywords;
     const keywordArray = Object.keys(keywords)

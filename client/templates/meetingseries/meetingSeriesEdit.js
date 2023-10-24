@@ -119,7 +119,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
 };
 
 Template.meetingSeriesEdit.events({
-  "click #deleteMeetingSeries": function () {
+  "click #deleteMeetingSeries" () {
     console.log(`Remove Meeting Series: ${this._id}`);
     $("#dlgEditMeetingSeries").modal("hide"); // hide underlying modal dialog first, otherwise
     // transparent modal layer is locked!
@@ -153,7 +153,7 @@ Template.meetingSeriesEdit.events({
   // "show" event is fired shortly before BootStrap modal dialog will pop up
   // We fill the temp. client-side only user database for the user editor on
   // this event
-  "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+  "show.bs.modal #dlgEditMeetingSeries" (evt, tmpl) {
     const ms = new MeetingSeries(tmpl.data._id);
 
     const unset = () => {
@@ -197,7 +197,7 @@ Template.meetingSeriesEdit.events({
     }
   },
 
-  "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+  "shown.bs.modal #dlgEditMeetingSeries" (evt, tmpl) {
     // switch to "invited users" tab once, if desired
     if (ReactiveDict.equals("meetingSeriesEdit.showUsersPanel", true)) {
       ReactiveDict.set("meetingSeriesEdit.showUsersPanel", false);
@@ -211,7 +211,7 @@ Template.meetingSeriesEdit.events({
     tmpl.find("#id_meetingproject").focus();
   },
 
-  "submit #frmDlgEditMeetingSeries": function (evt, tmpl) {
+  "submit #frmDlgEditMeetingSeries" (evt, tmpl) {
     evt.preventDefault();
     const saveButton = $("#btnMeetingSeriesSave");
     const cancelButton = $("btnMeetinSeriesEditCancel");
@@ -280,14 +280,14 @@ Template.meetingSeriesEdit.events({
     $("#dlgEditMeetingSeries").modal("hide");
   },
 
-  "click #btnMeetingSeriesSave": function (evt, tmpl) {
+  "click #btnMeetingSeriesSave" (evt, tmpl) {
     evt.preventDefault();
     // Unfortunately the form.submit()-function does not trigger the
     // validation process
     tmpl.$("#submitMeetingSeriesEditForm").click();
   },
 
-  "click #btnMeetinSeriesEditCancel,#btnEditMSClose": function (evt, tmpl) {
+  "click #btnMeetinSeriesEditCancel,#btnEditMSClose" (evt, tmpl) {
     evt.preventDefault();
 
     const ms = new MeetingSeries(tmpl.data._id);
@@ -308,7 +308,7 @@ Template.meetingSeriesEdit.events({
   },
 
   // Prevent the last open panel to be collapsible
-  "click .panel-heading a": function (evt) {
+  "click .panel-heading a" (evt) {
     if (
       $(evt.target).parents(".panel").children(".panel-collapse").hasClass("in")
     ) {

@@ -25,7 +25,7 @@ Template.tabAdminMessages.helpers({
     return "#ffced9";
   },
 
-  formatTimeStamp: function (date) {
+  formatTimeStamp (date) {
     return formatDateISO8601Time(date);
   },
 });

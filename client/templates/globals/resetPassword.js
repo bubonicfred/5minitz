@@ -7,7 +7,7 @@ import { handleError } from "/client/helpers/handleError";
 import { i18n } from "meteor/universe:i18n";
 
 Template.resetPassword.events({
-  "submit #at-pwd-form": function (event) {
+  "submit #at-pwd-form" (event) {
     event.preventDefault();
     const token = FlowRouter.getParam("token");
     Accounts.resetPassword(token, $("#at-field-password").val(), (error) => {

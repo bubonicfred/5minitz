@@ -54,7 +54,7 @@ Template.connectionInfo.helpers({
 });
 
 Template.connectionInfo.events({
-  "click #btnWarningExpandCollapse": function (evt, tmpl) {
+  "click #btnWarningExpandCollapse" (evt, tmpl) {
     evt.preventDefault();
     const warningMessage = document.getElementById("warningMessage");
     warningMessage.style.display =
@@ -62,7 +62,7 @@ Template.connectionInfo.events({
     tmpl.currentSymbol.set(!tmpl.currentSymbol.get());
   },
 
-  "click #btnReconnect": function (evt) {
+  "click #btnReconnect" (evt) {
     evt.preventDefault();
     console.log("Trying to reconnect...");
     Meteor.reconnect();

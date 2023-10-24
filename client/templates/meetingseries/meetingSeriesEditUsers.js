@@ -115,13 +115,13 @@ Template.meetingSeriesEditUsers.helpers({
 });
 
 Template.meetingSeriesEditUsers.events({
-  "click #btnDeleteUser": function (evt) {
+  "click #btnDeleteUser" (evt) {
     evt.preventDefault();
     _config.users.remove({ _id: this._userId });
   },
 
   // when role select changes, update role in temp. client-only user collection
-  "change .user-role-select": function (evt) {
+  "change .user-role-select" (evt) {
     const roleName = $(evt.target).val();
     const roleValue = UserRoles.USERROLES[roleName];
 
@@ -130,7 +130,7 @@ Template.meetingSeriesEditUsers.events({
     _config.users.update(this._userId, { $set: { roles: changedUser.roles } });
   },
 
-  "submit #form-add-user": function (evt, tmpl) {
+  "submit #form-add-user" (evt, tmpl) {
     evt.preventDefault();
     const newUserName = tmpl.find("#edt_AddUser").value;
     addNewUser(newUserName, _config);
@@ -138,7 +138,7 @@ Template.meetingSeriesEditUsers.events({
     $(".typeahead").typeahead("val", "").typeahead("close");
   },
 
-  "keyup #edt_AddUser": function (evt, tmpl) {
+  "keyup #edt_AddUser" (evt, tmpl) {
     if (evt.which === 13) {
       // 'ENTER' on username <input>
       evt.stopPropagation();
@@ -159,7 +159,7 @@ Template.meetingSeriesEditUsers.events({
   },
 
   // a typeahead suggestion was selected from drop-down menu
-  "typeahead:select": function (evt, tmpl, selected) {
+  "typeahead:select" (evt, tmpl, selected) {
     const newUserName = selected.value.toString();
     $(".typeahead").typeahead("val", "");
     addNewUser(newUserName, _config);

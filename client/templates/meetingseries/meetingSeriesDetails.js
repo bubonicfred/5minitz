@@ -153,7 +153,7 @@ Template.meetingSeriesDetails.helpers({
 });
 
 Template.meetingSeriesDetails.events({
-  "click .nav-tabs li": function (event, tmpl) {
+  "click .nav-tabs li" (event, tmpl) {
     const currentTab = $(event.target).closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));

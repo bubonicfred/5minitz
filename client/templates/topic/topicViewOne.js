@@ -98,7 +98,7 @@ Template.topicViewOne.helpers({
 });
 
 Template.topicViewOne.events({
-  "click #btnGoBack": function () {
+  "click #btnGoBack" () {
     // tell previous tabbed view to restore the last tab
     Session.set("restoreTabAfterBackButton", true);
     window.history.back();

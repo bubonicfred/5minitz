@@ -155,7 +155,7 @@ Template.topicInfoItemEdit.helpers({
 });
 
 Template.topicInfoItemEdit.events({
-  "submit #frmDlgAddInfoItem": async function (evt, tmpl) {
+  async "submit #frmDlgAddInfoItem" (evt, tmpl) {
     const saveButton = $("#btnInfoItemSave");
 
     try {
@@ -219,7 +219,7 @@ Template.topicInfoItemEdit.events({
   },
 
   // will be called before the dialog is shown
-  "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+  "show.bs.modal #dlgAddInfoItem" (evt, tmpl) {
     // at this point we clear the view
     const saveButton = $("#btnInfoItemSave");
     const cancelButton = $("#btnInfoItemCancel");
@@ -316,7 +316,7 @@ Template.topicInfoItemEdit.events({
     }
   },
 
-  "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+  "shown.bs.modal #dlgAddInfoItem" (evt, tmpl) {
     // ensure new values trigger placeholder animation
     $("#id_item_subject").trigger("change");
     $("#id_item_priority").trigger("change");
@@ -325,7 +325,7 @@ Template.topicInfoItemEdit.events({
     itemSubject.select();
   },
 
-  "hidden.bs.modal #dlgAddInfoItem": function () {
+  "hidden.bs.modal #dlgAddInfoItem" () {
     // reset the session var to indicate that edit mode has been closed
     Session.set("topicInfoItemEditTopicId", null);
     Session.set("topicInfoItemEditInfoItemId", null);
@@ -367,7 +367,7 @@ Template.topicInfoItemEdit.events({
     handlerShowMarkdownHint(evt);
   },
 
-  "click #btnExpandCollapse": function (evt, tmpl) {
+  "click #btnExpandCollapse" (evt, tmpl) {
     evt.preventDefault();
 
     const detailsArea = tmpl.find("#id_item_detailInput");
@@ -380,12 +380,12 @@ Template.topicInfoItemEdit.events({
     user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
   },
 
-  "click #btnInfoItemCancel": function (evt) {
+  "click #btnInfoItemCancel" (evt) {
     evt.preventDefault();
     closePopupAndUnsetIsEdited();
   },
 
-  "click .close": function (evt) {
+  "click .close" (evt) {
     evt.preventDefault();
     closePopupAndUnsetIsEdited();
   },
@@ -397,7 +397,7 @@ Template.topicInfoItemEdit.events({
     }
   },
 
-  "keyup #id_item_detailInput": function (evt, tmpl) {
+  "keyup #id_item_detailInput" (evt, tmpl) {
     const inputEl = tmpl.$("#id_item_detailInput");
 
     if (

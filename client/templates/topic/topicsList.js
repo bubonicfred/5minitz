@@ -38,7 +38,7 @@ Template.topicsList.helpers({
 });
 
 Template.topicsList.events({
-  "submit #addTopicForm": function (evt, tmpl) {
+  "submit #addTopicForm" (evt, tmpl) {
     evt.preventDefault();
 
     if (tmpl.data.isReadonly) {
