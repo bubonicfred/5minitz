@@ -18,7 +18,8 @@
     "test": "test"
   },
   "scripts": {
-    "eslint": "eslint client/** imports/** server/**",
+    "nibble": "eslint-nibble --cache client/helpers client client/templates imports/** server/**",
+    "eslint": "eslint client/helpers imports/** server/**",
     "eslint:fix": "eslint --fix client/** imports/** server/**",
     "mdlint": "markdownlint -- ./*.md ./doc/**/*.md || true",
     "test": "npm run test:unit",
@@ -51,6 +52,7 @@
   "homepage": "https://www.4minitz.com",
   "dependencies": {
     "@babel/runtime": "^7.22.5",
+    "@lion/ui": "^0.4.2",
     "arrive": "^2.4.1",
     "bcrypt": "^5.1.0",
     "bootstrap": "^3.3.7",
@@ -63,6 +65,7 @@
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "ldapjs": "^2.3.3",
+    "lit": "^3.0.0",
     "lodash": "^4.17.10",
     "md5-file": "^5.0.0",
     "meteor-node-stubs": "^1.2.1",
@@ -80,7 +83,8 @@
   "devDependencies": {
     "@babel/cli": "^7.22.5",
     "@babel/core": "^7.22.5",
-    "@babel/eslint-parser": "^7.22.5",
+    "@babel/eslint-parser": "^7.22.15",
+    "@babel/eslint-plugin": "^7.22.10",
     "@babel/plugin-transform-runtime": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@babel/register": "^7.22.5",
@@ -98,7 +102,11 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-lodash": "^7.4.0",
     "eslint-plugin-meteor": "^7.3.0",
+    "eslint-plugin-no-jquery": "^2.7.0",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.13.0",
+    "eslint-plugin-you-dont-need-momentjs": "^1.6.0",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.37.0",
     "meteor-sdk": "0.0.21",

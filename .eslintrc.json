@@ -7,8 +7,10 @@
     },
     "plugins": [
         "meteor",
-        "lodash"
-
+        "lodash",
+        "no-jquery",
+        "@babel",
+        "promise"
 
 ],
 
@@ -18,7 +20,12 @@
         "plugin:lodash/canonical",
         "plugin:import/recommended",
         "prettier",
-        "plugin:node/recommended"
+        "plugin:node/recommended",
+        "plugin:you-dont-need-momentjs/recommended",
+        "plugin:you-dont-need-lodash-underscore/compatible",
+        "plugin:no-jquery/all",
+        "plugin:promise/recommended"
+
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -26,6 +33,16 @@
     },
     "rules": {
         "node/no-unsupported-features/es-syntax": "off",
-        "lodash/prefer-lodash-method": "off"
+        "lodash/prefer-lodash-method": "off",
+        "lodash/prefer-lodash-typecheck": "off",
+        "lodash/prefer-get": "off",
+        "import/no-unresolved": "off",
+        "@babel/new-cap": "error",
+        "@babel/no-invalid-this": "error",
+        "@babel/no-unused-expressions": "error",
+        "@babel/object-curly-spacing": ["error", "always"],
+        "@babel/semi": "error",
+        "prefer-template": "error",
+        "eqeqeq": ["error", "smart"]
     }
 }
