@@ -1,23 +1,20 @@
-import {Meteor} from "meteor/meteor";
-import {FilesCollection} from "meteor/ostrio:files";
+import { Meteor } from "meteor/meteor";
+import { FilesCollection } from "meteor/ostrio:files";
 
-import {User} from "../user";
+import { User } from "../user";
 
-import {DocumentGeneration} from "./../documentGeneration";
-import {
-  extendedPublishSubscribeHandler
-} from "./../helpers/extendedPublishSubscribe";
-import {Minutes} from "./../minutes";
-import {TemplateRenderer} from "./../server_side_templates/TemplateRenderer";
-import {UserRoles} from "./../userroles";
+import { DocumentGeneration } from "./../documentGeneration";
+import { extendedPublishSubscribeHandler } from "./../helpers/extendedPublishSubscribe";
+import { Minutes } from "./../minutes";
+import { TemplateRenderer } from "./../server_side_templates/TemplateRenderer";
+import { UserRoles } from "./../userroles";
 
 export const DocumentsCollection = new FilesCollection({
-  collectionName : "DocumentsCollection",
-  allowClientCode : false,
-  permissions : 0o0600, // #Security: make uploaded files "chmod 600' only
+  collectionName: "DocumentsCollection",
+  allowClientCode: false,
+  permissions: 0o0600, // #Security: make uploaded files "chmod 600' only
   // readable for server user
-  storagePath : Meteor.isServer ? createDocumentStoragePath
-                                : undefined, // eslint-disable-line
+  storagePath: Meteor.isServer ? createDocumentStoragePath : undefined, // eslint-disable-line
 
   // #Security: onBeforeUpload
   // Here we check for upload rights of user. User must be moderator for meeting
@@ -55,7 +52,7 @@ export const DocumentsCollection = new FilesCollection({
   onAfterUpload(file) {
     console.log(`Successfully created protocol: ${file.name} to ${file.path}`);
     DocumentsCollection.update(file._id, {
-      $set : {"meta.timestamp" : new Date()},
+      $set: { "meta.timestamp": new Date() },
     });
   },
 
@@ -81,13 +78,13 @@ export const DocumentsCollection = new FilesCollection({
     }
     if (file.meta === undefined || file.meta.meetingSeriesId === undefined) {
       console.log(
-          "Protocol download prohibited. File without parent meeting series.",
+        "Protocol download prohibited. File without parent meeting series.",
       );
       return false;
     }
     if (file.meta.minuteId === undefined) {
       console.log(
-          "Protocol download prohibited. File without minute related to.",
+        "Protocol download prohibited. File without minute related to.",
       );
       return false;
     }
@@ -95,8 +92,7 @@ export const DocumentsCollection = new FilesCollection({
     const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.meetingSeriesId)) {
       console.log(
-          `Protocol download prohibited. User has no view role for meeting series: ${
-              file.meta.meetingSeriesId}`,
+        `Protocol download prohibited. User has no view role for meeting series: ${file.meta.meetingSeriesId}`,
       );
       return false;
     }
@@ -105,10 +101,10 @@ export const DocumentsCollection = new FilesCollection({
 });
 
 extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute(
-    "files.protocols.all",
-    DocumentsCollection,
-    "meta.meetingSeriesId",
-    "meta.minuteId",
+  "files.protocols.all",
+  DocumentsCollection,
+  "meta.meetingSeriesId",
+  "meta.minuteId",
 );
 
 Meteor.methods({
@@ -124,8 +120,8 @@ Meteor.methods({
 
     if (!Meteor.userId()) {
       throw new Meteor.Error(
-          "not-authorized",
-          "You are not authorized to perform this action.",
+        "not-authorized",
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -133,20 +129,21 @@ Meteor.methods({
     const userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isInvitedTo(minute.parentMeetingSeriesID())) {
       throw new Meteor.Error(
-          "Cannot download this minute",
-          "You are not invited to the meeting series.",
+        "Cannot download this minute",
+        "You are not invited to the meeting series.",
       );
     }
 
     const documentHandler = {
-      _topics : minute.topics,
-      _minute : minute,
-      _meetingSeries : minute.parentMeetingSeries(),
-      _participants : minute.getParticipants(Meteor.users),
-      _informed : minute.getInformed(Meteor.users),
+      _topics: minute.topics,
+      _minute: minute,
+      _meetingSeries: minute.parentMeetingSeries(),
+      _participants: minute.getParticipants(Meteor.users),
+      _informed: minute.getInformed(Meteor.users),
       _userArrayToString(users) {
-        return users.map((user) => User.PROFILENAMEWITHFALLBACK(user))
-            .join("; ");
+        return users
+          .map((user) => User.PROFILENAMEWITHFALLBACK(user))
+          .join("; ");
       },
     };
 
@@ -154,10 +151,9 @@ Meteor.methods({
     const templateData = DocumentGeneration.getDocumentData(documentHandler);
 
     const tmplRenderer = new TemplateRenderer(
-                             "publishInfoItems",
-                             "server_templates/email",
-                             )
-                             .addData("name", "");
+      "publishInfoItems",
+      "server_templates/email",
+    ).addData("name", "");
     tmplRenderer.addDataObject(templateData);
     DocumentGeneration.addHelperForHTMLMail(tmplRenderer, documentHandler);
     return tmplRenderer.render();
@@ -180,9 +176,9 @@ Meteor.methods({
     let storeFileFunction = undefined;
     const fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
     const metaData = {
-      minuteId : minutesObj._id,
-      meetingSeriesId : minutesObj.parentMeetingSeriesID(),
-      minuteDate : minutesObj.date,
+      minuteId: minutesObj._id,
+      meetingSeriesId: minutesObj.parentMeetingSeriesID(),
+      minuteDate: minutesObj.date,
     };
 
     // implementation of html storing
@@ -190,64 +186,65 @@ Meteor.methods({
       storeFileFunction = (htmldata, fileName, metaData) => {
         console.log("Protocol generation to file: ", fileName);
         DocumentsCollection.write(
-            new Buffer.alloc(htmldata),
-            {
-              fileName : `${fileName}.html`,
-              type : "text/html",
-              meta : metaData,
-            },
-            (error) => {
-              if (error) {
-                throw new Meteor.Error(error);
-              }
-            },
+          new Buffer.alloc(htmldata),
+          {
+            fileName: `${fileName}.html`,
+            type: "text/html",
+            meta: metaData,
+          },
+          (error) => {
+            if (error) {
+              throw new Meteor.Error(error);
+            }
+          },
         );
       };
     }
 
     // implementation of pdf storing
-    if (Meteor.settings.public.docGeneration.format === "pdf" ||
-        Meteor.settings.public.docGeneration.format === "pdfa") {
+    if (
+      Meteor.settings.public.docGeneration.format === "pdf" ||
+      Meteor.settings.public.docGeneration.format === "pdfa"
+    ) {
       storeFileFunction = (htmldata, fileName, metaData) => {
         const finalPDFOutputPath = convertHTML2PDF(
-            htmldata,
-            fileName,
-            metaData,
+          htmldata,
+          fileName,
+          metaData,
         );
         console.log(
-            "Protocol generation to file: ",
-            finalPDFOutputPath,
-            fileName,
+          "Protocol generation to file: ",
+          finalPDFOutputPath,
+          fileName,
         );
         DocumentsCollection.addFile(
-            finalPDFOutputPath,
-            {
-              fileName : `${fileName}.pdf`,
-              type : "application/pdf",
-              meta : metaData,
-            },
-            (error) => {
-              if (error) {
-                throw new Meteor.Error(error);
-              }
-            },
+          finalPDFOutputPath,
+          {
+            fileName: `${fileName}.pdf`,
+            type: "application/pdf",
+            meta: metaData,
+          },
+          (error) => {
+            if (error) {
+              throw new Meteor.Error(error);
+            }
+          },
         );
       };
     }
 
     if (!storeFileFunction) {
       throw new Meteor.Error(
-          "Cannot create protocol",
-          `The protocol could not be created since the format assigned in the settings.json is not supported: ${
-              Meteor.settings.public.docGeneration.format}`,
+        "Cannot create protocol",
+        `The protocol could not be created since the format assigned in the settings.json is not supported: ${Meteor.settings.public.docGeneration.format}`,
       );
     }
 
     // generate and store protocol
     try {
       const htmldata = Meteor.call(
-          "documentgeneration.createHTML",
-          minutesObj._id,
+        "documentgeneration.createHTML",
+        minutesObj._id,
       ); // this one will run synchronous
       storeFileFunction(htmldata, fileName, metaData);
     } catch (error) {
@@ -261,10 +258,10 @@ Meteor.methods({
   "documentgeneration.removeFile"(minutesId) {
     if (Meteor.isServer) {
       // Security checks will be done in the onBeforeRemove-Hook
-      DocumentsCollection.remove({"meta.minuteId" : minutesId}, (error) => {
+      DocumentsCollection.remove({ "meta.minuteId": minutesId }, (error) => {
         if (error) {
           throw new Meteor.Error(
-              `Protocol could not be deleted, error: ${error.reason}`,
+            `Protocol could not be deleted, error: ${error.reason}`,
           );
         }
       });

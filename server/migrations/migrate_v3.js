@@ -1,4 +1,4 @@
-import {MigrateItemsPre16} from "./helpers/migrateItems";
+import { MigrateItemsPre16 } from "./helpers/migrateItems";
 
 // convert the participants fields
 export class MigrateV3 {
@@ -12,6 +12,8 @@ export class MigrateV3 {
   }
 
   static down() {
-    new MigrateItemsPre16((infoItem) => { delete infoItem.isSticky; });
+    new MigrateItemsPre16((infoItem) => {
+      delete infoItem.isSticky;
+    });
   }
 }

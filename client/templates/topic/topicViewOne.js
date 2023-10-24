@@ -5,27 +5,27 @@
 // It grabs the topic by ID from the Topics collection
 // And displays it with "isEditable: false"
 
-import {TopicSchema} from "/imports/collections/topic.schema";
-import {UserRoles} from "/imports/userroles";
-import {Meteor} from "meteor/meteor";
-import {FlowRouter} from "meteor/ostrio:flow-router-extra";
-import {ReactiveVar} from "meteor/reactive-var";
-import {Session} from "meteor/session";
-import {Template} from "meteor/templating";
+import { TopicSchema } from "/imports/collections/topic.schema";
+import { UserRoles } from "/imports/userroles";
+import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Session } from "meteor/session";
+import { Template } from "meteor/templating";
 
-import {MeetingSeries} from "../../../imports/meetingseries";
-import {MinutesFinder} from "../../../imports/services/minutesFinder";
+import { MeetingSeries } from "../../../imports/meetingseries";
+import { MinutesFinder } from "../../../imports/services/minutesFinder";
 
 let _topicID = undefined; // this topic ID
 let _parentSeriesId = undefined;
-Template.topicViewOne.onCreated(function() {
+Template.topicViewOne.onCreated(function () {
   this.topicReady = new ReactiveVar();
 
   this.autorun(() => {
     _topicID = FlowRouter.getParam("_id");
     this.subscribe("topicOnlyOne", _topicID, () => {
       // perform the inner subscription after the outer one is ready
-      const aTopic = TopicSchema.getCollection().findOne({_id : _topicID});
+      const aTopic = TopicSchema.getCollection().findOne({ _id: _topicID });
       if (aTopic) {
         _parentSeriesId = aTopic.parentId;
         if (_parentSeriesId) {
@@ -39,12 +39,12 @@ Template.topicViewOne.onCreated(function() {
 });
 
 Template.topicViewOne.onRendered(() => {
-                                     // add your statement here
-                                 });
+  // add your statement here
+});
 
 Template.topicViewOne.onDestroyed(() => {
-                                      // add your statement here
-                                  });
+  // add your statement here
+});
 
 Template.topicViewOne.helpers({
   authenticating() {
@@ -59,19 +59,21 @@ Template.topicViewOne.helpers({
     }
   },
 
-  theMeetingSeries() { return new MeetingSeries(_parentSeriesId); },
+  theMeetingSeries() {
+    return new MeetingSeries(_parentSeriesId);
+  },
 
   theTopic() {
-    const theTopic = TopicSchema.getCollection().findOne({_id : _topicID});
+    const theTopic = TopicSchema.getCollection().findOne({ _id: _topicID });
     if (!_topicID || !theTopic) {
       return undefined;
     }
     return {
-      topic : theTopic,
-      isEditable : false,
-      minutesID : null,
-      currentCollapseId : 1, // each topic item gets its own collapseID,
-      parentMeetingSeriesId : _parentSeriesId,
+      topic: theTopic,
+      isEditable: false,
+      minutesID: null,
+      currentCollapseId: 1, // each topic item gets its own collapseID,
+      parentMeetingSeriesId: _parentSeriesId,
     };
   },
 
