@@ -5,7 +5,7 @@ browser.isVisible = (selector) => $(selector).isDisplayed();
 browser.isExisting = (selector) => $(selector).isExisting();
 browser.click = (selector) => {
   try {
-    return $(selector).click();
+    return $(selector).trigger("click");
   } catch (e) {
     const id = Math.random().toString(36).substr(2, 5);
     console.log(

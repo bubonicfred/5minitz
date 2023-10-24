@@ -64,7 +64,7 @@ $(document).arrive(".clear-on-escape", function () {
 });
 
 // as soon as the document is loaded initialize material design
-$(document).ready(() => {
+$(() => {
   $.material.checkboxOriginal = $.material.checkbox;
   $.material.checkbox = function (selector) {
     const $input = $(selector ? selector : this.options.checkboxElements);
