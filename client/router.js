@@ -11,10 +11,10 @@ const resetDocumentTitle = () => {
   document.title = "4Minitz!";
 };
 
-FlowRouter.route('/', {
-    action() {
-        BlazeLayout.render('appLayout', {main: 'home'});
-    }
+FlowRouter.route("/", {
+  action() {
+    BlazeLayout.render("appLayout", { main: "home" });
+  },
 });
 
 FlowRouter.route("/admin", {
