@@ -100,6 +100,6 @@
     "sinon": "^16.1.0",
     "tree-kill": "^1.2.0",
     "wdio-chromedriver-service": "^8.1.1",
-    "webdriverio": "^8.11.2"
+    "webdriverio": "^8.20.4"
   }
 }
