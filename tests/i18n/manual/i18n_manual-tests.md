@@ -3,15 +3,15 @@
 The following file lists most of the Ui visible Text with pre-conditions how to make
 them visible on the screen.
 For
-* Whole screens
-* Menues
-* Dialogs
-* Error/Warning/Info Messages
+
+- Whole screens
+- Menues
+- Dialogs
+- Error/Warning/Info Messages
 
 The idea is: when a new language is introduced to I18N / NLS then the
 below preconditions can be created, and then the user interface can be checked if the
 expexted content now shows up in the new translated language.
-
 
 <hr>
 
@@ -19,11 +19,9 @@ expexted content now shows up in the new translated language.
 
 Precondition:
 
-* No user logged in
+- No user logged in
 
 ![](screenshots-en/001-Screen.Login.png)
-
-
 
 <hr>
 
@@ -31,11 +29,9 @@ Precondition:
 
 Precondition:
 
-* Clicked main menu 'About'
+- Clicked main menu 'About'
 
 ![](screenshots-en/001.1-Dlg.About.png)
-
-
 
 <hr>
 
@@ -43,12 +39,10 @@ Precondition:
 
 Precondition:
 
-* Clicked main menu 'About'
-* Clicked on 4Minitz icon to open statistics
+- Clicked main menu 'About'
+- Clicked on 4Minitz icon to open statistics
 
 ![](screenshots-en/001.1-Dlg.About-Stats.png)
-
-
 
 <hr>
 
@@ -56,12 +50,10 @@ Precondition:
 
 Precondition:
 
-* No user logged in
-* Wrong login credentials
+- No user logged in
+- Wrong login credentials
 
 ![](screenshots-en/001.2-Msg.LoginError.png)
-
-
 
 <hr>
 
@@ -69,12 +61,10 @@ Precondition:
 
 Precondition:
 
-* No user logged in
-* Click 'Register' new user
+- No user logged in
+- Click 'Register' new user
 
 ![](screenshots-en/001.2-Screen.CreateAccount.png)
-
-
 
 <hr>
 
@@ -82,12 +72,10 @@ Precondition:
 
 Precondition:
 
-* No user logged in
-* Click 'Resend' Verification Mail
+- No user logged in
+- Click 'Resend' Verification Mail
 
 ![](screenshots-en/001.2-Screen.ResendVerification.png)
-
-
 
 <hr>
 
@@ -95,12 +83,10 @@ Precondition:
 
 Precondition:
 
-* No user logged in
-* Click 'Forgot Your Password'
+- No user logged in
+- Click 'Forgot Your Password'
 
 ![](screenshots-en/001.2-Screen.ResetPassword.png)
-
-
 
 <hr>
 
@@ -108,12 +94,10 @@ Precondition:
 
 Precondition:
 
-* Click 'Impressum / Legal Notice'
-* Hint: Only OK-Button needs translation. Legal Notice is controlled via settings.json by admin
+- Click 'Impressum / Legal Notice'
+- Hint: Only OK-Button needs translation. Legal Notice is controlled via settings.json by admin
 
 ![](screenshots-en/001.3-Screen.LegalNotice.png)
-
-
 
 <hr>
 
@@ -121,11 +105,9 @@ Precondition:
 
 Precondition:
 
-* User menu: Change Password
+- User menu: Change Password
 
 ![](screenshots-en/002.1-Dlg.ChangePassword.png)
-
-
 
 <hr>
 
@@ -133,11 +115,9 @@ Precondition:
 
 Precondition:
 
-* User Menu: Edit Profile
+- User Menu: Edit Profile
 
 ![](screenshots-en/002.1-Dlg.EditProfile.png)
-
-
 
 <hr>
 
@@ -145,13 +125,11 @@ Precondition:
 
 Precondition:
 
-* User Menu: Edit Profile
-* Make some changes
-* Press OK
+- User Menu: Edit Profile
+- Make some changes
+- Press OK
 
 ![](screenshots-en/002.1-Msg.EditProfileFlashmessage.png)
-
-
 
 <hr>
 
@@ -159,14 +137,12 @@ Precondition:
 
 Precondition:
 
-* Ensure, settings.json has EMail verifiation set
-* User Menu: Edit Profile
-* Change mail address
-* Press OK
+- Ensure, settings.json has EMail verifiation set
+- User Menu: Edit Profile
+- Change mail address
+- Press OK
 
 ![](screenshots-en/002.1-Msg.EditProfileConfirmReverifyEMail.png)
-
-
 
 <hr>
 
@@ -174,12 +150,9 @@ Precondition:
 
 Precondition:
 
-* User menu: Set Language
+- User menu: Set Language
 
 ![](screenshots-en/002.1-Dlg.SetLanguage.png)
-
-
-
 
 <hr>
 
@@ -187,12 +160,10 @@ Precondition:
 
 Precondition:
 
-* User is not admin
-* Open user menu
+- User is not admin
+- Open user menu
 
 ![](screenshots-en/002.1-Menu.Usermenu.png)
-
-
 
 <hr>
 
@@ -200,12 +171,10 @@ Precondition:
 
 Precondition:
 
-* User is admin User
-* Open User menu
+- User is admin User
+- Open User menu
 
 ![](screenshots-en/002.1-Menu.Adminmenu.png)
-
-
 
 <hr>
 
@@ -213,12 +182,10 @@ Precondition:
 
 Precondition:
 
-* On main screen
-* Click Button 'New Meeting Series'
+- On main screen
+- Click Button 'New Meeting Series'
 
 ![](screenshots-en/003.0-Dlg.NewMeetingSeries.png)
-
-
 
 <hr>
 
@@ -226,12 +193,10 @@ Precondition:
 
 Precondition:
 
-* Just created new meeting series
-* Click on tab 'Base Configuration'
+- Just created new meeting series
+- Click on tab 'Base Configuration'
 
 ![](screenshots-en/003.1-Dlg.EditMeetingSeries-Base.png)
-
-
 
 <hr>
 
@@ -239,12 +204,10 @@ Precondition:
 
 Precondition:
 
-* Just created new meeting series
-* Click on tab 'Labels'
+- Just created new meeting series
+- Click on tab 'Labels'
 
 ![](screenshots-en/003.1-Dlg.EditMeetingSeries-Labels.png)
-
-
 
 <hr>
 
@@ -252,12 +215,10 @@ Precondition:
 
 Precondition:
 
-* Just created new meeting series
-* Click on tab 'Invited and Informed Users'
+- Just created new meeting series
+- Click on tab 'Invited and Informed Users'
 
 ![](screenshots-en/003.1-Dlg.EditMeetingSeries-Users.png)
-
-
 
 <hr>
 
@@ -265,14 +226,12 @@ Precondition:
 
 Precondition:
 
-* Just created new meeting series
-* Click on tab 'Invited and Informed Users'
-* Add a new user
-* Change role of user
+- Just created new meeting series
+- Click on tab 'Invited and Informed Users'
+- Add a new user
+- Change role of user
 
 ![](screenshots-en/003.1-Dlg.EditMeetingSeries-UsersRole.png)
-
-
 
 <hr>
 
@@ -280,14 +239,12 @@ Precondition:
 
 Precondition:
 
-* Open 4Minitz in two different browsers
-* In each browser login as different user
-* User#1 'Edit Meeting Series'
-* User#2 try to 'Edit Meeting Series'
+- Open 4Minitz in two different browsers
+- In each browser login as different user
+- User#1 'Edit Meeting Series'
+- User#2 try to 'Edit Meeting Series'
 
 ![](screenshots-en/003.1-Msg.EditSoftLock.png)
-
-
 
 <hr>
 
@@ -295,11 +252,9 @@ Precondition:
 
 Precondition:
 
-* Create a meeting series with one meeting
+- Create a meeting series with one meeting
 
 ![](screenshots-en/003.1-Screen.Meetings.png)
-
-
 
 <hr>
 
@@ -307,12 +262,10 @@ Precondition:
 
 Precondition:
 
-* Create meeting series with one meeting minute
-* Inside meeting minute create one action item for current user
+- Create meeting series with one meeting minute
+- Inside meeting minute create one action item for current user
 
 ![](screenshots-en/003.2-Screen.MyActionItems.png)
-
-
 
 <hr>
 
@@ -320,11 +273,9 @@ Precondition:
 
 Precondition:
 
-* On 'My Action Item' tab open item filters
+- On 'My Action Item' tab open item filters
 
 ![](screenshots-en/003.2-Screen.MyActionItemsFilter.png)
-
-
 
 <hr>
 
@@ -332,12 +283,10 @@ Precondition:
 
 Precondition:
 
-* Create meeting series
-* Create two meeting minutes
+- Create meeting series
+- Create two meeting minutes
 
 ![](screenshots-en/004.1-Screen.Minutes.png)
-
-
 
 <hr>
 
@@ -345,12 +294,10 @@ Precondition:
 
 Precondition:
 
-* Non moderator is invited to meeting series
-* Button 'Leave Meeting Series' should show up
+- Non moderator is invited to meeting series
+- Button 'Leave Meeting Series' should show up
 
 ![](screenshots-en/004.1-Screen.MinutesNonModerator.png)
-
-
 
 <hr>
 
@@ -358,12 +305,10 @@ Precondition:
 
 Precondition:
 
-* Non moderator is invited to meeting series
-* Button 'Leave Meeting Series' should show up
+- Non moderator is invited to meeting series
+- Button 'Leave Meeting Series' should show up
 
 ![](screenshots-en/004.1-Msg.MinutesNonModeratorLeaveConfirmation.png)
-
-
 
 <hr>
 
@@ -371,12 +316,10 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Topic list
-* A closed topic has menu 'Reopen Topic'
+- On Meeting Series Topic list
+- A closed topic has menu 'Reopen Topic'
 
 ![](screenshots-en/004.2-Screen.Minutes.Topics.png)
-
-
 
 <hr>
 
@@ -384,13 +327,11 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Topic list
-* Open topic filters
-* Click '?' question mark for help
+- On Meeting Series Topic list
+- Open topic filters
+- Click '?' question mark for help
 
 ![](screenshots-en/004.2-Dlg.Minutes.TopicsFilter.png)
-
-
 
 <hr>
 
@@ -398,12 +339,10 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Topic list
-* A closed topic shows 'Reopen Topic' menu
+- On Meeting Series Topic list
+- A closed topic shows 'Reopen Topic' menu
 
 ![](screenshots-en/004.2-Menu.Minutes.Topics-Reopen.png)
-
-
 
 <hr>
 
@@ -411,12 +350,10 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series goto Topic list
-* On a closed toipic from three-dot menu select 'Reopen Topic'
+- On Meeting Series goto Topic list
+- On a closed toipic from three-dot menu select 'Reopen Topic'
 
 ![](screenshots-en/004.2-Msg.Minutes.Topics-ReopenConfirmation.png)
-
-
 
 <hr>
 
@@ -424,13 +361,11 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Item List
-* Item filter
-* Click '?' question mark for help
+- On Meeting Series Item List
+- Item filter
+- Click '?' question mark for help
 
 ![](screenshots-en/004.3-Dlg.Minutes-ItemsFilter.png)
-
-
 
 <hr>
 
@@ -438,11 +373,9 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Item List
+- On Meeting Series Item List
 
 ![](screenshots-en/004.3-Screen.Minutes-Items.png)
-
-
 
 <hr>
 
@@ -450,13 +383,11 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Item List
-* Item filter
-* Click '?' question mark for help
+- On Meeting Series Item List
+- Item filter
+- Click '?' question mark for help
 
 ![](screenshots-en/004.3-Dlg.Minutes-ItemsFilter.png)
-
-
 
 <hr>
 
@@ -464,12 +395,10 @@ Precondition:
 
 Precondition:
 
-* On Meeting Series Item List
-* Click on 'Show Topic'
+- On Meeting Series Item List
+- Click on 'Show Topic'
 
 ![](screenshots-en/004.4-Screen.OneTopic.png)
-
-
 
 <hr>
 
@@ -477,13 +406,10 @@ Precondition:
 
 Precondition:
 
-* Create Meeting Series
-* Create new Meeting Minutes
+- Create Meeting Series
+- Create new Meeting Minutes
 
 ![](screenshots-en/005.1-Screen.MinutesEdit.png)
-
-
-
 
 <hr>
 
@@ -491,12 +417,10 @@ Precondition:
 
 Precondition:
 
-* On Minutes Edit click calandar icon
-* **Hint: Currently the date picker is NOT translated!!!**
+- On Minutes Edit click calandar icon
+- **Hint: Currently the date picker is NOT translated!!!**
 
 ![](screenshots-en/005.1-Dlg.MinutesEdit-DateTimePicker.png)
-
-
 
 <hr>
 
@@ -504,13 +428,10 @@ Precondition:
 
 Precondition:
 
-* Create new Meeting Minutes
-* Try to upload a file that is bigger than settings.json allows
+- Create new Meeting Minutes
+- Try to upload a file that is bigger than settings.json allows
 
 ![](screenshots-en/005.1-Msg.MinutesEdit.UploadError.png)
-
-
-
 
 <hr>
 
@@ -518,14 +439,11 @@ Precondition:
 
 Precondition:
 
-* Create new Meeting Minutes
-* Upload a file attachment
-* Click red "X" next to attachment file to delete it
+- Create new Meeting Minutes
+- Upload a file attachment
+- Click red "X" next to attachment file to delete it
 
 ![](screenshots-en/005.1-Msg.MinutesEdit.UploadDeleteConfirmation.png)
-
-
-
 
 <hr>
 
@@ -533,13 +451,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create Topic
-* Open Tree-Dot-Menu on Topic Item
+- In Minutes Edit
+- Create Topic
+- Open Tree-Dot-Menu on Topic Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.Topic.png)
-
-
 
 <hr>
 
@@ -547,14 +463,12 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create Topic
-* Add Action Item to Topic
-* Open Tree-Dot-Menu on Action Item
+- In Minutes Edit
+- Create Topic
+- Add Action Item to Topic
+- Open Tree-Dot-Menu on Action Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.ActionItem.png)
-
-
 
 <hr>
 
@@ -562,14 +476,12 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create Topic
-* Add Info Item to Topic
-* Open Three-Dot-Menu on Info Item
+- In Minutes Edit
+- Create Topic
+- Add Info Item to Topic
+- Open Three-Dot-Menu on Info Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.InfoItem.png)
-
-
 
 <hr>
 
@@ -577,16 +489,14 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create Topic
-* Add Action Item to Topic
-* Finalize Minutes, create new Minutes
-* Open Three-Dot-Menu on Action Item
-* Click 'Convert'
+- In Minutes Edit
+- Create Topic
+- Add Action Item to Topic
+- Finalize Minutes, create new Minutes
+- Open Three-Dot-Menu on Action Item
+- Click 'Convert'
 
 ![](screenshots-en/005.1-Dlg.MinutesEdit.ItemConvert.png)
-
-
 
 <hr>
 
@@ -594,13 +504,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Click "Send Agenda" once
-* Click "Send Agenda" second time
+- In Minutes Edit
+- Click "Send Agenda" once
+- Click "Send Agenda" second time
 
 ![](screenshots-en/005.1-Msg.MinutesEdit.AgendaResend.png)
-
-
 
 <hr>
 
@@ -608,12 +516,10 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Add Topic
+- In Minutes Edit
+- Add Topic
 
 ![](screenshots-en/005.2-Dlg.MinutesEdit.TopicEdit.png)
-
-
 
 <hr>
 
@@ -621,14 +527,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Add Topic
-* Add Info Item to topic
+- In Minutes Edit
+- Add Topic
+- Add Info Item to topic
 
 ![](screenshots-en/005.2-Dlg.MinutesEdit.InfoItemEdit.png)
-
-
-
 
 <hr>
 
@@ -636,13 +539,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Add Topic
-* Add Action Item to topic
+- In Minutes Edit
+- Add Topic
+- Add Action Item to topic
 
 ![](screenshots-en/005.2-Dlg.MinutesEdit.ActionItemEdit.png)
-
-
 
 <hr>
 
@@ -650,13 +551,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic / actionitem
-* Delete action item
+- In Minutes Edit
+- Create topic / actionitem
+- Delete action item
 
 ![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteAction.png)
-
-
 
 <hr>
 
@@ -664,14 +563,12 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic / actionitem / details
-* Delete all text in details
-* click outside to remove focus of details
+- In Minutes Edit
+- Create topic / actionitem / details
+- Delete all text in details
+- click outside to remove focus of details
 
 ![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteDetails.png)
-
-
 
 <hr>
 
@@ -679,13 +576,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic / info item
-* Delete info item
+- In Minutes Edit
+- Create topic / info item
+- Delete info item
 
 ![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteInfo.png)
-
-
 
 <hr>
 
@@ -693,14 +588,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic
-* Delete topic
+- In Minutes Edit
+- Create topic
+- Delete topic
 
 ![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteTopic.png)
-
-
-
 
 <hr>
 
@@ -708,17 +600,14 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic
-* Finalize Minutes, create new Minutes
-* Tick 1st topic as discussed
-* Create 2nd topic
-* Click "Delete Minutes"
+- In Minutes Edit
+- Create topic
+- Finalize Minutes, create new Minutes
+- Tick 1st topic as discussed
+- Create 2nd topic
+- Click "Delete Minutes"
 
 ![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteMinutes.png)
-
-
-
 
 <hr>
 
@@ -726,15 +615,13 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic with Action Item (without responsible!)
-* Make sure no participants are marked
-* Make sure no topics marked as discussed
-* Click Finalize button
+- In Minutes Edit
+- Create topic with Action Item (without responsible!)
+- Make sure no participants are marked
+- Make sure no topics marked as discussed
+- Click Finalize button
 
 ![](screenshots-en/005.3-Msg.MinutesEdit.FinalizeWarning.png)
-
-
 
 <hr>
 
@@ -742,15 +629,13 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Create topic with Action Item (without responsible!)
-* Make sure no participants are marked
-* Make sure one topics marked as discussed - but topic has no embedded item
-* Click Finalize button
+- In Minutes Edit
+- Create topic with Action Item (without responsible!)
+- Make sure no participants are marked
+- Make sure one topics marked as discussed - but topic has no embedded item
+- Click Finalize button
 
 ![](screenshots-en/005.3-Msg.MinutesEdit.FinalizeWarning2.png)
-
-
 
 <hr>
 
@@ -758,13 +643,11 @@ Precondition:
 
 Precondition:
 
-* Create Meeting Minutes
-* Create one topic with one action item
-* Click Finalize button
+- Create Meeting Minutes
+- Create one topic with one action item
+- Click Finalize button
 
 ![](screenshots-en/005.3-Dlg.MinutesEdit.Finalize.png)
-
-
 
 <hr>
 
@@ -772,14 +655,11 @@ Precondition:
 
 Precondition:
 
-* In Minutes Edit
-* Click Finalize button
-* Splash message after successful Minutes Finalize
+- In Minutes Edit
+- Click Finalize button
+- Splash message after successful Minutes Finalize
 
 ![](screenshots-en/005.3-Msg.MinutesEdit.Finalize.png)
-
-
-
 
 <hr>
 
@@ -787,12 +667,10 @@ Precondition:
 
 Precondition:
 
-* Login admin user
-* In user menu select 'Admin Tasks'
+- Login admin user
+- In user menu select 'Admin Tasks'
 
 ![](screenshots-en/006.1-Screen.Admin.Users.png)
-
-
 
 <hr>
 
@@ -800,13 +678,11 @@ Precondition:
 
 Precondition:
 
-* Login admin user
-* In user menu select 'Admin Tasks'
-* Click 'Register New User'
+- Login admin user
+- In user menu select 'Admin Tasks'
+- Click 'Register New User'
 
 ![](screenshots-en/006.1-Dlg.Admin.NewUser.png)
-
-
 
 <hr>
 
@@ -814,13 +690,11 @@ Precondition:
 
 Precondition:
 
-* Login admin user
-* In user menu select 'Admin Tasks'
-* Click tab 'Messages'
+- Login admin user
+- In user menu select 'Admin Tasks'
+- Click tab 'Messages'
 
 ![](screenshots-en/006.2-Screen.Admin.Messages.png)
-
-
 
 <hr>
 
@@ -828,14 +702,12 @@ Precondition:
 
 Precondition:
 
-* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
-* Create new Meeting Minutes
-* Create one topic
-* Click "Send Agenda"
+- Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+- Create new Meeting Minutes
+- Create one topic
+- Click "Send Agenda"
 
 ![](screenshots-en/007.1-Mail.Agenda.png)
-
-
 
 <hr>
 
@@ -843,14 +715,12 @@ Precondition:
 
 Precondition:
 
-* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
-* Create new Meeting Minutes
-* Create one topic with one action item and assign it yourself
-* Click Finalize button
+- Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+- Create new Meeting Minutes
+- Create one topic with one action item and assign it yourself
+- Click Finalize button
 
 ![](screenshots-en/007.2-Mail.ActionItems.png)
-
-
 
 <hr>
 
@@ -858,14 +728,12 @@ Precondition:
 
 Precondition:
 
-* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
-* Create new Meeting Minutes
-* Create one topic
-* Click Finalize button
+- Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+- Create new Meeting Minutes
+- Create one topic
+- Click Finalize button
 
 ![](screenshots-en/007.3-Mail.FinishedAgenda.png)
-
-
 
 <hr>
 
@@ -873,12 +741,10 @@ Precondition:
 
 Precondition:
 
-* No user logged in
-* Click 'Forgot Your Password' and enter your email address
+- No user logged in
+- Click 'Forgot Your Password' and enter your email address
 
 ![](screenshots-en/007.4-Mail.ResetPassword.png)
-
-
 
 <hr>
 
@@ -886,9 +752,9 @@ Precondition:
 
 Precondition:
 
-* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
-* Make sure second user with Mail address exists
-* Create a new Meeting Series
-* Invite second user to meeting series
+- Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+- Make sure second user with Mail address exists
+- Create a new Meeting Series
+- Invite second user to meeting series
 
 ![](screenshots-en/007.5-Mail.RoleChange.png)
