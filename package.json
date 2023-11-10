@@ -94,7 +94,7 @@
     "@wdio/mocha-framework": "^8.16.22",
     "@wdio/spec-reporter": "^8.16.22",
     "chai": "^4.1.2",
-    "chromedriver": "^118.0.1",
+    "chromedriver": "^119.0.1",
     "clone": "^2.1.1",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
