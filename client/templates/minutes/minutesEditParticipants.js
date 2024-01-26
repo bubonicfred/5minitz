@@ -124,8 +124,8 @@ Template.minutesEditParticipants.helpers({
       a.displayName > b.displayName
         ? 1
         : b.displayName > a.displayName
-        ? -1
-        : 0,
+          ? -1
+          : 0,
     );
   },
 
