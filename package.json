@@ -88,7 +88,7 @@
     "@wdio/local-runner": "^8.27.0",
     "@wdio/mocha-framework": "^8.29.1",
     "@wdio/spec-reporter": "^8.27.0",
-    "chai": "^4.1.2",
+    "chai": "^5.0.3",
     "clone": "^2.1.1",
     "eslint": "^8.56.0",
     "js-yaml": "^3.13.1",
