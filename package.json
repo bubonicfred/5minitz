@@ -73,7 +73,7 @@
     "node-getopt": "^0.3.2",
     "path": "^0.12.7",
     "randomstring": "1.1.5",
-    "semver": "^7.5.4",
+    "semver": "^7.6.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
