@@ -90,7 +90,7 @@
     "@wdio/spec-reporter": "^8.36.0",
     "chai": "^4.1.2",
     "clone": "^2.1.1",
-    "eslint": "^8.56.0",
+    "eslint": "^9.0.0",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.39.0",
     "meteor-sdk": "0.0.21",
