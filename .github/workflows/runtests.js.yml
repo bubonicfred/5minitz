@@ -54,7 +54,7 @@ jobs:
       - run: pwd
       - run: node --version
       - run: meteor --version
-      - run: npm install chromedriver@^117.0.0
+      - run: npm install chromedriver@^123.0.1
       - run: google-chrome --version
       - run: npm install
 
