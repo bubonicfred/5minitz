@@ -94,7 +94,7 @@
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.39.0",
     "meteor-sdk": "0.0.21",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "npm-license-crawler": "github:bubonicfred/npm-license-crawler",
     "proxyquire": "^1.8.0",
     "sinon": "^16.1.3",
