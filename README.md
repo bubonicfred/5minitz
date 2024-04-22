@@ -62,6 +62,7 @@ and run it with
 ```sh
 docker-compose up
 ```
+
 TODO:update docker-compose
 You can now access 4Minitz by pointing your browser to
 [http://localhost:3100](http://localhost:3100).
