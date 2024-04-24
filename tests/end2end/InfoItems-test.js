@@ -220,7 +220,7 @@ describe('Info Items', function () {
         const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(2)`;
         let infoItemExpandElement = browser.element(selector).value.ELEMENT;
         let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
-        expect(infoItemExpandElementText, `Info Item 2 should be edited correctly`).to.have.string('Info Item #2 - changed');
+        expect(infoItemExpandElementText, "Info Item 2 should be edited correctly").to.have.string('Info Item #2 - changed');
 
     });
 });
