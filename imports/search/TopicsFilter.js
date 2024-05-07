@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 import { TOPIC_KEYWORDS } from "./FilterKeywords";
 import { ItemsFilter } from "./ItemsFilter";
@@ -38,7 +38,7 @@ export class TopicsFilter {
           token,
         ]).length > 0;
 
-      if (subject.indexOf(token) === -1 && !hasMatchingInfoItems) {
+      if (subject.includes(token) && !hasMatchingInfoItems) {
         return false;
       }
     }
@@ -113,7 +113,7 @@ export class TopicsFilter {
     return (
       (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0) ||
       (filter.value &&
-        this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1)
+        this._toUpper(respStr).includes(this._toUpper(filter.value)))
     );
   }
 
