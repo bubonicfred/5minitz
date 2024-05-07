@@ -25,7 +25,7 @@ export class MeetingSeries {
     }
     if (typeof source === "object") {
       // inject class methods in plain collection document
-      _.extend(this, source);
+      _.addignIn(this, source);
     }
   }
 
@@ -260,7 +260,7 @@ export class MeetingSeries {
     newUserArray = newUserArray.concat(newInformedUsersArray);
 
     const removedUserIDs = oldUserArray.filter((usrID) => {
-      return newUserArray.indexOf(usrID) === -1;
+      return newUserArray.includes(usrID);
     });
     removedUserIDs.forEach((removedUserID) => {
       const ur = new UserRoles(removedUserID);
@@ -303,7 +303,7 @@ export class MeetingSeries {
     return this.availableLabels.filter((label) => {
       const left = caseSensitive ? label.name : label.name.toUpperCase();
       const right = caseSensitive ? name : name.toUpperCase();
-      return left.indexOf(right) !== -1;
+      return left.includes(right);
     });
   }
 

@@ -105,7 +105,7 @@ const meteorPackages = {
 };
 
 function get(url, callback) {
-  if (url.indexOf("https") === 0) {
+  if (url.startsWith("https")) {
     https.get(url, callback);
   } else {
     http.get(url, callback);
@@ -120,7 +120,7 @@ function downloadToStream(project, url, licenseId, originalLicenseUrl) {
   // handle projects that declare a license but only with their SPDX id in package.json
   // and don't provide the license text in their repo
   // SPDX provides a repo with all licenses at https://github.com/spdx/license-list
-  if (url.indexOf("raw") === -1) {
+  if (url.includes("raw")) {
     const SPDXUrl = `https://github.com/spdx/license-list/raw/master/${licenseId}.txt`;
     return downloadToStream(project, SPDXUrl, licenseId, url);
   }

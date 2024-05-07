@@ -45,7 +45,7 @@ function select2search(
       processResults(data) {
         const results_participants = [];
         const results_other = [];
-        _.each(data.results, (result) => {
+        _.forEach(data.results, (result) => {
           if (result.isParticipant) {
             results_participants.push({
               id: result.id,

@@ -30,7 +30,7 @@ export class Minutes {
     }
     if (typeof source === "object") {
       // inject class methods in plain collection document
-      _.extend(this, source);
+      _.assignIn(this, source);
     }
   }
 
