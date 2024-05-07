@@ -1,5 +1,5 @@
 const ldap = require("ldapjs");
-_ = require("underscore");
+import { _ } from "lodash";
 
 const users = [
   {
@@ -68,7 +68,7 @@ server.search("dc=example,dc=com", authorize, (req, res, next) => {
   const matches = _.filter(users, (user) =>
     req.filter.matches(user.attributes),
   );
-  _.each(matches, (match) => res.send(match));
+  _.forEach(matches, (match) => res.send(match));
 
   res.end();
   return next();
