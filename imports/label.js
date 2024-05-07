@@ -1,7 +1,8 @@
-import { Meteor } from "meteor/meteor";
 import { _ } from "lodash";
-import { MeetingSeries } from "./meetingseries";
+import { Meteor } from "meteor/meteor";
+
 import { ColorHelper } from "./ColorHelper";
+import { MeetingSeries } from "./meetingseries";
 
 export class Label {
   constructor(source) {

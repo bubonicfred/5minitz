@@ -1,8 +1,9 @@
 import { expect } from "chai";
-import * as Helpers from "../../../imports/helpers/date";
-import sinon from "sinon";
 import proxyquire from "proxyquire";
+import sinon from "sinon";
 import _ from "underscore";
+
+import * as Helpers from "../../../imports/helpers/date";
 
 const doNothing = () => {};
 
@@ -21,7 +22,9 @@ const Meteor = {
 
 Helpers["@noCallThru"] = true;
 
-const Random = { id: () => {} };
+const Random = {
+  id: () => {},
+};
 
 const i18n = {
   setLocale: sinon.stub(),
