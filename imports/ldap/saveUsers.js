@@ -1,7 +1,8 @@
 let mongo = require("mongodb").MongoClient,
   mongoUriParser = require("mongo-uri"),
-  transformUser = require("./transformUser"),
-  _ = require("underscore");
+  transformUser = require("./transformUser");
+
+import { _ } from "lodash";
 import { Random } from "../../tests/performance/fixtures/lib/random";
 
 const _transformUsers = (settings, users) =>
@@ -29,7 +30,7 @@ const _insertUsers = (client, mongoUri, users) => {
         .db(mongoConnection.database)
         .collection("users")
         .initializeUnorderedBulkOp();
-      _.each(users, (user) => {
+      _.forEach(users, (user) => {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           const usrRegExp = new RegExp(
