@@ -25,7 +25,7 @@ export class MeetingSeries {
     }
     if (typeof source === "object") {
       // inject class methods in plain collection document
-      _.addignIn(this, source);
+      _.assignIn(this, source);
     }
   }
 
