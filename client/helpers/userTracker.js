@@ -1,5 +1,4 @@
 import { Meteor } from "meteor/meteor";
-import { _ } from "meteor/underscore";
 
 const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 
@@ -67,13 +66,13 @@ export class UserTracker {
 
   _startTimer() {
     this.timerHandler = Meteor.setInterval(
-      _.bind(this._setActiveRoute, this),
+      this.bind(this._setActiveRoute),
       KEEP_ALIVE_INTERVAL_IN_MS,
     );
   }
 
   _addUnLoadListener() {
-    this.beforeUnloadListener = _.bind(this.onLeave, this);
+    this.beforeUnloadListener = this.bind(this.onLeave);
     window.addEventListener("beforeunload", this.beforeUnloadListener);
   }
 
