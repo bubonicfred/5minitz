@@ -41,7 +41,7 @@ export class Attachment {
   }
 
   static uploadFile(uploadFilename, minutesObj, callbacks = {}) {
-    const doNothing = ()=> {};
+    const doNothing = () => {};
     callbacks = _.assignIn(
       {
         onStart: doNothing,
