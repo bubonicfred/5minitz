@@ -8,7 +8,8 @@ module.exports = (ldapSettings, userData) => {
     mailAttribute = ldapSettings.propertyMap.email || "mail";
 
   // userData.mail may be a string with one mail address or an array.
-  // Nevertheless we are only interested in the first mail address here - if there should be more...
+  // Nevertheless we are only interested in the first mail address here - if
+  // there should be more...
   let tmpEMail = userData[mailAttribute];
   if (Array.isArray(tmpEMail)) {
     tmpEMail = tmpEMail[0];
@@ -34,7 +35,8 @@ module.exports = (ldapSettings, userData) => {
     profile: _.pick(userData, _.without(profileFields, "mail")),
   };
 
-  // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field
+  // copy over the LDAP user's long name from "cn" field to the meteor accounts
+  // long name field
   if (longnameAttribute) {
     user.profile.name = userData[longnameAttribute];
   }
