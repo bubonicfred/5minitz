@@ -33,6 +33,3 @@ name = "docker"
 
   [analyzers.meta]
   dockerfile_paths = [".docker/Dockerfile"]
-
-[[transformers]]
-name = "prettier"

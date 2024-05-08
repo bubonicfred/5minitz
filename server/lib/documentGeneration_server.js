@@ -106,7 +106,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     const inputPath = outputPath;
     outputPath = `${getDocumentStorageRootDirectory()}/TemporaryProtocol-A.pdf`; // eslint-disable-line
     additionalArguments =
-      ` -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE` +
+      " -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE" +
       ` -dColorConversionStrategy=/${icctype} -sProcessColorModel=Device${icctype} -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=`;
 
     try {
