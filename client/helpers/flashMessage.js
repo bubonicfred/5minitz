@@ -1,12 +1,12 @@
-import { $ } from "meteor/jquery";
+import {$} from "meteor/jquery";
 
 const DEFAULT_MESSAGE = "Sorry, an unexpected error has occurred.";
 
 const TYPES = {
-  SUCCESS: "success",
-  INFO: "info",
-  WARNING: "warning",
-  DANGER: "danger",
+  SUCCESS : "success",
+  INFO : "info",
+  WARNING : "warning",
+  DANGER : "danger",
 };
 
 export class FlashMessage {
@@ -14,9 +14,7 @@ export class FlashMessage {
    *
    * @return {{SUCCESS: string, INFO: string, WARNING: string, DANGER: string}}
    */
-  static TYPES() {
-    return TYPES;
-  }
+  static TYPES() { return TYPES; }
 
   constructor(title, message, type = TYPES.DANGER, duration = 5000) {
     this._setValues(title, message, type, duration);
@@ -38,7 +36,8 @@ export class FlashMessage {
   }
 
   /**
-   * Updates the current notification with the latest title, message, type, and delay.
+   * Updates the current notification with the latest title, message, type, and
+   * delay.
    */
   _updateNotification() {
     this.currentNotification.update("title", this.title);
@@ -52,11 +51,15 @@ export class FlashMessage {
    *
    * @param {string} title - The title of the flash message.
    * @param {string} message - The message content of the flash message.
-   * @param {string} [type=TYPES.DANGER] - The type of the flash message (e.g. 'success', 'error', 'info').
-   * @param {number} [duration=5000] - The duration in milliseconds for which the flash message should be displayed. If set to -1, the flash message will not automatically close.
+   * @param {string} [type=TYPES.DANGER] - The type of the flash message (e.g.
+   *     'success', 'error', 'info').
+   * @param {number} [duration=5000] - The duration in milliseconds for which
+   *     the flash message should be displayed. If set to -1, the flash message
+   *     will not automatically close.
    */
   _setValues(title, message, type = TYPES.DANGER, duration = 5000) {
-    if (duration === -1) duration = 0;
+    if (duration === -1)
+      duration = 0;
     this.title = `<strong>${title}</strong>`;
     this.message = message || DEFAULT_MESSAGE;
     this.type = type.replace("alert-", "");
@@ -72,8 +75,8 @@ export class FlashMessage {
    */
   show() {
     this.currentNotification = $.notify(
-      this._createOptions(),
-      this._createSettings(),
+        this._createOptions(),
+        this._createSettings(),
     );
     return this;
   }
@@ -86,27 +89,28 @@ export class FlashMessage {
    */
   _createOptions() {
     return {
-      title: this.title,
-      message: this.message,
+      title : this.title,
+      message : this.message,
     };
   }
 
   /**
    * Creates the settings object for the FlashMessage notification.
    * @returns {Object} The settings object with the following properties:
-   *   - delay: The duration in milliseconds for which the notification should be displayed.
+   *   - delay: The duration in milliseconds for which the notification should
+   * be displayed.
    *   - type: The type of notification (e.g. 'success', 'error', 'info').
-   *   - z_index: The z-index value to ensure the notification is displayed on top.
-   *   - onClosed: A callback function that is executed when the notification is closed.
+   *   - z_index: The z-index value to ensure the notification is displayed on
+   * top.
+   *   - onClosed: A callback function that is executed when the notification is
+   * closed.
    */
   _createSettings() {
     return {
-      delay: this.duration,
-      type: this.type,
-      z_index: 5031,
-      onClosed: () => {
-        this.currentNotification = null;
-      },
+      delay : this.duration,
+      type : this.type,
+      z_index : 5031,
+      onClosed : () => { this.currentNotification = null; },
     };
   }
 
@@ -114,7 +118,8 @@ export class FlashMessage {
    * Hides the current FlashMessage object immediately.
    */
   hideMe() {
-    if (this.currentNotification === null) return;
+    if (this.currentNotification === null)
+      return;
     this.currentNotification.close();
   }
 }
