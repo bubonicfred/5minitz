@@ -12,7 +12,7 @@ export function isEditedHandling(
   confirmationDialogTemplate,
 ) {
   // Attention: .isEditedBy and .isEditedDate may be null!
-  if (element.isEditedBy != undefined && element.isEditedDate != undefined) {
+  if (element.isEditedBy !== undefined && element.isEditedDate !== undefined) {
     const user = Meteor.users.findOne({ _id: element.isEditedBy });
 
     const tmplData = {

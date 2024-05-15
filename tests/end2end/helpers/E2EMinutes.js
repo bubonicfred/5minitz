@@ -115,7 +115,7 @@ export class E2EMinutes {
     for (const i in elements.value) {
       const elemId = elements.value[i].ELEMENT;
       const visibleText = browser.elementIdText(elemId).value;
-      if (visibleText == aDate) {
+      if (visibleText === aDate) {
         const linkTarget = browser.elementIdAttribute(elemId, "href").value;
         return linkTarget.slice(linkTarget.lastIndexOf("/") + 1);
       }

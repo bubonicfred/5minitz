@@ -569,8 +569,8 @@ Template.topicInfoItemList.events({
 
     // Attention: .isEditedBy and .isEditedDate may be null!
     if (
-      aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined &&
-      aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined
+      aActionItem._infoItemDoc.details[detailIndex].isEditedBy !== undefined &&
+      aActionItem._infoItemDoc.details[detailIndex].isEditedDate !== undefined
     ) {
       const unset = () => {
         IsEditedService.removeIsEditedDetail(

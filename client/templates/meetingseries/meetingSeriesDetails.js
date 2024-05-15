@@ -136,7 +136,7 @@ Template.meetingSeriesDetails.helpers({
 
   isMeetingSeriesEditedByAnotherUser() {
     const ms = new MeetingSeries(_meetingSeriesID);
-    if (ms.isEditedBy == undefined && ms.isEditedDate == undefined)
+    if (ms.isEditedBy === undefined && ms.isEditedDate === undefined)
       return false;
     return ms.isEditedBy !== Meteor.userId();
   },

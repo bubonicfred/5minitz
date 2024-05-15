@@ -47,7 +47,7 @@ describe("InfoItem", () => {
       upsertInfoItem: sinon.stub(),
       findInfoItem(id) {
         const index = subElementsHelper.findIndexById(id, this._infoItems);
-        if (index == undefined) return undefined;
+        if (index === undefined) return undefined;
         return new InfoItem(this, this._infoItems[index]);
       },
       // test-only method

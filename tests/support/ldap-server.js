@@ -81,7 +81,7 @@ server.bind("dc=example,dc=com", (req, res, next) => {
 
   console.log(dn, normalizedDn, password);
 
-  const matchingUsers = _.filter(users, (user) => normalizedDn == user.dn);
+  const matchingUsers = _.filter(users, (user) => normalizedDn === user.dn);
 
   console.log(matchingUsers);
 
@@ -89,13 +89,13 @@ server.bind("dc=example,dc=com", (req, res, next) => {
     return next(new ldap.UnwillingToPerformError());
   }
 
-  if (matchingUsers.length == 0) {
+  if (matchingUsers.length === 0) {
     return next(new ldap.NoSuchObjectError(dn));
   }
 
   const user = matchingUsers[0];
 
-  if (user.password != password) {
+  if (user.password !== password) {
     return next(new ldap.InvalidCredentialsError());
   }
 
