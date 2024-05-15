@@ -1,4 +1,4 @@
-import task from "./lib/task";
+const task = require("./lib/task");
 
 function logTask(taskname) {
   return (data) => {
