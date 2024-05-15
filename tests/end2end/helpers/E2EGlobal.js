@@ -7,7 +7,7 @@ export class E2EGlobal {
     if (Array.isArray(specfile)) {
       specfile = specfile[0];
     }
-    return specfile.replace(/^.*[\\\/]/, "");
+    return specfile.replace(/^.*[\\/]/, "");
   }
 
   static setValueSafe(selector, string, retries = 5) {

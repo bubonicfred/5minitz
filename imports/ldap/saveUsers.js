@@ -10,7 +10,7 @@ const _transformUsers = (settings, users) =>
 
 const _connectMongo = (mongoUrl) => mongo.connect(mongoUrl);
 
-RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+RegExp.escape = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
 
 const _insertUsers = (client, mongoUri, users) => {
   // unique id from the random package also used by minimongo
