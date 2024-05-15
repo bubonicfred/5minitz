@@ -1,12 +1,14 @@
 const task = require("./lib/task");
 
 function logTask(taskname) {
-  return (data) => { process.stdout.write(`${taskname}: ${data}`); };
+  return (data) => {
+    process.stdout.write(`${taskname}: ${data}`);
+  };
 }
 
 const tasks = [
-  task.run("npm", [ "run", "test:end2end:ldap" ], logTask("ldap")),
-  task.run("npm", [ "run", "test:end2end:meteor" ], logTask("meteor")),
+  task.run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
+  task.run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
 ];
 
 function shutdown() {
@@ -29,8 +31,8 @@ function shutdown() {
 
 if (process.platform === "win32") {
   const readline = require("readline").createInterface({
-    input : process.stdin,
-    output : process.stdout,
+    input: process.stdin,
+    output: process.stdout,
   });
 
   readline.on("SIGINT", shutdown);
