@@ -10,7 +10,7 @@ jobs:
       with:
         node-version: '18.13.0'
         cache: 'npm'
-
+        cache-dependency-path: 'package-lock.json'
     - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
     - run: curl https://install.meteor.com | /bin/sh
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: '^14.21.3'
           cache: 'npm'
-
+          cache-dependency-path: 'package-lock.json'
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
 
