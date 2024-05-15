@@ -17,13 +17,13 @@ const { backupMongo } = proxyquire("../../../server/mongoBackup", {
   "fibers/future": Future,
 });
 
-describe("mongoBackup", function() {
-  describe("#backupMongo", function() {
-    beforeEach(function() {
+describe("mongoBackup", function () {
+  describe("#backupMongo", function () {
+    beforeEach(function () {
       spawn.resetHistory();
     });
 
-    it("uses mongodump to create a backup", function() {
+    it("uses mongodump to create a backup", function () {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
         "outputdir",
