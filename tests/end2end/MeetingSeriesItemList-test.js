@@ -1,35 +1,38 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
+import { formatDateISO8601 } from "../../imports/helpers/date";
+
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-import { formatDateISO8601 } from "../../imports/helpers/date";
-
-describe("MeetingSeries Items list", function() {
+describe("MeetingSeries Items list", function () {
   const aProjectName = "MeetingSeries Topic List";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function() {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", function() {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
 
-    aMeetingCounter++;
-    aMeetingName = aMeetingNameBase + aMeetingCounter;
+      aMeetingCounter++;
+      aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-  });
+      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    },
+  );
 
-  it("displays all info- and action-items of all topics", function() {
+  it("displays all info- and action-items of all topics", function () {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -43,7 +46,10 @@ describe("MeetingSeries Items list", function() {
       1,
     );
     E2ETopics.addInfoItemToTopic(
-      { subject: "some action item of another topic", itemType: "actionItem" },
+      {
+        subject: "some action item of another topic",
+        itemType: "actionItem",
+      },
       1,
     );
 
@@ -76,7 +82,7 @@ describe("MeetingSeries Items list", function() {
     ).to.have.string("some information");
   });
 
-  it("can expand an info item to display its details on the item list", function() {
+  it("can expand an info item to display its details on the item list", function () {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addDetailsToActionItem(
@@ -94,8 +100,7 @@ describe("MeetingSeries Items list", function() {
     E2ETopics.expandDetailsForNthInfoItem(1);
 
     expect(E2ETopics.getNthItemFromItemList(0).value).to.have.string(
-      `${formatDateISO8601(new Date())
-        } New` +
+      `${formatDateISO8601(new Date())} New` +
         `\nAmazing details for this information item`,
     );
   });

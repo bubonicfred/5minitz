@@ -1,10 +1,10 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2EProtocols } from "./helpers/E2EProtocols";
 
-describe("Protocols", function() {
+describe("Protocols", function () {
   const _projectName = "E2E Protocols";
   const _meetingNameBase = "Meeting Name #";
   let _meetingCounter = 0;
@@ -15,30 +15,33 @@ describe("Protocols", function() {
     return _meetingNameBase + _meetingCounter;
   };
 
-  before("reload page and reset app", function() {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", function() {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
 
-    _lastMeetingName = getNewMeetingName();
-    E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
-    _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(
-      _projectName,
-      _lastMeetingName,
-    );
-  });
+      _lastMeetingName = getNewMeetingName();
+      E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
+      _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(
+        _projectName,
+        _lastMeetingName,
+      );
+    },
+  );
 
   // ******************
   // * DOCUMENT GENERATION TESTS
   // ******************
 
-  it("No Protocol is created on finalizing Minutes if feature is disabled", function() {
-    E2EProtocols.setSettingsForProtocolGeneration(); //Disable document generation
+  it("No Protocol is created on finalizing Minutes if feature is disabled", function () {
+    E2EProtocols.setSettingsForProtocolGeneration(); // Disable document generation
 
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
     E2EMinutes.finalizeCurrentMinutes();
@@ -54,7 +57,7 @@ describe("Protocols", function() {
     ).to.equal(numberOfProtocolsBefore);
   });
 
-  it("HTML Protocol is created on finalizing Minutes", function() {
+  it("HTML Protocol is created on finalizing Minutes", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
 
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
@@ -74,7 +77,7 @@ describe("Protocols", function() {
     ).to.be.true;
   });
 
-  it("HTML Protocol is deleted on unfinalizing Minutes", function() {
+  it("HTML Protocol is deleted on unfinalizing Minutes", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
 
     E2EMinutes.finalizeCurrentMinutes();
@@ -113,7 +116,7 @@ describe("Protocols", function() {
   // * DOWNLOAD TESTS
   // ******************
 
-  it("Download Button is visible on finalized Minutes", function() {
+  it("Download Button is visible on finalized Minutes", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
 
     expect(
@@ -127,8 +130,9 @@ describe("Protocols", function() {
     ).to.be.true;
   });
 
-  xit("Trying to download a non-existent protocol shows a confirmation dialog to download on-the-fly version", function() {
-    E2EProtocols.setSettingsForProtocolGeneration(); //Deactivate protocol generation
+  xit("Trying to download a non-existent protocol shows a confirmation dialog to download on-the-fly version", function () {
+    E2EProtocols.setSettingsForProtocolGeneration(); // Deactivate protocol
+    // generation
 
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
     E2EMinutes.finalizeCurrentMinutes();
@@ -137,8 +141,9 @@ describe("Protocols", function() {
       "No protocol has been created",
     ).to.equal(numberOfProtocolsBefore);
 
-    E2EProtocols.setSettingsForProtocolGeneration("html"); //Reactivate protocol generation, otherwise there won't be a download-button
-    E2EApp.logoutUser(); //Re-Login to allow app to get changes of settings
+    E2EProtocols.setSettingsForProtocolGeneration("html"); // Reactivate protocol generation, otherwise there won't be
+    // a download-button
+    E2EApp.logoutUser(); // Re-Login to allow app to get changes of settings
     E2EApp.loginUser();
     E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
     E2EMinutes.gotoLatestMinutes();
@@ -149,7 +154,7 @@ describe("Protocols", function() {
     ).to.be.true;
   });
 
-  it("Trying to download an existant protocol shows no confirmation dialog", function() {
+  it("Trying to download an existant protocol shows no confirmation dialog", function () {
     console.log("checkpoint-1");
     E2EProtocols.setSettingsForProtocolGeneration("html");
     console.log("checkpoint-2");
@@ -158,7 +163,8 @@ describe("Protocols", function() {
 
     E2EMinutes.finalizeCurrentMinutes();
     console.log("checkpoint-4");
-    browser.scroll(".navbar-header"); //without this the "Minutes finalized" toast would be right above the download button
+    browser.scroll(".navbar-header"); // without this the "Minutes finalized" toast
+    // would be right above the download button
     console.log("checkpoint-5");
     E2EGlobal.waitSomeTime(750);
     console.log("checkpoint-6");
@@ -174,7 +180,7 @@ describe("Protocols", function() {
     console.log("checkpoint-8");
   });
 
-  it("Trying to download an protocol with an direct link should work with proper permissions", function() {
+  it("Trying to download an protocol with an direct link should work with proper permissions", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
@@ -189,8 +195,9 @@ describe("Protocols", function() {
       (link) => {
         window.location = link;
       },
-      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID)
-        }?download=true`,
+      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(
+        _lastMinutesID,
+      )}?download=true`,
     );
 
     E2EGlobal.waitSomeTime(750);
@@ -198,7 +205,7 @@ describe("Protocols", function() {
     expect(browser.getText("body")).to.not.have.string("File Not Found");
   });
 
-  it("Trying to download an protocol with an direct link should not work when logged out", function() {
+  it("Trying to download an protocol with an direct link should not work when logged out", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
@@ -214,8 +221,9 @@ describe("Protocols", function() {
       (link) => {
         window.location = link;
       },
-      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID)
-        }?download=true`,
+      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(
+        _lastMinutesID,
+      )}?download=true`,
     );
 
     E2EGlobal.waitSomeTime(750);
@@ -223,7 +231,7 @@ describe("Protocols", function() {
     expect(browser.getText("body")).to.have.string("File Not Found");
   });
 
-  it("Trying to download an protocol with an direct link should not work when loggin in but no permissions", function() {
+  it("Trying to download an protocol with an direct link should not work when loggin in but no permissions", function () {
     E2EProtocols.setSettingsForProtocolGeneration("html");
     const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
@@ -240,8 +248,9 @@ describe("Protocols", function() {
       (link) => {
         window.location = link;
       },
-      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID)
-        }?download=true`,
+      `${E2EProtocols.getDownloadLinkForProtocolOfMinute(
+        _lastMinutesID,
+      )}?download=true`,
     );
 
     E2EGlobal.waitSomeTime(750);
