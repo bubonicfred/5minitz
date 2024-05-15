@@ -1,4 +1,3 @@
-import { $ } from "meteor/jquery";
 
 const DEFAULT_MESSAGE = "Sorry, an unexpected error has occurred.";
 
@@ -60,10 +59,13 @@ export class FlashMessage {
    * @returns {FlashMessage}
    */
   show() {
-    this.currentNotification = $.notify(
-      this._createOptions(),
-      this._createSettings(),
-    );
+    this.currentNotification = window.Noty.overrideDefaults({
+      callbacks: {
+        onClosed: () => {
+          this.currentNotification = null;
+        }
+      }
+    }).show(this._createOptions(), this._createSettings());
     return this;
   }
 
