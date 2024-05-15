@@ -7,9 +7,9 @@
  * users: node createTestUsers.js -m mongodb://localhost:3101/meteor -n 5000
  */
 
-const mongo = require("mongodb").MongoClient;
-const { faker } = require("@faker-js/faker");
-const random = require("randomstring");
+import { MongoClient as mongo } from "mongodb";
+import { faker } from "@faker-js/faker";
+import random from "randomstring";
 
 class UserFactory {
   static getUser() {
@@ -73,13 +73,11 @@ const mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
 const numberOfUsers = arg.options.number;
 if (!numberOfUsers) {
   optionParser.showHelp();
-  console.error("No --numberparameter set");
-  process.exit(1);
+  throw new Error("No --numberparameter set");
 }
 if (!mongoUrl) {
   optionParser.showHelp();
-  console.error("No --mongourl parameter or MONGO_URL in env");
-  process.exit(1);
+  throw new Error("No --mongourl parameter or MONGO_URL in env");
 }
 
 _connectMongo(mongoUrl)

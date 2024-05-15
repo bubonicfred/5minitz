@@ -1,4 +1,4 @@
-const task = require("./lib/task");
+import task from "./lib/task";
 
 function logTask(taskname) {
   return (data) => {
@@ -23,15 +23,14 @@ function shutdown() {
 
       done[index] = true;
       if (!done.includes(false)) {
-        console.log("All tasks killed, exiting.");
-        process.exit(0);
+        throw new Error("All tasks killed, exiting.");
       }
     });
   });
 }
 
 if (process.platform === "win32") {
-  var readline = require("readline").createInterface({
+  const readline = require("readline").createInterface({
     input: process.stdin,
     output: process.stdout,
   });
