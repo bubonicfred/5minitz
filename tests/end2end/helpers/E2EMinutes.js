@@ -63,7 +63,7 @@ export class E2EMinutes {
     browser.waitForVisible("#btn_finalizeMinutes");
     E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
 
-    if (processFinalize == true) {
+    if (processFinalize === true) {
       E2EMinutes.confirmQualityAssuranceDialog();
       if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
         if (confirmDialog === undefined || confirmDialog) {
@@ -147,7 +147,7 @@ export class E2EMinutes {
     for (const i in elements.value) {
       const elemId = elements.value[i].ELEMENT;
       const visibleText = browser.elementIdText(elemId).value;
-      if (visibleText == aDate) {
+      if (visibleText === aDate) {
         browser.elementIdClick(elemId);
         E2EGlobal.waitSomeTime();
         return true;

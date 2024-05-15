@@ -14,7 +14,7 @@ export const subElementsHelper = {
 
   getElementById(id, elements, attributeName) {
     const i = subElementsHelper.findIndexById(id, elements, attributeName);
-    if (i != undefined) {
+    if (i !== undefined) {
       return elements[i];
     }
     return undefined;
