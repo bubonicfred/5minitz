@@ -48,7 +48,7 @@ export class ConfirmationDialog {
     this.dialogTmpl = Blaze.renderWithData(
       this.dialogTemplate,
       dialogData,
-      document.body
+      document.body,
     );
     this.dialog = this.dialogTmpl.firstNode().querySelector(".modal");
   }

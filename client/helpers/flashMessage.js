@@ -1,4 +1,3 @@
-
 const DEFAULT_MESSAGE = "Sorry, an unexpected error has occurred.";
 
 const TYPES = {
@@ -63,8 +62,8 @@ export class FlashMessage {
       callbacks: {
         onClosed: () => {
           this.currentNotification = null;
-        }
-      }
+        },
+      },
     }).show(this._createOptions(), this._createSettings());
     return this;
   }
