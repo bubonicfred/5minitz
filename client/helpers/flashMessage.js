@@ -2,10 +2,10 @@
 const DEFAULT_MESSAGE = "Sorry, an unexpected error has occurred.";
 
 const TYPES = {
-  SUCCESS: "success",
-  INFO: "info",
-  WARNING: "warning",
-  DANGER: "danger",
+  SUCCESS : "success",
+  INFO : "info",
+  WARNING : "warning",
+  DANGER : "danger",
 };
 
 export class FlashMessage {
@@ -13,9 +13,7 @@ export class FlashMessage {
    *
    * @return {{SUCCESS: string, INFO: string, WARNING: string, DANGER: string}}
    */
-  static TYPES() {
-    return TYPES;
-  }
+  static TYPES() { return TYPES; }
 
   constructor(title, message, type = TYPES.DANGER, duration = 5000) {
     this._setValues(title, message, type, duration);
@@ -44,7 +42,8 @@ export class FlashMessage {
   }
 
   _setValues(title, message, type = TYPES.DANGER, duration = 5000) {
-    if (duration === -1) duration = 0;
+    if (duration === -1)
+      duration = 0;
     this.title = `<strong>${title}</strong>`;
     this.message = message || DEFAULT_MESSAGE;
     this.type = type.replace("alert-", "");
@@ -59,31 +58,29 @@ export class FlashMessage {
    * @returns {FlashMessage}
    */
   show() {
-    this.currentNotification = window.Noty.overrideDefaults({
-      callbacks: {
-        onClosed: () => {
-          this.currentNotification = null;
-        }
-      }
-    }).show(this._createOptions(), this._createSettings());
+    this.currentNotification =
+        window.Noty
+            .overrideDefaults({
+              callbacks :
+                  {onClosed : () => { this.currentNotification = null; }}
+            })
+            .show(this._createOptions(), this._createSettings());
     return this;
   }
 
   _createOptions() {
     return {
-      title: this.title,
-      message: this.message,
+      title : this.title,
+      message : this.message,
     };
   }
 
   _createSettings() {
     return {
-      delay: this.duration,
-      type: this.type,
-      z_index: 5031,
-      onClosed: () => {
-        this.currentNotification = null;
-      },
+      delay : this.duration,
+      type : this.type,
+      z_index : 5031,
+      onClosed : () => { this.currentNotification = null; },
     };
   }
 
@@ -91,7 +88,8 @@ export class FlashMessage {
    * Hides the current FlashMessage object immediately.
    */
   hideMe() {
-    if (this.currentNotification === null) return;
+    if (this.currentNotification === null)
+      return;
     this.currentNotification.close();
   }
 }
