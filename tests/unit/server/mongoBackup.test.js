@@ -4,10 +4,12 @@ import sinon from "sinon";
 
 const spawn = sinon.stub().returns({ on: sinon.spy() });
 
-const Future = function () {
-  this["return"] = sinon.spy();
-  this.wait = sinon.spy();
-};
+class Future {
+  constructor() {
+    this["return"] = sinon.spy();
+    this.wait = sinon.spy();
+  }
+}
 Future["@noCallThru"] = true;
 
 const { backupMongo } = proxyquire("../../../server/mongoBackup", {
@@ -15,13 +17,13 @@ const { backupMongo } = proxyquire("../../../server/mongoBackup", {
   "fibers/future": Future,
 });
 
-describe("mongoBackup", () => {
-  describe("#backupMongo", () => {
-    beforeEach(() => {
+describe("mongoBackup", function() {
+  describe("#backupMongo", function() {
+    beforeEach(function() {
       spawn.resetHistory();
     });
 
-    it("uses mongodump to create a backup", () => {
+    it("uses mongodump to create a backup", function() {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
         "outputdir",
