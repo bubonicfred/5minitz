@@ -64,19 +64,19 @@ jobs:
 
       - name: Upload E2E screenshot artifacts
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
-          name: E2E Screenshots
+          name: E2E Screenshots-${{ matrix.runs-on }}
           path: tests/snapshots
       - name: Upload E2E log artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: E2E Logs
+          name: E2E Logs-${{ matrix.runs-on }}
           path: tests/end2end/logs
       - name: Upload E2E MongoDB artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: E2E Mongodump
+          name: E2E Mongodump-${{ matrix.runs-on }}
           path: tests/mongodump
