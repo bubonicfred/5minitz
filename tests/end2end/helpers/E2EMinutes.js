@@ -1,7 +1,7 @@
-import {E2EApp} from "./E2EApp";
-import {E2EGlobal} from "./E2EGlobal";
-import {E2EMeetingSeries} from "./E2EMeetingSeries";
-import {E2EMinutesParticipants} from "./E2EMinutesParticipants";
+import { E2EApp } from "./E2EApp";
+import { E2EGlobal } from "./E2EGlobal";
+import { E2EMeetingSeries } from "./E2EMeetingSeries";
+import { E2EMinutesParticipants } from "./E2EMinutesParticipants";
 
 export class E2EMinutes {
   /**
@@ -57,8 +57,8 @@ export class E2EMinutes {
    * without participants
    */
   static finalizeCurrentMinutesWithoutParticipants(
-      confirmDialog,
-      processFinalize,
+    confirmDialog,
+    processFinalize,
   ) {
     browser.waitForVisible("#btn_finalizeMinutes");
     E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
