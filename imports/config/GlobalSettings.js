@@ -3,7 +3,7 @@ import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 
 function getSetting(path, def = undefined) {
-  return _.get(Meteor.settings, path, def);
+  return _.get(Meteor.settings, path) ?? def;
 }
 
 /**
@@ -119,7 +119,7 @@ export class GlobalSettings {
     // enforce slash "/" at the end
     if (
       Meteor.settings.attachments?.storagePath &&
-      !Meteor.settings.attachments.storagePath.match(/\/$/)
+      !Meteor.settings.attachments.storagePath.test(/\/$/)
     ) {
       Meteor.settings.attachments.storagePath = `${Meteor.settings.attachments.storagePath}/`;
     }
