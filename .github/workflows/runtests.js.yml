@@ -33,8 +33,8 @@ jobs:
       fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
       matrix:   # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
         e2etest:
-          - tests/end2end/MeetingSeries-test.js
-          - tests/end2end/MeetingSeriesEdit-test.js
+          - MeetingSeries-test.js
+          - MeetingSeriesEdit-test.js
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -62,7 +62,7 @@ jobs:
 
       - run: mkdir ./tests/mongodump
 
-      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
+      - run: ./tests/run_e2e.sh tests/end2end/${{ matrix.e2etest }}
 
       - name: Upload E2E screenshot artifacts
         if: always()
