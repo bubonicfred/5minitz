@@ -3,7 +3,7 @@ import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 
 function getSetting(path, def = undefined) {
-  return _.get(Meteor.settings, path), def;
+  return _.get(Meteor.settings, path, def);
 }
 
 /**
