@@ -5,12 +5,13 @@
  */
 
 import { MongoClient as mongo } from "mongodb";
-import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
-import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
-import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
-import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
+
 import ExpImpFileAttachments from "../imports/server/exportimport/expImpFilesAttachments";
 import ExpImpFileDocuments from "../imports/server/exportimport/expImpFilesDocuments";
+import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
+import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
+import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
+import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
 import ExpImpUsers from "../imports/server/exportimport/expImpUsers";
 
 const optionParser = require("node-getopt").create([
@@ -30,15 +31,16 @@ if (!mongoUrl) {
   optionParser.showHelp();
   throw new Error("No --mongourl parameter or MONGO_URL in env");
 }
-const _connectMongo = (mongoUrl) => new Promise((resolve, reject) => {
+const _connectMongo = (mongoUrl) =>
+  new Promise((resolve, reject) => {
     mongo.connect(mongoUrl, (error, db) => {
-    if (error) {
-      reject(error);
-    }
-    closeDB = db;
-    resolve(db);
+      if (error) {
+        reject(error);
+      }
+      closeDB = db;
+      resolve(db);
+    });
   });
-});
 
 console.log("");
 console.log(

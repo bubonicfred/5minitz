@@ -7,8 +7,8 @@
  * users: node createTestUsers.js -m mongodb://localhost:3101/meteor -n 5000
  */
 
-import { MongoClient as mongo } from "mongodb";
 import { faker } from "@faker-js/faker";
+import { MongoClient as mongo } from "mongodb";
 import random from "randomstring";
 
 class UserFactory {

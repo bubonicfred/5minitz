@@ -1,5 +1,6 @@
-import loadLDAPSettings from "../../imports/ldap/loadLDAPSettings";
 import importUsers from "../../imports/ldap/import";
+import loadLDAPSettings from "../../imports/ldap/loadLDAPSettings";
+
 const optionParser = require("node-getopt").create([
   ["s", "settings=[ARG]", "4minitz Meteor settings file"],
   ["m", "mongourl=[ARG]", "Mongo DB url"],
