@@ -1,6 +1,5 @@
 import { _ } from "lodash";
 import { Blaze } from "meteor/blaze";
-import { $ } from "meteor/jquery";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 
@@ -49,9 +48,9 @@ export class ConfirmationDialog {
     this.dialogTmpl = Blaze.renderWithData(
       this.dialogTemplate,
       dialogData,
-      $("body").get("0"),
+      document.body
     );
-    this.dialog = $(this.dialogTmpl.firstNode()).find(".modal");
+    this.dialog = this.dialogTmpl.firstNode().querySelector(".modal");
   }
 
   _renderContentTemplate() {
@@ -70,8 +69,8 @@ export class ConfirmationDialog {
   _removeDialogOnHide() {
     this.dialog.on("hidden.bs.modal", () => {
       this.hide();
-      if ($(".modal:visible").length) {
-        $("body").addClass("modal-open");
+      if (document.querySelectorAll(".modal:visible").length) {
+        document.body.classList.add("modal-open");
       }
     });
   }
