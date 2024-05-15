@@ -68,20 +68,20 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: E2E Screenshots-${{ matrix.runs-on }}
+          name: E2E Screenshots-${{ matrix.e2etest }}
           path: tests/snapshots
           overwrite: true
       - name: Upload E2E log artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: E2E Logs-${{ matrix.runs-on }}
+          name: E2E Logs-${{ matrix.e2etest }}
           path: tests/end2end/logs
           overwrite: true
       - name: Upload E2E MongoDB artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: E2E Mongodump-${{ matrix.runs-on }}
+          name: E2E Mongodump-${{ matrix.e2etest }}
           path: tests/mongodump
           overwrite: true
