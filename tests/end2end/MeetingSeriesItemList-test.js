@@ -6,19 +6,19 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 import { formatDateISO8601 } from "../../imports/helpers/date";
 
-describe("MeetingSeries Items list", () => {
+describe("MeetingSeries Items list", function() {
   const aProjectName = "MeetingSeries Topic List";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function() {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
+  beforeEach("goto start page and make sure test user is logged in", function() {
     E2EApp.gotoStartPage();
     expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -29,7 +29,7 @@ describe("MeetingSeries Items list", () => {
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
   });
 
-  it("displays all info- and action-items of all topics", () => {
+  it("displays all info- and action-items of all topics", function() {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -76,7 +76,7 @@ describe("MeetingSeries Items list", () => {
     ).to.have.string("some information");
   });
 
-  it("can expand an info item to display its details on the item list", () => {
+  it("can expand an info item to display its details on the item list", function() {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addDetailsToActionItem(
@@ -94,9 +94,9 @@ describe("MeetingSeries Items list", () => {
     E2ETopics.expandDetailsForNthInfoItem(1);
 
     expect(E2ETopics.getNthItemFromItemList(0).value).to.have.string(
-      formatDateISO8601(new Date()) +
-        " New" +
-        "\nAmazing details for this information item",
+      `${formatDateISO8601(new Date())
+        } New` +
+        `\nAmazing details for this information item`,
     );
   });
 });

@@ -6,7 +6,7 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 require("../../imports/helpers/date");
 
-describe("ActionItems", () => {
+describe("ActionItems", function() {
   const aProjectName = "E2E ActionItems";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -44,7 +44,7 @@ describe("ActionItems", () => {
     return actionItemName;
   }
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function() {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -52,7 +52,7 @@ describe("ActionItems", () => {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    () => {
+    function() {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -66,7 +66,7 @@ describe("ActionItems", () => {
     },
   );
 
-  it("can add an info item", () => {
+  it("can add an info item", function() {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
 
@@ -95,7 +95,7 @@ describe("ActionItems", () => {
     ).to.have.string(actionItemName);
   });
 
-  it("can edit an existing action item", () => {
+  it("can edit an existing action item", function() {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
     const updatedActionItemName = `${actionItemName} CHANGED!`;
@@ -131,7 +131,7 @@ describe("ActionItems", () => {
   });
 
   // This was broken before bugfix of github issue #228
-  it("can edit an existing action item after an info item was added", () => {
+  it("can edit an existing action item after an info item was added", function() {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
     const updatedActionItemName = `${actionItemName} CHANGED!`;
@@ -167,11 +167,11 @@ describe("ActionItems", () => {
     });
 
     const selector =
-      "#topicPanel .well:nth-child(" +
-      topicIndex +
-      ") .topicInfoItem:nth-child(" +
-      actionItemIndex +
-      ")";
+      `#topicPanel .well:nth-child(${
+      topicIndex
+      }) .topicInfoItem:nth-child(${
+      actionItemIndex
+      })`;
     expect(
       browser.isVisible(selector),
       "Action item should be visible after edit",
@@ -191,7 +191,7 @@ describe("ActionItems", () => {
     ).to.contain(newResponsible);
   });
 
-  it("can add an action item by pressing enter in the topic field", () => {
+  it("can add an action item by pressing enter in the topic field", function() {
     const topicIndex = 1;
     E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
@@ -221,7 +221,7 @@ describe("ActionItems", () => {
     ).to.have.string(actionItemName);
   });
 
-  it("can add an action item and set the priority field", () => {
+  it("can add an action item and set the priority field", function() {
     const topicIndex = 1;
 
     const actionItemName = getNewAIName();
@@ -250,7 +250,7 @@ describe("ActionItems", () => {
     ).to.have.string(actionItemName);
   });
 
-  it("toggles the open-state of the first AI", () => {
+  it("toggles the open-state of the first AI", function() {
     addActionItemToFirstTopic();
 
     E2ETopics.toggleActionItem(1, 1);
@@ -259,7 +259,7 @@ describe("ActionItems", () => {
       .true;
   });
 
-  it("toggles the open-state of the second AI", () => {
+  it("toggles the open-state of the second AI", function() {
     addActionItemToFirstTopic();
 
     E2ETopics.addInfoItemToTopic(
@@ -275,7 +275,7 @@ describe("ActionItems", () => {
       .true;
   });
 
-  it("shows security question before deleting action items", () => {
+  it("shows security question before deleting action items", function() {
     const actionItemName = addActionItemToFirstTopic();
 
     E2ETopics.deleteInfoItem(1, 1);
@@ -304,7 +304,7 @@ describe("ActionItems", () => {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("can delete an action item", () => {
+  it("can delete an action item", function() {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
@@ -326,7 +326,7 @@ describe("ActionItems", () => {
       .false;
   });
 
-  it('can cancel a "delete action item"', () => {
+  it('can cancel a "delete action item"', function() {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
