@@ -1,16 +1,16 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 const MinutesSchema = {};
 const Minutes = sinon.spy();
 
-const {MinutesFinder} = proxyquire(
-    "../../../../imports/services/minutesFinder",
-    {
-      "../collections/minutes.schema" : {MinutesSchema, "@noCallThru" : true},
-      "../minutes" : {Minutes, "@noCallThru" : true},
-    },
+const { MinutesFinder } = proxyquire(
+  "../../../../imports/services/minutesFinder",
+  {
+    "../collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
+    "../minutes": { Minutes, "@noCallThru": true },
+  },
 );
 
 const clear = (obj) => {
@@ -27,27 +27,29 @@ const clearAll = () => {
 describe("MinutesFinder", () => {
   beforeEach(clearAll);
 
-  const FakeMinutes = [ {_id : "123"}, {_id : "abc"} ],
-        EmptyMinutesCollection = {find : sinon.stub().returns([])},
-        MinutesCollection = {find : sinon.stub().returns(FakeMinutes)};
+  const FakeMinutes = [{ _id: "123" }, { _id: "abc" }],
+    EmptyMinutesCollection = { find: sinon.stub().returns([]) },
+    MinutesCollection = { find: sinon.stub().returns(FakeMinutes) };
   let MeetingSeries;
 
   const setupNonEmptySeries = () => {
     MinutesCollection.find.resetHistory();
     MinutesSchema.getCollection = (_) => MinutesCollection;
 
-    MeetingSeries = {minutes : FakeMinutes.map((m) => m._id)};
+    MeetingSeries = { minutes: FakeMinutes.map((m) => m._id) };
   };
 
   const setupEmptySeries = () => {
     MinutesCollection.find.resetHistory();
     MinutesSchema.getCollection = (_) => EmptyMinutesCollection;
 
-    MeetingSeries = {minutes : []};
+    MeetingSeries = { minutes: [] };
   };
 
   describe("#allMinutesOfMeetingSeries", () => {
-    beforeEach(() => { setupNonEmptySeries(); });
+    beforeEach(() => {
+      setupNonEmptySeries();
+    });
 
     it("returns all minutes of a meeting series", () => {
       const result = MinutesFinder.allMinutesOfMeetingSeries(MeetingSeries);
@@ -57,7 +59,9 @@ describe("MinutesFinder", () => {
       expect(result).to.have.lengthOf(expectedLength);
 
       // Minutes were instantiated
-      FakeMinutes.forEach((m) => { expect(Minutes.calledWith(m)).to.be.true; });
+      FakeMinutes.forEach((m) => {
+        expect(Minutes.calledWith(m)).to.be.true;
+      });
     });
 
     it("default is to sort descending by date", () => {
@@ -65,45 +69,44 @@ describe("MinutesFinder", () => {
 
       // expect the collection find() stub to be called with a limit config set
       const findStub = MinutesCollection.find;
-      const expectedQuery = {_id : {$in : MeetingSeries.minutes}};
-      const expectedOptions = {sort : {date : -1}};
+      const expectedQuery = { _id: { $in: MeetingSeries.minutes } };
+      const expectedOptions = { sort: { date: -1 } };
       expect(findStub.calledWith(expectedQuery, expectedOptions)).to.be.true;
     });
 
     it("returns all minutes up to the given limit", () => {
       const limitedNumberOfMinutes = 1;
       const result = MinutesFinder.allMinutesOfMeetingSeries(
-          MeetingSeries,
-          limitedNumberOfMinutes,
+        MeetingSeries,
+        limitedNumberOfMinutes,
       );
 
       // expect the collection find() stub to be called with a limit config set
       const findStub = MinutesCollection.find;
-      const expectedQuery = {_id : {$in : MeetingSeries.minutes}};
+      const expectedQuery = { _id: { $in: MeetingSeries.minutes } };
       const expectedOptions = {
-        sort : {date : -1},
-        limit : limitedNumberOfMinutes,
+        sort: { date: -1 },
+        limit: limitedNumberOfMinutes,
       };
       expect(findStub.calledWith(expectedQuery, expectedOptions)).to.be.true;
     });
 
-    it("sorts the minutes ascending if the sortDescending parameter is given as false",
-       () => {
-         const numberOfMinutes = FakeMinutes.length;
-         const sortDescending = false;
-         const result = MinutesFinder.allMinutesOfMeetingSeries(
-             MeetingSeries,
-             numberOfMinutes,
-             sortDescending,
-         );
+    it("sorts the minutes ascending if the sortDescending parameter is given as false", () => {
+      const numberOfMinutes = FakeMinutes.length;
+      const sortDescending = false;
+      const result = MinutesFinder.allMinutesOfMeetingSeries(
+        MeetingSeries,
+        numberOfMinutes,
+        sortDescending,
+      );
 
-         // expect the collection find() stub to be called with a limit config
-         // set
-         const findStub = MinutesCollection.find;
-         const expectedQuery = {_id : {$in : MeetingSeries.minutes}};
-         const expectedOptions = {sort : {date : 1}, limit : numberOfMinutes};
-         expect(findStub.calledWith(expectedQuery, expectedOptions)).to.be.true;
-       });
+      // expect the collection find() stub to be called with a limit config
+      // set
+      const findStub = MinutesCollection.find;
+      const expectedQuery = { _id: { $in: MeetingSeries.minutes } };
+      const expectedOptions = { sort: { date: 1 }, limit: numberOfMinutes };
+      expect(findStub.calledWith(expectedQuery, expectedOptions)).to.be.true;
+    });
   });
 
   describe("#firstMinutesOfMeetingSeries", () => {
@@ -155,7 +158,7 @@ describe("MinutesFinder", () => {
       setupEmptySeries();
 
       const result =
-          MinutesFinder.secondLastMinutesOfMeetingSeries(MeetingSeries);
+        MinutesFinder.secondLastMinutesOfMeetingSeries(MeetingSeries);
 
       expect(result).to.be.false;
     });
@@ -164,7 +167,7 @@ describe("MinutesFinder", () => {
       setupNonEmptySeries();
 
       const result =
-          MinutesFinder.secondLastMinutesOfMeetingSeries(MeetingSeries);
+        MinutesFinder.secondLastMinutesOfMeetingSeries(MeetingSeries);
 
       expect(MinutesCollection.find.callCount).to.equal(1);
 
@@ -177,7 +180,7 @@ describe("MinutesFinder", () => {
   describe("#previousMinutes", () => {
     it("returns false for empty series", () => {
       setupEmptySeries();
-      const minutes = {parentMeetingSeries : (_) => MeetingSeries};
+      const minutes = { parentMeetingSeries: (_) => MeetingSeries };
 
       const result = MinutesFinder.previousMinutes(minutes);
 
@@ -208,7 +211,7 @@ describe("MinutesFinder", () => {
   describe("#nextMinutes", () => {
     it("returns false for empty series", () => {
       setupEmptySeries();
-      const minutes = {parentMeetingSeries : (_) => MeetingSeries};
+      const minutes = { parentMeetingSeries: (_) => MeetingSeries };
 
       const result = MinutesFinder.nextMinutes(minutes);
 

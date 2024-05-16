@@ -1,34 +1,34 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 const Meteor = {
-  startup : sinon.mock(),
-  settings : {
-    ldap : {},
+  startup: sinon.mock(),
+  settings: {
+    ldap: {},
   },
 };
 const LDAP = {};
 const LdapSettings = {
-  ldapEnabled : sinon.stub(),
-  usernameAttribute : sinon.stub(),
-  searchFilter : sinon.stub(),
-  serverDn : sinon.stub(),
-  allowSelfSignedTLS : sinon.stub().returns(false),
+  ldapEnabled: sinon.stub(),
+  usernameAttribute: sinon.stub(),
+  searchFilter: sinon.stub(),
+  serverDn: sinon.stub(),
+  allowSelfSignedTLS: sinon.stub().returns(false),
 };
 
-const {ldap} = proxyquire("../../../server/ldap", {
-  "meteor/meteor" : {Meteor, "@noCallThru" : true},
-  "/imports/config/LdapSettings" : {LdapSettings, "@noCallThru" : true},
-  "meteor/babrahams:accounts-ldap" : {LDAP, "@noCallThru" : true},
+const { ldap } = proxyquire("../../../server/ldap", {
+  "meteor/meteor": { Meteor, "@noCallThru": true },
+  "/imports/config/LdapSettings": { LdapSettings, "@noCallThru": true },
+  "meteor/babrahams:accounts-ldap": { LDAP, "@noCallThru": true },
 });
 
 describe("ldap", () => {
   describe("#bindValue", () => {
     beforeEach(() => {
       Meteor.settings = {
-        ldap : {
-          enabled : true,
+        ldap: {
+          enabled: true,
         },
       };
 
@@ -40,15 +40,14 @@ describe("ldap", () => {
       LdapSettings.usernameAttribute.returns("test");
     });
 
-    it("generates a dn based on the configuration and the given username",
-       () => {
-         const isEmail = false;
-         const username = "username";
+    it("generates a dn based on the configuration and the given username", () => {
+      const isEmail = false;
+      const username = "username";
 
-         const result = LDAP.bindValue(username, isEmail);
+      const result = LDAP.bindValue(username, isEmail);
 
-         expect(result).to.equal("test=username,dc=example,dc=com");
-       });
+      expect(result).to.equal("test=username,dc=example,dc=com");
+    });
 
     it("removes the host part if an email address is given", () => {
       const isEmail = true;
@@ -75,14 +74,13 @@ describe("ldap", () => {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if no username attribute mapping is not defined",
-       () => {
-         LdapSettings.usernameAttribute.returns("");
+    it("returns an empty string if no username attribute mapping is not defined", () => {
+      LdapSettings.usernameAttribute.returns("");
 
-         const result = LDAP.bindValue();
+      const result = LDAP.bindValue();
 
-         expect(result).to.equal("");
-       });
+      expect(result).to.equal("");
+    });
   });
 
   describe("#filter", () => {
@@ -91,24 +89,23 @@ describe("ldap", () => {
       LdapSettings.searchFilter.reset();
 
       Meteor.settings = {
-        ldap : {
-          enabled : true,
+        ldap: {
+          enabled: true,
         },
       };
     });
 
-    it("generates a dn based on the configuration and the given username",
-       () => {
-         LdapSettings.usernameAttribute.returns("test");
-         LdapSettings.searchFilter.returns("");
+    it("generates a dn based on the configuration and the given username", () => {
+      LdapSettings.usernameAttribute.returns("test");
+      LdapSettings.searchFilter.returns("");
 
-         const isEmail = false;
-         const username = "username";
+      const isEmail = false;
+      const username = "username";
 
-         const result = LDAP.filter(isEmail, username);
+      const result = LDAP.filter(isEmail, username);
 
-         expect(result).to.equal("(&(test=username))");
-       });
+      expect(result).to.equal("(&(test=username))");
+    });
 
     it("removes the host part if an email address is given", () => {
       LdapSettings.usernameAttribute.returns("test");
@@ -170,16 +167,15 @@ describe("ldap", () => {
   });
 
   describe("#addFields", () => {
-    it("returns an object with a password property that holds an empty string",
-       () => {
-         const expectedResult = {
-           password : "",
-         };
+    it("returns an object with a password property that holds an empty string", () => {
+      const expectedResult = {
+        password: "",
+      };
 
-         const result = LDAP.addFields();
+      const result = LDAP.addFields();
 
-         expect(result).to.deep.equal(expectedResult);
-       });
+      expect(result).to.deep.equal(expectedResult);
+    });
   });
 
   describe("#log", () => {
