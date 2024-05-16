@@ -1,5 +1,5 @@
-import { Meteor } from "meteor/meteor";
 import { _ } from "lodash";
+import { Meteor } from "meteor/meteor";
 
 import { TOPIC_KEYWORDS } from "./FilterKeywords";
 import { ItemsFilter } from "./ItemsFilter";
