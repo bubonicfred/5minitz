@@ -1,4 +1,3 @@
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -30,9 +29,9 @@ Template.admin.helpers({
 Template.admin.events({
   // Switch between tabs via user click on <li>
   "click .nav-tabs li"(event, tmpl) {
-    const currentTab = $(event.target).closest("li");
+    const currentTab = event.currentTarget.closest("li");
 
-    tmpl.activeTabId.set(currentTab.attr("id"));
-    tmpl.activeTabTemplate.set(currentTab.data("template"));
+    tmpl.activeTabId.set(currentTab.id);
+    tmpl.activeTabTemplate.set(currentTab.dataset.template);
   },
 });

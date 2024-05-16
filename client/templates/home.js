@@ -1,4 +1,3 @@
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import ReactiveDict from "meteor/reactive-dict";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -56,10 +55,10 @@ Template.home.helpers({
 
 Template.home.events({
   "click .nav-tabs li"(event, tmpl) {
-    const currentTab = $(event.target).closest("li");
+    const currentTab = event.currentTarget.closest("li");
 
-    tmpl.activeTabId.set(currentTab.attr("id"));
-    tmpl.activeTabTemplate.set(currentTab.data("template"));
+    tmpl.activeTabId.set(currentTab.id);
+    tmpl.activeTabTemplate.set(currentTab.dataset.template);
     rememberLastTab(tmpl);
   },
 });
