@@ -2,9 +2,9 @@ import "./collections/minutes_private";
 import "./collections/workflow_private";
 import "./helpers/promisedMethods";
 
-import { emailAddressRegExpMatch } from "../imports/helpers/email";
-import { subElementsHelper } from "../imports/helpers/subElements";
-import { User } from "../imports/user";
+import { emailAddressRegExpMatch } from "./helpers/email";
+import { subElementsHelper } from "./helpers/subElements";
+import { User } from "./user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
