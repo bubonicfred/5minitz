@@ -12,7 +12,7 @@ export const formatDateISO8601Time = (aDate, timeZoneCorrection = true) => {
       : 0; // offset in milliseconds
     return new Date(aDate - tzoffset)
       .toISOString()
-      .substr(0, 19)
+      .substring(0, 19)
       .replace("T", " "); // YYYY-MM-DD hh:mm:ss
   } catch (e) {
     return "NaN-NaN-NaN 00:00:00";
@@ -29,7 +29,7 @@ export const msToHHMMSS = (ms) => {
 export const formatDateISO8601 = (aDate) => {
   aDate.setHours(0, -aDate.getTimezoneOffset(), 0, 0); // removing the timezone offset.
   try {
-    return aDate.toISOString().substr(0, 10); // YYYY-MM-DD
+    return aDate.toISOString().substring(0, 10); // YYYY-MM-DD
   } catch (e) {
     return "NaN-NaN-NaN";
   }
