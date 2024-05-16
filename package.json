@@ -9,7 +9,7 @@
     "4m_releasedate": "2020-07-27"
   },
   "engines": {
-    "node": ">=8.10.0"
+    "node": ">=14.0.0"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
