@@ -1,5 +1,3 @@
-import { _ } from "underscore";
-
 import { DateHelper } from "../lib/date-helper";
 import { gMSV } from "../lib/gMSV";
 import { Random } from "../lib/random";
@@ -32,7 +30,7 @@ export class MeetingSeriesGenerator {
   }
 
   addAllMinutes(minutes) {
-    minutes.forEach(_.bind(this.addMinutes, this));
+    minutes.forEach(this.addMinutes.bind(this));
   }
 
   addMinutes(aMinutes) {
