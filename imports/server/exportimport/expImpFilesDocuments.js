@@ -23,7 +23,7 @@ class ExpImpFilesDocuments {
                 "      *** Hint *** Please manually copy all files below:",
               );
               console.log(
-                `      ${doc[0]._storagePath.substr(
+                `      ${doc[0]._storagePath.substring(
                   0,
                   doc[0]._storagePath.lastIndexOf("/"),
                 )}`,

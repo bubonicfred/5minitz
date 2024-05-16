@@ -14,7 +14,7 @@ const getKeyWordFromToken = function (token, queryUserIdByName) {
   let ids = [];
   if (this.USER && token.startsWith(this.USER.key)) {
     key = this.USER.key;
-    value = token.substr(1);
+    value = token.substring(1);
     if (queryUserIdByName) {
       ids = queryUserIdByName(value);
       if (value === "me") {

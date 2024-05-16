@@ -509,7 +509,7 @@ export class Minutes {
       .join("; ");
 
     if (maxChars && names.length > maxChars) {
-      return `${names.substr(0, maxChars)}...`;
+      return `${names.substring(0, maxChars)}...`;
     }
 
     return names || i18n.__("Minutes.Participants.none");

@@ -183,7 +183,7 @@ export class QueryParser {
       if (this.currentLabel !== null) {
         this._addCompleteLabelToken();
       }
-      this.currentLabel = token.substr(1);
+      this.currentLabel = token.substring(1);
     } else {
       completeLabel = `${this.currentLabel} ${token}`; // prepend whitespace!
       const matchingIds = this.queryLabelIdsByName
@@ -221,7 +221,7 @@ export class QueryParser {
   }
 
   _isLabelToken(token) {
-    if (token.substr(0, 1) === "#") {
+    if (token.substring(0, 1) === "#") {
       this.isLabelToken = true;
       this.newLabel = true;
       return true;

@@ -47,7 +47,7 @@ const performSearch = (query, tmpl) => {
 
   // toogle Match Case Checkbox
   const caseSensitive =
-    query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length - 1)) !== -1;
+    query.indexOf(MATCH_CASE.substring(0, MATCH_CASE.length - 1)) !== -1;
   tmpl.$("#cbCaseSensitiveFilter").prop("checked", caseSensitive);
 
   // change filters dropdown

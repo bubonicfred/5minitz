@@ -32,7 +32,7 @@ Template.meetingSeriesEditLabels.onRendered(() => {
 
 Template.meetingSeriesEditLabels.helpers({
   getColorNum() {
-    return this.color.substr(1);
+    return this.color.substring(1);
   },
 
   getLabels() {
@@ -62,7 +62,7 @@ function saveLabel(tmpl, context) {
   const labelName = row.find("[name='labelName']").val();
   let labelColor = row.find(`[name='labelColor-${labelId}']`).val();
 
-  if (labelColor.substr(0, 1) !== "#") {
+  if (labelColor.substring(0, 1) !== "#") {
     labelColor = `#${labelColor}`;
   }
 
@@ -96,7 +96,7 @@ Template.meetingSeriesEditLabels.events({
     const labelName = row.find("[name='labelName']");
     const labelColor = row.find(`[name='labelColor-${labelId}']`);
     labelName.val(aLabel.getName());
-    labelColor.val(aLabel.getColor().substr(1));
+    labelColor.val(aLabel.getColor().substring(1));
     labelColor.focus();
     labelName.focus();
 

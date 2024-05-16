@@ -37,7 +37,7 @@ Template.localeDialog.events({
     if (select) {
       select.selected = true;
     } else {
-      locID = `#loc-${I18nHelper.getLanguageLocale().substr(0, 2)}`; // fallback: try 'en'
+      locID = `#loc-${I18nHelper.getLanguageLocale().substring(0, 2)}`; // fallback: try 'en'
       const select = tmpl.find(locID);
       if (select) {
         select.selected = true;
