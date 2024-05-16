@@ -1,4 +1,4 @@
-import { Minutes } from "/imports/minutes";
+import { Minutes } from "../minutes";
 import { _ } from "lodash";
 import { Blaze } from "meteor/blaze";
 import { $ } from "meteor/jquery";

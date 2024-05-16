@@ -4,7 +4,7 @@
  * a date when is was created
  * and a list of associated tags.
  */
-import { formatDateISO8601 } from "/imports/helpers/date";
+import { formatDateISO8601 } from "../imports/helpers/date";
 import { User } from "/imports/user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
