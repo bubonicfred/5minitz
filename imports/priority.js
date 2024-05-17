@@ -2,8 +2,9 @@ import { i18n } from "meteor/universe:i18n";
 
 const assert = require("assert");
 
-// #I18N - Attention: the below strings with longer texts will be never be used in UI!
-// Instead they will be pulled from translation language files via toString() method below
+// #I18N - Attention: the below strings with longer texts will be never be used
+// in UI! Instead they will be pulled from translation language files via
+// toString() method below
 const PRIORITY_MAP = {
   1: "1 - High",
   2: "2",
@@ -12,6 +13,16 @@ const PRIORITY_MAP = {
   5: "5 - Low",
 };
 
+/**
+ * Represents a priority level for an item.
+ *
+ * The `Priority` class provides methods for working with priority levels,
+ * including getting the default priority, getting all available priorities, and
+ * extracting a priority from a string.
+ *
+ * The priority level is represented as an integer between 1 and 5, where 1 is
+ * the highest priority and 5 is the lowest priority.
+ */
 export class Priority {
   static GET_DEFAULT_PRIORITY() {
     return new Priority(3);

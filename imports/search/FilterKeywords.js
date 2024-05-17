@@ -1,5 +1,12 @@
 import { _ } from "lodash";
 
+/**
+ * Checks if a given token represents a valid keyword.
+ *
+ * @param {string} token - The token to check.
+ * @returns {boolean} - `true` if the token is a valid keyword, `false`
+ *     otherwise.
+ */
 const isKeyword = function (token) {
   if (this.USER && token.startsWith(this.USER.key)) {
     return true;
@@ -8,6 +15,22 @@ const isKeyword = function (token) {
   return arr.length === 2 && this.isAllowedValueForKey(arr[0], arr[1]);
 };
 
+/**
+ * Extracts a keyword and associated value from a given token.
+ *
+ * If the token starts with the user's key, the key is set to the user's key and
+ * the value is the remainder of the token. If the token contains a colon, the
+ * key is set to the part before the colon and the value is the part after the
+ * colon. If the value is "me", it is set to an empty string. If a
+ * queryUserIdByName function is provided, the function is used to retrieve IDs
+ * associated with the value.
+ *
+ * @param {string} token - The token to extract the keyword and value from.
+ * @param {function} [queryUserIdByName] - An optional function to retrieve IDs
+ *     associated with the value.
+ * @returns {object} - An object containing the extracted key, value, and
+ *     associated IDs.
+ */
 const getKeyWordFromToken = function (token, queryUserIdByName) {
   let key;
   let value;

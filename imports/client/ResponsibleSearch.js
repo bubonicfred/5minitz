@@ -1,9 +1,10 @@
-import { Minutes } from "/imports/minutes";
 import { _ } from "lodash";
 import { Blaze } from "meteor/blaze";
 import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
+
+import { Minutes } from "../minutes";
 
 import { ParticipantsPreparer } from "./ParticipantsPreparer";
 

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import _ from "underscore";
+import _ from "lodash";
 const { faker } = require("@faker-js/faker");
 
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
@@ -139,7 +139,7 @@ describe("ParticipantsPreparer", () => {
         FORMER_RESP_MAIL,
       ];
       preparer.freeTextValidator = (text) => {
-        return text.indexOf("@") !== -1;
+        return text.includes("@");
       };
       preparer._prepareResponsibles();
       const result = preparer.getPossibleResponsibles();

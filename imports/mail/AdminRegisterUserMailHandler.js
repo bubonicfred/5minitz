@@ -5,6 +5,15 @@ import { GlobalSettings } from "../config/GlobalSettings";
 
 import { MailFactory } from "./MailFactory";
 
+/**
+ * Handles sending an email to an admin when a new user is registered.
+ *
+ * @class AdminRegisterUserMailHandler
+ * @param {string} newUserId - The ID of the new user that was registered.
+ * @param {boolean} includePassword - Whether to include the user's password in
+ *     the email.
+ * @param {string} password - The password of the new user.
+ */
 export class AdminRegisterUserMailHandler {
   constructor(newUserId, includePassword, password) {
     this._includePassword = includePassword;
@@ -18,6 +27,12 @@ export class AdminRegisterUserMailHandler {
     }
   }
 
+  /**
+   * Sends an email to the admin when a new user is registered by an admin.
+   * The email includes the new user's name, username, and optionally their
+   * password. The email is sent from the default email sender address
+   * configured in GlobalSettings.
+   */
   send() {
     const emails = Meteor.user().emails;
     const adminFrom =

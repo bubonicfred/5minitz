@@ -1,9 +1,10 @@
-import { checkWithMsg } from "/imports/helpers/check";
-import { AdminRegisterUserMailHandler } from "/imports/mail/AdminRegisterUserMailHandler";
 import { Accounts } from "meteor/accounts-base";
 import { check, Match } from "meteor/check";
 import { Meteor } from "meteor/meteor";
 import isEmail from "validator/lib/isEmail";
+
+import { checkWithMsg } from "../helpers/check";
+import { AdminRegisterUserMailHandler } from "../mail/AdminRegisterUserMailHandler";
 
 Meteor.methods({
   "users.saveSettings"(settings) {

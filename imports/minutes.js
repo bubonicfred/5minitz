@@ -106,11 +106,11 @@ export class Minutes {
     console.log("Minutes.update()");
     const parentMeetingSeries = this.parentMeetingSeries();
 
-    _.extend(docPart, { _id: this._id });
+    _.assignIn(docPart, { _id: this._id });
     await Meteor.callPromise("minutes.update", docPart, callback);
 
     // merge new doc fragment into this document
-    _.extend(this, docPart);
+    _.assignIn(this, docPart);
 
     if (
       Object.prototype.hasOwnProperty.call(docPart, "date") ||
