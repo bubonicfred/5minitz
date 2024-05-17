@@ -1,6 +1,7 @@
-import { BroadcastMessageSchema } from "./collections/broadcastmessages.schema";
-import { formatDateISO8601Time } from "./helpers/date";
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
+
+import {BroadcastMessageSchema} from "./collections/broadcastmessages.schema";
+import {formatDateISO8601Time} from "./helpers/date";
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server
@@ -16,22 +17,19 @@ import { Meteor } from "meteor/meteor";
 /**
  * Provides static methods for managing broadcast messages in the application.
  *
- * The `BroadcastMessage` class provides a set of static methods for interacting with broadcast messages. These methods allow you to find, show, dismiss, remove, and list all broadcast messages.
+ * The `BroadcastMessage` class provides a set of static methods for interacting
+ * with broadcast messages. These methods allow you to find, show, dismiss,
+ * remove, and list all broadcast messages.
  *
- * The `show`, `removeAll`, and `remove` methods are server-only and can only be called from the server-side code.
+ * The `show`, `removeAll`, and `remove` methods are server-only and can only be
+ * called from the server-side code.
  */
 export class BroadcastMessage {
-  static find(...args) {
-    return BroadcastMessageSchema.find(...args);
-  }
+  static find(...args) { return BroadcastMessageSchema.find(...args); }
 
-  static findOne(...args) {
-    return BroadcastMessageSchema.findOne(...args);
-  }
+  static findOne(...args) { return BroadcastMessageSchema.findOne(...args); }
 
-  static dismissForMe() {
-    Meteor.call("broadcastmessage.dismiss");
-  }
+  static dismissForMe() { Meteor.call("broadcastmessage.dismiss"); }
 
   // ************************
   // * static server-only methods
@@ -55,7 +53,7 @@ export class BroadcastMessage {
     }
     if (Meteor.isServer) {
       console.log(`Remove BroadcastMessage: ${id}`);
-      BroadcastMessageSchema.remove({ _id: id });
+      BroadcastMessageSchema.remove({_id : id});
     }
   }
 
@@ -65,10 +63,11 @@ export class BroadcastMessage {
     }
     console.log("List All BroadcastMessages.");
     const allMsgs = [];
-    BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
-      const oneMsg = `Message: ${msg._id} ${formatDateISO8601Time(
-        msg.createdAt,
-      )} dismissed:${msg.dismissForUserIDs.length}\n${msg.text}`;
+    BroadcastMessageSchema.find({isActive : true}).forEach((msg) => {
+      const oneMsg = `Message: ${msg._id} ${
+          formatDateISO8601Time(
+              msg.createdAt,
+              )} dismissed:${msg.dismissForUserIDs.length}\n${msg.text}`;
       console.log(oneMsg);
       allMsgs.push(oneMsg);
     });

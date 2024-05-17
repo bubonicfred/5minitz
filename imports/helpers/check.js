@@ -1,14 +1,18 @@
-import { check } from "meteor/check";
-import { Meteor } from "meteor/meteor";
+import {check} from "meteor/check";
+import {Meteor} from "meteor/meteor";
 
 /**
- * Checks a variable against a pattern and throws a Meteor.Error if the check fails.
+ * Checks a variable against a pattern and throws a Meteor.Error if the check
+ * fails.
  *
  * @param {any} variable - The variable to check.
  * @param {any} pattern - The pattern to check the variable against.
- * @param {string} [message] - An optional error message to include in the Meteor.Error.
- * @throws {Meteor.Error} If the variable does not match the pattern, and a message is provided.
- * @throws {Error} If the variable does not match the pattern, and no message is provided.
+ * @param {string} [message] - An optional error message to include in the
+ *     Meteor.Error.
+ * @throws {Meteor.Error} If the variable does not match the pattern, and a
+ *     message is provided.
+ * @throws {Error} If the variable does not match the pattern, and no message is
+ *     provided.
  */
 export const checkWithMsg = (variable, pattern, message) => {
   try {
@@ -26,7 +30,8 @@ export const checkWithMsg = (variable, pattern, message) => {
  *
  * @param {*} variable - The variable to check.
  * @param {Function} type - The type to check against.
- * @throws {Meteor.Error} If the variable is not an instance of the specified type.
+ * @throws {Meteor.Error} If the variable is not an instance of the specified
+ *     type.
  */
 export const instanceCheck = (variable, type) => {
   const isValidSeries = variable instanceof type;
