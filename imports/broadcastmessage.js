@@ -1,6 +1,7 @@
+import { Meteor } from "meteor/meteor";
+
 import { BroadcastMessageSchema } from "./collections/broadcastmessages.schema";
 import { formatDateISO8601Time } from "./helpers/date";
-import { Meteor } from "meteor/meteor";
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server
@@ -16,9 +17,12 @@ import { Meteor } from "meteor/meteor";
 /**
  * Provides static methods for managing broadcast messages in the application.
  *
- * The `BroadcastMessage` class provides a set of static methods for interacting with broadcast messages. These methods allow you to find, show, dismiss, remove, and list all broadcast messages.
+ * The `BroadcastMessage` class provides a set of static methods for interacting
+ * with broadcast messages. These methods allow you to find, show, dismiss,
+ * remove, and list all broadcast messages.
  *
- * The `show`, `removeAll`, and `remove` methods are server-only and can only be called from the server-side code.
+ * The `show`, `removeAll`, and `remove` methods are server-only and can only be
+ * called from the server-side code.
  */
 export class BroadcastMessage {
   static find(...args) {

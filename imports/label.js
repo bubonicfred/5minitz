@@ -6,21 +6,25 @@ import { MeetingSeries } from "./meetingseries";
 /**
  * Represents a label object with various properties and methods.
  *
- * The `Label` class is used to create and manage label objects, which can be associated with various entities (e.g., meeting series) in the application. It provides methods to create, retrieve, and update label information.
+ * The `Label` class is used to create and manage label objects, which can be
+ * associated with various entities (e.g., meeting series) in the application.
+ * It provides methods to create, retrieve, and update label information.
  *
  * @class Label
  * @param {Object} source - The source object containing the initial label data.
  * @param {string} source.name - The name of the label.
  * @param {string} source.color - The color of the label in hexadecimal format.
- * @param {boolean} [source.isDefaultLabel=false] - Indicates whether the label is a default label.
- * @param {boolean} [source.isDisabled=false] - Indicates whether the label is disabled.
+ * @param {boolean} [source.isDefaultLabel=false] - Indicates whether the label
+ *     is a default label.
+ * @param {boolean} [source.isDisabled=false] - Indicates whether the label is
+ *     disabled.
  * @throws {Meteor.Error} If the source object is not provided.
  */
 export class Label {
   constructor(source) {
     if (!source) {
       throw new Meteor.Error(
-        "It is not allowed to create a Label without the source"
+        "It is not allowed to create a Label without the source",
       );
     }
 
@@ -31,7 +35,7 @@ export class Label {
         isDisabled: false,
         color: "#e6e6e6",
       },
-      source
+      source,
     );
 
     const nameAndColor = Label._separateNameAndColor(source.name);
@@ -44,16 +48,22 @@ export class Label {
   }
 
   /**
-   * Separates a string containing a name and a color into an object with `name` and `color` properties.
+   * Separates a string containing a name and a color into an object with `name`
+   * and `color` properties.
    *
-   * The input string is expected to be in the format `"<name>#<color>"`, where `<name>` is a string and `<color>` is a hexadecimal color code (e.g. `"My Label#ff0000"`).
+   * The input string is expected to be in the format `"<name>#<color>"`, where
+   * `<name>` is a string and `<color>` is a hexadecimal color code (e.g. `"My
+   * Label#ff0000"`).
    *
-   * @param {string} nameAndColorStr - The input string containing the name and color.
-   * @returns {Object|string} - If the input string matches the expected format, an object with `name` and `color` properties is returned. Otherwise, the original input string is returned.
+   * @param {string} nameAndColorStr - The input string containing the name and
+   *     color.
+   * @returns {Object|string} - If the input string matches the expected format,
+   *     an object with `name` and `color` properties is returned. Otherwise,
+   *     the original input string is returned.
    */
   static _separateNameAndColor(nameAndColorStr) {
     const nameAndColor = nameAndColorStr.match(
-      /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/
+      /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/,
     );
     if (nameAndColor && nameAndColor.length > 2) {
       return {
@@ -66,11 +76,14 @@ export class Label {
   }
 
   /**
-   * Creates a new Label instance from the given parent MeetingSeries and label ID.
+   * Creates a new Label instance from the given parent MeetingSeries and label
+   * ID.
    *
-   * @param {MeetingSeries} parentMeetingSeries - The parent MeetingSeries for the label.
+   * @param {MeetingSeries} parentMeetingSeries - The parent MeetingSeries for
+   *     the label.
    * @param {string} labelId - The ID of the label to create.
-   * @returns {Label|null} - The created Label instance, or null if the label does not exist.
+   * @returns {Label|null} - The created Label instance, or null if the label
+   *     does not exist.
    */
   static createLabelById(parentMeetingSeries, labelId) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
@@ -83,7 +96,8 @@ export class Label {
   /**
    * Creates a new Label instance by the given label name.
    *
-   * @param {Object} parentMeetingSeries - The parent meeting series for the label.
+   * @param {Object} parentMeetingSeries - The parent meeting series for the
+   *     label.
    * @param {string} labelName - The name of the label to create.
    * @returns {Label|null} - The created Label instance, or null if not found.
    */
@@ -101,32 +115,37 @@ export class Label {
   }
 
   /**
-   * Finds a label in the given parent meeting series that contains the specified substring in its name, optionally case-sensitive.
+   * Finds a label in the given parent meeting series that contains the
+   * specified substring in its name, optionally case-sensitive.
    *
-   * @param {Object} parentMeetingSeries - The parent meeting series to search for the label.
+   * @param {Object} parentMeetingSeries - The parent meeting series to search
+   *     for the label.
    * @param {string} name - The substring to search for in the label name.
-   * @param {boolean} [caseSensitive=false] - Whether the search should be case-sensitive.
+   * @param {boolean} [caseSensitive=false] - Whether the search should be
+   *     case-sensitive.
    * @returns {Object|null} - The label document if found, or null if not found.
    */
   static findLabelsContainingSubstring(
     parentMeetingSeries,
     name,
-    caseSensitive
+    caseSensitive,
   ) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
     const labelDoc = parentMeetingSeries.findLabelContainingSubstr(
       name,
-      caseSensitive
+      caseSensitive,
     );
     if (labelDoc) return labelDoc;
     return null;
   }
 
   /**
-   * Creates a new `MeetingSeries` instance from the provided `parentMeetingSeries` object.
+   * Creates a new `MeetingSeries` instance from the provided
+   * `parentMeetingSeries` object.
    *
-   * @param {string|Object} parentMeetingSeries - The parent meeting series, either as a string or an object with a `findLabel` method.
+   * @param {string|Object} parentMeetingSeries - The parent meeting series,
+   *     either as a string or an object with a `findLabel` method.
    * @returns {MeetingSeries} - A new `MeetingSeries` instance.
    * @throws {Meteor.Error} - If the `parentMeetingSeries` is invalid.
    */
@@ -184,7 +203,8 @@ export class Label {
 
   /**
    * Determines if the current label has a dark background color.
-   * @returns {boolean} True if the label has a dark background color, false otherwise.
+   * @returns {boolean} True if the label has a dark background color, false
+   *     otherwise.
    */
   hasDarkBackground() {
     return ColorHelper.isDarkColor(this.getColor());
@@ -211,13 +231,14 @@ export class Label {
 
   /**
    * Checks if the label color is a valid hex color string.
-   * If the color is invalid, throws a Meteor.Error with the code "invalid-color" and the message "Label color must be a valid hex code".
+   * If the color is invalid, throws a Meteor.Error with the code
+   * "invalid-color" and the message "Label color must be a valid hex code".
    */
   _checkLabelColor() {
     if (!ColorHelper.isValidHexColorString(this.getColor())) {
       throw new Meteor.Error(
         "invalid-color",
-        "Label color must be a valid hex code"
+        "Label color must be a valid hex code",
       );
     }
   }
