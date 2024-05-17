@@ -1,4 +1,4 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 /**
  * Wraps a Meteor method call in a Promise.
@@ -8,12 +8,13 @@ import {Meteor} from "meteor/meteor";
  * @returns {Promise<any>} - A Promise that resolves with the result of the
  *     Meteor method call, or rejects with the error.
  */
-Meteor.callPromise = (method, ...args) => new Promise((resolve, reject) => {
-  Meteor.call(method, ...args, (error, result) => {
-    if (error) {
-      reject(error);
-    }
+Meteor.callPromise = (method, ...args) =>
+  new Promise((resolve, reject) => {
+    Meteor.call(method, ...args, (error, result) => {
+      if (error) {
+        reject(error);
+      }
 
-    resolve(result);
+      resolve(result);
+    });
   });
-});

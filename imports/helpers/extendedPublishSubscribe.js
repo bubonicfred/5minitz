@@ -1,6 +1,6 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
-import {UserRoles} from "./../userroles";
+import { UserRoles } from "./../userroles";
 
 /**
  * Publishes a Meteor publication that filters a given collection based on
@@ -14,21 +14,25 @@ import {UserRoles} from "./../userroles";
  *     that represents the minute.
  */
 export class extendedPublishSubscribeHandler {
-  static publishByMeetingSeriesOrMinute =
-      (publishName, collection, meetingSeriesAttribute, minuteAttribute) => {
-        if (Meteor.isServer) {
-          Meteor.publish(publishName, function(meetingSeriesId, minuteId) {
-            if (meetingSeriesId) {
-              const userRole = new UserRoles(this.userId);
-              if (userRole.hasViewRoleFor(meetingSeriesId)) {
-                const query =
-                    minuteId ? {[minuteAttribute] : minuteId}
-                             : {[meetingSeriesAttribute] : meetingSeriesId};
-                return collection.find(query).cursor;
-              }
-            }
-            return this.ready();
-          });
+  static publishByMeetingSeriesOrMinute = (
+    publishName,
+    collection,
+    meetingSeriesAttribute,
+    minuteAttribute,
+  ) => {
+    if (Meteor.isServer) {
+      Meteor.publish(publishName, function (meetingSeriesId, minuteId) {
+        if (meetingSeriesId) {
+          const userRole = new UserRoles(this.userId);
+          if (userRole.hasViewRoleFor(meetingSeriesId)) {
+            const query = minuteId
+              ? { [minuteAttribute]: minuteId }
+              : { [meetingSeriesAttribute]: meetingSeriesId };
+            return collection.find(query).cursor;
+          }
         }
-      };
+        return this.ready();
+      });
+    }
+  };
 }

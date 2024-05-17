@@ -1,7 +1,7 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
-import {ColorHelper} from "./ColorHelper";
-import {MeetingSeries} from "./meetingseries";
+import { ColorHelper } from "./ColorHelper";
+import { MeetingSeries } from "./meetingseries";
 
 /**
  * Represents a label object with various properties and methods.
@@ -24,15 +24,19 @@ export class Label {
   constructor(source) {
     if (!source) {
       throw new Meteor.Error(
-          "It is not allowed to create a Label without the source");
+        "It is not allowed to create a Label without the source",
+      );
     }
 
-    this._labelDoc = Object.assign({}, {
-      isDefaultLabel : false,
-      isDisabled : false,
-      color : "#e6e6e6",
-    },
-                                   source);
+    this._labelDoc = Object.assign(
+      {},
+      {
+        isDefaultLabel: false,
+        isDisabled: false,
+        color: "#e6e6e6",
+      },
+      source,
+    );
 
     const nameAndColor = Label._separateNameAndColor(source.name);
     if (typeof nameAndColor !== "string") {
@@ -58,12 +62,13 @@ export class Label {
    *     the original input string is returned.
    */
   static _separateNameAndColor(nameAndColorStr) {
-    const nameAndColor =
-        nameAndColorStr.match(/(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/);
+    const nameAndColor = nameAndColorStr.match(
+      /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/,
+    );
     if (nameAndColor && nameAndColor.length > 2) {
       return {
-        name : nameAndColor[1],
-        color : nameAndColor[2],
+        name: nameAndColor[1],
+        color: nameAndColor[2],
       };
     }
 
@@ -84,8 +89,7 @@ export class Label {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
     const labelDoc = parentMeetingSeries.findLabel(labelId);
-    if (labelDoc)
-      return new Label(labelDoc);
+    if (labelDoc) return new Label(labelDoc);
     return null;
   }
 
@@ -106,8 +110,7 @@ export class Label {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
     const labelDoc = parentMeetingSeries.findLabelByName(labelName);
-    if (labelDoc)
-      return new Label(labelDoc);
+    if (labelDoc) return new Label(labelDoc);
     return null;
   }
 
@@ -122,14 +125,18 @@ export class Label {
    *     case-sensitive.
    * @returns {Object|null} - The label document if found, or null if not found.
    */
-  static findLabelsContainingSubstring(parentMeetingSeries, name,
-                                       caseSensitive) {
+  static findLabelsContainingSubstring(
+    parentMeetingSeries,
+    name,
+    caseSensitive,
+  ) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
-    const labelDoc =
-        parentMeetingSeries.findLabelContainingSubstr(name, caseSensitive);
-    if (labelDoc)
-      return labelDoc;
+    const labelDoc = parentMeetingSeries.findLabelContainingSubstr(
+      name,
+      caseSensitive,
+    );
+    if (labelDoc) return labelDoc;
     return null;
   }
 
@@ -145,8 +152,9 @@ export class Label {
   static _createParentMeetingSeries(parentMeetingSeries) {
     if (typeof parentMeetingSeries === "string") {
       return new MeetingSeries(parentMeetingSeries);
-    } else if (Object.prototype.hasOwnProperty.call(parentMeetingSeries,
-                                                    "findLabel")) {
+    } else if (
+      Object.prototype.hasOwnProperty.call(parentMeetingSeries, "findLabel")
+    ) {
       return parentMeetingSeries;
     }
 
@@ -157,44 +165,58 @@ export class Label {
    * Returns the unique identifier (ID) of the label document.
    * @returns {string} The ID of the label document.
    */
-  getId() { return this._labelDoc._id; }
+  getId() {
+    return this._labelDoc._id;
+  }
 
   /**
    * Sets the name of the label.
    * @param {string} name - The new name for the label.
    */
-  setName(name) { this._labelDoc.name = name; }
+  setName(name) {
+    this._labelDoc.name = name;
+  }
 
   /**
    * Returns the name of the label.
    * @returns {string} The name of the label.
    */
-  getName() { return this._labelDoc.name; }
+  getName() {
+    return this._labelDoc.name;
+  }
 
   /**
    * Returns the color of the label.
    * @returns {string} The color of the label.
    */
-  getColor() { return this._labelDoc.color; }
+  getColor() {
+    return this._labelDoc.color;
+  }
 
   /**
    * Sets the color of the label.
    * @param {string} color - The new color to set for the label.
    */
-  setColor(color) { this._labelDoc.color = color; }
+  setColor(color) {
+    this._labelDoc.color = color;
+  }
 
   /**
    * Determines if the current label has a dark background color.
    * @returns {boolean} True if the label has a dark background color, false
    *     otherwise.
    */
-  hasDarkBackground() { return ColorHelper.isDarkColor(this.getColor()); }
+  hasDarkBackground() {
+    return ColorHelper.isDarkColor(this.getColor());
+  }
 
   /**
    * Returns the label document.
    * @returns {Object} The label document.
    */
-  getDocument() { return this._labelDoc; }
+  getDocument() {
+    return this._labelDoc;
+  }
 
   /**
    * Saves the parent meeting series with the label.
@@ -214,8 +236,10 @@ export class Label {
    */
   _checkLabelColor() {
     if (!ColorHelper.isValidHexColorString(this.getColor())) {
-      throw new Meteor.Error("invalid-color",
-                             "Label color must be a valid hex code");
+      throw new Meteor.Error(
+        "invalid-color",
+        "Label color must be a valid hex code",
+      );
     }
   }
 }

@@ -16,12 +16,13 @@ export class ColorHelper {
     hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
 
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r : parseInt(result[1], 16),
-      g : parseInt(result[2], 16),
-      b : parseInt(result[3], 16),
-    }
-                  : null;
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   }
 
   /**
@@ -36,9 +37,12 @@ export class ColorHelper {
     if (typeof color === "string") {
       color = ColorHelper.hex2rgb(color);
     }
-    const o = Math.round((parseInt(color.r) * 299 + parseInt(color.g) * 587 +
-                          parseInt(color.b) * 114) /
-                         1000);
+    const o = Math.round(
+      (parseInt(color.r) * 299 +
+        parseInt(color.g) * 587 +
+        parseInt(color.b) * 114) /
+        1000,
+    );
     return o < 125;
   }
 
