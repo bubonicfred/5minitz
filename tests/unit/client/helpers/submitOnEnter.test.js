@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
-import { rewiremock } from "../../test-helper/rewiremock.js";
+import { rewiremock } from "../../test-helper/rewiremock.cjs";
 const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
