@@ -1,7 +1,7 @@
-const crawler = require("npm-license-crawler"),
-  http = require("http"),
-  https = require("https"),
-  fs = require("fs");
+import crawler from "npm-license-crawler";
+import http from "http";
+import https from "https";
+import fs from "fs";
 
 const meteorPackages = {
   meteor: {
