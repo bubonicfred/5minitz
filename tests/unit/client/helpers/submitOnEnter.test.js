@@ -8,10 +8,11 @@ const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
-const submitOnEnter = await rewiremock.module(() => import('../../../../client/helpers/submitOnEnter'), {
+const submitOnEnter = await rewiremock.module(() => import('../../../../client/helpers/submitOnEnter.js'), {
   jquery:  $,
   lodash: _,
 }).default;
+
 
 describe("submitOnEnter", function () {
   const action = sinon.stub();
