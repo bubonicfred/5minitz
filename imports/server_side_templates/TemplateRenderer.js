@@ -39,14 +39,14 @@ export class TemplateRenderer {
   }
 
   addDataObject(data) {
-    _.extend(this._data, data);
+    _.assignIn(this._data, data);
   }
 
   render() {
     return ServerTemplate.render(
       this._templateContent,
       this._data,
-      this._helpers,
+      this._helpers
     );
   }
 }
