@@ -1,5 +1,5 @@
 import { _ } from "lodash";
-import { $ } from "meteor/jquery";
+import { $ } from "jquery";
 
 function createHandler(action) {
   return (event) => {

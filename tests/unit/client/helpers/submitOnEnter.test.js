@@ -1,9 +1,8 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
-import "meteor/underscore";
-import "meteor/jquery";
+import _ from "lodash";
+
 
 import rewiremock from "../../test-helper/rewiremock.cjs";
 const jQueryOnStub = sinon.stub();
@@ -11,8 +10,8 @@ const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
 const submitOnEnter = rewiremock.proxy('#root/client/helpers/submitOnEnter', {
-  'meteor/jquery':  $,
-  'meteor/underscore': _,
+  jquery:  $,
+  lodash: _,
 }).default;
 
 describe("submitOnEnter", function () {
