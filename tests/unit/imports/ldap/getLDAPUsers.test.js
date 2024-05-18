@@ -6,7 +6,6 @@ import asyncStubs from "../../../support/lib/asyncStubs";
 
 const ldap = {
   createClient: sinon.stub(),
-  "@noCallThru": true,
 };
 
 const ldapSearchResponseWithResult = {
