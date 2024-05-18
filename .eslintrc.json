@@ -10,7 +10,9 @@
         "lodash",
         "no-jquery",
         "@babel",
-        "promise"
+        "promise",
+        "deprecate",
+        "jsdoc"
 
 ],
 
@@ -36,9 +38,13 @@
     },
     "rules": {
         "node/no-unsupported-features/es-syntax": "off",
+        "node/no-missing-import": "off",
         "lodash/prefer-lodash-method": "off",
         "lodash/prefer-lodash-typecheck": "off",
         "lodash/prefer-get": "off",
+        "lodash/prefer-noop": "off",
+        "lodash/prefer-constant": "off",
+        "lodash/preferred-alias": "error",
         "import/no-unresolved": "off",
         "@babel/new-cap": "error",
         "@babel/no-invalid-this": "error",
