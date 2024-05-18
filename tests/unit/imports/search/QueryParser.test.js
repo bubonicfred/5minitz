@@ -1,6 +1,6 @@
 import proxyquire from "proxyquire";
 import { expect } from "chai";
-import _ from "underscore";
+import _ from "lodash";
 
 class MeteorError {}
 const Meteor = {
@@ -10,12 +10,12 @@ const Meteor = {
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
-    "meteor/underscore": { _, "@noCallThru": true },
+    "lodash": { _, "@noCallThru": true },
   },
 );
 
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
-  "meteor/underscore": { _, "@noCallThru": true },
+  "lodash": { _, "@noCallThru": true },
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
 

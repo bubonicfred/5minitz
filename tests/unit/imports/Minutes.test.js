@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
+import _ from "lodash";
 import rewiremock from "../../test-helper/rewiremock.cjs";
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
@@ -66,7 +66,7 @@ const { Minutes } = rewiremock.proxy('#root/imports/minutes', {
   "./actionitem": { ActionItem, "@noCallThru": true },
   "/imports/helpers/email": EmailHelpers,
   "/imports/helpers/subElements": SubElements,
-  "meteor/underscore": { _, "@noCallThru": true },
+  "lodash": { _, "@noCallThru": true },
 });
 
 describe("Minutes", () => {

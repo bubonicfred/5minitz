@@ -3,7 +3,7 @@ import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
+import _ from "lodash";
 import rewiremock from "../../test-helper/rewiremock.cjs";
 const MeetingSeriesSchema = {};
 const Meteor = {
@@ -45,7 +45,7 @@ const { MeetingSeries } = rewiremock.proxy('#root/imports/meetingseries', {
   "./userroles": { UserRoles, "@noCallThru": true },
   "/imports/helpers/date": DateHelpers,
   "/imports/helpers/subElements": SubElements,
-  "meteor/underscore": { _, "@noCallThru": true },
+  "lodash": { _, "@noCallThru": true },
   "./services/topicsFinder": { TopicsFinder, "@noCallThru": true },
   "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
