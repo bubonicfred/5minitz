@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
-
+import { rewiremock } from "../../test-helper/rewiremock.js";
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
 import * as SubElements from "../../../imports/helpers/subElements";
@@ -52,7 +52,7 @@ EmailHelpers["@noCallThru"] = true;
 const Random = {
   id: () => {},
 };
-const { Minutes } = proxyquire("../../../imports/minutes", {
+const { Minutes } = rewiremock.proxy('#root/imports/minutes', {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/universe:i18n": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },

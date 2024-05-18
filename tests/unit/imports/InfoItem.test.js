@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
-
+import { rewiremock } from "../../test-helper/rewiremock.js";
 import * as Helpers from "../../../imports/helpers/date";
 import { subElementsHelper } from "../../../imports/helpers/subElements";
 
@@ -27,7 +27,7 @@ const User = {
   PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-const { InfoItem } = proxyquire("../../../imports/infoitem", {
+const { InfoItem } = rewiremock.proxy('#root/imports/infoitem', {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "meteor/underscore": { _, "@noCallThru": true },

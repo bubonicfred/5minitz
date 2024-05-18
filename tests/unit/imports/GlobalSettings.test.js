@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
+import { rewiremock } from "../../test-helper/rewiremock.js";
 class MeteorError {}
 const Meteor = {
   Error: MeteorError,
@@ -20,8 +20,8 @@ const LdapSettings = {
   publish: sinon.stub(),
 };
 
-const { GlobalSettings } = proxyquire(
-  "../../../imports/config/GlobalSettings",
+const { GlobalSettings } = rewiremock.proxy(
+  '#root/imports/config/GlobalSettings',
   {
     "meteor/meteor": { Meteor, "@noCallThru": true },
     "/imports/config/LdapSettings": { LdapSettings, "@noCallThru": true },
