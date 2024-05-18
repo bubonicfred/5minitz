@@ -2,7 +2,8 @@ import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
+import _ from "underscore";
+import { rewiremock } from "../../test-helper/rewiremock.js";
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
 import * as SubElements from "../../../imports/helpers/subElements";

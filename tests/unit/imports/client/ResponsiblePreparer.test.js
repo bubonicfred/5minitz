@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { expect } from "chai";
 import _ from "lodash";
-
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
 
 const generateId = () => {
