@@ -1,5 +1,5 @@
-import jQuery from 'jquery';
-window.$ = window.jQuery = jQuery;
+import { _ } from "lodash";
+import { $ } from "jquery";
 
 /**
  * Creates a handler function that prevents the default behavior of the event
