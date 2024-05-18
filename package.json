@@ -1,6 +1,6 @@
 {
   "name": "4Minitz",
-  "version": "v2.0.0-develop",
+  "version": "2.0.0",
   "4minitz": {
     "//": "This is some app specific info",
     "4m_branch": "develop",
@@ -13,7 +13,7 @@
   },
   "type" : "module",
   "imports": {
-      "#root/*.js": "./*.js"
+    "#root/*.js": "./*.js"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
