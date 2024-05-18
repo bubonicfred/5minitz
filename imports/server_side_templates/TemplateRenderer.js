@@ -46,7 +46,7 @@ export class TemplateRenderer {
     return ServerTemplate.render(
       this._templateContent,
       this._data,
-      this._helpers
+      this._helpers,
     );
   }
 }
