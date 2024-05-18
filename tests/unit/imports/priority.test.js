@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { AssertHelper } from "../test-helper/assert-helper";
 import sinon from "sinon";
 import proxyquire from "proxyquire";
-import { rewiremock } from "../../test-helper/rewiremock.cjs";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 const EXPECTED_PRIORITY_MAP = {
   1: "1 - High",
   2: "2",

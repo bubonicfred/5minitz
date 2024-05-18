@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import { rewiremock } from "../../test-helper/rewiremock.cjs";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 class MeteorError {}
 const Meteor = {
   Error: MeteorError,

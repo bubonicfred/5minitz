@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
-import { rewiremock } from "../../test-helper/rewiremock.cjs";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 const TestSetup = {
   nextItemIsAnActionItem: false,
   infoItemConstructorCallCount: 0,

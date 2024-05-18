@@ -4,7 +4,7 @@ import * as SubElements from "../../../imports/helpers/subElements";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
-import { rewiremock } from "../../test-helper/rewiremock.cjs";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 const MeetingSeriesSchema = {};
 const Meteor = {
   call: sinon.stub(),
