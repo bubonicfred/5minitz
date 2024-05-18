@@ -74,6 +74,7 @@ const numberOfUsers = arg.options.number;
 if (!numberOfUsers) {
   optionParser.showHelp();
   throw new Error("No --numberparameter set");
+  throw new Error("No --numberparameter set");
 }
 if (!mongoUrl) {
   optionParser.showHelp();

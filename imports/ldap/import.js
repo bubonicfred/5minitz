@@ -1,5 +1,5 @@
-let getLDAPUsers = require("./getLDAPUsers"),
-  saveUsers = require("./saveUsers");
+import getLDAPUsers from "./getLDAPUsers";
+import saveUsers from "./saveUsers";
 
 const report = (bulkResult) => {
   let inserted = bulkResult.nUpserted,
@@ -55,4 +55,4 @@ const importUsers = (ldapSettings, mongoUrl) =>
     .then(resetSelfSigned)
     .catch(handleRejection);
 
-module.exports = importUsers;
+export default importUsers;

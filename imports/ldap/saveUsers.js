@@ -1,6 +1,6 @@
-let mongo = require("mongodb").MongoClient,
-  mongoUriParser = require("mongo-uri"),
-  transformUser = require("./transformUser");
+import { MongoClient as mongo } from "mongodb";
+import mongoUriParser from "mongo-uri";
+import transformUser from "./transformUser";
 
 import { _ } from "lodash";
 import { Random } from "../../tests/performance/fixtures/lib/random";
@@ -93,4 +93,4 @@ const saveUsers = (settings, mongoUrl, users) => {
   });
 };
 
-module.exports = saveUsers;
+export default saveUsers;

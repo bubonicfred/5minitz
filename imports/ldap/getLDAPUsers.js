@@ -1,5 +1,5 @@
-const ldap = require("ldapjs");
-const _ = require("lodash");
+import ldap from "ldapjs";
+import _ from "lodash";
 
 const _createLDAPClient = (settings) =>
   new Promise((resolve, reject) => {
@@ -149,4 +149,4 @@ const getLDAPUsers = (settings) =>
       .catch(reject);
   });
 
-module.exports = getLDAPUsers;
+export default getLDAPUsers;

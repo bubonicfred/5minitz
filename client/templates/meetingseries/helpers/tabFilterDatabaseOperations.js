@@ -1,8 +1,7 @@
-import { Label } from "/imports/label";
+import { Label } from "../imports/label";
 import { Meteor } from "meteor/meteor";
 
-module.exports = {
-  createLabelIdsReceiver(parentMeetingSeriesId) {
+export function createLabelIdsReceiver(parentMeetingSeriesId) {
     return function getLabelIdsByName(labelName, caseSensitive) {
       const label = Label.findLabelsContainingSubstring(
         parentMeetingSeriesId,
@@ -16,9 +15,9 @@ module.exports = {
       }
       return null;
     };
-  },
+};
 
-  createUserIdsReceiver(userName) {
+export function createUserIdsReceiver(userName) {
     const users =
       userName === "me"
         ? [Meteor.user()]
@@ -30,5 +29,4 @@ module.exports = {
     }
 
     return [];
-  },
-};
+  };

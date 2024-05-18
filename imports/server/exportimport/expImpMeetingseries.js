@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import fs from "fs";
+import { EJSON } from "bson";
 
 class ExpImpMeetingSeries {
   static get FILENAME_POSTFIX() {
@@ -75,4 +75,4 @@ class ExpImpMeetingSeries {
   }
 }
 
-module.exports = ExpImpMeetingSeries;
+export default ExpImpMeetingSeries;

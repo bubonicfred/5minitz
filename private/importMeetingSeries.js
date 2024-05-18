@@ -26,9 +26,11 @@ const meetingseriesID = arg.options.id;
 if (!meetingseriesID) {
   optionParser.showHelp();
   throw new Error("No --id set for meeting series");
+  throw new Error("No --id set for meeting series");
 }
 if (!mongoUrl) {
   optionParser.showHelp();
+  throw new Error("No --mongourl parameter or MONGO_URL in env");
   throw new Error("No --mongourl parameter or MONGO_URL in env");
 }
 const _connectMongo = (mongoUrl) =>
