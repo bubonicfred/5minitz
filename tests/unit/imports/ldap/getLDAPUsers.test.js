@@ -32,7 +32,7 @@ const ldapSearchResponseWithError = {
 //const getLDAPUsers = proxyquire(`../../../../imports/ldap/getLDAPUsers`, {
 //  ldapjs: ldap,
 //});
-const getLDAPUsers = rewiremock.proxy('../../../../imports/ldap/getLDAPUsers', {
+const getLDAPUsers = rewiremock.proxy('imports/ldap/getLDAPUsers.js', {
   ldapjs: ldap,
 });
 
