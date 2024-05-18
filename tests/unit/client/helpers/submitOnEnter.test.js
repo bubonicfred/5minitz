@@ -4,12 +4,11 @@ import sinon from "sinon";
 import _ from "lodash";
 
 import rewiremock from "../../test-helper/rewiremock.cjs";
-
 const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
-const submitOnEnter = rewiremock.proxy('../../../../client/helpers/submitOnEnter', {
+const submitOnEnter = await rewiremock.module(() => import('../../../../client/helpers/submitOnEnter'), {
   jquery:  $,
   lodash: _,
 }).default;
