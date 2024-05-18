@@ -8,9 +8,9 @@ const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
 const submitOnEnter = rewiremock.proxy('#root/client/helpers/submitOnEnter', {
-  'meteor/jquery':  $.toBeUsed(),
-  'meteor/underscore': _.toBeUsed(),
-}).default;
+  'meteor/jquery': $,
+  'meteor/underscore': _,
+}).toBeUsed();
 
 describe("submitOnEnter", function () {
   const action = sinon.stub();
