@@ -1,8 +1,8 @@
-import { _ } from "lodash";
-import { ServerTemplate } from "meteor/felixble:server-templates";
-import { Meteor } from "meteor/meteor";
+import {_} from "lodash";
+import {ServerTemplate} from "meteor/felixble:server-templates";
+import {Meteor} from "meteor/meteor";
 
-import { GlobalHelpers } from "./global_helpers";
+import {GlobalHelpers} from "./global_helpers";
 
 export class TemplateRenderer {
   constructor(template, templatePathPrefix, loadTmplFromAssets) {
@@ -16,8 +16,8 @@ export class TemplateRenderer {
     let tmplString;
     if (loadTmplFromAssets) {
       const templatePath = templatePathPrefix
-        ? `${templatePathPrefix}/${template}.html`
-        : `${template}.html`;
+                               ? `${templatePathPrefix}/${template}.html`
+                               : `${template}.html`;
       //  Assets cannot be imported!
       tmplString = Assets.getText(templatePath); // eslint-disable-line
     } else {
@@ -38,15 +38,10 @@ export class TemplateRenderer {
     return this;
   }
 
-  addDataObject(data) {
-    _.assignIn(this._data, data);
-  }
+  addDataObject(data) { _.assignIn(this._data, data); }
 
   render() {
-    return ServerTemplate.render(
-      this._templateContent,
-      this._data,
-      this._helpers
-    );
+    return ServerTemplate.render(this._templateContent, this._data,
+                                 this._helpers);
   }
 }
