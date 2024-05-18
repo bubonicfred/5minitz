@@ -9,7 +9,7 @@ const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
-const submitOnEnter = rewiremock.proxy('#root/client/helpers/submitOnEnter.js', {
+const submitOnEnter = rewiremock.proxy('../../../../client/helpers/submitOnEnter.js', {
   jquery:  $,
   lodash: _,
 }).default;
