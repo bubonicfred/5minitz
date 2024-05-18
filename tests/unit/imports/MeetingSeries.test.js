@@ -1,10 +1,12 @@
 import { expect } from "chai";
-import * as DateHelpers from "../../../imports/helpers/date";
-import * as SubElements from "../../../imports/helpers/subElements";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+
+import * as DateHelpers from "../../../imports/helpers/date";
+import * as SubElements from "../../../imports/helpers/subElements";
 import rewiremock from "../../test-helper/rewiremock.cjs";
+
 const MeetingSeriesSchema = {};
 const Meteor = {
   call: sinon.stub(),
@@ -23,11 +25,13 @@ const MinutesFinder = {
 DateHelpers["@noCallThru"] = true;
 SubElements["@noCallThru"] = true;
 
-const Random = { id: () => {} };
+const Random = {
+  id: () => {},
+};
 const jQuery = {};
 const TopicsFinder = {};
 
-const { MeetingSeries } = rewiremock.proxy('#root/imports/meetingseries', {
+const { MeetingSeries } = rewiremock.proxy("#root/imports/meetingseries", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "meteor/jquery": { jQuery, "@noCallThru": true },
@@ -45,7 +49,7 @@ const { MeetingSeries } = rewiremock.proxy('#root/imports/meetingseries', {
   "./userroles": { UserRoles, "@noCallThru": true },
   "/imports/helpers/date": DateHelpers,
   "/imports/helpers/subElements": SubElements,
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "./services/topicsFinder": { TopicsFinder, "@noCallThru": true },
   "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });

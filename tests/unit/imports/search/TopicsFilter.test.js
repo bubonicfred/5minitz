@@ -1,7 +1,7 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
 
 class MeteorError {}
 const Meteor = {
@@ -11,25 +11,25 @@ const Meteor = {
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
-    "lodash": { _, "@noCallThru": true },
+    lodash: { _, "@noCallThru": true },
   },
 );
 
 const { TOPIC_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
-    "lodash": { _, "@noCallThru": true },
+    lodash: { _, "@noCallThru": true },
   },
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "./FilterKeywords": { ITEM_KEYWORDS, "@noCallThru": true },
 });
 
 const { TopicsFilter } = proxyquire("../../../../imports/search/TopicsFilter", {
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "./FilterKeywords": { TOPIC_KEYWORDS, "@noCallThru": true },
   "./ItemsFilter": { ItemsFilter, "@noCallThru": true },

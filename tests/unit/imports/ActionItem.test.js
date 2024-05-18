@@ -1,9 +1,10 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
-import rewiremock from "../test-helper/rewiremock.cjs"
+
 import * as Helpers from "../../../imports/helpers/date";
+import rewiremock from "../test-helper/rewiremock.cjs";
 
 const doNothing = () => {};
 
@@ -32,22 +33,21 @@ const i18n = {
   __: sinon.stub(),
 };
 
-const { Priority } = rewiremock.proxy('#root/imports/priority', {
+const { Priority } = rewiremock.proxy("#root/imports/priority", {
   "meteor/universe:i18n": { i18n, "@noCallThru": true },
 });
 
-const { InfoItem } = rewiremock.proxy('#root/imports/infoitem', {
-
+const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },
 });
 
-const { ActionItem } = rewiremock.proxy('#root/imports/actionitem', {
+const { ActionItem } = rewiremock.proxy("#root/imports/actionitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "/imports/priority": { Priority, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },

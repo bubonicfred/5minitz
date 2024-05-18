@@ -1,6 +1,5 @@
-import { i18n } from "meteor/universe:i18n";
-
 import assert from "assert";
+import { i18n } from "meteor/universe:i18n";
 
 // #I18N - Attention: the below strings with longer texts will be never be used
 // in UI! Instead they will be pulled from translation language files via

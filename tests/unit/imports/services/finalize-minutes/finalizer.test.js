@@ -1,13 +1,19 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
 
 import * as DateHelpers from "../../../../../imports/helpers/date";
 
-const MinutesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MinutesSchema = {
+  update: sinon.stub(),
+  findOne: sinon.stub(),
+};
 
-const MeetingSeriesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MeetingSeriesSchema = {
+  update: sinon.stub(),
+  findOne: sinon.stub(),
+};
 
 const Minutes = sinon.stub();
 // let Minutes = {
@@ -63,14 +69,17 @@ const User = {
   PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-const i18n = { setLocale: sinon.stub(), getLocale: sinon.stub() };
+const i18n = {
+  setLocale: sinon.stub(),
+  getLocale: sinon.stub(),
+};
 
 const { Finalizer } = proxyquire(
   "../../../../../imports/services/finalize-minutes/finalizer",
   {
     "meteor/meteor": { Meteor, "@noCallThru": true },
     "meteor/universe:i18n": { i18n, "@noCallThru": true },
-    "lodash": { _, "@noCallThru": true },
+    lodash: { _, "@noCallThru": true },
     "meteor/check": { check, "@noCallThru": true },
     "/imports/collections/minutes.schema": {
       MinutesSchema,

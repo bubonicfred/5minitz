@@ -1,9 +1,10 @@
-import { MongoClient as mongo } from "mongodb";
-import mongoUriParser from "mongo-uri";
-import transformUser from "./transformUser";
-
 import { _ } from "lodash";
+import mongoUriParser from "mongo-uri";
+import { MongoClient as mongo } from "mongodb";
+
 import { Random } from "../../tests/performance/fixtures/lib/random";
+
+import transformUser from "./transformUser";
 
 const _transformUsers = (settings, users) =>
   _.map(users, (user) => transformUser(settings, user));

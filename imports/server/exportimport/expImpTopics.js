@@ -1,5 +1,5 @@
+import { EJSON } from "bson";
 import fs from "fs";
-import { EJSON  } from "bson";
 
 class ExpImpTopics {
   static get FILENAME_POSTFIX() {

@@ -1,18 +1,21 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
 
 import rewiremock from "../../test-helper/rewiremock.cjs";
+
 const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
 });
-const submitOnEnter = await rewiremock.module(() => import('../../../../client/helpers/submitOnEnter.js'), {
-  jquery:  $,
-  lodash: _,
-}).default;
-
+const submitOnEnter = await rewiremock.module(
+  () => import("../../../../client/helpers/submitOnEnter.js"),
+  {
+    jquery: $,
+    lodash: _,
+  },
+).default;
 
 describe("submitOnEnter", function () {
   const action = sinon.stub();

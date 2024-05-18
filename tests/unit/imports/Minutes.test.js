@@ -1,11 +1,12 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
-import rewiremock from "../../test-helper/rewiremock.cjs";
+
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
 import * as SubElements from "../../../imports/helpers/subElements";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const MinutesSchema = {
   find: sinon.stub(),
@@ -52,7 +53,7 @@ EmailHelpers["@noCallThru"] = true;
 const Random = {
   id: () => {},
 };
-const { Minutes } = rewiremock.proxy('#root/imports/minutes', {
+const { Minutes } = rewiremock.proxy("#root/imports/minutes", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/universe:i18n": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
@@ -66,7 +67,7 @@ const { Minutes } = rewiremock.proxy('#root/imports/minutes', {
   "./actionitem": { ActionItem, "@noCallThru": true },
   "/imports/helpers/email": EmailHelpers,
   "/imports/helpers/subElements": SubElements,
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
 });
 
 describe("Minutes", () => {

@@ -5,12 +5,13 @@
  */
 
 import { MongoClient as mongo } from "mongodb";
-import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
-import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
-import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
-import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
+
 import ExpImpFileAttachments from "../imports/server/exportimport/expImpFilesAttachments";
 import ExpImpFileDocuments from "../imports/server/exportimport/expImpFilesDocuments";
+import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
+import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
+import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
+import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
 import ExpImpUsers from "../imports/server/exportimport/expImpUsers";
 
 const optionParser = require("node-getopt").create([

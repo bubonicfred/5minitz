@@ -1,10 +1,11 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
-import rewiremock from "../../test-helper/rewiremock.cjs";
+
 import * as Helpers from "../../../imports/helpers/date";
 import { subElementsHelper } from "../../../imports/helpers/subElements";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const Topic = {};
 const Label = {};
@@ -27,10 +28,10 @@ const User = {
   PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-const { InfoItem } = rewiremock.proxy('#root/imports/infoitem', {
+const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/user": { User, "@noCallThru": true },
   "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },

@@ -1,5 +1,5 @@
-import { _ } from "lodash";
 import { $ } from "jquery";
+import { _ } from "lodash";
 
 function createHandler(action) {
   return (event) => {
