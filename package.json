@@ -11,6 +11,10 @@
   "engines": {
     "node": ">=14.0.0"
   },
+    "type" : "module",
+    "imports": {
+      "#root/*.js": "./*.js"
+    }
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
   "directories": {
