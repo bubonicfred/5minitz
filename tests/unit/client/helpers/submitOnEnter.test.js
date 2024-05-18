@@ -4,6 +4,7 @@ import sinon from "sinon";
 import _ from "underscore";
 import "meteor/underscore";
 import "meteor/jquery";
+import "meteor";
 import rewiremock from "../../test-helper/rewiremock.cjs";
 const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
