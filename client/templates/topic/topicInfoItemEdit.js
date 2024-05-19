@@ -8,7 +8,6 @@ import { Priority } from "/imports/priority";
 import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
 import { _ } from "lodash";
-
 import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Session } from "meteor/session";
@@ -41,7 +40,7 @@ Template.topicInfoItemEdit.onCreated(function () {
 
   const user = new User();
   this.collapseState = new ReactiveVar(
-    user.getSetting(userSettings.showAddDetail, true)
+    user.getSetting(userSettings.showAddDetail, true),
   );
 });
 
@@ -93,7 +92,7 @@ const toggleItemMode = (type, tmpl) => {
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem
+        editItem,
       );
       break;
     case "infoItem":
@@ -122,7 +121,7 @@ function closePopupAndUnsetIsEdited() {
     _minutesID,
     Session.get("topicInfoItemEditTopicId"),
     Session.get("topicInfoItemEditInfoItemId"),
-    false
+    false,
   );
 
   document.querySelector("#dlgAddInfoItem").classList.remove("show");
@@ -165,7 +164,7 @@ Template.topicInfoItemEdit.events({
 
       if (!getRelatedTopic()) {
         throw new Meteor.Error(
-          "IllegalState: We have no related topic object!"
+          "IllegalState: We have no related topic object!",
         );
       }
       if (Session.get("topicInfoItemEditInfoItemId") !== null)
@@ -173,7 +172,7 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true
+          true,
         );
       const editItem = getEditInfoItem();
 
@@ -204,7 +203,7 @@ Template.topicInfoItemEdit.events({
         _minutesID,
         minutes.parentMeetingSeries(),
         type,
-        labels
+        labels,
       );
 
       if (newDetail) {
@@ -256,7 +255,7 @@ Template.topicInfoItemEdit.events({
     configureSelect2Labels(
       _minutesID,
       "#id_item_selLabelsActionItem",
-      getEditInfoItem()
+      getEditInfoItem(),
     );
     // set type: edit existing item
     if (editItem) {
@@ -269,7 +268,7 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true
+          true,
         );
         document.getElementById("dlgAddInfoItem").style.display = "block";
       };
@@ -277,7 +276,7 @@ Template.topicInfoItemEdit.events({
         IsEditedService.setIsEditedInfoItem(
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId")
+          Session.get("topicInfoItemEditInfoItemId"),
         );
       };
 
@@ -286,7 +285,7 @@ Template.topicInfoItemEdit.events({
         unset,
         setIsEdited,
         evt,
-        "confirmationDialogResetEdit"
+        "confirmationDialogResetEdit",
       );
     } else {
       // adding a new item
@@ -299,10 +298,10 @@ Template.topicInfoItemEdit.events({
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem
+        editItem,
       );
       const selectLabels = document.querySelector(
-        "#id_item_selLabelsActionItem"
+        "#id_item_selLabelsActionItem",
       );
       if (selectLabels) {
         selectLabels.value = "";
@@ -341,7 +340,7 @@ Template.topicInfoItemEdit.events({
       // prohibit non-mail free text entries
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ActionItemResponsibleError.title"),
-        i18n.__("Dialog.ActionItemResponsibleError.body")
+        i18n.__("Dialog.ActionItemResponsibleError.body"),
       ).show();
       return false;
     }

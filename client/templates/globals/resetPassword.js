@@ -10,17 +10,21 @@ Template.resetPassword.events({
   "submit #at-pwd-form"(event) {
     event.preventDefault();
     const token = FlowRouter.getParam("token");
-    Accounts.resetPassword(token, document.getElementById("at-field-password").value, (error) => {
-      if (error) {
-        handleError(error.reason);
-      } else {
-        FlowRouter.go("/");
-        new FlashMessage(
-          i18n.__("FlashMessages.ok"),
-          i18n.__("FlashMessages.passwordResetOK"),
-          "alert-success",
-        ).show();
-      }
-    });
+    Accounts.resetPassword(
+      token,
+      document.getElementById("at-field-password").value,
+      (error) => {
+        if (error) {
+          handleError(error.reason);
+        } else {
+          FlowRouter.go("/");
+          new FlashMessage(
+            i18n.__("FlashMessages.ok"),
+            i18n.__("FlashMessages.passwordResetOK"),
+            "alert-success",
+          ).show();
+        }
+      },
+    );
   },
 });

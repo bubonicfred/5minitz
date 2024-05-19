@@ -35,7 +35,7 @@ export class TopicInfoItemListContext {
   static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
     items,
     resolveSeriesForItem,
-    resolveTopicForItem
+    resolveTopicForItem,
   ) {
     const context = new TopicInfoItemListContext(items, true, null);
     context.getSeriesId = resolveSeriesForItem;
@@ -48,7 +48,7 @@ export class TopicInfoItemListContext {
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
     items,
-    meetingSeriesId
+    meetingSeriesId,
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
     const mapItemID2topicID = {};
@@ -67,13 +67,13 @@ export class TopicInfoItemListContext {
     items,
     isReadonly,
     topicParentId,
-    parentTopicId
+    parentTopicId,
   ) {
     return new TopicInfoItemListContext(
       items,
       isReadonly,
       topicParentId,
-      parentTopicId
+      parentTopicId,
     );
   }
 
@@ -104,7 +104,7 @@ Template.topicInfoItemList.onCreated(function () {
   /** @type {TopicInfoItemListContext} */
   const tmplData = Template.instance().data;
   this.isItemsLimited = new ReactiveVar(
-    tmplData.items.length > INITIAL_ITEMS_LIMIT
+    tmplData.items.length > INITIAL_ITEMS_LIMIT,
   );
 
   // Dict maps Item._id => true/false, where true := "expanded state"
@@ -116,7 +116,7 @@ Template.topicInfoItemList.onCreated(function () {
     FlowRouter.getRouteName() === "minutesedit" // eslint-disable-line
       ? tmplData.topicParentId
       : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(
-          new MeetingSeries(tmplData.topicParentId)
+          new MeetingSeries(tmplData.topicParentId),
         )._id;
 });
 
@@ -125,7 +125,7 @@ const updateItemSorting = (evt, ui) => {
   const sorting = item.parent().find("> .topicInfoItem");
   const topic = new Topic(
     item.attr("data-topic-parent-id"),
-    item.attr("data-parent-id")
+    item.attr("data-parent-id"),
   );
   const newItemSorting = [];
 
@@ -175,7 +175,7 @@ const performActionForItem = (evt, tmpl, action) => {
   const aInfoItem = findInfoItem(
     context.getSeriesId(infoItem._id),
     infoItem.parentTopicId,
-    infoItem._id
+    infoItem._id,
   );
   action(aInfoItem);
 };
@@ -333,7 +333,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(
-      infoItem.responsibles
+      infoItem.responsibles,
     );
     return responsible ? `(${responsible})` : "";
   },
@@ -347,7 +347,7 @@ Template.topicInfoItemList.helpers({
     }
     return LabelResolver.resolveLabels(
       infoItem.labels,
-      getMeetingSeriesId(context.getSeriesId(infoItem._id))
+      getMeetingSeriesId(context.getSeriesId(infoItem._id)),
     ).map(labelSetFontColor);
   },
 
@@ -361,7 +361,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-      `/topic/${context.getTopicId(infoItem._id)}`
+      `/topic/${context.getTopicId(infoItem._id)}`,
     );
   },
 
@@ -401,7 +401,7 @@ Template.topicInfoItemList.events({
     const context = tmpl.data;
     performActionForItem(evt, tmpl, (item) => {
       const isDeleteAllowed = item.isDeleteAllowed(
-        context.getSeriesId(item._infoItemDoc._id)
+        context.getSeriesId(item._infoItemDoc._id),
       );
 
       if (item.isSticky() || isDeleteAllowed) {
@@ -443,7 +443,7 @@ Template.topicInfoItemList.events({
           title,
           "confirmDeleteItem",
           templateData,
-          button
+          button,
         ).show();
         return;
       }
@@ -454,7 +454,7 @@ Template.topicInfoItemList.events({
           item.isActionItem()
             ? i18n.__("Dialog.ItemDeleteError.body2a")
             : i18n.__("Dialog.ItemDeleteError.body2b")
-        } ${i18n.__("Dialog.ItemDeleteError.body3")}`
+        } ${i18n.__("Dialog.ItemDeleteError.body3")}`,
       ).show();
     });
   },
@@ -483,20 +483,20 @@ Template.topicInfoItemList.events({
     const item = findInfoItem(
       context.topicParentId,
       infoItem.parentTopicId,
-      infoItem._id
+      infoItem._id,
     );
     // if edit is allowed topicParentId == currentMinutesId
     if (
       ItemsConverter.isConversionAllowed(
         item.getDocument(),
-        context.topicParentId
+        context.topicParentId,
       )
     ) {
       ItemsConverter.convertItem(item).catch(handleError);
     } else {
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ConvertItemError.title"),
-        i18n.__("Dialog.ConvertItemError.body")
+        i18n.__("Dialog.ConvertItemError.body"),
       ).show();
     }
   },
@@ -577,7 +577,7 @@ Template.topicInfoItemList.events({
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
-          true
+          true,
         );
       };
 
@@ -588,7 +588,7 @@ Template.topicInfoItemList.events({
       const tmplData = {
         isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
         isEditedDate: formatDateISO8601Time(
-          aActionItem._infoItemDoc.details[detailIndex].isEditedDate
+          aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
         ),
         isDetail: true,
       };
@@ -598,14 +598,14 @@ Template.topicInfoItemList.events({
         i18n.__("Dialog.IsEditedHandling.title"),
         "confirmationDialogResetEdit",
         tmplData,
-        i18n.__("Dialog.IsEditedHandling.button")
+        i18n.__("Dialog.IsEditedHandling.button"),
       ).show();
     } else {
       IsEditedService.setIsEditedDetail(
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex
+        detailIndex,
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     }
@@ -617,7 +617,7 @@ Template.topicInfoItemList.events({
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
         detailIndex,
-        true
+        true,
       );
     };
     const setIsEdited = () => {
@@ -625,7 +625,7 @@ Template.topicInfoItemList.events({
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex
+        detailIndex,
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     };
@@ -635,7 +635,7 @@ Template.topicInfoItemList.events({
       unset,
       setIsEdited,
       evt,
-      "confirmationDialogResetDetail"
+      "confirmationDialogResetDetail",
     );
   },
 
@@ -680,7 +680,7 @@ Template.topicInfoItemList.events({
       aTopic._topicDoc._id,
       aActionItem._infoItemDoc._id,
       detailIndex,
-      true
+      true,
     );
 
     if (text === "" || text !== textEl.attr("data-text")) {
@@ -703,7 +703,7 @@ Template.topicInfoItemList.events({
             undefined,
             i18n.__("Dialog.confirmDeleteDetails", {
               subject: aActionItem.getSubject(),
-            })
+            }),
           ).show();
         } else {
           // use case: Adding details and leaving the input field without
@@ -718,7 +718,7 @@ Template.topicInfoItemList.events({
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
-          true
+          true,
         );
       }
     }

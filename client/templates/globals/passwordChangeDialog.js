@@ -32,7 +32,10 @@ Template.passwordChangeDialog.onRendered(() => {
   addCustomValidator(
     "#id_newPassword2",
     (value) => {
-      return checkPasswordsIdentical(value, document.querySelector("#id_newPassword1").value);
+      return checkPasswordsIdentical(
+        value,
+        document.querySelector("#id_newPassword1").value,
+      );
     },
     "New Passwords are not identical",
   );
