@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+import jQuery from "jquery";
 import _ from "lodash";
 
 window.$ = window.jQuery = jQuery;
@@ -19,7 +19,8 @@ function createHandler(action) {
   };
 }
 
-export default function(textareas, action) {
-  _.forEach(textareas,
-            (input) => { window.$(input).on("keyup", createHandler(action)); });
+export default function (textareas, action) {
+  _.forEach(textareas, (input) => {
+    window.$(input).on("keyup", createHandler(action));
+  });
 }

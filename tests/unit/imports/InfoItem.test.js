@@ -1,10 +1,10 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 import * as Helpers from "../../../imports/helpers/date";
-import {subElementsHelper} from "../../../imports/helpers/subElements";
+import { subElementsHelper } from "../../../imports/helpers/subElements";
 import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const Topic = {};
@@ -14,26 +14,28 @@ Helpers["@noCallThru"] = true;
 
 class MeteorError {}
 const Meteor = {
-  Error : MeteorError,
-  user : () => { return {username : "unit-test"}; },
+  Error: MeteorError,
+  user: () => {
+    return { username: "unit-test" };
+  },
 };
 
 const Random = {
-  id : () => {},
+  id: () => {},
 };
 
 const User = {
-  PROFILENAMEWITHFALLBACK : sinon.stub(),
+  PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-const {InfoItem} = rewiremock.proxy("#root/imports/infoitem", {
-  "meteor/meteor" : {Meteor, "@noCallThru" : true},
-  "meteor/random" : {Random, "@noCallThru" : true},
-  lodash : {_, "@noCallThru" : true},
-  "/imports/user" : {User, "@noCallThru" : true},
-  "/imports/helpers/date" : Helpers,
-  "./topic" : {Topic, "@noCallThru" : true},
-  "./label" : {Label, "@noCallThru" : true},
+const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
+  "meteor/meteor": { Meteor, "@noCallThru": true },
+  "meteor/random": { Random, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
+  "/imports/user": { User, "@noCallThru": true },
+  "/imports/helpers/date": Helpers,
+  "./topic": { Topic, "@noCallThru": true },
+  "./label": { Label, "@noCallThru": true },
 });
 
 describe("InfoItem", () => {
@@ -41,13 +43,12 @@ describe("InfoItem", () => {
 
   beforeEach(() => {
     dummyTopic = {
-      _id : "AaBbCcDd",
-      _infoItems : [],
-      upsertInfoItem : sinon.stub(),
+      _id: "AaBbCcDd",
+      _infoItems: [],
+      upsertInfoItem: sinon.stub(),
       findInfoItem(id) {
         const index = subElementsHelper.findIndexById(id, this._infoItems);
-        if (index === undefined)
-          return undefined;
+        if (index === undefined) return undefined;
         return new InfoItem(this, this._infoItems[index]);
       },
       // test-only method
@@ -58,10 +59,10 @@ describe("InfoItem", () => {
     };
 
     infoItemDoc = {
-      _id : "AaBbCcDd01",
-      subject : "infoItemDoc",
-      createdAt : new Date(),
-      createdInMinute : "AaBbCcDd01",
+      _id: "AaBbCcDd01",
+      subject: "infoItemDoc",
+      createdAt: new Date(),
+      createdInMinute: "AaBbCcDd01",
     };
   });
 
@@ -86,8 +87,8 @@ describe("InfoItem", () => {
       // Now we should be able to create the same info item again
       // by passing the dummyTopic together with the info items id
       const sameInfoItem = new InfoItem(
-          dummyTopic,
-          myInfoItem._infoItemDoc._id,
+        dummyTopic,
+        myInfoItem._infoItemDoc._id,
       );
       // the associated documents of both info items should be the same
       expect(sameInfoItem._infoItemDoc).to.equal(myInfoItem._infoItemDoc);
@@ -97,21 +98,19 @@ describe("InfoItem", () => {
   it("#isActionItem", () => {
     const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
     expect(
-        myInfoItem.isActionItem(),
-        "Item without the itemType-property should not be an ActionItem",
-        )
-        .to.be.false;
+      myInfoItem.isActionItem(),
+      "Item without the itemType-property should not be an ActionItem",
+    ).to.be.false;
 
     const actionItemDoc = {
-      _id : "AaBbCcDd02",
-      subject : "actionItemDoc",
-      itemType : "actionItem",
+      _id: "AaBbCcDd02",
+      subject: "actionItemDoc",
+      itemType: "actionItem",
     };
     expect(
-        InfoItem.isActionItem(actionItemDoc),
-        "Item with the itemType-property set to actionItem should be an ActionItem",
-        )
-        .to.be.true;
+      InfoItem.isActionItem(actionItemDoc),
+      "Item with the itemType-property set to actionItem should be an ActionItem",
+    ).to.be.true;
   });
 
   it("#save", () => {
