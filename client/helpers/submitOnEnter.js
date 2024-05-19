@@ -18,6 +18,8 @@ function createHandler(action) {
 
 export default function (textareas, action) {
   _.forEach(textareas, (input) => {
-    input.addEventListener("keyup", createHandler(action));
+    document
+      .querySelector(input)
+      .addEventListener("keyup", createHandler(action));
   });
 }
