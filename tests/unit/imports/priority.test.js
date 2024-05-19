@@ -1,26 +1,26 @@
-import { expect } from "chai";
+import {expect} from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 import rewiremock from "../../test-helper/rewiremock.cjs";
-import { AssertHelper } from "../test-helper/assert-helper";
+import {AssertHelper} from "../test-helper/assert-helper";
 
 const EXPECTED_PRIORITY_MAP = {
-  1: "1 - High",
-  2: "2",
-  3: "3 - Medium",
-  4: "4",
-  5: "5 - Low",
+  1 : "1 - High",
+  2 : "2",
+  3 : "3 - Medium",
+  4 : "4",
+  5 : "5 - Low",
 };
 
 const i18n = {
-  setLocale: sinon.stub(),
-  getLocale: sinon.stub(),
-  __: sinon.stub(),
+  setLocale : sinon.stub(),
+  getLocale : sinon.stub(),
+  __ : sinon.stub(),
 };
 
-const { Priority } = rewiremock.proxy("#root/imports/priority", {
-  "meteor/universe:i18n": { i18n, "@noCallThru": true },
+const {Priority} = rewiremock.proxy("#root/imports/priority", {
+  "meteor/universe:i18n" : {i18n, "@noCallThru" : true},
 });
 
 describe("Priority", () => {
@@ -39,22 +39,22 @@ describe("Priority", () => {
 
     it("should throw an exception for values below 1", () => {
       AssertHelper.shouldThrow(
-        () => new Priority(0),
-        "Constructor should throw an exception for the value 0",
+          () => new Priority(0),
+          "Constructor should throw an exception for the value 0",
       );
     });
 
     it("should throw an exception for values over 5", () => {
       AssertHelper.shouldThrow(
-        () => new Priority(6),
-        "Constructor should throw an exception for the value 6",
+          () => new Priority(6),
+          "Constructor should throw an exception for the value 6",
       );
     });
 
     it("should throw an exception for values of an invalid type", () => {
       AssertHelper.shouldThrow(
-        () => new Priority("b"),
-        "Constructor should throw an exception for the value of type string",
+          () => new Priority("b"),
+          "Constructor should throw an exception for the value of type string",
       );
     });
   });
@@ -69,8 +69,8 @@ describe("Priority", () => {
       const prio = new Priority(3);
       prio.value = 7;
       AssertHelper.shouldThrow(
-        () => prio.toString(),
-        "should throw for the value 7",
+          () => prio.toString(),
+          "should throw for the value 7",
       );
     });
   });
