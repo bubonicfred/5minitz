@@ -1,21 +1,17 @@
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {Meteor} from "meteor/meteor";
+import {Template} from "meteor/templating";
+import {i18n} from "meteor/universe:i18n";
 
-import { FlashMessage } from "../../helpers/flashMessage";
-import { handleError } from "../../helpers/handleError";
+import {FlashMessage} from "../../helpers/flashMessage";
+import {handleError} from "../../helpers/handleError";
 
 Template.adminRegisterUser.helpers({
-  isMailEnabled() {
-    return GlobalSettings.isEMailDeliveryEnabled();
-  },
+  isMailEnabled() { return GlobalSettings.isEMailDeliveryEnabled(); },
 });
 
 Template.adminRegisterUser.events({
-  "submit #frmDlgRegisterUser"(evt) {
-    evt.preventDefault();
-  },
+  "submit #frmDlgRegisterUser"(evt) { evt.preventDefault(); },
 
   "click #btnRegisterUserSave"(evt, tmpl) {
     if (!Meteor.user().isAdmin) {
@@ -37,30 +33,31 @@ Template.adminRegisterUser.events({
 
     tmpl.$("#btnRegisterUserSave").prop("disabled", true);
     Meteor.call(
-      "users.admin.registerUser",
-      uName,
-      uLongName,
-      uMail,
-      uPassword1,
-      uPassword2,
-      sendMail,
-      sendPassword,
-      (error) => {
-        if (error) {
-          tmpl.$("#btnRegisterUserSave").prop("disabled", false);
-          console.log(error);
-          evt.preventDefault();
-          handleError(error);
-        } else {
-          tmpl.$("#dlgAdminRegisterUser").hide();
-          new FlashMessage(
-            i18n.__("FlashMessages.ok"),
-            i18n.__("Admin.Register.success", { user: uName }),
-            "alert-success",
-            3000,
-          ).show();
-        }
-      },
+        "users.admin.registerUser",
+        uName,
+        uLongName,
+        uMail,
+        uPassword1,
+        uPassword2,
+        sendMail,
+        sendPassword,
+        (error) => {
+          if (error) {
+            tmpl.$("#btnRegisterUserSave").prop("disabled", false);
+            console.log(error);
+            evt.preventDefault();
+            handleError(error);
+          } else {
+            tmpl.$("#dlgAdminRegisterUser").hide();
+            new FlashMessage(
+                i18n.__("FlashMessages.ok"),
+                i18n.__("Admin.Register.success", {user : uName}),
+                "alert-success",
+                3000,
+                )
+                .show();
+          }
+        },
     );
   },
 
@@ -73,7 +70,6 @@ Template.adminRegisterUser.events({
     tmpl.$("#btnRegisterUserSave").prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgAdminRegisterUser"(evt, tmpl) {
-    tmpl.find("#id_newUsrName").focus();
-  },
+  "shown.bs.modal #dlgAdminRegisterUser"(
+      evt, tmpl) { tmpl.find("#id_newUsrName").focus(); },
 });

@@ -1,18 +1,18 @@
-import { MeetingSeries } from "/imports/meetingseries";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { UserRoles } from "/imports/userroles";
-import { Meteor } from "meteor/meteor";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { ReactiveDict } from "meteor/reactive-dict";
-import { ReactiveVar } from "meteor/reactive-var";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
+import {MeetingSeries} from "/imports/meetingseries";
+import {MinutesFinder} from "/imports/services/minutesFinder";
+import {UserRoles} from "/imports/userroles";
+import {Meteor} from "meteor/meteor";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {ReactiveDict} from "meteor/reactive-dict";
+import {ReactiveVar} from "meteor/reactive-var";
+import {Template} from "meteor/templating";
+import {i18n} from "meteor/universe:i18n";
 
-import { formatDateISO8601Time } from "../../../imports/helpers/date";
-import { TopicsFinder } from "../../../imports/services/topicsFinder";
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
+import {TopicsFinder} from "../../../imports/services/topicsFinder";
 
-import { TabItemsConfig } from "./tabItems";
-import { TabTopicsConfig } from "./tabTopics";
+import {TabItemsConfig} from "./tabItems";
+import {TabTopicsConfig} from "./tabTopics";
 
 let _meetingSeriesID; // the parent meeting object of this minutes
 
@@ -23,12 +23,12 @@ const isModerator = () => {
 
 const rememberLastTab = (tmpl) => {
   ReactiveDict.set("meetingSeriesEdit.lastTab", {
-    tabId: tmpl.activeTabId.get(),
-    tabTemplate: tmpl.activeTabTemplate.get(),
+    tabId : tmpl.activeTabId.get(),
+    tabTemplate : tmpl.activeTabTemplate.get(),
   });
 };
 
-Template.meetingSeriesDetails.onCreated(function () {
+Template.meetingSeriesDetails.onCreated(function() {
   this.seriesReady = new ReactiveVar();
 
   this.autorun(() => {
@@ -37,7 +37,9 @@ Template.meetingSeriesDetails.onCreated(function () {
 
     this.subscribe("meetingSeriesDetails", _meetingSeriesID);
     this.subscribe("minutes", _meetingSeriesID);
-    this.subscribe("files.attachments.all", _meetingSeriesID); // Attachments have to be subscribed at this point,
+    this.subscribe(
+        "files.attachments.all",
+        _meetingSeriesID); // Attachments have to be subscribed at this point,
     // since each minute will show an icon indicating if
     // they're containing attachments
     // subscribe topics for this series, too. If we do this in the tabs
@@ -48,17 +50,15 @@ Template.meetingSeriesDetails.onCreated(function () {
   });
 
   // Did another view request to restore the last tab on this view?
-  if (
-    ReactiveDict.equals(
-      "restoreTabAfterBackButton",
-      "meetingSeriesEdit.lastTab",
-    )
-  ) {
+  if (ReactiveDict.equals(
+          "restoreTabAfterBackButton",
+          "meetingSeriesEdit.lastTab",
+          )) {
     this.activeTabId = new ReactiveVar(
-      ReactiveDict.get("meetingSeriesEdit.lastTab").tabId,
+        ReactiveDict.get("meetingSeriesEdit.lastTab").tabId,
     );
     this.activeTabTemplate = new ReactiveVar(
-      ReactiveDict.get("meetingSeriesEdit.lastTab").tabTemplate,
+        ReactiveDict.get("meetingSeriesEdit.lastTab").tabTemplate,
     );
     ReactiveDict.set("restoreTabAfterBackButton", false);
     return;
@@ -68,7 +68,7 @@ Template.meetingSeriesDetails.onCreated(function () {
   rememberLastTab(this);
 });
 
-Template.meetingSeriesDetails.onRendered(function () {
+Template.meetingSeriesDetails.onRendered(function() {
   if (this.showSettingsDialog && isModerator()) {
     ReactiveDict.set("meetingSeriesEdit.showUsersPanel", true);
 
@@ -91,17 +91,13 @@ Template.meetingSeriesDetails.helpers({
       FlowRouter.go("/");
     }
   },
-  meetingSeries() {
-    return new MeetingSeries(_meetingSeriesID);
-  },
+  meetingSeries() { return new MeetingSeries(_meetingSeriesID); },
 
   isTabActive(tabId) {
     return Template.instance().activeTabId.get() === tabId ? "active" : "";
   },
 
-  tab() {
-    return Template.instance().activeTabTemplate.get();
-  },
+  tab() { return Template.instance().activeTabTemplate.get(); },
 
   tabData() {
     const tmpl = Template.instance();
@@ -110,28 +106,26 @@ Template.meetingSeriesDetails.helpers({
     const topics = TopicsFinder.allTopicsOfMeetingSeries(_meetingSeriesID);
 
     switch (tab) {
-      case "tabMinutesList":
-        return {
-          minutes: MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
-          meetingSeriesId: _meetingSeriesID,
-        };
+    case "tabMinutesList":
+      return {
+        minutes : MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
+        meetingSeriesId : _meetingSeriesID,
+      };
 
-      case "tabTopics": {
-        return new TabTopicsConfig(topics, _meetingSeriesID);
-      }
+    case "tabTopics": {
+      return new TabTopicsConfig(topics, _meetingSeriesID);
+    }
 
-      case "tabItems": {
-        return new TabItemsConfig(topics, _meetingSeriesID);
-      }
+    case "tabItems": {
+      return new TabItemsConfig(topics, _meetingSeriesID);
+    }
 
-      default:
-        throw new Meteor.Error("illegal-state", `Unknown tab: ${tab}`);
+    default:
+      throw new Meteor.Error("illegal-state", `Unknown tab: ${tab}`);
     }
   },
 
-  isModerator() {
-    return isModerator();
-  },
+  isModerator() { return isModerator(); },
 
   isMeetingSeriesEditedByAnotherUser() {
     const ms = new MeetingSeries(_meetingSeriesID);
@@ -142,11 +136,11 @@ Template.meetingSeriesDetails.helpers({
 
   meetingSeriesEditedBy() {
     const ms = new MeetingSeries(_meetingSeriesID);
-    const user = Meteor.users.findOne({ _id: ms.isEditedBy });
+    const user = Meteor.users.findOne({_id : ms.isEditedBy});
 
     return i18n.__("MeetingSeries.Edit.editedBy", {
-      user: user.username,
-      date: formatDateISO8601Time(ms.isEditedDate),
+      user : user.username,
+      date : formatDateISO8601Time(ms.isEditedDate),
     });
   },
 });
