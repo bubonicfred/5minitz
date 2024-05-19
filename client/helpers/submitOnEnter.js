@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import { $ } from "meteor/jquery";
 
 function createHandler(action) {
   return (event) => {
@@ -17,9 +17,7 @@ function createHandler(action) {
 }
 
 export default function (textareas, action) {
-  _.forEach(textareas, (input) => {
-    document
-      .querySelector(input)
-      .addEventListener("keyup", createHandler(action));
+  textareas.forEach((input) => {
+    $(input).on("keyup", createHandler(action));
   });
 }
