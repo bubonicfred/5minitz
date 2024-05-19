@@ -1,4 +1,4 @@
-import {$} from "meteor/jquery";
+import { $ } from "meteor/jquery";
 
 /**
  * Creates a handler function that prevents the default behavior of the event
@@ -32,7 +32,8 @@ function createHandler(action) {
  * @param {Array} textareas - An array of textarea elements.
  * @param {Function} action - The action to be triggered on keyup event.
  */
-export default function(textareas, action) {
-  textareas.forEach(
-      (input) => { $(input).on("keyup", createHandler(action)); });
+export default function (textareas, action) {
+  textareas.forEach((input) => {
+    $(input).on("keyup", createHandler(action));
+  });
 }

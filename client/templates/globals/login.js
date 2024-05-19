@@ -1,8 +1,8 @@
-import {GlobalSettings} from "/imports/config/GlobalSettings";
-import {Meteor} from "meteor/meteor";
-import {ReactiveDict} from "meteor/reactive-dict";
-import {Template} from "meteor/templating";
-import {AccountsTemplates} from "meteor/useraccounts:core";
+import { GlobalSettings } from "/imports/config/GlobalSettings";
+import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
+import { Template } from "meteor/templating";
+import { AccountsTemplates } from "meteor/useraccounts:core";
 
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
 
@@ -18,11 +18,15 @@ Template.login.onRendered(() => {
 
 Template.login.helpers({
   showTabSwitcher() {
-    return (Meteor.settings.public.ldapEnabled &&
-            !Meteor.settings.public.ldapHideStandardLogin);
+    return (
+      Meteor.settings.public.ldapEnabled &&
+      !Meteor.settings.public.ldapHideStandardLogin
+    );
   },
 
-  tab() { return ReactiveDict.get("currentLoginForm"); },
+  tab() {
+    return ReactiveDict.get("currentLoginForm");
+  },
 
   tabActive(tabFormName) {
     if (ReactiveDict.equals("currentLoginForm", tabFormName)) {
@@ -37,11 +41,10 @@ Template.login.helpers({
 
   showDemoUserHint() {
     return (
-        !Meteor.userId() && GlobalSettings.createDemoAccount() &&
-        ReactiveDict.get("currentLoginForm") ===
-            "atForm" && // only if Standard Login is active
-        AccountsTemplates.getState() ===
-            "signIn" // only show demo hint on signIn sub-template
+      !Meteor.userId() &&
+      GlobalSettings.createDemoAccount() &&
+      ReactiveDict.get("currentLoginForm") === "atForm" && // only if Standard Login is active
+      AccountsTemplates.getState() === "signIn" // only show demo hint on signIn sub-template
     );
   },
 
@@ -71,5 +74,7 @@ Template.login.events({
     window.open(GlobalSettings.getLegalNoticeExternalUrl());
   },
 
-  "click #tab_standard"() { AccountsTemplates.setState("signIn"); },
+  "click #tab_standard"() {
+    AccountsTemplates.setState("signIn");
+  },
 });
