@@ -1,5 +1,4 @@
 import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { ReactiveDict } from "meteor/reactive-dict";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -111,7 +110,7 @@ Template.tabAdminUsers.events({
   "click #id_EditUserProfile"(evt) {
     evt.preventDefault();
     ReactiveDict.set("editProfile.userID", this._id);
-    $("#dlgEditProfile").modal("show");
+    document.getElementById("dlgEditProfile").style.display = "block";
   },
 
   "change #id_adminShowInactive"(evt, tmpl) {

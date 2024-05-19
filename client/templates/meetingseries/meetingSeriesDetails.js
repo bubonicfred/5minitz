@@ -1,7 +1,6 @@
 import { MeetingSeries } from "/imports/meetingseries";
 import { MinutesFinder } from "/imports/services/minutesFinder";
 import { UserRoles } from "/imports/userroles";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { ReactiveDict } from "meteor/reactive-dict";
@@ -76,7 +75,7 @@ Template.meetingSeriesDetails.onRendered(function () {
     // Defer opening the meeting series settings dialog after rendering of the
     // template
     window.setTimeout(() => {
-      $("#dlgEditMeetingSeries").modal("show");
+      document.getElementById("dlgEditMeetingSeries").style.display = "block";
     }, 500);
   }
 });
@@ -154,7 +153,7 @@ Template.meetingSeriesDetails.helpers({
 
 Template.meetingSeriesDetails.events({
   "click .nav-tabs li"(event, tmpl) {
-    const currentTab = $(event.target).closest("li");
+    const currentTab = event.target.closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));
     tmpl.activeTabTemplate.set(currentTab.data("template"));

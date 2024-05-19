@@ -1,5 +1,4 @@
 import { UserRoles } from "/imports/userroles";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 
@@ -122,7 +121,7 @@ Template.meetingSeriesEditUsers.events({
 
   // when role select changes, update role in temp. client-only user collection
   "change .user-role-select"(evt) {
-    const roleName = $(evt.target).val();
+    const roleName = evt.target.value;
     const roleValue = UserRoles.USERROLES[roleName];
 
     const changedUser = _config.users.findOne(this._userId);
@@ -135,7 +134,9 @@ Template.meetingSeriesEditUsers.events({
     const newUserName = tmpl.find("#edt_AddUser").value;
     addNewUser(newUserName, _config);
 
-    $(".typeahead").typeahead("val", "").typeahead("close");
+    const typeaheadInput = document.querySelector(".typeahead");
+    typeaheadInput.value = "";
+    typeaheadInput.dispatchEvent(new Event("input"));
   },
 
   "keyup #edt_AddUser"(evt, tmpl) {
@@ -154,14 +155,14 @@ Template.meetingSeriesEditUsers.events({
     // 'ESC' on username <input>
     evt.stopPropagation();
     evt.preventDefault();
-    $(".typeahead").typeahead("val", "").typeahead("close");
+    document.querySelector(".typeahead").value = "";
     return false;
   },
 
   // a typeahead suggestion was selected from drop-down menu
   "typeahead:select"(evt, tmpl, selected) {
     const newUserName = selected.value.toString();
-    $(".typeahead").typeahead("val", "");
+    document.querySelector(".typeahead").value = "";
     addNewUser(newUserName, _config);
   },
 });

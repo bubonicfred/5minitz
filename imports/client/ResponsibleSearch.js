@@ -1,6 +1,5 @@
 import { _ } from "lodash";
 import { Blaze } from "meteor/blaze";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 
@@ -84,10 +83,12 @@ export function configureSelect2Responsibles(
   _minutesID,
   topicOrItem,
 ) {
-  const selectResponsibles = $(`#${SelectResponsibleElementID}`);
+  const selectResponsibles = document.getElementById(
+    SelectResponsibleElementID,
+  );
   selectResponsibles
-    .find("option") // clear all <option>s
-    .remove();
+    .querySelectorAll("option") // clear all <option>s
+    .forEach((option) => option.remove());
   const delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
   select2search(

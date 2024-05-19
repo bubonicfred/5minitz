@@ -1,7 +1,6 @@
 import { BroadcastMessage } from "/imports/broadcastmessage";
 import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
 import { formatDateISO8601Time } from "/imports/helpers/date";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 
@@ -20,11 +19,11 @@ Template.broadcastMessageDialog.helpers({
     }).count();
     if (msgCount > 0) {
       Meteor.setTimeout(() => {
-        $("#broadcastMessage").modal("show");
+        document.getElementById("broadcastMessage").style.display = "block";
       }, 250);
     } else {
       Meteor.setTimeout(() => {
-        $("#broadcastMessage").modal("hide");
+        document.getElementById("broadcastMessage").style.display = "none";
       }, 250);
     }
     // do not return anything here, or it will be rendered in the page!!!
