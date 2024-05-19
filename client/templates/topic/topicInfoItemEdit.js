@@ -8,7 +8,7 @@ import { Priority } from "/imports/priority";
 import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
 import { _ } from "lodash";
-import { $ } from "meteor/jquery";
+
 import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Session } from "meteor/session";
@@ -41,7 +41,7 @@ Template.topicInfoItemEdit.onCreated(function () {
 
   const user = new User();
   this.collapseState = new ReactiveVar(
-    user.getSetting(userSettings.showAddDetail, true),
+    user.getSetting(userSettings.showAddDetail, true)
   );
 });
 
@@ -93,7 +93,7 @@ const toggleItemMode = (type, tmpl) => {
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem,
+        editItem
       );
       break;
     case "infoItem":
@@ -122,10 +122,10 @@ function closePopupAndUnsetIsEdited() {
     _minutesID,
     Session.get("topicInfoItemEditTopicId"),
     Session.get("topicInfoItemEditInfoItemId"),
-    false,
+    false
   );
 
-  $("#dlgAddInfoItem").modal("hide");
+  document.querySelector("#dlgAddInfoItem").classList.remove("show");
 }
 
 Template.topicInfoItemEdit.helpers({
@@ -156,7 +156,7 @@ Template.topicInfoItemEdit.helpers({
 
 Template.topicInfoItemEdit.events({
   async "submit #frmDlgAddInfoItem"(evt, tmpl) {
-    const saveButton = $("#btnInfoItemSave");
+    const saveButton = document.querySelector("#btnInfoItemSave");
 
     try {
       saveButton.prop("disabled", true);
@@ -165,7 +165,7 @@ Template.topicInfoItemEdit.events({
 
       if (!getRelatedTopic()) {
         throw new Meteor.Error(
-          "IllegalState: We have no related topic object!",
+          "IllegalState: We have no related topic object!"
         );
       }
       if (Session.get("topicInfoItemEditInfoItemId") !== null)
@@ -173,7 +173,7 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true,
+          true
         );
       const editItem = getEditInfoItem();
 
@@ -192,7 +192,7 @@ Template.topicInfoItemEdit.events({
       doc.subject = newSubject;
 
       if (type === "actionItem") {
-        doc.responsibles = $("#id_selResponsibleActionItem").val();
+        doc.responsibles = tmpl.find("#id_selResponsibleActionItem").value;
         doc.duedate = tmpl.find("#id_item_duedateInput").value;
         doc.priority = tmpl.find("#id_item_priority").value;
       }
@@ -204,7 +204,7 @@ Template.topicInfoItemEdit.events({
         _minutesID,
         minutes.parentMeetingSeries(),
         type,
-        labels,
+        labels
       );
 
       if (newDetail) {
@@ -212,7 +212,7 @@ Template.topicInfoItemEdit.events({
       }
 
       newItem.saveAsync().catch(handleError);
-      $("#dlgAddInfoItem").modal("hide");
+      document.querySelector("#dlgAddInfoItem").classList.remove("show");
     } finally {
       saveButton.prop("disabled", false);
     }
@@ -221,10 +221,10 @@ Template.topicInfoItemEdit.events({
   // will be called before the dialog is shown
   "show.bs.modal #dlgAddInfoItem"(evt, tmpl) {
     // at this point we clear the view
-    const saveButton = $("#btnInfoItemSave");
-    const cancelButton = $("#btnInfoItemCancel");
-    saveButton.prop("disabled", false);
-    cancelButton.prop("disabled", false);
+    const saveButton = document.querySelector("#btnInfoItemSave");
+    const cancelButton = document.querySelector("#btnInfoItemCancel");
+    saveButton.disabled = false;
+    cancelButton.disabled = false;
 
     const editItem = getEditInfoItem();
 
@@ -256,7 +256,7 @@ Template.topicInfoItemEdit.events({
     configureSelect2Labels(
       _minutesID,
       "#id_item_selLabelsActionItem",
-      getEditInfoItem(),
+      getEditInfoItem()
     );
     // set type: edit existing item
     if (editItem) {
@@ -269,15 +269,15 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true,
+          true
         );
-        $("#dlgAddInfoItem").modal("show");
+        document.getElementById("dlgAddInfoItem").style.display = "block";
       };
       const setIsEdited = () => {
         IsEditedService.setIsEditedInfoItem(
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId"),
+          Session.get("topicInfoItemEditInfoItemId")
         );
       };
 
@@ -286,7 +286,7 @@ Template.topicInfoItemEdit.events({
         unset,
         setIsEdited,
         evt,
-        "confirmationDialogResetEdit",
+        "confirmationDialogResetEdit"
       );
     } else {
       // adding a new item
@@ -299,30 +299,30 @@ Template.topicInfoItemEdit.events({
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem,
+        editItem
       );
-      const selectResponsibles = $("#id_selResponsibleActionItem");
-      if (selectResponsibles) {
-        selectResponsibles.val([]).trigger("change");
-      }
-      const selectLabels = $("#id_item_selLabelsActionItem");
+      const selectLabels = document.querySelector(
+        "#id_item_selLabelsActionItem"
+      );
       if (selectLabels) {
-        selectLabels.val([]).trigger("change");
+        selectLabels.value = "";
       }
       const infoItemType = Session.get("topicInfoItemType");
       toggleItemMode(infoItemType, tmpl);
 
+      const itemSubject = document.querySelector("#id_item_subject");
       itemSubject.value = infoItemType === "infoItem" ? "Info" : "";
     }
   },
 
   "shown.bs.modal #dlgAddInfoItem"(evt, tmpl) {
     // ensure new values trigger placeholder animation
-    $("#id_item_subject").trigger("change");
-    $("#id_item_priority").trigger("change");
     const itemSubject = tmpl.find("#id_item_subject");
     itemSubject.focus();
     itemSubject.select();
+
+    const itemPriority = document.querySelector("#id_item_priority");
+    itemPriority.dispatchEvent(new Event("change"));
   },
 
   "hidden.bs.modal #dlgAddInfoItem"() {
@@ -341,7 +341,7 @@ Template.topicInfoItemEdit.events({
       // prohibit non-mail free text entries
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ActionItemResponsibleError.title"),
-        i18n.__("Dialog.ActionItemResponsibleError.body"),
+        i18n.__("Dialog.ActionItemResponsibleError.body")
       ).show();
       return false;
     }
