@@ -23,11 +23,11 @@ then
     echo "   Commit long:    \"$commitlong\""
     echo "   Releasedate:    \"$releasedate\""
 
-    sed -i '' 's/"version":.*"[^\"]*"/"version": "'${tag}'"/' ${packageJson}
-    sed -i '' 's/"4m_branch":.*"[^\"]*"/"4m_branch": "'${branch}'"/' ${packageJson}
-    sed -i '' 's/"4m_commitshort":.*"[^\"]*"/"4m_commitshort": "'${commitshort}'"/' ${packageJson}
-    sed -i '' 's/"4m_commitlong":.*"[^\"]*"/"4m_commitlong": "'${commitlong}'"/' ${packageJson}
-    sed -i '' 's/"4m_releasedate":.*"[^\"]*"/"4m_releasedate": "'${releasedate}'"/' ${packageJson}
+    sed -i '' 's/"version":.*"[^\"]*"/"version": "'"${tag}"'"/' ${packageJson}
+    sed -i '' 's/"4m_branch":.*"[^\"]*"/"4m_branch": "'"${branch}"'"/' ${packageJson}
+    sed -i '' 's/"4m_commitshort":.*"[^\"]*"/"4m_commitshort": "'"${commitshort}"'"/' ${packageJson}
+    sed -i '' 's/"4m_commitlong":.*"[^\"]*"/"4m_commitlong": "'"${commitlong}"'"/' ${packageJson}
+    sed -i '' 's/"4m_releasedate":.*"[^\"]*"/"4m_releasedate": "'"${releasedate}"'"/' ${packageJson}
 else
     echo "$packageJson not found."
 fi
