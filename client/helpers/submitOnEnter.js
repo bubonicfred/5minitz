@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import _ from "lodash";
 import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 
