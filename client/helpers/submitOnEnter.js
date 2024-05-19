@@ -1,10 +1,12 @@
-import { $ } from "meteor/jquery";
+import {$} from "meteor/jquery";
 
 /**
- * Creates a handler function that prevents the default behavior of the event and
- * executes the provided action when the Enter key is pressed while the Ctrl key is held down.
+ * Creates a handler function that prevents the default behavior of the event
+ * and executes the provided action when the Enter key is pressed while the Ctrl
+ * key is held down.
  *
- * @param {Function} action - The action to be executed when the Enter key is pressed with Ctrl key.
+ * @param {Function} action - The action to be executed when the Enter key is
+ *     pressed with Ctrl key.
  * @returns {Function} - The handler function.
  */
 function createHandler(action) {
@@ -24,13 +26,13 @@ function createHandler(action) {
 }
 
 /**
- * Attaches a keyup event listener to the specified textareas and triggers the provided action.
+ * Attaches a keyup event listener to the specified textareas and triggers the
+ * provided action.
  *
  * @param {Array} textareas - An array of textarea elements.
  * @param {Function} action - The action to be triggered on keyup event.
  */
-export default function (textareas, action) {
-  textareas.forEach((input) => {
-    $(input).on("keyup", createHandler(action));
-  });
+export default function(textareas, action) {
+  textareas.forEach(
+      (input) => { $(input).on("keyup", createHandler(action)); });
 }
