@@ -7,7 +7,10 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
       - id: check-json
-  - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.4
+      - id: no-commit-to-branch
+      - id: check-yaml
+      - id: mixed-line-ending
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.4
     hooks:
-      - id: remove-crlf
+      - id: clang-format
