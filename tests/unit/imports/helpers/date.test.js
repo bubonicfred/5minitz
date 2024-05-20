@@ -1,56 +1,58 @@
-import { expect } from "chai";
+import {expect} from "chai";
+
 import {
-  formatDateISO8601,
   currentDatePlusDeltaDays,
   extractDateFromString,
+  formatDateISO8601,
 } from "../../../../imports/helpers/date";
 
-describe("formatDateISO8601 helper", () => {
-  it("formats date to string", () => {
+describe("formatDateISO8601 helper", function() {
+  it("formats date to string", function() {
     expect(formatDateISO8601(new Date(2016, 11, 23))).to.equal("2016-12-23");
   });
 });
 
-describe("currentDatePlusDeltaDays helper", () => {
-  it("works without parameter", () => {
+describe("currentDatePlusDeltaDays helper", function() {
+  it("works without parameter", function() {
     var currentDate = new Date();
 
     expect(currentDatePlusDeltaDays()).to.equal(formatDateISO8601(currentDate));
   });
 
-  it("works with zero offset", () => {
+  it("works with zero offset", function() {
     var currentDate = new Date();
 
-    expect(currentDatePlusDeltaDays(0)).to.equal(
-      formatDateISO8601(currentDate),
-    );
+    expect(currentDatePlusDeltaDays(0))
+        .to.equal(
+            formatDateISO8601(currentDate),
+        );
   });
 
-  it("works with positive offset", () => {
+  it("works with positive offset", function() {
     var currentDate = new Date();
     var nextDay = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() + 1,
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() + 1,
     );
 
     expect(currentDatePlusDeltaDays(1)).to.equal(formatDateISO8601(nextDay));
   });
 
-  it("works with negative offset", () => {
+  it("works with negative offset", function() {
     var currentDate = new Date();
     var nextDay = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() - 35,
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() - 35,
     );
 
     expect(currentDatePlusDeltaDays(-35)).to.equal(formatDateISO8601(nextDay));
   });
 });
 
-describe("extractDateFromString", () => {
-  it("returns the extracted date", () => {
+describe("extractDateFromString", function() {
+  it("returns the extracted date", function() {
     const stringWithDate = "Hello 2017-11-13";
     const dateString = extractDateFromString(stringWithDate);
     expect(dateString).to.equal("2017-11-13");
