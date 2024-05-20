@@ -1,48 +1,48 @@
-import {E2EApp} from "./helpers/E2EApp";
-import {E2EGlobal} from "./helpers/E2EGlobal";
-import {E2EMeetingSeries} from "./helpers/E2EMeetingSeries";
-import {E2EMinutes} from "./helpers/E2EMinutes";
-import {E2ETopics} from "./helpers/E2ETopics";
+import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
+import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
+import { E2EMinutes } from "./helpers/E2EMinutes";
+import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Minutes", function() {
-  before("reload page and reset app", function() {
+describe("Minutes", function () {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in",
-             function() {
-               E2EApp.gotoStartPage();
-               expect(E2EApp.isLoggedIn()).to.be.true;
-             });
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
+    },
+  );
 
-  it("can add first minutes to meeting series", function() {
+  it("can add first minutes to meeting series", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #1";
 
     E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(0);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(0);
 
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     E2EMinutes.finalizeCurrentMinutes();
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(1);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(1);
   });
 
-  it("can add further minutes to meeting series", function() {
+  it("can add further minutes to meeting series", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #2";
 
     E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     const countInitialMinutes = E2EMinutes.countMinutesForSeries(
-        aProjectName,
-        aMeetingName,
+      aProjectName,
+      aMeetingName,
     );
 
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -50,12 +50,11 @@ describe("Minutes", function() {
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(countInitialMinutes + 2);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(countInitialMinutes + 2);
   });
 
-  it("can add minutes for specific date", function() {
+  it("can add minutes for specific date", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #3";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -65,13 +64,12 @@ describe("Minutes", function() {
 
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(1);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(1);
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("can delete unfinalized minutes", function() {
+  it("can delete unfinalized minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #4";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -81,9 +79,8 @@ describe("Minutes", function() {
 
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(1);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(1);
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
 
     // Now delete it!
@@ -92,13 +89,12 @@ describe("Minutes", function() {
     E2EApp.confirmationDialogAnswer(true);
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(0);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(0);
     expect(E2EMinutes.getMinutesId(myDate)).not.to.be.ok;
   });
 
-  it("can cancel delete of unfinalized minutes", function() {
+  it("can cancel delete of unfinalized minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #5";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -108,9 +104,8 @@ describe("Minutes", function() {
 
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(1);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(1);
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
 
     // Now trigger delete!
@@ -119,46 +114,42 @@ describe("Minutes", function() {
     E2EApp.confirmationDialogAnswer(false);
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(1);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(1);
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("displays an error message if the minute is not linked to the parent series",
-     function() {
-       const aProjectName = "E2E Minutes";
-       const aMeetingName = "Meeting Name #6";
+  it("displays an error message if the minute is not linked to the parent series", function () {
+    const aProjectName = "E2E Minutes";
+    const aMeetingName = "Meeting Name #6";
 
-       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-       E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-       const urlArr = browser.getUrl().split("/");
-       const msId = urlArr[urlArr.length - 1];
+    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+    E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+    const urlArr = browser.getUrl().split("/");
+    const msId = urlArr[urlArr.length - 1];
 
-       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-       E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
+    E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
 
-       const messageSelector = '[data-notify="container"]';
+    const messageSelector = '[data-notify="container"]';
 
-       expect(
-           browser.isVisible(messageSelector),
-           "flash message should not be visible before un-linking the minute",
-           )
-           .to.be.false;
+    expect(
+      browser.isVisible(messageSelector),
+      "flash message should not be visible before un-linking the minute",
+    ).to.be.false;
 
-       server.call("e2e.updateMeetingSeries", msId, {minutes : []});
+    server.call("e2e.updateMeetingSeries", msId, { minutes: [] });
 
-       browser.waitForVisible(messageSelector);
-       const dialogMsgElement = browser.element(messageSelector).value.ELEMENT;
-       const dialogMsgText = browser.elementIdText(dialogMsgElement).value;
-       expect(dialogMsgText, "error message should be displayed")
-           .to.have.string(
-               "Unfortunately the minute is not linked to its parent series correctly",
-           );
-     });
+    browser.waitForVisible(messageSelector);
+    const dialogMsgElement = browser.element(messageSelector).value.ELEMENT;
+    const dialogMsgText = browser.elementIdText(dialogMsgElement).value;
+    expect(dialogMsgText, "error message should be displayed").to.have.string(
+      "Unfortunately the minute is not linked to its parent series correctly",
+    );
+  });
 
-  it("can persist global notes", function() {
+  it("can persist global notes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #6";
     const aGlobalNote = "Amazing global note";
@@ -180,7 +171,7 @@ describe("Minutes", function() {
     expect(result).to.equal(aGlobalNote);
   });
 
-  it("hide closed topics", function() {
+  it("hide closed topics", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #7";
 
@@ -203,7 +194,7 @@ describe("Minutes", function() {
     expect(E2ETopics.countTopicsForMinute()).to.equal(2);
   });
 
-  it("can navigate to previous and next minutes within a minutes", function() {
+  it("can navigate to previous and next minutes within a minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name PrevNext";
 
@@ -217,9 +208,8 @@ describe("Minutes", function() {
     const thirdDate = E2EMinutes.getCurrentMinutesDate();
 
     expect(
-        E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
-        )
-        .to.equal(3);
+      E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+    ).to.equal(3);
 
     E2EMinutes.gotoLatestMinutes();
     E2EGlobal.clickWithRetry("#btnPreviousMinutesNavigation");
@@ -231,7 +221,7 @@ describe("Minutes", function() {
     expect(currentdate).to.equal(thirdDate);
   });
 
-  it("hide closed topics by click", function() {
+  it("hide closed topics by click", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #8";
 
