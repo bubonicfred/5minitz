@@ -80,7 +80,6 @@ const { InfoItemFactory } = proxyquire("../../../imports/InfoItemFactory", {
 const { Topic } = proxyquire("../../../imports/topic", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
   "/imports/helpers/subElements": SubElements,
   "./label": { Label, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
