@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+
 
 /**
  * Checks if a given token represents a valid keyword.
@@ -60,7 +60,7 @@ const isAllowedValueForKey = function (key, value) {
   key = key.toUpperCase();
   if (Object.prototype.hasOwnProperty.call(this, key)) {
     const values = this[key].values;
-    return values === "*" || _.includes(values, value);
+    return values === "*" || values.includes(value);
   }
   return false;
 };

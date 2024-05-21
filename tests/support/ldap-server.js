@@ -1,5 +1,4 @@
 const ldap = require("ldapjs");
-_ = require("underscore");
 
 const users = [
   {
@@ -65,10 +64,10 @@ function authorize(req, res, next) {
 }
 
 server.search("dc=example,dc=com", authorize, (req, res, next) => {
-  const matches = _.filter(users, (user) =>
+  const matches = users.filter((user) =>
     req.filter.matches(user.attributes),
   );
-  _.each(matches, (match) => res.send(match));
+  matches.forEach((match) => res.send(match));
 
   res.end();
   return next();

@@ -1,4 +1,3 @@
-import { _ } from "lodash";
 import { Blaze } from "meteor/blaze";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
@@ -45,7 +44,7 @@ function select2search(
       processResults(data) {
         const results_participants = [];
         const results_other = [];
-        _.forEach(data.results, (result) => {
+        data.results.forEach((result) => {
           if (result.isParticipant) {
             results_participants.push({
               id: result.id,

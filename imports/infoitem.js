@@ -5,7 +5,6 @@
  * and a list of associated tags.
  */
 import { User } from "/imports/user";
-import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
@@ -41,13 +40,12 @@ export class InfoItem {
       throw new Meteor.Error("Property createdInMinute of topicDoc required");
     }
 
-    _.defaults(source, {
+    this._infoItemDoc = Object.assign({}, {
       itemType: "infoItem",
       isNew: true,
       isSticky: false,
       labels: [],
-    });
-    this._infoItemDoc = source;
+    }, source);
   }
 
   // ################### static methods

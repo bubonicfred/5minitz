@@ -1,21 +1,19 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
-import _ from "underscore";
 
 class MeteorError {}
 const Meteor = {
   Error: MeteorError,
 };
-
+// No dependecies left to mock. Replace this with normal import for test
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
-    "meteor/underscore": { _, "@noCallThru": true },
+
   },
 );
 
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
-  "meteor/underscore": { _, "@noCallThru": true },
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
 

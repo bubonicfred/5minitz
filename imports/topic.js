@@ -6,7 +6,6 @@ import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
 import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
@@ -42,7 +41,7 @@ function resolveTopic(parentElement, source) {
     }
   }
 
-  _.defaults(source, {
+  Object.assign(source, {
     isOpen: true,
     isNew: true,
     isRecurring: false,

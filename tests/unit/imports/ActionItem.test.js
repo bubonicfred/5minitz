@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
 
 import * as Helpers from "../../../imports/helpers/date";
 
@@ -40,7 +39,6 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
   "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },

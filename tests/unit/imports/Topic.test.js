@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
@@ -58,13 +57,11 @@ DateHelpers["@noCallThru"] = true;
 
 const { Label } = proxyquire("../../../imports/label", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
 });
 
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "meteor/underscore": { _, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
   "/imports/helpers/date": DateHelpers,
   "./label": { Label, "@noCallThru": true },
