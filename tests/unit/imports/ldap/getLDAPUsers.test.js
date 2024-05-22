@@ -33,11 +33,12 @@ const getLDAPUsers = proxyquire("../../../../imports/ldap/getLDAPUsers", {
   ldapjs: ldap,
 });
 
+// skipcq: JS-0241
 describe("getLDAPUsers", function () {
   let settings;
 
   const expectedSuccessfulResult = [{ uid: "foo", isInactive: false }];
-
+// skipcq: JS-0241
   beforeEach(function () {
     ldap.createClient.reset();
     settings = {
@@ -48,7 +49,7 @@ describe("getLDAPUsers", function () {
       },
     };
   });
-
+// skipcq: JS-0241
   it("uses ldapjs to connect to ldap and gets users", function (done) {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithResult),
@@ -69,7 +70,7 @@ describe("getLDAPUsers", function () {
         done(error);
       });
   });
-
+// skipcq: JS-0241
   it("handles connection errors to ldap properly", function (done) {
     ldap.createClient.throws(new Error("Some connection error"));
 
@@ -88,7 +89,7 @@ describe("getLDAPUsers", function () {
         }
       });
   });
-
+// skipcq: JS-0241
   it("handles ldap search errors properly", function (done) {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithError),
@@ -109,7 +110,7 @@ describe("getLDAPUsers", function () {
         }
       });
   });
-
+// skipcq: JS-0241
   it("handles ldap search errors properly", function (done) {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithError),
@@ -130,7 +131,7 @@ describe("getLDAPUsers", function () {
         }
       });
   });
-
+// skipcq: JS-0241
   it("ignores errors during unbind", function (done) {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithResult),
@@ -151,10 +152,10 @@ describe("getLDAPUsers", function () {
         done(new Error(error));
       });
   });
-
+// skipcq: JS-0241
   describe("legacy inactive user detection settings", function (done) {
     let client;
-
+// skipcq: JS-0241
     beforeEach(function () {
       ldap.createClient.reset();
     });
@@ -177,7 +178,7 @@ describe("getLDAPUsers", function () {
           active: "no",
         },
       };
-
+// skipcq: JS-0241
     it("returns user object with isInactive property set to true", function (done) {
       const client = {
         search: asyncStubs.returns(2, ldapSearchResult("no")),
@@ -198,7 +199,7 @@ describe("getLDAPUsers", function () {
           done(error2);
         });
     });
-
+// skipcq: JS-0241
     it("adds property map attributes to whitelist automatically", function (done) {
       const s = Object.assign({}, settings, {
         propertyMap: {
@@ -232,7 +233,7 @@ describe("getLDAPUsers", function () {
           done(error2);
         });
     });
-
+// skipcq: JS-0241
     it("returns user object with isInactive property set to false", function (done) {
       const client = {
         search: asyncStubs.returns(2, ldapSearchResult("yes")),
@@ -254,9 +255,10 @@ describe("getLDAPUsers", function () {
         });
     });
   });
-
+// skipcq: JS-0241
   describe("inactive user detection strategy: none", function (done) {
     const activeUsers = [{ isInactive: false, uid: "foo" }];
+    // skipcq: JS-0241
     it("returns user object with isInactive property set to false", function (done) {
       const settings = {
         inactiveUsers: {
@@ -283,7 +285,7 @@ describe("getLDAPUsers", function () {
           done(error2);
         });
     });
-
+// skipcq: JS-0241
     it("uses the none strategy if an invalid strategy is given", function (done) {
       const settings = {
         inactiveUsers: {
@@ -311,7 +313,7 @@ describe("getLDAPUsers", function () {
         });
     });
   });
-
+// skipcq: JS-0241
   describe("inactive user detection strategy: UAC", function () {
     let client;
 
@@ -359,7 +361,7 @@ describe("getLDAPUsers", function () {
             .catch((error) => done(error));
         };
       };
-
+// skipcq: JS-0241
     beforeEach(function () {
       ldap.createClient.reset();
     });
@@ -373,10 +375,10 @@ describe("getLDAPUsers", function () {
       );
     }
   });
-
+// skipcq: JS-0241
   describe("inactive user detection strategy: property", function () {
     let client;
-
+// skipcq: JS-0241
     beforeEach(function () {
       ldap.createClient.reset();
     });
@@ -394,7 +396,7 @@ describe("getLDAPUsers", function () {
         },
       };
     };
-
+// skipcq: JS-0241
     it("returns isInactive == true if given property is set to requested value", function (done) {
       const settings = {
         inactiveUsers: {
@@ -425,7 +427,7 @@ describe("getLDAPUsers", function () {
         })
         .catch((error) => done(error));
     });
-
+// skipcq: JS-0241
     it("returns isInactive == false if given property is not set to requested value", function (done) {
       const settings = {
         inactiveUsers: {

@@ -47,10 +47,10 @@ const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
   mongodb: { MongoClient, "@noCallThru": true },
   randomstring: { generate, "@noCallThru": true },
 });
-
+// skipcq: JS-0241
 describe("saveUsers", function () {
   let settings;
-
+// skipcq: JS-0241
   beforeEach(function () {
     MongoClient.connect = asyncStubs.doNothing();
     bulk.find.reset();
@@ -67,7 +67,7 @@ describe("saveUsers", function () {
       },
     };
   });
-
+// skipcq: JS-0241
   it("inserts users into database", function (done) {
     MongoClient.connect = sinon.stub().resolves(client);
     upsert.upsert.returns(updateOne);
@@ -90,7 +90,7 @@ describe("saveUsers", function () {
         done(new Error(error));
       });
   });
-
+// skipcq: JS-0241
   it("handles database connection problems", function (done) {
     MongoClient.connect = sinon.stub().rejects("Connection error"); // asyncStubs.returnsError(1, 'Connection error');
 
