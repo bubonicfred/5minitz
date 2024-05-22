@@ -14,14 +14,14 @@ const { ITEM_KEYWORDS } = proxyquire(
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
-
+// skipcq: JS-0241
 describe("QueryParser", function () {
   let parser;
-
+// skipcq: JS-0241
   beforeEach(function () {
     parser = new QueryParser(ITEM_KEYWORDS);
   });
-
+// skipcq: JS-0241
   it("parses a simple query string containing only search tokens correctly", function () {
     const QUERY = "hello world";
     parser.parse(QUERY);
@@ -36,7 +36,7 @@ describe("QueryParser", function () {
     expect(searchTokens).to.contain("hello");
     expect(searchTokens).to.contain("world");
   });
-
+// skipcq: JS-0241
   it("parses a simple query string containing only label tokens correctly", function () {
     const QUERY = "#label 1 #label zwo";
     parser.parse(QUERY);
@@ -54,7 +54,7 @@ describe("QueryParser", function () {
     expect(labelTokens).to.contain("label 1");
     expect(labelTokens).to.contain("label zwo");
   });
-
+// skipcq: JS-0241
   it("parses a simple query string containing search tokens, keywords and labels correctly", function () {
     const QUERY = "hello is:open world #my label";
     parser.parse(QUERY);
@@ -73,7 +73,7 @@ describe("QueryParser", function () {
     expect(filterTokens).to.deep.contain({ key: "is", value: "open", ids: [] });
     expect(labelTokens).to.contain("my label");
   });
-
+// skipcq: JS-0241
   it("identifies the due-keyword correctly", function () {
     const QUERY = "hello due:2017 world";
     parser.parse(QUERY);
@@ -86,7 +86,7 @@ describe("QueryParser", function () {
       ids: [],
     });
   });
-
+// skipcq: JS-0241
   it("can query if a specific keyword is set", function () {
     const QUERY = "hello is:open world #my label";
     parser.parse(QUERY);
@@ -94,8 +94,9 @@ describe("QueryParser", function () {
     expect(parser.hasKeyword("is", "open")).to.be.true;
     expect(parser.hasKeyword({ key: "is" }, "open")).to.be.true;
   });
-
+// skipcq: JS-0241
   describe("Query LabelIds", function () {
+    // skipcq: JS-0241
     beforeEach(function () {
       parser = new QueryParser(ITEM_KEYWORDS, (labelName) => {
         if (labelName.split(/\s/).length > 2) {
@@ -106,7 +107,7 @@ describe("QueryParser", function () {
         return [`${labelName}-${length}`];
       });
     });
-
+// skipcq: JS-0241
     it("can query the label id for a given name using the passed function", function () {
       const QUERY = "#my label hello world";
       parser.parse(QUERY);

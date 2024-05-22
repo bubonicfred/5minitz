@@ -127,13 +127,13 @@ function verifyPropertyOfMinutesUpdate(minutes, property, value) {
 
 // skipcq: JS-0241
 describe("workflow.finalizeMinute", function () {
-  const finalizeMeteorMethod = MeteorMethods["workflow.finalizeMinute"],
-    fakeMeetingSeries = {
-      openTopics: [],
-      topics: [],
-      updateLastMinutesFieldsAsync: sinon.stub(),
-    },
-    user = { username: "me" };
+  const finalizeMeteorMethod = MeteorMethods["workflow.finalizeMinute"];
+  const fakeMeetingSeries = {
+    openTopics: [],
+    topics: [],
+    updateLastMinutesFieldsAsync: sinon.stub(),
+  };
+  const user = { username: "me" };
   let minutes;
   let secondToLastMinutes;
 // skipcq: JS-0241
@@ -263,9 +263,11 @@ describe("workflow.finalizeMinute", function () {
 });
 // skipcq: JS-0241
 describe("workflow.unfinalizeMinute", function () {
-  const unfinalizeMeteorMethod = MeteorMethods["workflow.unfinalizeMinute"],
-    user = { username: "me" };
-  let minutes, secondToLastMinutes, meetingSeries;
+  const unfinalizeMeteorMethod = MeteorMethods["workflow.unfinalizeMinute"];
+  const user = { username: "me" };
+  let minutes;
+  let secondToLastMinutes;
+  let meetingSeries;
 // skipcq: JS-0241
   beforeEach(function () {
     const minutesId = "AaBbCc02";
@@ -380,7 +382,8 @@ describe("workflow.unfinalizeMinute", function () {
 });
 // skipcq: JS-0241
 describe("Finalizer", function () {
-  let minutesId, minutes;
+  let minutesId;
+  let minutes;
 // skipcq: JS-0241
   beforeEach(function () {
     minutesId = "AaBbCc02";
