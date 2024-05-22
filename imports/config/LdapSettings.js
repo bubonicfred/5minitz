@@ -4,7 +4,7 @@
 // ********************************
 
 import _ from "lodash";
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 /**
  * Retrieves the value at the specified path from the Meteor settings object.
@@ -25,38 +25,42 @@ function get(path, def = undefined) {
  * @param {string} path - The path to the LDAP setting.
  * @param {*} value - The value to set for the LDAP setting.
  */
-function set(path, value) { _.set(Meteor.settings, `ldap.${path}`, value); }
+function set(path, value) {
+  _.set(Meteor.settings, `ldap.${path}`, value);
+}
 
 /**
  * Disables LDAP by setting the "enabled" flag to false.
  */
-function disableLdap() { set("enabled", false); }
+function disableLdap() {
+  set("enabled", false);
+}
 
 const defaultPropertyMap = {
-  username : "cn",
-  email : "mail",
+  username: "cn",
+  email: "mail",
 };
 
 const defaultLdapSettings = {
-  enabled : false,
-  authentication : {},
-  searchFilter : "",
-  allowSelfSignedTLS : false,
-  whiteListedFields : [],
-  inactiveUsers : {strategy : "none"},
-  autopublishFields : [],
-  importCronTab : false,
-  importOnLaunch : true,
-  hideStandardLogin : false,
-  label4Username : "Username (LDAP/AD)",
-  label4Password : "Password",
+  enabled: false,
+  authentication: {},
+  searchFilter: "",
+  allowSelfSignedTLS: false,
+  whiteListedFields: [],
+  inactiveUsers: { strategy: "none" },
+  autopublishFields: [],
+  importCronTab: false,
+  importOnLaunch: true,
+  hideStandardLogin: false,
+  label4Username: "Username (LDAP/AD)",
+  label4Password: "Password",
 };
 
 if (Meteor.isServer) {
   // server only. Otherwise client will see our defaultLdapSettings
   Meteor.settings.ldap = Object.assign(
-      defaultLdapSettings,
-      Meteor.settings.ldap,
+    defaultLdapSettings,
+    Meteor.settings.ldap,
   );
 }
 
@@ -70,24 +74,24 @@ export class LdapSettings {
     Meteor.settings.public.ldapEnabled = LdapSettings.ldapEnabled();
 
     Meteor.settings.public.ldapHideStandardLogin =
-        LdapSettings.ldapHideStandardLogin();
+      LdapSettings.ldapHideStandardLogin();
 
     Meteor.settings.public.ldapLabel4Username =
-        Meteor.settings.ldap.label4Username !== undefined
-            ? Meteor.settings.ldap.label4Username
-            : defaultLdapSettings.label4Username;
+      Meteor.settings.ldap.label4Username !== undefined
+        ? Meteor.settings.ldap.label4Username
+        : defaultLdapSettings.label4Username;
 
     Meteor.settings.public.ldapLabel4Password =
-        Meteor.settings.ldap.label4Password !== undefined
-            ? Meteor.settings.ldap.label4Password
-            : defaultLdapSettings.label4Password;
+      Meteor.settings.ldap.label4Password !== undefined
+        ? Meteor.settings.ldap.label4Password
+        : defaultLdapSettings.label4Password;
   }
 
   static loadSettings() {
     Meteor.settings.ldap = Object.assign(
-        {},
-        defaultLdapSettings,
-        Meteor.settings.ldap,
+      {},
+      defaultLdapSettings,
+      Meteor.settings.ldap,
     );
 
     // backwards compatibility: support searchDn property
@@ -98,9 +102,9 @@ export class LdapSettings {
     }
 
     Meteor.settings.ldap.propertyMap = Object.assign(
-        {},
-        propertyMap,
-        Meteor.settings.ldap.propertyMap,
+      {},
+      propertyMap,
+      Meteor.settings.ldap.propertyMap,
     );
   }
 
@@ -127,26 +131,42 @@ export class LdapSettings {
     }
   }
 
-  static ldapEnabled() { return get("enabled", false); }
+  static ldapEnabled() {
+    return get("enabled", false);
+  }
 
-  static ldapServer() { return get("serverUrl"); }
+  static ldapServer() {
+    return get("serverUrl");
+  }
 
-  static serverDn() { return get("serverDn"); }
+  static serverDn() {
+    return get("serverDn");
+  }
 
-  static searchFilter() { return get("searchFilter", ""); }
+  static searchFilter() {
+    return get("searchFilter", "");
+  }
 
-  static propertyMap() { return get("propertyMap"); }
+  static propertyMap() {
+    return get("propertyMap");
+  }
 
-  static usernameAttribute() { return get("propertyMap.username"); }
+  static usernameAttribute() {
+    return get("propertyMap.username");
+  }
 
-  static emailAttribute() { return get("propertyMap.email"); }
+  static emailAttribute() {
+    return get("propertyMap.email");
+  }
 
-  static allowSelfSignedTLS() { return get("allowSelfSignedTLS", false); }
+  static allowSelfSignedTLS() {
+    return get("allowSelfSignedTLS", false);
+  }
 
   static ldapHideStandardLogin() {
     return LdapSettings.ldapEnabled() &&
-                   Meteor.settings.ldap.hideStandardLogin !== undefined
-               ? Meteor.settings.ldap.hideStandardLogin
-               : defaultLdapSettings.hideStandardLogin;
+      Meteor.settings.ldap.hideStandardLogin !== undefined
+      ? Meteor.settings.ldap.hideStandardLogin
+      : defaultLdapSettings.hideStandardLogin;
   }
 }
