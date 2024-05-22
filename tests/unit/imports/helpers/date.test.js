@@ -14,13 +14,13 @@ describe("formatDateISO8601 helper", function () {
 
 describe("currentDatePlusDeltaDays helper", function () {
   it("works without parameter", function () {
-    var currentDate = new Date();
+    const currentDate = new Date();
 
     expect(currentDatePlusDeltaDays()).to.equal(formatDateISO8601(currentDate));
   });
 
   it("works with zero offset", function () {
-    var currentDate = new Date();
+    const currentDate = new Date();
 
     expect(currentDatePlusDeltaDays(0)).to.equal(
       formatDateISO8601(currentDate),
@@ -28,8 +28,8 @@ describe("currentDatePlusDeltaDays helper", function () {
   });
 
   it("works with positive offset", function () {
-    var currentDate = new Date();
-    var nextDay = new Date(
+    const currentDate = new Date();
+    const nextDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       currentDate.getDate() + 1,
@@ -39,8 +39,8 @@ describe("currentDatePlusDeltaDays helper", function () {
   });
 
   it("works with negative offset", function () {
-    var currentDate = new Date();
-    var nextDay = new Date(
+    const currentDate = new Date();
+    const nextDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       currentDate.getDate() - 35,

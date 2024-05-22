@@ -65,13 +65,13 @@ describe("MeetingSeries", () => {
     });
 
     it("sets the project correctly", () => {
-      var ms = new MeetingSeries(meetingSeries);
+      const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.project).to.equal(meetingSeries.project);
     });
 
     it("sets the name correctly", () => {
-      var ms = new MeetingSeries(meetingSeries);
+      const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.name).to.equal(meetingSeries.name);
     });
@@ -107,7 +107,7 @@ describe("MeetingSeries", () => {
 
       MinutesFinder.result = { date: expectedDate };
 
-      var actualDate = series.getMinimumAllowedDateForMinutes();
+      const actualDate = series.getMinimumAllowedDateForMinutes();
 
       compareDates(actualDate, expectedDate);
     });
@@ -127,7 +127,7 @@ describe("MeetingSeries", () => {
         },
       ]);
 
-      var actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
+      const actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
 
       compareDates(actualDate, expectedDate);
     });
@@ -147,8 +147,8 @@ describe("MeetingSeries", () => {
         },
       ]);
 
-      var actualDate =
-        series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
+      const actualDate =
+      series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
 
       compareDates(actualDate, expectedDate);
     });
