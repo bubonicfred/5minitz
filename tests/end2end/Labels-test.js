@@ -66,7 +66,7 @@ describe("Labels", function () {
 
       E2ETopics.addLabelToItem(1, 1, labelName + labelColor);
 
-      var items = E2ETopics.getItemsForTopic(1);
+      const items = E2ETopics.getItemsForTopic(1);
       const firstActionITem = items[0].ELEMENT;
       const visibleText = browser.elementIdText(firstActionITem).value;
       expect(visibleText).to.have.string(labelName);
@@ -86,7 +86,7 @@ describe("Labels", function () {
 
       E2ETopics.addLabelToItem(1, 1, defaultLabel);
 
-      var items = E2ETopics.getItemsForTopic(1);
+      const items = E2ETopics.getItemsForTopic(1);
       const firstActionItem = items[0].ELEMENT;
       const visibleText = browser.elementIdText(firstActionItem).value;
       expect(visibleText).to.have.string(defaultLabel);
