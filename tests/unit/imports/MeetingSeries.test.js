@@ -1,9 +1,10 @@
 import { expect } from "chai";
-import * as DateHelpers from "../../../imports/helpers/date";
-import * as SubElements from "../../../imports/helpers/subElements";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+
+import * as DateHelpers from "../../../imports/helpers/date";
+import * as SubElements from "../../../imports/helpers/subElements";
 
 const MeetingSeriesSchema = {};
 const Meteor = {
@@ -23,7 +24,9 @@ const MinutesFinder = {
 DateHelpers["@noCallThru"] = true;
 SubElements["@noCallThru"] = true;
 
-const Random = { id: () => {} };
+const Random = {
+  id: () => {},
+};
 const jQuery = {};
 const TopicsFinder = {};
 

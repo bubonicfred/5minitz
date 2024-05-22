@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import proxyquire from "proxyquire";
 import _ from "lodash";
+import proxyquire from "proxyquire";
 
 class MeteorError {}
 const Meteor = {
@@ -9,8 +9,7 @@ const Meteor = {
 
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
-  {
-  },
+  {},
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {

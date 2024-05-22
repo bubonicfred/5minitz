@@ -64,9 +64,7 @@ function authorize(req, res, next) {
 }
 
 server.search("dc=example,dc=com", authorize, (req, res, next) => {
-  const matches = users.filter((user) =>
-    req.filter.matches(user.attributes),
-  );
+  const matches = users.filter((user) => req.filter.matches(user.attributes));
   matches.forEach((match) => res.send(match));
 
   res.end();

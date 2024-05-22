@@ -5,9 +5,9 @@
  * and a list of associated tags.
  */
 import { User } from "/imports/user";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { _ } from "lodash";
 
 import { formatDateISO8601 } from "../imports/helpers/date";
 
@@ -15,7 +15,7 @@ export class InfoItem {
   constructor(parentTopic, source) {
     if (!parentTopic || !source)
       throw new Meteor.Error(
-        "It is not allowed to create a InfoItem without the parentTopicId and the source"
+        "It is not allowed to create a InfoItem without the parentTopicId and the source",
       );
 
     this._parentTopic = undefined;
@@ -112,7 +112,7 @@ export class InfoItem {
       throw new Meteor.Error(
         "invalid-argument",
         "Empty details are not allowed. Use #removeDetails() " +
-          "to delete an element"
+          "to delete an element",
       );
     }
     if (text === this._infoItemDoc.details[index].text) {
@@ -122,7 +122,7 @@ export class InfoItem {
     this._infoItemDoc.details[index].text = text;
     this._infoItemDoc.details[index].updatedAt = new Date();
     this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(
-      Meteor.user()
+      Meteor.user(),
     );
   }
 
@@ -168,7 +168,7 @@ export class InfoItem {
     this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
       this._infoItemDoc,
       true,
-      insertPlacementTop
+      insertPlacementTop,
     );
   }
 

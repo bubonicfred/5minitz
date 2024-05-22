@@ -1,5 +1,3 @@
-
-
 /**
  * Checks if a given token represents a valid keyword.
  *

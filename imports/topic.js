@@ -6,9 +6,9 @@ import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
 import { subElementsHelper } from "/imports/helpers/subElements";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { _ } from "lodash";
 
 import { InfoItem } from "./infoitem";
 import { InfoItemFactory } from "./InfoItemFactory";

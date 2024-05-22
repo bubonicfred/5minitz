@@ -1,7 +1,8 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+
 import * as Helpers from "../../../imports/helpers/date";
 import { subElementsHelper } from "../../../imports/helpers/subElements";
 

@@ -8,9 +8,7 @@ const Meteor = {
 // No dependecies left to mock. Replace this with normal import for test
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
-  {
-
-  },
+  {},
 );
 
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
