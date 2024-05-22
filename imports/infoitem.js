@@ -39,13 +39,13 @@ export class InfoItem {
     if (!Object.prototype.hasOwnProperty.call(source, "createdInMinute")) {
       throw new Meteor.Error("Property createdInMinute of topicDoc required");
     }
-
-    this._infoItemDoc = Object.assign({}, {
-      itemType: "infoItem",
-      isNew: true,
-      isSticky: false,
-      labels: [],
+    source = Object.assign({}, {
+    itemType: "infoItem",
+    isNew: true,
+    isSticky: false,
+    labels: [],
     }, source);
+  this._infoItemDoc = source;
   }
 
   // ################### static methods

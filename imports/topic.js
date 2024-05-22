@@ -41,13 +41,13 @@ function resolveTopic(parentElement, source) {
     }
   }
 
-  Object.assign(source, {
+  source = Object.assign({
     isOpen: true,
     isNew: true,
     isRecurring: false,
     labels: [],
     isSkipped: false,
-  });
+  }, source);
 
   return source;
 }
