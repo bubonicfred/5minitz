@@ -1,53 +1,54 @@
-import { expect } from "chai";
-import * as DateHelpers from "../../../imports/helpers/date";
-import * as SubElements from "../../../imports/helpers/subElements";
+import {expect} from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
+
+import * as DateHelpers from "../../../imports/helpers/date";
+import * as SubElements from "../../../imports/helpers/subElements";
 
 const MeetingSeriesSchema = {};
 const Meteor = {
-  call: sinon.stub(),
-  callPromise: sinon.stub(),
+  call : sinon.stub(),
+  callPromise : sinon.stub(),
 };
 const Minutes = {};
 const Topic = {};
 const UserRoles = {};
 const PromisedMethods = {};
 const MinutesFinder = {
-  result: undefined,
-  lastMinutesOfMeetingSeries() {
-    return this.result;
-  },
+  result : undefined,
+  lastMinutesOfMeetingSeries() { return this.result; },
 };
 DateHelpers["@noCallThru"] = true;
 SubElements["@noCallThru"] = true;
 
-const Random = { id: () => {} };
+const Random = {
+  id : () => {}
+};
 const jQuery = {};
 const TopicsFinder = {};
 
-const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/random": { Random, "@noCallThru": true },
-  "meteor/jquery": { jQuery, "@noCallThru": true },
-  "./collections/meetingseries.schema": {
+const {MeetingSeries} = proxyquire("../../../imports/meetingseries", {
+  "meteor/meteor" : {Meteor, "@noCallThru" : true},
+  "meteor/random" : {Random, "@noCallThru" : true},
+  "meteor/jquery" : {jQuery, "@noCallThru" : true},
+  "./collections/meetingseries.schema" : {
     MeetingSeriesSchema,
-    "@noCallThru": true,
+    "@noCallThru" : true,
   },
-  "./collections/meetingseries_private": {
+  "./collections/meetingseries_private" : {
     MeetingSeriesSchema,
-    "@noCallThru": true,
+    "@noCallThru" : true,
   },
-  "./helpers/promisedMethods": { PromisedMethods, "@noCallThru": true },
-  "./minutes": { Minutes, "@noCallThru": true },
-  "./topic": { Topic, "@noCallThru": true },
-  "./userroles": { UserRoles, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
-  "/imports/helpers/subElements": SubElements,
-  lodash: { _, "@noCallThru": true },
-  "./services/topicsFinder": { TopicsFinder, "@noCallThru": true },
-  "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
+  "./helpers/promisedMethods" : {PromisedMethods, "@noCallThru" : true},
+  "./minutes" : {Minutes, "@noCallThru" : true},
+  "./topic" : {Topic, "@noCallThru" : true},
+  "./userroles" : {UserRoles, "@noCallThru" : true},
+  "/imports/helpers/date" : DateHelpers,
+  "/imports/helpers/subElements" : SubElements,
+  lodash : {_, "@noCallThru" : true},
+  "./services/topicsFinder" : {TopicsFinder, "@noCallThru" : true},
+  "/imports/services/minutesFinder" : {MinutesFinder, "@noCallThru" : true},
 });
 
 describe("MeetingSeries", () => {
@@ -56,8 +57,8 @@ describe("MeetingSeries", () => {
 
     beforeEach(() => {
       meetingSeries = {
-        project: "foo",
-        name: "bar",
+        project : "foo",
+        name : "bar",
       };
     });
 
@@ -77,9 +78,7 @@ describe("MeetingSeries", () => {
   describe("#getMinimumAllowedDateForMinutes", () => {
     let series;
 
-    beforeEach(() => {
-      series = new MeetingSeries();
-    });
+    beforeEach(() => { series = new MeetingSeries(); });
 
     afterEach(() => {
       if (Object.prototype.hasOwnProperty.call(Minutes, "findAllIn")) {
@@ -88,67 +87,70 @@ describe("MeetingSeries", () => {
     });
 
     function compareDates(actualDate, expectedDate) {
-      expect(actualDate.getYear(), "year mismatch").to.be.equal(
-        expectedDate.getYear(),
-      );
-      expect(actualDate.getMonth(), "month mismatch").to.be.equal(
-        expectedDate.getMonth(),
-      );
-      expect(actualDate.getDay(), "day mismatch").to.be.equal(
-        expectedDate.getDay(),
-      );
+      expect(actualDate.getYear(), "year mismatch")
+          .to.be.equal(
+              expectedDate.getYear(),
+          );
+      expect(actualDate.getMonth(), "month mismatch")
+          .to.be.equal(
+              expectedDate.getMonth(),
+          );
+      expect(actualDate.getDay(), "day mismatch")
+          .to.be.equal(
+              expectedDate.getDay(),
+          );
     }
 
     it("retrieves the date of the lastMinutes() if no id is given", () => {
       const expectedDate = new Date();
 
-      MinutesFinder.result = { date: expectedDate };
+      MinutesFinder.result = {date : expectedDate};
 
       var actualDate = series.getMinimumAllowedDateForMinutes();
 
       compareDates(actualDate, expectedDate);
     });
 
-    it("gets the date from the second to last minute if id of last minute is given", () => {
-      let lastMinuteId = "lastMinuteId",
-        expectedDate = new Date();
+    it("gets the date from the second to last minute if id of last minute is given",
+       () => {
+         let lastMinuteId = "lastMinuteId", expectedDate = new Date();
 
-      Minutes.findAllIn = sinon.stub().returns([
-        {
-          _id: "someid",
-          date: expectedDate,
-        },
-        {
-          _id: lastMinuteId,
-          date: new Date(2013, 12, 11, 0, 0),
-        },
-      ]);
+         Minutes.findAllIn = sinon.stub().returns([
+           {
+             _id : "someid",
+             date : expectedDate,
+           },
+           {
+             _id : lastMinuteId,
+             date : new Date(2013, 12, 11, 0, 0),
+           },
+         ]);
 
-      var actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
+         var actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
 
-      compareDates(actualDate, expectedDate);
-    });
+         compareDates(actualDate, expectedDate);
+       });
 
-    it("gets the date from the last minute if id of second to last minute is given", () => {
-      let secondToLastMinuteId = "minuteId",
-        expectedDate = new Date();
+    it("gets the date from the last minute if id of second to last minute is given",
+       () => {
+         let secondToLastMinuteId = "minuteId", expectedDate = new Date();
 
-      Minutes.findAllIn = sinon.stub().returns([
-        {
-          _id: secondToLastMinuteId,
-          date: new Date(2013, 12, 11, 0, 0),
-        },
-        {
-          _id: "last minute",
-          date: expectedDate,
-        },
-      ]);
+         Minutes.findAllIn = sinon.stub().returns([
+           {
+             _id : secondToLastMinuteId,
+             date : new Date(2013, 12, 11, 0, 0),
+           },
+           {
+             _id : "last minute",
+             date : expectedDate,
+           },
+         ]);
 
-      var actualDate =
-        series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
+         var actualDate =
+             series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
 
-      compareDates(actualDate, expectedDate);
-    });
+         compareDates(actualDate, expectedDate);
+       });
   });
 
   describe("#save", () => {
@@ -156,8 +158,8 @@ describe("MeetingSeries", () => {
 
     beforeEach(() => {
       meetingSeries = new MeetingSeries({
-        project: "foo",
-        name: "bar",
+        project : "foo",
+        name : "bar",
       });
     });
 
@@ -171,8 +173,9 @@ describe("MeetingSeries", () => {
       meetingSeries.save();
 
       expect(
-        Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries),
-      ).to.be.true;
+          Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries),
+          )
+          .to.be.true;
     });
   });
 });

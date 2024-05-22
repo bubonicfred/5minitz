@@ -1,23 +1,22 @@
 const expect = require("chai").expect;
 
-import { TopicsGenerator } from "../../generators/topics-generator";
+import {TopicsGenerator} from "../../generators/topics-generator";
 
-describe("TopicsGenerator", function () {
-  describe("#generateNextListForMinutes", function () {
+describe("TopicsGenerator", function() {
+  describe("#generateNextListForMinutes", function() {
     const CONFIG = {
-      topicsRange: { min: 3, max: 4 },
-      itemsRange: { min: 3, max: 10 },
-      detailsSentenceRange: { min: 7, max: 23 },
+      topicsRange : {min : 3, max : 4},
+      itemsRange : {min : 3, max : 10},
+      detailsSentenceRange : {min : 7, max : 23},
     };
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(function () {
-      generator = new TopicsGenerator(CONFIG);
-    });
+    beforeEach(function() { generator = new TopicsGenerator(CONFIG); });
 
-    it("should not modify the previously returned topics array", function () {
-      const firstTopicList = generator.generateNextListForMinutes("a"); // all AIs of this list should be open!
+    it("should not modify the previously returned topics array", function() {
+      const firstTopicList = generator.generateNextListForMinutes(
+          "a"); // all AIs of this list should be open!
       generator.generateNextListForMinutes("a");
 
       firstTopicList.forEach((topic) => {
@@ -28,20 +27,18 @@ describe("TopicsGenerator", function () {
     });
   });
 
-  describe("#_generateANewTopic", function () {
+  describe("#_generateANewTopic", function() {
     const CONFIG = {
-      topicsRange: { min: 3, max: 4 },
-      itemsRange: { min: 3, max: 7 },
-      detailsSentenceRange: { min: 7, max: 23 },
+      topicsRange : {min : 3, max : 4},
+      itemsRange : {min : 3, max : 7},
+      detailsSentenceRange : {min : 7, max : 23},
     };
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(function () {
-      generator = new TopicsGenerator(CONFIG);
-    });
+    beforeEach(function() { generator = new TopicsGenerator(CONFIG); });
 
-    it("generates one topic with the correct amount of info items", function () {
+    it("generates one topic with the correct amount of info items", function() {
       for (let i = 0; i < 100; i++) {
         const topic = generator._generateANewTopic();
         expect(topic.infoItems).to.have.length.below(CONFIG.itemsRange.max + 1);
@@ -49,7 +46,7 @@ describe("TopicsGenerator", function () {
       }
     });
 
-    it("sets the createdInMinute attribute for topics correctly", function () {
+    it("sets the createdInMinute attribute for topics correctly", function() {
       const MIN_ID = "AaBbCcDd01";
       generator.currentMinutesId = MIN_ID;
       const topic = generator._generateANewTopic();
@@ -57,70 +54,69 @@ describe("TopicsGenerator", function () {
     });
   });
 
-  describe("#_copyTopicsToSeries", function () {
+  describe("#_copyTopicsToSeries", function() {
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(function () {
-      generator = new TopicsGenerator(undefined);
-    });
+    beforeEach(function() { generator = new TopicsGenerator(undefined); });
 
-    it("should copy the new list to the seriesTopicList omitting the open items", function () {
-      generator.currentTopicList = [
-        {
-          _id: "1",
-          infoItems: [{ _id: "1.1" }, { _id: "1.2", isOpen: true }],
-        },
-        {
-          _id: "2",
-          isOpen: false,
-          infoItems: [
-            { _id: "2.1" },
-            { _id: "2.2" },
-            { _id: "2.3", isOpen: false },
-          ],
-        },
-      ];
-      generator._copyTopicsToSeries();
-      expect(generator.seriesTopicList).to.have.length(2);
-      expect(generator.seriesTopicList[0].infoItems).to.have.length(1);
-      expect(generator.seriesTopicList[1].infoItems).to.have.length(3);
-      expect(generator.seriesTopicIdIndexMap).to.have.all.keys("1", "2");
+    it("should copy the new list to the seriesTopicList omitting the open items",
+       function() {
+         generator.currentTopicList = [
+           {
+             _id : "1",
+             infoItems : [ {_id : "1.1"}, {_id : "1.2", isOpen : true} ],
+           },
+           {
+             _id : "2",
+             isOpen : false,
+             infoItems : [
+               {_id : "2.1"},
+               {_id : "2.2"},
+               {_id : "2.3", isOpen : false},
+             ],
+           },
+         ];
+         generator._copyTopicsToSeries();
+         expect(generator.seriesTopicList).to.have.length(2);
+         expect(generator.seriesTopicList[0].infoItems).to.have.length(1);
+         expect(generator.seriesTopicList[1].infoItems).to.have.length(3);
+         expect(generator.seriesTopicIdIndexMap).to.have.all.keys("1", "2");
 
-      expect(generator.seriesTopicList[0].isOpen).to.be.true;
-      expect(generator.seriesTopicList[1].isOpen).to.be.false;
-    });
+         expect(generator.seriesTopicList[0].isOpen).to.be.true;
+         expect(generator.seriesTopicList[1].isOpen).to.be.false;
+       });
 
-    it("should append the existing seriesTopicsList", function () {
+    it("should append the existing seriesTopicsList", function() {
       generator.seriesTopicList = [
         {
-          _id: "1",
-          isOpen: true,
-          infoItems: [{ _id: "1.1" }],
+          _id : "1",
+          isOpen : true,
+          infoItems : [ {_id : "1.1"} ],
         },
         {
-          _id: "2",
-          isOpen: false,
-          infoItems: [
-            { _id: "2.1" },
-            { _id: "2.2" },
-            { _id: "2.3", isOpen: false },
+          _id : "2",
+          isOpen : false,
+          infoItems : [
+            {_id : "2.1"},
+            {_id : "2.2"},
+            {_id : "2.3", isOpen : false},
           ],
         },
       ];
-      generator.seriesTopicIdIndexMap = { 1: 0, 2: 1 };
+      generator.seriesTopicIdIndexMap = {1 : 0, 2 : 1};
       generator.currentTopicList = [
         {
-          _id: "3",
-          isOpen: true,
-          infoItems: [{ _id: "3.1" }],
+          _id : "3",
+          isOpen : true,
+          infoItems : [ {_id : "3.1"} ],
         },
         {
-          _id: "1",
-          infoItems: [
-            { _id: "1.2", isOpen: false },
-            { _id: "1.3" },
-            { _id: "1.4", isOpen: true },
+          _id : "1",
+          infoItems : [
+            {_id : "1.2", isOpen : false},
+            {_id : "1.3"},
+            {_id : "1.4", isOpen : true},
           ],
         },
       ];
@@ -139,49 +135,45 @@ describe("TopicsGenerator", function () {
     });
   });
 
-  describe("#_extendExistingTopics", function () {
+  describe("#_extendExistingTopics", function() {
     const CONFIG = {
-      topicsRange: { min: 1, max: 3 },
-      itemsRange: { min: 1, max: 3 },
+      topicsRange : {min : 1, max : 3},
+      itemsRange : {min : 1, max : 3},
     };
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(function () {
-      generator = new TopicsGenerator(CONFIG);
-    });
+    beforeEach(function() { generator = new TopicsGenerator(CONFIG); });
 
-    it("should not toggle new generated action items", function () {
+    it("should not toggle new generated action items", function() {
       // mock generator
       let nextId = 16;
       generator._generateANewInfoItem = () => {
         const id = `1.${nextId++}`;
-        return { _id: id, itemType: "actionItem", isOpen: true };
+        return {_id : id, itemType : "actionItem", isOpen : true};
       };
 
       generator.currentTopicList = [
         {
-          _id: "1",
-          infoItems: [
-            { _id: "1.1", isOpen: true, itemType: "actionItem", details: [] },
-            { _id: "1.2", itemType: "infoItem", details: [] },
-            { _id: "1.3", isOpen: true, itemType: "actionItem", details: [] },
-            { _id: "1.4", isOpen: true, itemType: "actionItem", details: [] },
+          _id : "1",
+          infoItems : [
+            {_id : "1.1", isOpen : true, itemType : "actionItem", details : []},
+            {_id : "1.2", itemType : "infoItem", details : []},
+            {_id : "1.3", isOpen : true, itemType : "actionItem", details : []},
+            {_id : "1.4", isOpen : true, itemType : "actionItem", details : []},
           ],
         },
       ];
 
       generator._extendExistingTopics();
 
-      for (
-        let i = 0;
-        i < generator.currentTopicList[0].infoItems.length - 15;
-        i++
-      ) {
+      for (let i = 0; i < generator.currentTopicList[0].infoItems.length - 15;
+           i++) {
         expect(
-          generator.currentTopicList[0].infoItems[i].isOpen,
-          `${i}. item should be open, too`,
-        ).to.be.true;
+            generator.currentTopicList[0].infoItems[i].isOpen,
+            `${i}. item should be open, too`,
+            )
+            .to.be.true;
       }
     });
   });
