@@ -6,19 +6,28 @@ import { Minutes } from "../minutes";
 
 import { ParticipantsPreparer } from "./ParticipantsPreparer";
 
+/**
+ * Performs a search using Select2 plugin.
+ *
+ * @param {jQuery} selectResponsibles - The jQuery object representing the select element.
+ * @param {number} delayTime - The delay time in milliseconds before making the search request.
+ * @param {function} freeTextValidator - The function used to validate free text entries.
+ * @param {string} minuteID - The ID of the minute.
+ * @param {string} topicOrItem - The topic or item to search for.
+ */
 function select2search(
   selectResponsibles,
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem,
+  topicOrItem
 ) {
   const minute = new Minutes(minuteID);
   const preparer = new ParticipantsPreparer(
     minute,
     topicOrItem,
     Meteor.users,
-    freeTextValidator,
+    freeTextValidator
   );
   const participants = preparer.getPossibleResponsibles();
   selectResponsibles.select2({
@@ -38,7 +47,7 @@ function select2search(
               return;
             }
             success(results);
-          },
+          }
         );
       },
       processResults(data) {
@@ -50,22 +59,25 @@ function select2search(
               id: result.id,
               text: result.text,
             });
-          } else
+          } else {
             results_other.push({
               id: result._id,
               text: result.fullname,
             });
+          }
         });
         // save the return value (when participants/other user are empty -> do
         // not show a group-name
         const returnValues = [];
-        if (results_participants.length > 0)
+        if (results_participants.length > 0) {
           returnValues.push({
             text: "Participants",
             children: results_participants,
           });
-        if (results_other.length > 0)
+        }
+        if (results_other.length > 0) {
           returnValues.push({ text: "Other Users", children: results_other });
+        }
 
         return {
           results: returnValues,
@@ -75,15 +87,24 @@ function select2search(
   });
 }
 
+/**
+ * Configures the Select2 responsibles element.
+ *
+ * @param {string} SelectResponsibleElementID - The ID of the Select2 responsibles element.
+ * @param {Object} topicOrItemDoc - The topic or item document.
+ * @param {function} freeTextValidator - The free text validator function.
+ * @param {string} _minutesID - The ID of the minutes.
+ * @param {string} topicOrItem - The topic or item.
+ */
 export function configureSelect2Responsibles(
   SelectResponsibleElementID,
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem,
+  topicOrItem
 ) {
   const selectResponsibles = document.getElementById(
-    SelectResponsibleElementID,
+    SelectResponsibleElementID
   );
   selectResponsibles
     .querySelectorAll("option") // clear all <option>s
@@ -95,7 +116,7 @@ export function configureSelect2Responsibles(
     delayTime,
     freeTextValidator,
     _minutesID,
-    topicOrItem,
+    topicOrItem
   );
   const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
@@ -106,7 +127,7 @@ export function configureSelect2Responsibles(
         Minutes.formatResponsibles(
           responsibleUser,
           "username",
-          responsibleUser.profile,
+          responsibleUser.profile
         );
       } else {
         // free text user
@@ -120,7 +141,7 @@ export function configureSelect2Responsibles(
     Blaze.renderWithData(
       Template.optionsElement,
       data,
-      document.getElementById(SelectResponsibleElementID),
+      document.getElementById(SelectResponsibleElementID)
     );
   }
   selectResponsibles.trigger("change");

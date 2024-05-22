@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Defines the MeetingSeriesSchema and MeetingSeriesCollection.
+ * This file contains the schema definition for the MeetingSeries collection
+ * and the corresponding MongoDB collection.
+ */
+
 import "./idValidator";
 
 import { Class as SchemaClass } from "meteor/jagi:astronomy";
@@ -7,12 +13,25 @@ import { MeetingSeries } from "../meetingseries";
 
 import { LabelSchema } from "./label.schema";
 
+/**
+ * Represents the MongoDB collection for MeetingSeries.
+ * @type {Mongo.Collection}
+ */
 const MeetingSeriesCollection = new Mongo.Collection("meetingSeries", {
+  /**
+   * Transforms the MongoDB document into a MeetingSeries instance.
+   * @param {Object} doc - The MongoDB document.
+   * @returns {MeetingSeries} The transformed MeetingSeries instance.
+   */
   transform(doc) {
     return new MeetingSeries(doc);
   },
 });
 
+/**
+ * Represents the schema definition for MeetingSeries.
+ * @type {SchemaClass}
+ */
 export const MeetingSeriesSchema = SchemaClass.create({
   name: "MeetingSeriesSchema",
   collection: MeetingSeriesCollection,

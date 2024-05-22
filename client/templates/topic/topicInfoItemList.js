@@ -571,6 +571,15 @@ Template.topicInfoItemList.events({
       aActionItem._infoItemDoc.details[detailIndex].isEditedBy !== undefined &&
       aActionItem._infoItemDoc.details[detailIndex].isEditedDate !== undefined
     ) {
+      /**
+       * Removes the edited detail from the IsEditedService.
+       *
+       * @param {string} aMinId - The ID of the min.
+       * @param {string} aTopicId - The ID of the topic.
+       * @param {string} aInfoItemId - The ID of the info item.
+       * @param {number} detailIndex - The index of the detail to remove.
+       * @param {boolean} [isEdited=true] - Indicates if the detail is edited.
+       */
       const unset = () => {
         IsEditedService.removeIsEditedDetail(
           aMin._id,
@@ -620,6 +629,11 @@ Template.topicInfoItemList.events({
         true,
       );
     };
+    /**
+     * Sets the "isEdited" flag for the specified detail item and makes it editable.
+     *
+     * @returns {void}
+     */
     const setIsEdited = () => {
       IsEditedService.setIsEditedDetail(
         aMin._id,
@@ -685,6 +699,9 @@ Template.topicInfoItemList.events({
 
     if (text === "" || text !== textEl.attr("data-text")) {
       if (text === "") {
+        /**
+         * Deletes the details of an action item.
+         */
         const deleteDetails = () => {
           aActionItem.removeDetails(detailIndex);
           aActionItem.save().catch(handleError);

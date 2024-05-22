@@ -1,7 +1,10 @@
 /**
- * A Topic is an Agenda Topic which can
- * have multiple sub-items called InfoItem.
+ * @file Topic.js
+ * @summary Defines the Topic class, which represents an Agenda Topic with sub-items called InfoItems.
+ * @description This file contains the implementation of the Topic class, which is used to create and manipulate Agenda Topics in a meeting management system. It provides methods for resolving parent elements, resolving topics, finding topic index in an array, checking if a topic has open action items, and more.
+ * @module Topic
  */
+
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
@@ -170,7 +173,7 @@ export class Topic {
     if (topicItemDoc._id) {
       i = subElementsHelper.findIndexById(
         topicItemDoc._id,
-        this.getInfoItems(),
+        this.getInfoItems()
       );
     } else {
       // brand-new topicItem
@@ -207,7 +210,7 @@ export class Topic {
       throw new Meteor.Error(
         "Cannot remove item",
         "It is not allowed to remove an action item which was not " +
-          "created within the current minutes",
+          "created within the current minutes"
       );
     }
 
@@ -227,7 +230,7 @@ export class Topic {
       (infoItemDoc) => {
         const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
-      },
+      }
     );
   }
 

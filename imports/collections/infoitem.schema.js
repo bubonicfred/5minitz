@@ -1,7 +1,16 @@
+/**
+ * @fileoverview Defines the DetailsSchema and InfoItemSchema for the 4minitz application.
+ * These schemas are used to define the structure and validation rules for the information items.
+ */
+
 import "./idValidator";
 
 import { Class as SchemaClass } from "meteor/jagi:astronomy";
 
+/**
+ * Represents the DetailsSchema for an information item.
+ * @class
+ */
 export const DetailsSchema = SchemaClass.create({
   name: "DetailsSchema",
   fields: {
@@ -19,6 +28,10 @@ export const DetailsSchema = SchemaClass.create({
   },
 });
 
+/**
+ * Represents the InfoItemSchema for an information item.
+ * @class
+ */
 export const InfoItemSchema = SchemaClass.create({
   name: "InfoItemSchema",
   fields: {

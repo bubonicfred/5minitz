@@ -11,6 +11,14 @@ import { Random } from "meteor/random";
 
 import { formatDateISO8601 } from "../imports/helpers/date";
 
+/**
+ * The InfoItem class represents an information item in a topic.
+ *
+ * @class
+ * @param {Object} parentTopic - The topic to which this InfoItem belongs.
+ * @param {Object} source - The source document for this InfoItem.
+ * @throws {Meteor.Error} If parentTopic or source is not provided.
+ */
 export class InfoItem {
   constructor(parentTopic, source) {
     if (!parentTopic || !source)
@@ -50,10 +58,22 @@ export class InfoItem {
   }
 
   // ################### static methods
+  /**
+   * Checks if the given infoItem document is an action item.
+   *
+   * @param {Object} infoItemDoc - The infoItem document to check.
+   * @returns {boolean} - Returns true if the infoItem is an action item, false otherwise.
+   */
   static isActionItem(infoItemDoc) {
     return infoItemDoc.itemType === "actionItem";
   }
 
+  /**
+   * Checks if an info item document is created in a specific minute.
+   * @param {Object} infoItemDoc - The info item document to check.
+   * @param {string} minutesId - The ID of the minute to compare against.
+   * @returns {boolean} - True if the info item is created in the specified minute, false otherwise.
+   */
   static isCreatedInMinutes(infoItemDoc, minutesId) {
     return infoItemDoc.createdInMinute === minutesId;
   }
@@ -63,6 +83,11 @@ export class InfoItem {
     this._infoItemDoc.isNew = false;
   }
 
+  /**
+   * Returns the ID of the info item.
+   *
+   * @returns {string} The ID of the info item.
+   */
   getId() {
     return this._infoItemDoc._id;
   }
@@ -192,9 +217,10 @@ export class InfoItem {
     this._infoItemDoc.subject = newSubject;
   }
 
+
   /**
-   *
-   * @param labelIds {string[]}
+   * Adds labels to the info item by their IDs.
+   * @param {Array} labelIds - An array of label IDs to be added.
    */
   addLabelsById(labelIds) {
     labelIds.forEach((id) => {

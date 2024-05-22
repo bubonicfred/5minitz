@@ -1,3 +1,19 @@
+/**
+ * This file defines the server-side functionality for the "minutes" collection.
+ * It includes methods for publishing minutes, sending agenda, updating minutes and topics,
+ * adding and removing topics, and syncing visibility and participants.
+ *
+ * @module minutes_private
+ * @requires meteor/check
+ * @requires meteor/meteor
+ * @requires ../config/GlobalSettings
+ * @requires ../mail/SendAgendaMailHandler
+ * @requires ../minutes
+ * @requires ../user
+ * @requires ../userroles
+ * @requires ./minutes.schema
+ * @requires ./topic.schema
+ */
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
 

@@ -2,6 +2,10 @@ import { InfoItem } from "./infoitem";
 import { Priority } from "./priority";
 import { currentDatePlusDeltaDays } from "./helpers/date";
 
+/**
+ * Represents an action item.
+ * @extends InfoItem
+ */
 export class ActionItem extends InfoItem {
   constructor(parentTopic, source) {
     // constructs obj from item ID or document
@@ -69,7 +73,7 @@ export class ActionItem extends InfoItem {
   }
 
   /**
-   * Checks whether this topic has associated responsibles
+   * Checks whether this topic has associated responsible participants
    * or not. This method must have the same name as the
    * topic.hasResponsibles method.
    *
@@ -79,7 +83,7 @@ export class ActionItem extends InfoItem {
     return this._infoItemDoc.responsibles?.length;
   }
   /**
-   * Returns all responsibles associated with this
+   * Returns all responsible participants associated with this
    * topic. This method must have the same name as the
    * topic.getResponsibles method.
    *
@@ -101,15 +105,26 @@ export class ActionItem extends InfoItem {
     }
   }
 
+  /**
+   * Retrieves the priority of the action item.
+   * @returns {Priority|string} The priority of the action item, or an empty string if no priority is set.
+   */
   getPriority() {
     const prio = this._infoItemDoc.priority;
     return prio ? new Priority(prio) : "";
   }
 
+  /**
+   * Retrieves the due date of the action item.
+   * @returns {Date} The due date of the action item.
+   */
   getDuedate() {
     return this._infoItemDoc.duedate;
   }
 
+  /**
+   * Toggles the state of the info item document.
+   */
   toggleState() {
     // open/close
     this._infoItemDoc.isOpen = !this._infoItemDoc.isOpen;

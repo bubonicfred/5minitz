@@ -5,8 +5,16 @@ import { Mongo } from "meteor/mongo";
 import "./idValidator";
 import { InfoItemSchema } from "./infoitem.schema";
 
+/**
+ * Represents the collection of topics.
+ * @type {Mongo.Collection}
+ */
 const TopicsCollection = new Mongo.Collection("topics");
 
+/**
+ * Represents the schema for a topic.
+ * @type {SchemaClass}
+ */
 export const TopicSchema = SchemaClass.create({
   name: "TopicSchema",
   collection: TopicsCollection,
@@ -44,16 +52,26 @@ export const TopicSchema = SchemaClass.create({
 });
 
 if (Meteor.isServer) {
+  /**
+   * Publishes the topics for a given meeting series ID or array of IDs.
+   * @param {string|string[]} meetingSeriesIdOrArray - The ID or array of IDs of the meeting series.
+   * @returns {Mongo.Cursor} - The cursor containing the topics.
+   */
   Meteor.publish("topics", function (meetingSeriesIdOrArray) {
     const parentIdSelector =
       typeof meetingSeriesIdOrArray === "string"
         ? { parentId: meetingSeriesIdOrArray } // we have an ID here
-        : { parentId: { $in: meetingSeriesIdOrArray } }; //we have an whole array of ids here
+        : { parentId: { $in: meetingSeriesIdOrArray } }; //we have a whole array of IDs here
     return TopicSchema.find({
       $and: [{ visibleFor: { $in: [this.userId] } }, parentIdSelector],
     });
   });
 
+  /**
+   * Publishes a single topic with the given ID.
+   * @param {string} topicID - The ID of the topic.
+   * @returns {Mongo.Cursor} - The cursor containing the topic.
+   */
   Meteor.publish("topicOnlyOne", (topicID) =>
     TopicSchema.find({ _id: topicID }),
   );

@@ -1,3 +1,10 @@
+/**
+ * @fileoverview This file contains the implementation of the MeetingSeries class.
+ * The MeetingSeries class represents a series of meetings and provides methods for managing and manipulating meeting data.
+ * It includes static methods for finding and removing meeting series, as well as object methods for adding and removing minutes, saving the meeting series, and more.
+ * @module meetingseries
+ * @exports MeetingSeries
+ */
 import "./helpers/promisedMethods";
 import "./collections/meetingseries_private";
 
@@ -14,6 +21,10 @@ import { Minutes } from "./minutes";
 import { TopicsFinder } from "./services/topicsFinder";
 import { UserRoles } from "./userroles";
 
+/**
+ * Represents a meeting series.
+ * @class
+ */
 export class MeetingSeries {
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document

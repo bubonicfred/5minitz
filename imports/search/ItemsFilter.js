@@ -3,6 +3,9 @@ import { Meteor } from "meteor/meteor";
 
 import { ITEM_KEYWORDS } from "./FilterKeywords";
 
+/**
+ * Represents a filter for items.
+ */
 export class ItemsFilter {
   constructor() {
     this.isCaseSensitive = false;
