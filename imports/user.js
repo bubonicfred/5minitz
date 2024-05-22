@@ -20,7 +20,7 @@ export class User {
     this.OK = Boolean(this.user);
   }
 
-  static PROFILENAMEWITHFALLBACK(userObject) {
+  static profileNameWithFallback(userObject) {
     if (userObject) {
       return userObject.profile?.name
         ? userObject.profile.name
@@ -31,7 +31,7 @@ export class User {
   }
 
   profileNameWithFallback() {
-    return User.PROFILENAMEWITHFALLBACK(this.user);
+    return User.profileNameWithFallback(this.user);
   }
 
   userNameWithFallback() {

@@ -35,7 +35,7 @@ export class RoleChangeMailHandler {
     const meetingProject = meetingSeries.project;
     const meetingName = meetingSeries.name;
 
-    const userName = User.PROFILENAMEWITHFALLBACK(this._user);
+    const userName = User.profileNameWithFallback(this._user);
 
     this._oldRole =
       this._oldRole == null ? "None" : userroles.role2Text(this._oldRole);

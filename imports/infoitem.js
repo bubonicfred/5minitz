@@ -119,9 +119,9 @@ export class InfoItem {
       _id: Random.id(),
       createdInMinute: minuteId,
       createdAt: new Date(),
-      createdBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      createdBy: User.profileNameWithFallback(Meteor.user()),
       updatedAt: new Date(),
-      updatedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      updatedBy: User.profileNameWithFallback(Meteor.user()),
       date,
       text,
       isNew: true,
@@ -146,7 +146,7 @@ export class InfoItem {
     this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
     this._infoItemDoc.details[index].text = text;
     this._infoItemDoc.details[index].updatedAt = new Date();
-    this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(
+    this._infoItemDoc.details[index].updatedBy = User.profileNameWithFallback(
       Meteor.user(),
     );
   }
@@ -186,10 +186,10 @@ export class InfoItem {
     if (!this._infoItemDoc._id) {
       // it is a new one
       this._infoItemDoc.createdAt = new Date();
-      this._infoItemDoc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+      this._infoItemDoc.createdBy = User.profileNameWithFallback(Meteor.user());
     }
     this._infoItemDoc.updatedAt = new Date();
-    this._infoItemDoc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+    this._infoItemDoc.updatedBy = User.profileNameWithFallback(Meteor.user());
     this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
       this._infoItemDoc,
       true,

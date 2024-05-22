@@ -126,7 +126,7 @@ Meteor.methods({
 
     const doc = {
       finalizedAt: new Date(),
-      finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      finalizedBy: User.profileNameWithFallback(Meteor.user()),
       isFinalized: true,
       finalizedVersion: version,
     };
@@ -171,7 +171,7 @@ Meteor.methods({
 
     const doc = {
       finalizedAt: new Date(),
-      finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      finalizedBy: User.profileNameWithFallback(Meteor.user()),
       isFinalized: false,
     };
 

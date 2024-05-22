@@ -24,7 +24,7 @@ const Random = {
 };
 
 const User = {
-  PROFILENAMEWITHFALLBACK: sinon.stub(),
+  profileNameWithFallback: sinon.stub(),
 };
 
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
