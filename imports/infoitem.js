@@ -4,12 +4,12 @@
  * a date when is was created
  * and a list of associated tags.
  */
-import { User } from "/imports/user";
-import { _ } from "lodash";
+import { User } from "./user";
+import _ from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
-import { formatDateISO8601 } from "../imports/helpers/date";
+import { formatDateISO8601 } from "./helpers/date";
 
 /**
  * The InfoItem class represents an information item in a topic.

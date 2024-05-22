@@ -37,7 +37,6 @@ export class ParticipantsPreparer {
     this.buffer = []; // userIds and names from different sources, may have doubles
   }
 
-
   /**
    * Get the possible responsible participants.
    *

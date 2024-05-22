@@ -128,8 +128,15 @@ export class MeetingSeries {
     min.save(optimisticUICallback, serverCallback);
   }
 
+  /**
+   * Upserts a topic.
+   * @memberof MeetingSeries
+   * @method upsertTopic
+   * @instance
+   * @deprecated This method is obsolete. Please refactor the topic class.
+   */
   upsertTopic() {
-    // TODO: refactor topic class and make this method obsolete
+//Intentionally empty
   }
 
   hasMinute(id) {
@@ -186,9 +193,14 @@ export class MeetingSeries {
     }
   }
 
+  /**
+   * Get the date of the latest minute excluding the given minuteId.
+   *
+   * @param {string} minuteId - The ID of the minute to exclude.
+   * @returns {Date|undefined} The date of the first non-matching minute, or undefined if no non-matching minute is found.
+   */
   _getDateOfLatestMinuteExcluding(minuteId) {
-    // TODO check if excluding the given minuteId could be
-    // done directly in the find call on the collection
+    // TODO check if excluding the given minuteId could be done directly in the find call on the collection
 
     const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
       return {
