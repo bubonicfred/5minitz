@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
+import { _ } from "lodash";
 import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 
@@ -62,6 +62,7 @@ const { Label } = proxyquire("../../../imports/label", {
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
   "/imports/helpers/date": DateHelpers,
   "./label": { Label, "@noCallThru": true },
@@ -82,6 +83,7 @@ const { Topic } = proxyquire("../../../imports/topic", {
   "meteor/random": { Random, "@noCallThru": true },
   "/imports/helpers/subElements": SubElements,
   "./label": { Label, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
   "./InfoItemFactory": { InfoItemFactory, "@noCallThru": true },
   "./minutes": { Minutes, "@noCallThru": true },

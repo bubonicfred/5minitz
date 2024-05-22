@@ -8,6 +8,7 @@ import "./collections/minutes_private";
 import { subElementsHelper } from "/imports/helpers/subElements";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
+import { _ } from "lodash";
 
 import { InfoItem } from "./infoitem";
 import { InfoItemFactory } from "./InfoItemFactory";
@@ -41,13 +42,13 @@ function resolveTopic(parentElement, source) {
     }
   }
 
-  source = Object.assign({
+  _.defaults(source, {
     isOpen: true,
     isNew: true,
     isRecurring: false,
     labels: [],
     isSkipped: false,
-  }, source);
+  });
 
   return source;
 }
