@@ -3,11 +3,11 @@
  * @description This file contains the template and helper functions for the action item list.
  */
 
-import { TopicSchema } from "../../../imports/collections/topic.schema";
-import { MeetingSeries } from "../../../imports/meetingseries";
-import { ITEM_KEYWORDS } from "../../../imports/search/FilterKeywords";
-import { ItemsFilter } from "../../../imports/search/ItemsFilter";
-import { QueryParser } from "../../../imports/search/QueryParser";
+import { TopicSchema } from "/imports/collections/topic.schema";
+import { MeetingSeries } from "/imports/meetingseries";
+import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
+import { ItemsFilter } from "/imports/search/ItemsFilter";
+import { QueryParser } from "/imports/search/QueryParser";;
 import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Template } from "meteor/templating";
