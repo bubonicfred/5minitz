@@ -1,8 +1,9 @@
-import { Meteor } from "meteor/meteor";
+import "./idValidator";
+
 import { Class as SchemaClass } from "meteor/jagi:astronomy";
+import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 
-import "./idValidator";
 import { InfoItemSchema } from "./infoitem.schema";
 
 /**
@@ -41,8 +42,9 @@ export const TopicSchema = SchemaClass.create({
     sortOrder: { type: Number, optional: true, default: 0 },
     isEditedBy: { type: String, optional: true },
     isEditedDate: { type: Date, optional: true },
-    // visibleFor: array of user IDs; optional since it is only necessary for topics living in the
-    // topics collection. Topics inside a minutes do not have this field
+    // visibleFor: array of user IDs; optional since it is only necessary for
+    // topics living in the topics collection. Topics inside a minutes do not
+    // have this field
     visibleFor: {
       type: [String],
       validators: [{ type: "meteorId" }],
@@ -54,14 +56,18 @@ export const TopicSchema = SchemaClass.create({
 if (Meteor.isServer) {
   /**
    * Publishes the topics for a given meeting series ID or array of IDs.
-   * @param {string|string[]} meetingSeriesIdOrArray - The ID or array of IDs of the meeting series.
+   * @param {string|string[]} meetingSeriesIdOrArray - The ID or array of IDs of
+   *     the meeting series.
    * @returns {Mongo.Cursor} - The cursor containing the topics.
    */
   Meteor.publish("topics", function (meetingSeriesIdOrArray) {
     const parentIdSelector =
       typeof meetingSeriesIdOrArray === "string"
-        ? { parentId: meetingSeriesIdOrArray } // we have an ID here
-        : { parentId: { $in: meetingSeriesIdOrArray } }; //we have a whole array of IDs here
+        ? { parentId: meetingSeriesIdOrArray }
+        : // we have an ID here
+          {
+            parentId: { $in: meetingSeriesIdOrArray },
+          }; // we have a whole array of IDs here
     return TopicSchema.find({
       $and: [{ visibleFor: { $in: [this.userId] } }, parentIdSelector],
     });

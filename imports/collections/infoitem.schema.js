@@ -1,6 +1,7 @@
 /**
- * @fileoverview Defines the DetailsSchema and InfoItemSchema for the 4minitz application.
- * These schemas are used to define the structure and validation rules for the information items.
+ * @fileoverview Defines the DetailsSchema and InfoItemSchema for the 4minitz
+ * application. These schemas are used to define the structure and validation
+ * rules for the information items.
  */
 
 import "./idValidator";

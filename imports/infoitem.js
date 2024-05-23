@@ -10,7 +10,7 @@ import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
 import { formatDateISO8601 } from "./helpers/date";
-import { StringUtils } from './helpers/string-utils';
+import { StringUtils } from "./helpers/string-utils";
 
 /**
  * The InfoItem class represents an information item in a topic.
@@ -63,7 +63,8 @@ export class InfoItem {
    * Checks if the given infoItem document is an action item.
    *
    * @param {Object} infoItemDoc - The infoItem document to check.
-   * @returns {boolean} - Returns true if the infoItem is an action item, false otherwise.
+   * @returns {boolean} - Returns true if the infoItem is an action item, false
+   *     otherwise.
    */
   static isActionItem(infoItemDoc) {
     return infoItemDoc.itemType === "actionItem";
@@ -73,7 +74,8 @@ export class InfoItem {
    * Checks if an info item document is created in a specific minute.
    * @param {Object} infoItemDoc - The info item document to check.
    * @param {string} minutesId - The ID of the minute to compare against.
-   * @returns {boolean} - True if the info item is created in the specified minute, false otherwise.
+   * @returns {boolean} - True if the info item is created in the specified
+   *     minute, false otherwise.
    */
   static isCreatedInMinutes(infoItemDoc, minutesId) {
     return infoItemDoc.createdInMinute === minutesId;
@@ -217,7 +219,6 @@ export class InfoItem {
   setSubject(newSubject) {
     this._infoItemDoc.subject = newSubject;
   }
-
 
   /**
    * Adds labels to the info item by their IDs.

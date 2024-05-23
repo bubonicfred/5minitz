@@ -28,8 +28,6 @@ const MeetingSeriesCollection = new Mongo.Collection("meetingSeries", {
   },
 });
 
-
-
 /**
  * Represents the schema for the MeetingSeries collection.
  * @type {SchemaClass}
@@ -37,16 +35,25 @@ const MeetingSeriesCollection = new Mongo.Collection("meetingSeries", {
  * @property {string} project - The project associated with the meeting series.
  * @property {string} name - The name of the meeting series.
  * @property {Date} createdAt - The date when the meeting series was created.
- * @property {string[]} visibleFor - An array of user IDs or email addresses that the meeting series is visible for.
- * @property {string[]} informedUsers - An array of user IDs or email addresses of users who are informed about the meeting series. (Optional)
+ * @property {string[]} visibleFor - An array of user IDs or email addresses
+ * that the meeting series is visible for.
+ * @property {string[]} informedUsers - An array of user IDs or email addresses
+ * of users who are informed about the meeting series. (Optional)
  * @property {Date} lastMinutesDate - The date of the last meeting minutes.
- * @property {boolean} lastMinutesFinalized - Indicates whether the last meeting minutes are finalized or not.
- * @property {string} lastMinutesId - The ID of the last meeting minutes. (Optional)
- * @property {string[]} minutes - An array of meeting minutes associated with the meeting series.
- * @property {LabelSchema[]} availableLabels - An array of available labels for the meeting series.
- * @property {string[]} additionalResponsibles - An array of additional users responsible for the meeting series.
- * @property {string} isEditedBy - The user who last edited the meeting series. (Optional)
- * @property {Date} isEditedDate - The date when the meeting series was last edited. (Optional)
+ * @property {boolean} lastMinutesFinalized - Indicates whether the last meeting
+ * minutes are finalized or not.
+ * @property {string} lastMinutesId - The ID of the last meeting minutes.
+ * (Optional)
+ * @property {string[]} minutes - An array of meeting minutes associated with
+ * the meeting series.
+ * @property {LabelSchema[]} availableLabels - An array of available labels for
+ * the meeting series.
+ * @property {string[]} additionalResponsibles - An array of additional users
+ * responsible for the meeting series.
+ * @property {string} isEditedBy - The user who last edited the meeting series.
+ * (Optional)
+ * @property {Date} isEditedDate - The date when the meeting series was last
+ * edited. (Optional)
  */
 export const MeetingSeriesSchema = SchemaClass.create({
   name: "MeetingSeriesSchema",

@@ -15,7 +15,8 @@ import { TopicSchema } from "./topic.schema";
  */
 const MinutesCollection = new Mongo.Collection("minutes", {
   /**
-   * Transform function to convert documents into instances of the "Minutes" class.
+   * Transform function to convert documents into instances of the "Minutes"
+   * class.
    * @param {Object} doc - The document to transform.
    * @returns {Minutes} - The transformed instance of the "Minutes" class.
    */

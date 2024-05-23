@@ -20,7 +20,8 @@ export class TopicsFinder {
   }
 
   /**
-   * Retrieves all topics of a meeting series that have at least one info item created in a specific minute.
+   * Retrieves all topics of a meeting series that have at least one info item
+   * created in a specific minute.
    *
    * @param {string} meetingSeriesId - The ID of the meeting series.
    * @param {string} minutesId - The ID of the minute.
@@ -42,7 +43,8 @@ export class TopicsFinder {
    * Retrieves a topic by its ID within a specific meeting series.
    *
    * @param {string} topicId - The ID of the topic to retrieve.
-   * @param {string} meetingSeriesId - The ID of the meeting series containing the topic.
+   * @param {string} meetingSeriesId - The ID of the meeting series containing
+   *     the topic.
    * @returns {Object|null} The topic object if found, or null if not found.
    */
   static getTopicById(topicId, meetingSeriesId) {

@@ -9,9 +9,12 @@ import { ParticipantsPreparer } from "./ParticipantsPreparer";
 /**
  * Performs a search using Select2 plugin.
  *
- * @param {jQuery} selectResponsibles - The jQuery object representing the select element.
- * @param {number} delayTime - The delay time in milliseconds before making the search request.
- * @param {function} freeTextValidator - The function used to validate free text entries.
+ * @param {jQuery} selectResponsibles - The jQuery object representing the
+ *     select element.
+ * @param {number} delayTime - The delay time in milliseconds before making the
+ *     search request.
+ * @param {function} freeTextValidator - The function used to validate free text
+ *     entries.
  * @param {string} minuteID - The ID of the minute.
  * @param {string} topicOrItem - The topic or item to search for.
  */
@@ -20,14 +23,14 @@ function select2search(
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem
+  topicOrItem,
 ) {
   const minute = new Minutes(minuteID);
   const preparer = new ParticipantsPreparer(
     minute,
     topicOrItem,
     Meteor.users,
-    freeTextValidator
+    freeTextValidator,
   );
   const participants = preparer.getPossibleResponsibles();
   selectResponsibles.select2({
@@ -47,7 +50,7 @@ function select2search(
               return;
             }
             success(results);
-          }
+          },
         );
       },
       processResults(data) {
@@ -90,7 +93,8 @@ function select2search(
 /**
  * Configures the Select2 responsibles element.
  *
- * @param {string} SelectResponsibleElementID - The ID of the Select2 responsibles element.
+ * @param {string} SelectResponsibleElementID - The ID of the Select2
+ *     responsibles element.
  * @param {Object} topicOrItemDoc - The topic or item document.
  * @param {function} freeTextValidator - The free text validator function.
  * @param {string} _minutesID - The ID of the minutes.
@@ -101,10 +105,10 @@ export function configureSelect2Responsibles(
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem
+  topicOrItem,
 ) {
   const selectResponsibles = document.getElementById(
-    SelectResponsibleElementID
+    SelectResponsibleElementID,
   );
   selectResponsibles
     .querySelectorAll("option") // clear all <option>s
@@ -116,7 +120,7 @@ export function configureSelect2Responsibles(
     delayTime,
     freeTextValidator,
     _minutesID,
-    topicOrItem
+    topicOrItem,
   );
   const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
@@ -127,7 +131,7 @@ export function configureSelect2Responsibles(
         Minutes.formatResponsibles(
           responsibleUser,
           "username",
-          responsibleUser.profile
+          responsibleUser.profile,
         );
       } else {
         // free text user
@@ -141,7 +145,7 @@ export function configureSelect2Responsibles(
     Blaze.renderWithData(
       Template.optionsElement,
       data,
-      document.getElementById(SelectResponsibleElementID)
+      document.getElementById(SelectResponsibleElementID),
     );
   }
   selectResponsibles.trigger("change");

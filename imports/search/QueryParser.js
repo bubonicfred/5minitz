@@ -5,7 +5,8 @@ const TOKEN_TYPE_FILTER = 2;
 const TOKEN_TYPE_LABEL = 3;
 
 /**
- * Represents a query parser that parses search queries and extracts filter tokens, label tokens, and search tokens.
+ * Represents a query parser that parses search queries and extracts filter
+ * tokens, label tokens, and search tokens.
  */
 export class QueryParser {
   /**

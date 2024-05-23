@@ -82,7 +82,8 @@ export class MeetingSeriesTopicsUpdater {
   /**
    * Removes topic items that were created in a specific set of minutes.
    *
-   * @param {string} minutesId - The ID of the minutes from which to remove the topic items.
+   * @param {string} minutesId - The ID of the minutes from which to remove the
+   *     topic items.
    */
   removeTopicItemsCreatedInMinutes(minutesId) {
     TopicsFinder.allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(

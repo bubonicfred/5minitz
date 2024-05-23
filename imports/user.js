@@ -24,8 +24,9 @@ export class User {
   }
 
   /**
-   * Returns the profile name of a user object with fallback to username if profile name is not available.
-   * If the user object is not provided, it returns an unknown identifier.
+   * Returns the profile name of a user object with fallback to username if
+   * profile name is not available. If the user object is not provided, it
+   * returns an unknown identifier.
    *
    * @param {Object} userObject - The user object.
    * @returns {string} The profile name or fallback username.
@@ -49,8 +50,10 @@ export class User {
   }
 
   /**
-   * Returns the username of the user, or a fallback string if the username is not available.
-   * @returns {string} The username of the user, or a fallback string if the username is not available.
+   * Returns the username of the user, or a fallback string if the username is
+   * not available.
+   * @returns {string} The username of the user, or a fallback string if the
+   *     username is not available.
    */
   userNameWithFallback() {
     return this.user ? this.user.username : `Unknown (${this.id})`;
@@ -76,8 +79,10 @@ export class User {
    * If the setting is not found, the default value is returned.
    *
    * @param {string} key - The key of the setting to retrieve.
-   * @param {*} defaultValue - The default value to return if the setting is not found.
-   * @returns {*} The value of the setting if found, otherwise the default value.
+   * @param {*} defaultValue - The default value to return if the setting is not
+   *     found.
+   * @returns {*} The value of the setting if found, otherwise the default
+   *     value.
    */
   getSetting(key, defaultValue) {
     if (this.user.settings === undefined) {

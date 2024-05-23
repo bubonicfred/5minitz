@@ -1,6 +1,6 @@
+import { currentDatePlusDeltaDays } from "./helpers/date";
 import { InfoItem } from "./infoitem";
 import { Priority } from "./priority";
-import { currentDatePlusDeltaDays } from "./helpers/date";
 
 /**
  * Represents an action item.
@@ -38,7 +38,8 @@ export class ActionItem extends InfoItem {
    * at the given index.
    *
    * @param index position in the details array (0 if undefined)
-   * @returns {boolean|string} false (if date is not given) or date as ISO8601 string.
+   * @returns {boolean|string} false (if date is not given) or date as ISO8601
+   *     string.
    */
   getDateFromDetails(index) {
     if (index === undefined) index = 0;
@@ -107,7 +108,8 @@ export class ActionItem extends InfoItem {
 
   /**
    * Retrieves the priority of the action item.
-   * @returns {Priority|string} The priority of the action item, or an empty string if no priority is set.
+   * @returns {Priority|string} The priority of the action item, or an empty
+   *     string if no priority is set.
    */
   getPriority() {
     const prio = this._infoItemDoc.priority;

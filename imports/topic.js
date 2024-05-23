@@ -1,7 +1,12 @@
 /**
  * @file Topic.js
- * @summary Defines the Topic class, which represents an Agenda Topic with sub-items called InfoItems.
- * @description This file contains the implementation of the Topic class, which is used to create and manipulate Agenda Topics in a meeting management system. It provides methods for resolving parent elements, resolving topics, finding topic index in an array, checking if a topic has open action items, and more.
+ * @summary Defines the Topic class, which represents an Agenda Topic with
+ * sub-items called InfoItems.
+ * @description This file contains the implementation of the Topic class, which
+ * is used to create and manipulate Agenda Topics in a meeting management
+ * system. It provides methods for resolving parent elements, resolving topics,
+ * finding topic index in an array, checking if a topic has open action items,
+ * and more.
  * @module Topic
  */
 
@@ -95,7 +100,8 @@ export class Topic {
    *
    * @param {string} id - The ID of the topic to find.
    * @param {Array} topics - The array of topics to search in.
-   * @returns {number} - The index of the topic in the array, or -1 if not found.
+   * @returns {number} - The index of the topic in the array, or -1 if not
+   *     found.
    */
   static findTopicIndexInArray(id, topics) {
     return subElementsHelper.findIndexById(id, topics);
@@ -185,7 +191,7 @@ export class Topic {
     if (topicItemDoc._id) {
       i = subElementsHelper.findIndexById(
         topicItemDoc._id,
-        this.getInfoItems()
+        this.getInfoItems(),
       );
     } else {
       // brand-new topicItem
@@ -222,7 +228,7 @@ export class Topic {
       throw new Meteor.Error(
         "Cannot remove item",
         "It is not allowed to remove an action item which was not " +
-          "created within the current minutes"
+          "created within the current minutes",
       );
     }
 
@@ -242,7 +248,7 @@ export class Topic {
       (infoItemDoc) => {
         const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
-      }
+      },
     );
   }
 

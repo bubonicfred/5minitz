@@ -12,9 +12,9 @@ import { i18n } from "meteor/universe:i18n";
 
 import { ActionItem } from "./actionitem";
 import { MinutesSchema } from "./collections/minutes.schema";
+import { StringUtils } from "./helpers/string-utils";
 import { MeetingSeries } from "./meetingseries";
 import { Topic } from "./topic";
-import { StringUtils } from './helpers/string-utils';
 
 export class Minutes {
   constructor(source) {
@@ -411,8 +411,8 @@ export class Minutes {
   /**
    * Change presence of a single participant. Immediately updates .participants
    * array
-   * @todo Reactive performance may be better if we only update one array element
-   * in DB
+   * @todo Reactive performance may be better if we only update one array
+   * element in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */

@@ -148,7 +148,7 @@ describe("MeetingSeries", () => {
       ]);
 
       const actualDate =
-      series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
+        series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
 
       compareDates(actualDate, expectedDate);
     });

@@ -1,7 +1,9 @@
 /**
- * @fileoverview This file contains the implementation of the MeetingSeries class.
- * The MeetingSeries class represents a series of meetings and provides methods for managing and manipulating meeting data.
- * It includes static methods for finding and removing meeting series, as well as object methods for adding and removing minutes, saving the meeting series, and more.
+ * @fileoverview This file contains the implementation of the MeetingSeries
+ * class. The MeetingSeries class represents a series of meetings and provides
+ * methods for managing and manipulating meeting data. It includes static
+ * methods for finding and removing meeting series, as well as object methods
+ * for adding and removing minutes, saving the meeting series, and more.
  * @module meetingseries
  * @exports MeetingSeries
  */
@@ -52,7 +54,7 @@ export class MeetingSeries {
   static async remove(meetingSeries) {
     return Meteor.callPromise(
       "workflow.removeMeetingSeries",
-      meetingSeries._id
+      meetingSeries._id,
     );
   }
 
@@ -64,7 +66,7 @@ export class MeetingSeries {
     // we return an array with just a list of visible meeting series IDs
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [userId] } },
-      { _id: 1 }
+      { _id: 1 },
     ).map((item) => item._id);
   }
 
@@ -136,7 +138,7 @@ export class MeetingSeries {
    * @deprecated This method is obsolete. Please refactor the topic class.
    */
   static upsertTopic() {
-    //Intentionally empty
+    // Intentionally empty
   }
 
   hasMinute(id) {
@@ -195,9 +197,11 @@ export class MeetingSeries {
 
   /**
    * Get the date of the latest minute excluding the given minuteId.
-   * @todo check if excluding the given minuteId could be done directly in the find call on the collection
+   * @todo check if excluding the given minuteId could be done directly in the
+   * find call on the collection
    * @param {string} minuteId - The ID of the minute to exclude.
-   * @returns {Date|undefined} The date of the first non-matching minute, or undefined if no non-matching minute is found.
+   * @returns {Date|undefined} The date of the first non-matching minute, or
+   *     undefined if no non-matching minute is found.
    */
   _getDateOfLatestMinuteExcluding(minuteId) {
     const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
@@ -212,7 +216,7 @@ export class MeetingSeries {
     }
 
     const firstNonMatchingMinute = latestMinutes.find(
-      (minute) => minute._id !== minuteId
+      (minute) => minute._id !== minuteId,
     );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
@@ -262,7 +266,7 @@ export class MeetingSeries {
     if (!this._id) {
       throw new Meteor.Error(
         "MeetingSeries not saved.",
-        "Call save() before using addVisibleUser()"
+        "Call save() before using addVisibleUser()",
       );
     }
     if (!Array.isArray(newVisibleForArray)) {
@@ -316,7 +320,7 @@ export class MeetingSeries {
     return subElementsHelper.getElementById(
       labelName,
       this.availableLabels,
-      "name"
+      "name",
     );
   }
 
@@ -331,7 +335,7 @@ export class MeetingSeries {
   removeLabel(id) {
     const index = subElementsHelper.findIndexById(
       id,
-      this.getAvailableLabels()
+      this.getAvailableLabels(),
     );
     if (undefined === index) {
       return;

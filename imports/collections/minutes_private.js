@@ -1,7 +1,8 @@
 /**
  * This file defines the server-side functionality for the "minutes" collection.
- * It includes methods for publishing minutes, sending agenda, updating minutes and topics,
- * adding and removing topics, and syncing visibility and participants.
+ * It includes methods for publishing minutes, sending agenda, updating minutes
+ * and topics, adding and removing topics, and syncing visibility and
+ * participants.
  *
  * @module minutes_private
  * @requires meteor/check

@@ -14,7 +14,7 @@ describe("transformUser", function () {
 
     expect(meteorUser.username).to.equal(userData.cn);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("uses the configured attribute as username", function () {
     let ldapSettings = {
         propertyMap: {
@@ -68,7 +68,7 @@ describe("transformUser", function () {
     ];
     expect(meteorUser.emails).to.deep.equal(expectedResult);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("copies over the value of the users profile cn attribute as the profile name", function () {
     let ldapSettings = {},
       profile = {
@@ -80,7 +80,7 @@ describe("transformUser", function () {
 
     expect(meteorUser.profile.name).to.equal(userData.cn);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("copies nothing into the user's profile if no allowlisted fields are given", function () {
     let ldapSettings = {},
       userData = {
@@ -92,7 +92,7 @@ describe("transformUser", function () {
 
     expect(meteorUser.profile).to.deep.equal({});
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("copies over the attributes given as allowListedFields into the user's profile", function () {
     let ldapSettings = {
         allowListedFields: ["someAttribute", "anotherAttribute"],

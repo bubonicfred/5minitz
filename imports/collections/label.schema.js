@@ -1,6 +1,7 @@
 /**
  * @fileoverview Defines the LabelSchema for the 4minitz application.
- * This schema represents the structure and validation rules for the Label collection.
+ * This schema represents the structure and validation rules for the Label
+ * collection.
  * @module LabelSchema
  */
 

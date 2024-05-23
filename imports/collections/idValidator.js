@@ -1,5 +1,6 @@
-import { Validator } from "meteor/jagi:astronomy";
 import _ from "lodash";
+import { Validator } from "meteor/jagi:astronomy";
+
 /**
  * Regular expression pattern for validating meteor ids.
  * @type {RegExp}
@@ -21,7 +22,8 @@ Validator.create({
    * Checks if the provided value is a valid meteor id.
    * @param {Object} params - The parameters object.
    * @param {*} params.value - The value to be validated.
-   * @returns {boolean} - True if the value is a valid meteor id, false otherwise.
+   * @returns {boolean} - True if the value is a valid meteor id, false
+   *     otherwise.
    */
   isValid({ value }) {
     if (Array.isArray(value)) {

@@ -633,7 +633,8 @@ Template.topicInfoItemList.events({
       );
     };
     /**
-     * Sets the "isEdited" flag for the specified detail item and makes it editable.
+     * Sets the "isEdited" flag for the specified detail item and makes it
+     * editable.
      *
      * @returns {void}
      */

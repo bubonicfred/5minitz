@@ -142,12 +142,12 @@ export class TopicsFinalizer {
 
   /**
    * Checks if an item is sticky.
-   * @todo Use ItemFactory to create info-/actionItem Object then we can use the isSticky-Method
+   * @todo Use ItemFactory to create info-/actionItem Object then we can use the
+   * isSticky-Method
    * @param {Object} item - The item to check.
    * @returns {boolean} - Returns true if the item is sticky, false otherwise.
    */
   static isStickyItem(item) {
-
     return (
       (item.itemType === "infoItem" && item.isSticky) ||
       (item.itemType === "actionItem" && item.isOpen)
