@@ -13,7 +13,7 @@ export class StringUtils {
    */
 
   static createToString = (instance) => {
-    return function() {
+    return function () {
       const className = instance.constructor.name;
       let doc = instance;
 

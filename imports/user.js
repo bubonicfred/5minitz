@@ -1,4 +1,4 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 /**
  * Represents a user in the system.
@@ -33,8 +33,9 @@ export class User {
    */
   static profileNameWithFallback(userObject) {
     if (userObject) {
-      return userObject.profile?.name ? userObject.profile.name
-                                      : userObject.username;
+      return userObject.profile?.name
+        ? userObject.profile.name
+        : userObject.username;
     } else {
       return `Unknown (${userObject._id}` ? userObject._id : `${userObject})`;
     }
@@ -44,7 +45,9 @@ export class User {
    * Returns the profile name with fallback.
    * @returns {string} The profile name with fallback.
    */
-  profileNameWithFallback() { return User.profileNameWithFallback(this.user); }
+  profileNameWithFallback() {
+    return User.profileNameWithFallback(this.user);
+  }
 
   /**
    * Returns the username of the user, or a fallback string if the username is
@@ -94,12 +97,12 @@ export class User {
 }
 
 export const userSettings = {
-  showQuickHelp : {
-    meetingSeriesList : "showQuickHelp_meetingSeriesList",
-    meetingSeries : "showQuickHelp_meetingSeries",
-    meeting : "showQuickHelp_meeting",
-    meetingUpload : "showQuickHelp_meetingUpload",
+  showQuickHelp: {
+    meetingSeriesList: "showQuickHelp_meetingSeriesList",
+    meetingSeries: "showQuickHelp_meetingSeries",
+    meeting: "showQuickHelp_meeting",
+    meetingUpload: "showQuickHelp_meetingUpload",
   },
 
-  showAddDetail : "showAddDetail",
+  showAddDetail: "showAddDetail",
 };

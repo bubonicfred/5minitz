@@ -1,7 +1,7 @@
 import "./idValidator";
 
-import {Class as SchemaClass} from "meteor/jagi:astronomy";
-import {Mongo} from "meteor/mongo";
+import { Class as SchemaClass } from "meteor/jagi:astronomy";
+import { Mongo } from "meteor/mongo";
 
 /**
  * Represents the collection of online users.
@@ -14,26 +14,26 @@ const OnlineUsersCollection = new Mongo.Collection("onlineUsers");
  * @type {SchemaClass}
  */
 export const OnlineUsersSchema = SchemaClass.create({
-  name : "OnlineUsersSchema",
-  collection : OnlineUsersCollection,
-  fields : {
+  name: "OnlineUsersSchema",
+  collection: OnlineUsersCollection,
+  fields: {
     /**
      * The ID of the user.
      * @type {String}
      * @validators meteorId
      */
-    userId : {type : String, validators : [ {type : "meteorId"} ]},
+    userId: { type: String, validators: [{ type: "meteorId" }] },
 
     /**
      * The active route of the user.
      * @type {String}
      */
-    activeRoute : {type : String},
+    activeRoute: { type: String },
 
     /**
      * The date and time when the user was last updated.
      * @type {Date}
      */
-    updatedAt : {type : Date},
+    updatedAt: { type: Date },
   },
 });

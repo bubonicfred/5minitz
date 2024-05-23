@@ -1,6 +1,6 @@
-import {i18n} from "meteor/universe:i18n";
+import { i18n } from "meteor/universe:i18n";
 
-import {FlashMessage} from "./flashMessage";
+import { FlashMessage } from "./flashMessage";
 
 /**
  * Handles an error by displaying a flash message with the given title and error

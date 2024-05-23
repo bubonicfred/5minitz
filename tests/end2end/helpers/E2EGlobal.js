@@ -31,7 +31,7 @@ export class E2EGlobal {
       } catch (e) {
         const message = e.toString();
         const notInteractable = message.includes(
-            "Element is not currently interactable and may not be manipulated",
+          "Element is not currently interactable and may not be manipulated",
         );
         const cannotFocusElement = message.includes("Cannot focus element");
 
@@ -59,8 +59,7 @@ export class E2EGlobal {
       try {
         predicate();
         return;
-      } catch (e) {
-      }
+      } catch (e) {}
       browser.pause(E2EGlobal.pollingInterval);
       current = new Date();
     }
@@ -83,8 +82,8 @@ export class E2EGlobal {
       } catch (e) {
         const message = e.toString();
         const retryMakesSense =
-            message.includes("Other element would receive the click") ||
-            message.includes("Element is not clickable at point");
+          message.includes("Other element would receive the click") ||
+          message.includes("Element is not clickable at point");
 
         if (!retryMakesSense) {
           console.log(`Unexpected exception: ${e}`);
@@ -136,24 +135,26 @@ export class E2EGlobal {
 
   static formatTimeISO8601(aDate) {
     try {
-      const tzoffset =
-          aDate.getTimezoneOffset() * 60_000; // offset in milliseconds
+      const tzoffset = aDate.getTimezoneOffset() * 60_000; // offset in milliseconds
       return new Date(aDate - tzoffset)
-          .toISOString()
-          .substr(0, 19)
-          .replace("T", " "); // YYYY-MM-DD hh:mm:ss
+        .toISOString()
+        .substr(0, 19)
+        .replace("T", " "); // YYYY-MM-DD hh:mm:ss
     } catch (e) {
       return "NaN-NaN-NaN 00:00:00";
     }
   }
 
   static browserName() {
-    if (browser?._original && browser._original.desiredCapabilities &&
-        browser._original.desiredCapabilities.browserName) {
+    if (
+      browser?._original &&
+      browser._original.desiredCapabilities &&
+      browser._original.desiredCapabilities.browserName
+    ) {
       return browser._original.desiredCapabilities.browserName;
     }
     console.error(
-        "Error: E2EGlobal.browserName() could not determine browserName!",
+      "Error: E2EGlobal.browserName() could not determine browserName!",
     );
     return "unknown";
   }
@@ -197,7 +198,8 @@ export class E2EGlobal {
   static saveScreenshot(filename) {
     const dateStr = `${new Date().toISOString().replace(/[^0-9]/g, "")}_`;
     filename = `${E2EGlobal.getTestSpecFilename()}_${dateStr}${
-        filename ? "_" : ""}${filename}`;
+      filename ? "_" : ""
+    }${filename}`;
     const fullpath = `./tests/snapshots/${filename}.png`;
     browser.saveScreenshot(fullpath);
     console.log("Screenshot taken: ", fullpath);
@@ -205,7 +207,9 @@ export class E2EGlobal {
   }
 
   static sendKeysWithPause(...keysAndPauses) {
-    function isOdd(num) { return num % 2; }
+    function isOdd(num) {
+      return num % 2;
+    }
 
     const keys = keysAndPauses.filter((_, index) => !isOdd(index));
     const pauses = keysAndPauses.filter((_, index) => isOdd(index));
@@ -228,8 +232,8 @@ export class E2EGlobal {
 E2EGlobal.SETTINGS = require("../../../settings-test-end2end.json");
 
 E2EGlobal.USERROLES = {
-  Moderator : "Moderator",
-  Uploader : "Uploader",
-  Invited : "Invited",
-  Informed : "Informed",
+  Moderator: "Moderator",
+  Uploader: "Uploader",
+  Invited: "Invited",
+  Informed: "Informed",
 };

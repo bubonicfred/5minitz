@@ -1,12 +1,12 @@
 import _ from "lodash";
-import {Validator} from "meteor/jagi:astronomy";
+import { Validator } from "meteor/jagi:astronomy";
 
 /**
  * Regular expression pattern for validating meteor ids.
  * @type {RegExp}
  */
 const regExId =
-    /^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$/;
+  /^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$/;
 
 /**
  * Creates a custom validator for meteor ids.
@@ -16,7 +16,7 @@ Validator.create({
    * Name of the validator.
    * @type {string}
    */
-  name : "meteorId",
+  name: "meteorId",
 
   /**
    * Checks if the provided value is a valid meteor id.
@@ -25,13 +25,12 @@ Validator.create({
    * @returns {boolean} - True if the value is a valid meteor id, false
    *     otherwise.
    */
-  isValid({value}) {
+  isValid({ value }) {
     if (Array.isArray(value)) {
-      return _.map(value, (a) => regExId.test(a))
-          .reduce(
-              (previous, current) => previous && current,
-              true,
-          );
+      return _.map(value, (a) => regExId.test(a)).reduce(
+        (previous, current) => previous && current,
+        true,
+      );
     }
     return regExId.test(value);
   },
@@ -42,5 +41,7 @@ Validator.create({
    * @param {string} params.name - The name of the invalid meteor id.
    * @returns {string} - The error message.
    */
-  resolveError({name}) { return `"${name}" is not a meteor id`; },
+  resolveError({ name }) {
+    return `"${name}" is not a meteor id`;
+  },
 });
