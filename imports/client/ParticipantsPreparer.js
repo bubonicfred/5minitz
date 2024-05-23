@@ -3,6 +3,15 @@ export class ParticipantsPreparer {
    * @typedef {{id: string, text: string}} ResponsibleObject
    */
 
+  /**
+   * Represents a ParticipantsPreparer object.
+   * @constructor
+   * @param {Object} minutes - The minutes object.
+   * @param {Object} currentTopicOrItem - The current topic or item object.
+   * @param {Object} usersCollection - The users collection object.
+   * @param {Function} [freeTextValidator] - The optional free text validator
+   *     function.
+   */
   constructor(
     minutes,
     currentTopicOrItem,
@@ -18,6 +27,10 @@ export class ParticipantsPreparer {
     this._prepareResponsibles();
   }
 
+  /**
+   * Initializes the ParticipantsPreparer object.
+   * Sets up the initial state of the object by initializing the properties.
+   */
   _init() {
     this.possibleResponsibles = []; // sorted later on
     this.possibleResponsiblesUnique = {}; // ensure uniqueness
@@ -25,14 +38,18 @@ export class ParticipantsPreparer {
   }
 
   /**
-   * @return {ResponsibleObject[]}
+   * Get the possible responsible participants.
+   *
+   * @returns {Array}
    */
   getPossibleResponsibles() {
     return this.possibleResponsibles;
   }
 
   /**
-   * @return {ResponsibleObject[]}
+   * Retrieves the remaining users.
+   *
+   * @return {ResponsibleObject[]} The remaining users.
    */
   getRemainingUsers() {
     return this.remainingUsers;
@@ -42,6 +59,12 @@ export class ParticipantsPreparer {
     this._preparePossibleResponsibles();
   }
 
+  /**
+   * Prepares the possible responsibles by adding regular participants from the
+   * current minutes, additional participants from minutes as freetext, former
+   * responsibles from the parent series, responsibles from the current element,
+   * and then prunes duplicates and prepares the result.
+   */
   _preparePossibleResponsibles() {
     this._addRegularParticipantsFromCurrentMinutes();
     this._addAdditionalParticipantsFromMinutesAsFreetext();

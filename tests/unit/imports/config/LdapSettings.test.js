@@ -12,9 +12,9 @@ const { LdapSettings } = proxyquire("../../../../imports/config/LdapSettings", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
 
-describe("LdapSettings", () => {
-  describe("#loadSettingsAndPerformSanityCheck", () => {
-    beforeEach(() => {
+describe("LdapSettings", function () {
+  describe("#loadSettingsAndPerformSanityCheck", function () {
+    beforeEach(function () {
       Meteor.settings.ldap = {
         enabled: true,
         serverDn: "",
@@ -26,7 +26,7 @@ describe("LdapSettings", () => {
       };
     });
 
-    it("does not enable ldap if it is disabled", () => {
+    it("does not enable ldap if it is disabled", function () {
       Meteor.settings.ldap.enabled = false;
 
       LdapSettings.loadSettingsAndPerformSanityCheck();
@@ -34,7 +34,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.ldapEnabled()).to.be.false;
     });
 
-    it("disables ldap if no server url is set", () => {
+    it("disables ldap if no server url is set", function () {
       Meteor.settings.ldap = Object.assign(Meteor.settings.ldap, {
         enabled: true,
         serverUrl: undefined,
@@ -45,7 +45,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.ldapEnabled()).to.be.false;
     });
 
-    it("disables ldap if no server dn is defined", () => {
+    it("disables ldap if no server dn is defined", function () {
       Meteor.settings.ldap = Object.assign(Meteor.settings.ldap, {
         enabled: true,
         serverDn: undefined,
@@ -56,7 +56,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.ldapEnabled()).to.be.false;
     });
 
-    it("disables ldap if no mapping from ldap attribute to username and no searchDn is given", () => {
+    it("disables ldap if no mapping from ldap attribute to username and no searchDn is given", function () {
       Meteor.settings.ldap.propertyMap.username = null;
 
       LdapSettings.loadSettingsAndPerformSanityCheck();
@@ -64,7 +64,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.ldapEnabled()).to.be.false;
     });
 
-    it("disables ldap if no mapping from ldap attribute to email is given", () => {
+    it("disables ldap if no mapping from ldap attribute to email is given", function () {
       Meteor.settings.ldap.propertyMap.email = null;
 
       LdapSettings.loadSettingsAndPerformSanityCheck();
@@ -73,12 +73,12 @@ describe("LdapSettings", () => {
     });
   });
 
-  describe("#loadSettings", () => {
-    beforeEach(() => {
+  describe("#loadSettings", function () {
+    beforeEach(function () {
       Meteor.settings.ldap = {};
     });
 
-    it("properly merges the default settings with the user defined settings", () => {
+    it("properly merges the default settings with the user defined settings", function () {
       Meteor.settings.ldap.enabled = true;
 
       LdapSettings.loadSettings();
@@ -86,14 +86,14 @@ describe("LdapSettings", () => {
       expect(LdapSettings.ldapEnabled()).to.be.true;
     });
 
-    it("uses the default property map if none is given", () => {
+    it("uses the default property map if none is given", function () {
       LdapSettings.loadSettings();
 
       expect(LdapSettings.usernameAttribute()).to.equal("cn");
       expect(LdapSettings.emailAttribute()).to.equal("mail");
     });
 
-    it("properly merges property maps", () => {
+    it("properly merges property maps", function () {
       Meteor.settings.ldap.propertyMap = {
         email: "foo",
       };
@@ -104,7 +104,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.emailAttribute()).to.equal("foo");
     });
 
-    it("LEGACY: respects the searchDn setting if no property map is given", () => {
+    it("LEGACY: respects the searchDn setting if no property map is given", function () {
       Meteor.settings.ldap.searchDn = "cn";
 
       LdapSettings.loadSettings();
@@ -112,7 +112,7 @@ describe("LdapSettings", () => {
       expect(LdapSettings.usernameAttribute()).to.equal("cn");
     });
 
-    it("LEGACY: propertyMap has priority over searchDn", () => {
+    it("LEGACY: propertyMap has priority over searchDn", function () {
       Meteor.settings.ldap.searchDn = "cn";
       Meteor.settings.ldap.propertyMap = {
         username: "uid",

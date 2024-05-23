@@ -1,22 +1,25 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Minutes", () => {
-  before("reload page and reset app", () => {
+describe("Minutes", function () {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
-  });
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
+    },
+  );
 
-  it("can add first minutes to meeting series", () => {
+  it("can add first minutes to meeting series", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #1";
 
@@ -32,7 +35,7 @@ describe("Minutes", () => {
     ).to.equal(1);
   });
 
-  it("can add further minutes to meeting series", () => {
+  it("can add further minutes to meeting series", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #2";
 
@@ -51,7 +54,7 @@ describe("Minutes", () => {
     ).to.equal(countInitialMinutes + 2);
   });
 
-  it("can add minutes for specific date", () => {
+  it("can add minutes for specific date", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #3";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -66,7 +69,7 @@ describe("Minutes", () => {
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("can delete unfinalized minutes", () => {
+  it("can delete unfinalized minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #4";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -91,7 +94,7 @@ describe("Minutes", () => {
     expect(E2EMinutes.getMinutesId(myDate)).not.to.be.ok;
   });
 
-  it("can cancel delete of unfinalized minutes", () => {
+  it("can cancel delete of unfinalized minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #5";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -116,7 +119,7 @@ describe("Minutes", () => {
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("displays an error message if the minute is not linked to the parent series", () => {
+  it("displays an error message if the minute is not linked to the parent series", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #6";
 
@@ -146,7 +149,7 @@ describe("Minutes", () => {
     );
   });
 
-  it("can persist global notes", () => {
+  it("can persist global notes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #6";
     const aGlobalNote = "Amazing global note";
@@ -168,7 +171,7 @@ describe("Minutes", () => {
     expect(result).to.equal(aGlobalNote);
   });
 
-  it("hide closed topics", () => {
+  it("hide closed topics", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #7";
 
@@ -191,7 +194,7 @@ describe("Minutes", () => {
     expect(E2ETopics.countTopicsForMinute()).to.equal(2);
   });
 
-  it("can navigate to previous and next minutes within a minutes", () => {
+  it("can navigate to previous and next minutes within a minutes", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name PrevNext";
 
@@ -218,7 +221,7 @@ describe("Minutes", () => {
     expect(currentdate).to.equal(thirdDate);
   });
 
-  it("hide closed topics by click", () => {
+  it("hide closed topics by click", function () {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #8";
 

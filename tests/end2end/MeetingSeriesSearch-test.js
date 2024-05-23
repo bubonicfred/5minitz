@@ -1,14 +1,17 @@
 import { E2EApp } from "./helpers/E2EApp";
-import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EGlobal } from "./helpers/E2EGlobal";
+import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 
-describe("MeetingSeriesSearch", () => {
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
-  });
+describe("MeetingSeriesSearch", function () {
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
+    },
+  );
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -26,37 +29,37 @@ describe("MeetingSeriesSearch", () => {
     }
   };
 
-  it("can create four meeting series and is not able to search", () => {
+  it("can create four meeting series and is not able to search", function () {
     bootstrapSeries(4);
     expect(E2EMeetingSeries.countMeetingSeries()).to.equal(4);
     expect(E2EMeetingSeries.visibleMeetingSeriesSearch()).to.be.false;
   });
 
-  it("can create the fith meeting series and now is able to search", () => {
+  it("can create the fith meeting series and now is able to search", function () {
     bootstrapSeries();
     expect(E2EMeetingSeries.countMeetingSeries()).to.equal(5);
     expect(E2EMeetingSeries.visibleMeetingSeriesSearch()).to.be.true;
   });
 
-  it("can search for name", () => {
+  it("can search for name", function () {
     bootstrapSeries();
     E2EMeetingSeries.searchMeetingSeries("#3");
     expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1);
   });
 
-  it("can search for project", () => {
+  it("can search for project", function () {
     bootstrapSeries();
     E2EMeetingSeries.searchMeetingSeries("Project3");
     expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1);
   });
 
-  it("can search with many parameters", () => {
+  it("can search with many parameters", function () {
     bootstrapSeries();
     E2EMeetingSeries.searchMeetingSeries("#1 Project3 5");
     expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(0);
   });
 
-  it("can notice if nothing is found", () => {
+  it("can notice if nothing is found", function () {
     bootstrapSeries();
     E2EMeetingSeries.searchMeetingSeries("Project99");
     expect(E2EMeetingSeries.visibleWarning(false)).to.be.true;

@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
+
 import asyncStubs from "../../../support/lib/asyncStubs";
 
 const MongoClient = {
@@ -46,11 +47,11 @@ const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
   mongodb: { MongoClient, "@noCallThru": true },
   randomstring: { generate, "@noCallThru": true },
 });
-
-describe("saveUsers", () => {
+// skipcq: JS-0241
+describe("saveUsers", function () {
   let settings;
-
-  beforeEach(() => {
+  // skipcq: JS-0241
+  beforeEach(function () {
     MongoClient.connect = asyncStubs.doNothing();
     bulk.find.reset();
     bulk.execute.reset();
@@ -60,14 +61,14 @@ describe("saveUsers", () => {
 
     settings = {
       propertyMap: {},
-      whiteListedFields: [],
+      allowListedFields: [],
       inactiveUsers: {
         strategy: "none",
       },
     };
   });
-
-  it("inserts users into database", (done) => {
+  // skipcq: JS-0241
+  it("inserts users into database", function (done) {
     MongoClient.connect = sinon.stub().resolves(client);
     upsert.upsert.returns(updateOne);
     bulk.find.returns(upsert);
@@ -89,9 +90,9 @@ describe("saveUsers", () => {
         done(new Error(error));
       });
   });
-
-  it("handles database connection problems", (done) => {
-    MongoClient.connect = sinon.stub().rejects("Connection error"); //asyncStubs.returnsError(1, 'Connection error');
+  // skipcq: JS-0241
+  it("handles database connection problems", function (done) {
+    MongoClient.connect = sinon.stub().rejects("Connection error"); // asyncStubs.returnsError(1, 'Connection error');
 
     saveUsers(settings, mongoUrl, users)
       .then((result) => {

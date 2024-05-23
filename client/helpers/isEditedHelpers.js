@@ -18,7 +18,7 @@ export function isEditedHandling(
     const user = Meteor.users.findOne({ _id: element.isEditedBy });
 
     const tmplData = {
-      isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+      isEditedByName: User.profileNameWithFallback(user),
       isEditedDate: formatDateISO8601Time(element.isEditedDate),
     };
 

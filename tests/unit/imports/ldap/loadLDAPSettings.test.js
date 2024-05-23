@@ -15,12 +15,12 @@ const loadLDAPSettings = proxyquire(
   },
 );
 
-describe("loadLDAPSettings", () => {
-  beforeEach(() => {
+describe("loadLDAPSettings", function () {
+  beforeEach(function () {
     fs.readFile = asyncStubs.doNothing;
   });
 
-  it("reads a file and resolves with the ldap configuration", (done) => {
+  it("reads a file and resolves with the ldap configuration", function (done) {
     fs.readFile = asyncStubs.returns(2, '{"ldap": {"enabled": true}}');
 
     loadLDAPSettings("ldapSettings.json")
@@ -37,7 +37,7 @@ describe("loadLDAPSettings", () => {
       });
   });
 
-  it("handles file read errors gracefully", (done) => {
+  it("handles file read errors gracefully", function (done) {
     fs.readFile = asyncStubs.returnsError(2, new Error("Could not read file"));
 
     loadLDAPSettings("ldapSettings.json")
@@ -56,7 +56,7 @@ describe("loadLDAPSettings", () => {
       });
   });
 
-  it("handles json parse errors properly", (done) => {
+  it("handles json parse errors properly", function (done) {
     fs.readFile = asyncStubs.returns(2, "no valid json");
 
     loadLDAPSettings("ldapSettings.json")
@@ -73,7 +73,7 @@ describe("loadLDAPSettings", () => {
       });
   });
 
-  it("handles missing ldap settings", (done) => {
+  it("handles missing ldap settings", function (done) {
     fs.readFile = asyncStubs.returns(2, '{"noLdap": true}');
 
     loadLDAPSettings("ldapSettings.json")

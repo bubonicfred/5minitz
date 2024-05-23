@@ -21,13 +21,13 @@ const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
 });
 
 import { QueryParserMock } from "./QueryParserMock";
-
-describe("ItemsFilter", () => {
+// skipcq: JS-0241
+describe("ItemsFilter", function () {
   let items;
   let itemsFilter;
   let parser;
-
-  beforeEach(() => {
+  // skipcq: JS-0241
+  beforeEach(function () {
     parser = new QueryParserMock();
     itemsFilter = new ItemsFilter();
     items = [
@@ -59,30 +59,30 @@ describe("ItemsFilter", () => {
       },
     ];
   });
-
-  it("does not change the original array of items", () => {
+  // skipcq: JS-0241
+  it("does not change the original array of items", function () {
     parser.searchTokens.push("three");
     itemsFilter.filter(items, parser);
 
     expect(items, "Length of the items array should be 9").have.length(9);
   });
-
-  it("returns the filtered array of items", () => {
+  // skipcq: JS-0241
+  it("returns the filtered array of items", function () {
     parser.searchTokens.push("three");
     const res = itemsFilter.filter(items, parser);
 
     expect(res, "Length of the result items array should be 5").have.length(5);
   });
-
-  it("can filter for multiple search tokens", () => {
+  // skipcq: JS-0241
+  it("can filter for multiple search tokens", function () {
     parser.searchTokens.push("three");
     parser.searchTokens.push("two");
     const res = itemsFilter.filter(items, parser);
 
     expect(res, "Length of the result items array should be 2").have.length(2);
   });
-
-  it("should return an items array containing only info items matching the search query", () => {
+  // skipcq: JS-0241
+  it("should return an items array containing only info items matching the search query", function () {
     const query = "three";
     parser.searchTokens.push(query);
     const res = itemsFilter.filter(items, parser);
@@ -97,22 +97,22 @@ describe("ItemsFilter", () => {
       "Result array contains info item which does not match the search query",
     ).to.be.false;
   });
-
-  it("can filter for labels", () => {
+  // skipcq: JS-0241
+  it("can filter for labels", function () {
     parser.labelTokens.push("L1");
     const res = itemsFilter.filter(items, parser);
     expect(res, "Length of the result items array should be 3").have.length(3);
   });
-
-  it("filters case insensitive per default for search tokens", () => {
+  // skipcq: JS-0241
+  it("filters case insensitive per default for search tokens", function () {
     parser.searchTokens.push("THREE");
     parser.searchTokens.push("TWO");
     const res = itemsFilter.filter(items, parser);
 
     expect(res, "Length of the result items array should be 2").have.length(2);
   });
-
-  it("can enable case sensitive search", () => {
+  // skipcq: JS-0241
+  it("can enable case sensitive search", function () {
     parser.caseSensitive = true;
     parser.searchTokens.push("THREE");
     const res = itemsFilter.filter(items, parser);
@@ -120,8 +120,8 @@ describe("ItemsFilter", () => {
 
     expect(res, "Length of the result items array should be 0").have.length(0);
   });
-
-  it("can combine multiple is-filter-tokens as logical AND which is a conjunctive operation", () => {
+  // skipcq: JS-0241
+  it("can combine multiple is-filter-tokens as logical AND which is a conjunctive operation", function () {
     parser.filterTokens.push({ key: "is", value: "open" });
     parser.filterTokens.push({ key: "is", value: "action" });
     const res = itemsFilter.filter(items, parser);
@@ -138,8 +138,8 @@ describe("ItemsFilter", () => {
       "The order of the filter tokens should not matter",
     ).have.length(2);
   });
-
-  it("can filter items depending on their due date", () => {
+  // skipcq: JS-0241
+  it("can filter items depending on their due date", function () {
     parser.filterTokens.push({ key: "due", value: "2017-" });
     const res = itemsFilter.filter(items, parser);
 

@@ -1,6 +1,14 @@
-const ldap = require("ldapjs");
-_ = require("underscore");
+/**
+ * @fileoverview LDAP server implementation for testing purposes.
+ * @module ldap-server
+ */
 
+const ldap = require("ldapjs");
+
+/**
+ * Array of user objects representing LDAP users.
+ * @type {Array<Object>}
+ */
 const users = [
   {
     dn: "cn=ldapUser1,dc=example,dc=com",
@@ -55,8 +63,18 @@ const users = [
   },
 ];
 
+/**
+ * LDAP server instance.
+ * @type {Object}
+ */
 const server = ldap.createServer();
 
+/**
+ * Middleware function to authorize LDAP requests.
+ * @param {Object} req - LDAP request object.
+ * @param {Object} res - LDAP response object.
+ * @param {Function} next - Next middleware function.
+ */
 function authorize(req, res, next) {
   if (!req.connection.ldap.bindDN.equals("cn=ldapUser1,dc=example,dc=com"))
     return next(new ldap.InsufficientAccessRightsError());
@@ -64,16 +82,25 @@ function authorize(req, res, next) {
   return next();
 }
 
+/**
+ * Search operation handler for the LDAP server.
+ * @param {string} base - Base DN for the search operation.
+ * @param {Function} authorize - Authorization middleware function.
+ * @param {Function} callback - Callback function.
+ */
 server.search("dc=example,dc=com", authorize, (req, res, next) => {
-  const matches = _.filter(users, (user) =>
-    req.filter.matches(user.attributes),
-  );
-  _.each(matches, (match) => res.send(match));
+  const matches = users.filter((user) => req.filter.matches(user.attributes));
+  matches.forEach((match) => res.send(match));
 
   res.end();
   return next();
 });
 
+/**
+ * Bind operation handler for the LDAP server.
+ * @param {string} base - Base DN for the bind operation.
+ * @param {Function} callback - Callback function.
+ */
 server.bind("dc=example,dc=com", (req, res, next) => {
   let dn = req.dn.toString(),
     normalizedDn = dn.replace(/ /g, ""),
@@ -103,6 +130,11 @@ server.bind("dc=example,dc=com", (req, res, next) => {
   return next();
 });
 
+/**
+ * Start the LDAP server.
+ * @param {number} port - Port number to listen on.
+ * @param {Function} callback - Callback function.
+ */
 server.listen(1389, () => {
   console.log(`ldapjs listening at ${server.url}`);
 });

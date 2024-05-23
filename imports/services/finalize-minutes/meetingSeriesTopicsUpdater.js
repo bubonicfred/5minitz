@@ -4,6 +4,10 @@ import { Meteor } from "meteor/meteor";
 import { Minutes } from "../../minutes";
 import { TopicsFinder } from "../topicsFinder";
 
+/**
+ * Represents a Meeting Series Topics Updater.
+ * @class
+ */
 export class MeetingSeriesTopicsUpdater {
   /**
    * @param meetingSeriesId
@@ -15,6 +19,11 @@ export class MeetingSeriesTopicsUpdater {
     this.topicsVisibleFor = topicsVisibleFor;
   }
 
+  /**
+   * Invalidates the isNew flag of topics presented in minutes.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   */
   invalidateIsNewFlagOfTopicsPresentedInMinutes(minutesId) {
     const minutes = new Minutes(minutesId);
     const topicIds = minutes.topics.map((topicDoc) => {
@@ -33,10 +42,20 @@ export class MeetingSeriesTopicsUpdater {
     });
   }
 
+  /**
+   * Retrieves a topic by its ID.
+   *
+   * @param {string} topicId - The ID of the topic to retrieve.
+   * @returns {Object} The topic object.
+   */
   getTopicById(topicId) {
     return TopicsFinder.getTopicById(topicId, this.meetingSeriesId);
   }
 
+  /**
+   * Upserts a topic document for the meeting series.
+   * @param {Object} topicDoc - The topic document to upsert.
+   */
   upsertTopic(topicDoc) {
     topicDoc.parentId = this.meetingSeriesId;
     const topicId = topicDoc._id;
@@ -47,6 +66,12 @@ export class MeetingSeriesTopicsUpdater {
     );
   }
 
+  /**
+   * Removes topics created in a specific minute from the topic collection.
+   *
+   * @param {string} minutesId - The ID of the minute.
+   * @returns {void}
+   */
   removeTopicsCreatedInMinutes(minutesId) {
     TopicSchema.remove({
       parentId: this.meetingSeriesId,
@@ -54,6 +79,12 @@ export class MeetingSeriesTopicsUpdater {
     });
   }
 
+  /**
+   * Removes topic items that were created in a specific set of minutes.
+   *
+   * @param {string} minutesId - The ID of the minutes from which to remove the
+   *     topic items.
+   */
   removeTopicItemsCreatedInMinutes(minutesId) {
     TopicsFinder.allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(
       this.meetingSeriesId,

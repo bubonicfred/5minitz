@@ -12,6 +12,7 @@ import { i18n } from "meteor/universe:i18n";
 
 import { ActionItem } from "./actionitem";
 import { MinutesSchema } from "./collections/minutes.schema";
+import { StringUtils } from "./helpers/string-utils";
 import { MeetingSeries } from "./meetingseries";
 import { Topic } from "./topic";
 
@@ -142,6 +143,11 @@ export class Minutes {
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
   }
 
+  /**
+   * Returns a string representation of the Minutes object.
+   * @todo refactor to use {@link StringUtils.createToString}
+   * @returns {string} The string representation of the Minutes object.
+   */
   toString() {
     return `Minutes: ${JSON.stringify(this, null, 4)}`;
   }
@@ -405,8 +411,8 @@ export class Minutes {
   /**
    * Change presence of a single participant. Immediately updates .participants
    * array
-   * TODO Reactive performance may be better if we only update one array element
-   * in DB
+   * @todo Reactive performance may be better if we only update one array
+   * element in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */

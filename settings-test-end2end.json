@@ -1,132 +1,128 @@
 {
-    "isEnd2EndTest": true,
-    "e2eUrl":               "http://localhost:3100",
-    "e2eTestUsers":         ["user1",   "user2", "user3",   "user4", "admin"],
-    "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4", "AdmAdm1"],
-    "e2eTestEmails":        ["user1@4minitz.com", "user2@4minitz.com", "user3@4minitz.com","user4@4minitz.com", "admin@4minitz.com"],
-    "e2eAdminUser":         "admin",
-
-    "trustedIntranetInstallation": true,
-    "forbidClientAccountCreation": false,
-    "updateCheck": false,
-
-    "branding": {
-        "legalNotice": {
-            "enabled": true,
-            "linkText": "Legal Notice (Impressum)",
-            "content": [
-                "<h1>Legal Notice</h1>",
-                "<p><b>Your 4Minitz Service provider is:</b></p>",
-                "<p style='margin-left: 20px;'>John Doe<br>24, Legal St.<br>91056 Erlangen<br></p>",
-                "<h1>Disclaimer</h1>",
-                "<p>THE DEMO SERVICE AVAILABLE VIA 4MINITZ.COM IS PROVIDED AS IS,",
-                "WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,",
-                "REACHABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE SERVICE PROVIDERS, AUTHORS OR COPYRIGHT HOLDERS ",
-                "BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,",
-                "ARISING FROM, OUT OF OR IN CONNECTION WITH THE SERVICE OR THE USE OR OTHER DEALINGS IN THE SERVICE.</p>"
-            ]
-        }
+  "isEnd2EndTest": true,
+  "e2eUrl": "http://localhost:3100",
+  "e2eTestUsers": ["user1", "user2", "user3", "user4", "admin"],
+  "e2eTestPasswords": ["PwdPwd1", "PwdPwd2", "PwdPwd3", "PwdPwd4", "AdmAdm1"],
+  "e2eTestEmails": [
+    "user1@4minitz.com",
+    "user2@4minitz.com",
+    "user3@4minitz.com",
+    "user4@4minitz.com",
+    "admin@4minitz.com"
+  ],
+  "e2eAdminUser": "admin",
+  "trustedIntranetInstallation": true,
+  "forbidClientAccountCreation": false,
+  "updateCheck": false,
+  "branding": {
+    "legalNotice": {
+      "enabled": true,
+      "linkText": "Legal Notice (Impressum)",
+      "content": [
+        "<h1>Legal Notice</h1>",
+        "<p><b>Your 4Minitz Service provider is:</b></p>",
+        "<p style='margin-left: 20px;'>John Doe<br>24, Legal St.<br>91056 Erlangen<br></p>",
+        "<h1>Disclaimer</h1>",
+        "<p>THE DEMO SERVICE AVAILABLE VIA 4MINITZ.COM IS PROVIDED AS IS,",
+        "WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,",
+        "REACHABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE SERVICE PROVIDERS, AUTHORS OR COPYRIGHT HOLDERS ",
+        "BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,",
+        "ARISING FROM, OUT OF OR IN CONNECTION WITH THE SERVICE OR THE USE OR OTHER DEALINGS IN THE SERVICE.</p>"
+      ]
+    }
+  },
+  "defaultLabels": [
+    {
+      "name": "Status:RED",
+      "color": "#ff0000"
     },
-
-    "defaultLabels": [
-        {
-            "name": "Status:RED",
-            "color": "#ff0000"
-        },
-        {
-            "name": "Status:YELLOW",
-            "color": "#ffff00"
-        },
-        {
-            "name": "Status:GREEN",
-            "color": "#008000"
-        },
-        {
-            "name": "Milestone",
-            "color": "#66ff66"
-        },
-        {
-            "name": "Decision",
-            "color": "#0099ff"
-        },
-        {
-            "name": "Escalation",
-            "color": "#ff9933"
-        },
-        {
-            "name": "Issue",
-            "color": "#cc66ff"
-        },
-        {
-            "name": "Proposal",
-            "color": "#ffff66"
-        }
-    ],
-
-    "email": {
-        "//": "E-Mails will not actually be sent because there is no smtp configuration given",
-        "enableMailDelivery": true,
-        "mailDeliverer": "test",
-        "defaultEMailSenderAddress": "default@email.de",
-        "showForgotPasswordLink": true
+    {
+      "name": "Status:YELLOW",
+      "color": "#ffff00"
     },
-
-    "db": {
-        "mongodumpTargetDirectory": ""
+    {
+      "name": "Status:GREEN",
+      "color": "#008000"
     },
-
-    "ldap": {
-        "enabled": true,
-        "propertyMap": {
-            "username": "cn",
-            "longname": "cn",
-            "email": "mail"
-        },
-        "authentication": {
-            "userDn": "cn=ldapUser1,dc=example,dc=com",
-            "password": "ldapPwd1"
-        },
-        "searchFilter": "",
-        "serverDn": "DC=example,DC=com",
-        "serverUrl": "ldap://localhost:1389",
-        "allowSelfSignedTLS": true,
-        "whiteListedFields": [ "cn", "mail" ],
-        "autopublishFields": [ "cn" ],
-        "inactiveUsers": {
-            "strategy": "userAccountControl"
-        },
-        "importOnLaunch": true,
-        "importCronTab": "*/5 * * * *",
-        "hideStandardLogin": false
+    {
+      "name": "Milestone",
+      "color": "#66ff66"
     },
-
-    "ldapForumSys": {
-        "enabled": true,
-        "searchDn": "uid",
-        "searchFilter": "(objectClass=inetOrgPerson)",
-        "serverDn": "DC=example,DC=com",
-        "serverUrl": "ldap://ldap.forumsys.com",
-        "allowSelfSignedTLS": true,
-        "whiteListedFields": [ "uid", "cn", "mail" ],
-        "autopublishFields": [ "uid", "cn" ],
-
-        "//": "Set to false to disable",
-        "importCronTab": false
+    {
+      "name": "Decision",
+      "color": "#0099ff"
     },
-
-    "attachments": {
-        "enabled": true,
-        "storagePath": "attachments_e2e",
-        "allowExtensions": ".*",
-        "//": "denyExtesnion:gif extension forbidden in e2e test!",
-        "denyExtensions":  "gif|exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
-        "///": "maxFileSize:80000 allows upload of favicon.ico, but not mstile-310x150.png",
-        "maxFileSize": 80000
+    {
+      "name": "Escalation",
+      "color": "#ff9933"
     },
-
+    {
+      "name": "Issue",
+      "color": "#cc66ff"
+    },
+    {
+      "name": "Proposal",
+      "color": "#ffff66"
+    }
+  ],
+  "email": {
+    "//": "E-Mails will not actually be sent because there is no smtp configuration given",
+    "enableMailDelivery": true,
+    "mailDeliverer": "test",
+    "defaultEMailSenderAddress": "default@email.de",
+    "showForgotPasswordLink": true
+  },
+  "db": {
+    "mongodumpTargetDirectory": ""
+  },
+  "ldap": {
+    "enabled": true,
+    "propertyMap": {
+      "username": "cn",
+      "longname": "cn",
+      "email": "mail"
+    },
+    "authentication": {
+      "userDn": "cn=ldapUser1,dc=example,dc=com",
+      "password": "ldapPwd1"
+    },
+    "searchFilter": "",
+    "serverDn": "DC=example,DC=com",
+    "serverUrl": "ldap://localhost:1389",
+    "allowSelfSignedTLS": true,
+    "allowListedFields": ["cn", "mail"],
+    "autopublishFields": ["cn"],
+    "inactiveUsers": {
+      "strategy": "userAccountControl"
+    },
+    "importOnLaunch": true,
+    "importCronTab": "*/5 * * * *",
+    "hideStandardLogin": false
+  },
+  "ldapForumSys": {
+    "enabled": true,
+    "searchDn": "uid",
+    "searchFilter": "(objectClass=inetOrgPerson)",
+    "serverDn": "DC=example,DC=com",
+    "serverUrl": "ldap://ldap.forumsys.com",
+    "allowSelfSignedTLS": true,
+    "allowListedFields": ["uid", "cn", "mail"],
+    "autopublishFields": ["uid", "cn"],
+    "//": "Set to false to disable",
+    "importCronTab": false
+  },
+  "attachments": {
+    "enabled": true,
+    "storagePath": "attachments_e2e",
+    "allowExtensions": ".*",
+    "//": "denyExtesnion:gif extension forbidden in e2e test!",
+    "denyExtensions": "gif|exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+    "///": "maxFileSize:80000 allows upload of favicon.ico, but not mstile-310x150.png",
+    "maxFileSize": 80000
+  },
   "docGeneration": {
-        "enabled": true,
-        "format": "html",
-        "targetDocPath": "protocols_e2e"
+    "enabled": true,
+    "format": "html",
+    "targetDocPath": "protocols_e2e"
   }
 }

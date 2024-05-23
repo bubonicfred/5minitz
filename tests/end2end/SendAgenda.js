@@ -1,47 +1,50 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMails } from "./helpers/E2EMails";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
+import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
-import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 
-describe("Send agenda", () => {
+describe("Send agenda", function () {
   const aProjectName = "E2E Send Agenda";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.launchApp();
     E2EApp.resetMyApp(true);
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EMails.resetSentMailsDb();
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EMails.resetSentMailsDb();
 
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
 
-    aMeetingCounter++;
-    aMeetingName = aMeetingNameBase + aMeetingCounter;
+      aMeetingCounter++;
+      aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-  });
+      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    },
+  );
 
-  after("clear database", () => {
+  after("clear database", function () {
     if (E2EGlobal.browserIsPhantomJS()) {
       E2EApp.resetMyApp(true);
     }
   });
 
-  it("displays a button send agenda on a new created minute", () => {
+  it("displays a button send agenda on a new created minute", function () {
     expect(browser.isVisible("#btn_sendAgenda")).to.be.true;
   });
 
-  it("ensures that the send-agenda-button is invisible for non-moderators", () => {
+  it("ensures that the send-agenda-button is invisible for non-moderators", function () {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -67,12 +70,12 @@ describe("Send agenda", () => {
     E2EApp.loginUser();
   });
 
-  it("ensures that the send-agenda-button is invisible for finalizes minutes", () => {
+  it("ensures that the send-agenda-button is invisible for finalizes minutes", function () {
     E2EMinutes.finalizeCurrentMinutes();
     expect(browser.isVisible("#btn_sendAgenda")).to.be.false;
   });
 
-  it("ensures that a confirmation dialog is shown before sending the agenda a second time", () => {
+  it("ensures that a confirmation dialog is shown before sending the agenda a second time", function () {
     browser.waitForVisible("#btn_sendAgenda");
     E2EGlobal.clickWithRetry("#btn_sendAgenda");
 
@@ -92,7 +95,7 @@ describe("Send agenda", () => {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("sends one email to the participant containing the topic but not the info items", () => {
+  it("sends one email to the participant containing the topic but not the info items", function () {
     const topicSubject = "some topic";
     const infoItemSubject = "amazing information";
 
@@ -128,7 +131,7 @@ describe("Send agenda", () => {
     ).to.not.have.string(infoItemSubject);
   });
 
-  it("ensures that the agenda will be sent to all invited", () => {
+  it("ensures that the agenda will be sent to all invited", function () {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -168,7 +171,7 @@ describe("Send agenda", () => {
   it(
     "ensures that the agenda will be sent to the *normal* participants even if there are additional participants " +
       "with no valid email addresses",
-    () => {
+    function () {
       const additionalUser = "Max Mustermann";
       browser.setValue("#edtParticipantsAdditional", additionalUser);
 

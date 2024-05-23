@@ -1,8 +1,10 @@
 import { expect } from "chai";
-import transformUser from "../../../../imports/ldap/transformUser";
 
-describe("transformUser", () => {
-  it("defaults to cn for the username when no searchDn is given", () => {
+import transformUser from "../../../../imports/ldap/transformUser";
+// skipcq: JS-0241
+describe("transformUser", function () {
+  // skipcq: JS-0241
+  it("defaults to cn for the username when no searchDn is given", function () {
     let ldapSettings = {},
       userData = {
         cn: "username",
@@ -12,8 +14,8 @@ describe("transformUser", () => {
 
     expect(meteorUser.username).to.equal(userData.cn);
   });
-
-  it("uses the configured attribute as username", () => {
+  // skipcq: JS-0241
+  it("uses the configured attribute as username", function () {
     let ldapSettings = {
         propertyMap: {
           username: "attr",
@@ -29,11 +31,12 @@ describe("transformUser", () => {
     expect(meteorUser.username).to.equal(userData.attr);
   });
 
-  it("uses the given email if given as string", () => {
-    let ldapSettings = {},
-      userData = {
-        mail: "me@example.com",
-      };
+  // skipcq: JS-0241
+  it("uses the given email if given as string", function () {
+    const ldapSettings = {};
+    const userData = {
+      mail: "me@example.com",
+    };
 
     const meteorUser = transformUser(ldapSettings, userData);
 
@@ -47,11 +50,12 @@ describe("transformUser", () => {
     expect(meteorUser.emails).to.deep.equal(expectedResult);
   });
 
-  it("uses the first email if given an array", () => {
-    let ldapSettings = {},
-      userData = {
-        mail: ["me@example.com", "me2@example.com"],
-      };
+  // skipcq: JS-0241
+  it("uses the first email if given an array", function () {
+    const ldapSettings = {};
+    const userData = {
+      mail: ["me@example.com", "me2@example.com"],
+    };
 
     const meteorUser = transformUser(ldapSettings, userData);
 
@@ -64,8 +68,8 @@ describe("transformUser", () => {
     ];
     expect(meteorUser.emails).to.deep.equal(expectedResult);
   });
-
-  it("copies over the value of the users profile cn attribute as the profile name", () => {
+  // skipcq: JS-0241
+  it("copies over the value of the users profile cn attribute as the profile name", function () {
     let ldapSettings = {},
       profile = {
         cn: "user name",
@@ -76,8 +80,8 @@ describe("transformUser", () => {
 
     expect(meteorUser.profile.name).to.equal(userData.cn);
   });
-
-  it("copies nothing into the user's profile if no whitelisted fields are given", () => {
+  // skipcq: JS-0241
+  it("copies nothing into the user's profile if no allowlisted fields are given", function () {
     let ldapSettings = {},
       userData = {
         someAttribute: "someValue",
@@ -88,10 +92,10 @@ describe("transformUser", () => {
 
     expect(meteorUser.profile).to.deep.equal({});
   });
-
-  it("copies over the attributes given as whitelistedFields into the user's profile", () => {
+  // skipcq: JS-0241
+  it("copies over the attributes given as allowListedFields into the user's profile", function () {
     let ldapSettings = {
-        whiteListedFields: ["someAttribute", "anotherAttribute"],
+        allowListedFields: ["someAttribute", "anotherAttribute"],
       },
       userData = {
         someAttribute: "someValue",

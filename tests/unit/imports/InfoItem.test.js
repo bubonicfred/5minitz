@@ -25,7 +25,7 @@ const Random = {
 };
 
 const User = {
-  PROFILENAMEWITHFALLBACK: sinon.stub(),
+  profileNameWithFallback: sinon.stub(),
 };
 
 const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
@@ -33,6 +33,7 @@ const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
   "meteor/random": { Random, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
   "/imports/user": { User, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },

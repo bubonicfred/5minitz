@@ -4,8 +4,8 @@ import { TopicsGenerator } from "../generators/topics-generator";
 
 const expect = require("chai").expect;
 
-describe("Generate Data", () => {
-  it("should not fail", () => {
+describe("Generate Data", function () {
+  it("should not fail", function () {
     const user = { _id: "userId", username: "username" };
     const meetingSeriesGenerator = new MeetingSeriesGenerator(user);
     const series = meetingSeriesGenerator.generate();

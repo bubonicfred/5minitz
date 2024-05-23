@@ -1,11 +1,11 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Labels", () => {
+describe("Labels", function () {
   const aProjectName = "E2E Labels";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -29,7 +29,7 @@ describe("Labels", () => {
     return aAINameBase + aAICounter;
   };
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -37,7 +37,7 @@ describe("Labels", () => {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    () => {
+    function () {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -51,8 +51,8 @@ describe("Labels", () => {
     },
   );
 
-  describe("Labels for Action- / Info Items", () => {
-    it("can add a new custom label to an AI", () => {
+  describe("Labels for Action- / Info Items", function () {
+    it("can add a new custom label to an AI", function () {
       const labelName = "MyCustomLabel";
       const labelColor = "#ff0000";
 
@@ -66,14 +66,14 @@ describe("Labels", () => {
 
       E2ETopics.addLabelToItem(1, 1, labelName + labelColor);
 
-      var items = E2ETopics.getItemsForTopic(1);
+      const items = E2ETopics.getItemsForTopic(1);
       const firstActionITem = items[0].ELEMENT;
       const visibleText = browser.elementIdText(firstActionITem).value;
       expect(visibleText).to.have.string(labelName);
       expect(visibleText).to.not.have.string(labelColor);
     });
 
-    it("can add a default label to an info item", () => {
+    it("can add a default label to an info item", function () {
       const defaultLabel = E2EGlobal.SETTINGS.defaultLabels[0].name;
 
       E2ETopics.addInfoItemToTopic(
@@ -86,13 +86,13 @@ describe("Labels", () => {
 
       E2ETopics.addLabelToItem(1, 1, defaultLabel);
 
-      var items = E2ETopics.getItemsForTopic(1);
+      const items = E2ETopics.getItemsForTopic(1);
       const firstActionItem = items[0].ELEMENT;
       const visibleText = browser.elementIdText(firstActionItem).value;
       expect(visibleText).to.have.string(defaultLabel);
     });
 
-    it("changes the labels text in finalized minutes if the label will be renamed", () => {
+    it("changes the labels text in finalized minutes if the label will be renamed", function () {
       const labelName = "Decision";
       const renamedLabel = "Entscheidung";
 
@@ -129,7 +129,7 @@ describe("Labels", () => {
       );
     });
 
-    it("resets the labels name if editing will be canceled", () => {
+    it("resets the labels name if editing will be canceled", function () {
       const labelName = "Status:RED";
       const renamedLabel = "Test";
       const changedColor = "ffffff";

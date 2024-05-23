@@ -90,7 +90,7 @@ Meteor.methods({
 
     doc.isFinalized = false;
     doc.createdAt = new Date();
-    doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+    doc.createdBy = User.profileNameWithFallback(Meteor.user());
     delete doc.finalizedAt;
     delete doc.topics;
     doc.finalizedVersion = 0;

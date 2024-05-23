@@ -142,7 +142,7 @@ Meteor.methods({
       _informed: minute.getInformed(Meteor.users),
       _userArrayToString(users) {
         return users
-          .map((user) => User.PROFILENAMEWITHFALLBACK(user))
+          .map((user) => User.profileNameWithFallback(user))
           .join("; ");
       },
     };

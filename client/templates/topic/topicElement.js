@@ -289,7 +289,7 @@ Template.topicElement.events({
       return;
     }
     Session.set("topicEditTopicId", this.topic._id);
-    $("#dlgAddTopic").modal("show");
+    document.getElementById("dlgAddTopic").style.display = "block";
   },
 
   "click .addTopicInfoItem"(evt) {

@@ -1,3 +1,9 @@
+/**
+ * @file Action Item List Template
+ * @description This file contains the template and helper functions for the
+ * action item list.
+ */
+
 import { TopicSchema } from "/imports/collections/topic.schema";
 import { MeetingSeries } from "/imports/meetingseries";
 import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
@@ -16,6 +22,10 @@ import {
   createUserIdsReceiver,
 } from "./helpers/tabFilterDatabaseOperations";
 
+/**
+ * @template onCreated
+ * @description Initializes the action item list template.
+ */
 Template.actionItemList.onCreated(function () {
   this.topicFilterQuery = new ReactiveVar("");
   const myTemplate = Template.instance();
@@ -35,6 +45,11 @@ Template.actionItemList.onCreated(function () {
 });
 
 Template.actionItemList.helpers({
+  /**
+   * @function getTopicFilterConfig
+   * @description Retrieves the configuration for the topic filter.
+   * @returns {FilterControlConfig} The filter control configuration.
+   */
   getTopicFilterConfig() {
     const FILTERS = [
       { text: i18n.__("Item.Filter.open"), value: "is:action is:open" },
@@ -50,6 +65,12 @@ Template.actionItemList.helpers({
     );
   },
 
+  /**
+   * @function getInfoItemListContext
+   * @description Retrieves the context for the information item list.
+   * @returns {TopicInfoItemListContext} The context for the information item
+   *     list.
+   */
   getInfoItemListContext() {
     let myActionItems = [];
     const actionItemSeriesIdMap = {};

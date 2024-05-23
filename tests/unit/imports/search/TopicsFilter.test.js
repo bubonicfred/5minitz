@@ -37,12 +37,13 @@ const { TopicsFilter } = proxyquire("../../../../imports/search/TopicsFilter", {
 
 import { QueryParserMock } from "./QueryParserMock";
 
-describe("ItemsFilter", () => {
+// skipcq: JS-0241
+describe("ItemsFilter", function () {
   let topics;
   let topicsFilter;
   let parser;
-
-  beforeEach(() => {
+  // skipcq: JS-0241
+  beforeEach(function () {
     parser = new QueryParserMock();
     topicsFilter = new TopicsFilter();
     topics = [
@@ -72,8 +73,8 @@ describe("ItemsFilter", () => {
       },
     ];
   });
-
-  it("does not change the original array of items", () => {
+  // skipcq: JS-0241
+  it("does not change the original array of items", function () {
     parser.searchTokens.push("three");
     topicsFilter.filter(topics, parser);
 
@@ -91,8 +92,8 @@ describe("ItemsFilter", () => {
       "The 3rd topic should contain four info items",
     ).to.have.length(4);
   });
-
-  it("searches for a search tokens in topic subject and containing info items", () => {
+  // skipcq: JS-0241
+  it("searches for a search tokens in topic subject and containing info items", function () {
     parser.searchTokens.push(".three");
     parser.searchTokens.push("Three");
     parser.caseSensitive = true;
@@ -105,8 +106,8 @@ describe("ItemsFilter", () => {
       "The resulting topic should contain all its items",
     ).to.have.length(4);
   });
-
-  it("filters topics which has items with a specific label", () => {
+  // skipcq: JS-0241
+  it("filters topics which has items with a specific label", function () {
     parser.labelTokens.push("L1");
     const res = topicsFilter.filter(topics, parser);
     expect(res, "Length of the topic array should be 2").have.length(2);

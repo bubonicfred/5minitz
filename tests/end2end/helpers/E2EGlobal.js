@@ -1,3 +1,6 @@
+/**
+ * Helper class for end-to-end testing.
+ */
 export class E2EGlobal {
   static getTestSpecFilename() {
     if (!driver || !driver.config || !driver.config.spec) {
