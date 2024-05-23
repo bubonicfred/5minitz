@@ -1,7 +1,7 @@
-import { subElementsHelper } from "../../helpers/subElements";
-import { MinutesFinder } from "../minutesFinder";
+import {subElementsHelper} from "../../helpers/subElements";
+import {MinutesFinder} from "../minutesFinder";
 
-import { MeetingSeriesTopicsUpdater } from "./meetingSeriesTopicsUpdater";
+import {MeetingSeriesTopicsUpdater} from "./meetingSeriesTopicsUpdater";
 
 /**
  *
@@ -22,13 +22,13 @@ export class TopicsFinalizer {
    */
   static mergeTopicsForFinalize(meetingSeries, topicsVisibleFor) {
     const topicsUpdater = createTopicsUpdater(
-      meetingSeries._id,
-      topicsVisibleFor,
+        meetingSeries._id,
+        topicsVisibleFor,
     );
     const topicsFinalizer = new TopicsFinalizer(meetingSeries, topicsUpdater);
     const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
     const secondLastMinutes =
-      MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
+        MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
     topicsFinalizer.mergeTopics(lastMinutes.topics, secondLastMinutes._id);
   }
 
@@ -40,10 +40,10 @@ export class TopicsFinalizer {
   static mergeTopicsForUnfinalize(meetingSeries, topicsVisibleFor) {
     const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
     const secondLastMinutes =
-      MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
+        MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
     const topicsUpdater = createTopicsUpdater(
-      meetingSeries._id,
-      topicsVisibleFor,
+        meetingSeries._id,
+        topicsVisibleFor,
     );
     if (secondLastMinutes) {
       topicsUpdater.removeTopicsCreatedInMinutes(lastMinutes._id);
@@ -68,12 +68,12 @@ export class TopicsFinalizer {
       // presented in the last-finalized protocol because all other elements are
       // already "invalidated".
       this.topicsUpdater.invalidateIsNewFlagOfTopicsPresentedInMinutes(
-        minIdContainingTopicsToInvalidateIsNew,
+          minIdContainingTopicsToInvalidateIsNew,
       );
     }
 
     // iterate backwards through the topics of the minute
-    for (let i = minutesTopics.length; i-- > 0; ) {
+    for (let i = minutesTopics.length; i-- > 0;) {
       const topicDoc = minutesTopics[i];
       topicDoc.isSkipped = false;
       this._mergeOrInsertTopic(topicDoc);
@@ -109,11 +109,11 @@ export class TopicsFinalizer {
     acceptingTopicDoc.updatedBy = resistantTopicDoc.updatedBy;
 
     // loop backwards through topic items and upsert them in the accepting one
-    for (let i = resistantTopicDoc.infoItems.length; i-- > 0; ) {
+    for (let i = resistantTopicDoc.infoItems.length; i-- > 0;) {
       const infoDoc = resistantTopicDoc.infoItems[i];
       const index = subElementsHelper.findIndexById(
-        infoDoc._id,
-        acceptingTopicDoc.infoItems,
+          infoDoc._id,
+          acceptingTopicDoc.infoItems,
       );
       if (index === undefined) {
         acceptingTopicDoc.infoItems.unshift(infoDoc);
@@ -125,16 +125,16 @@ export class TopicsFinalizer {
     // delete all sticky items listed in the this topic but not in the
     // updateTopicDoc (these were deleted during the last minute)
     acceptingTopicDoc.infoItems = acceptingTopicDoc.infoItems.filter(
-      (itemDoc) => {
-        if (TopicsFinalizer.isStickyItem(itemDoc)) {
-          const indexInResistantTopic = subElementsHelper.findIndexById(
-            itemDoc._id,
-            resistantTopicDoc.infoItems,
-          );
-          return indexInResistantTopic !== undefined;
-        }
-        return true;
-      },
+        (itemDoc) => {
+          if (TopicsFinalizer.isStickyItem(itemDoc)) {
+            const indexInResistantTopic = subElementsHelper.findIndexById(
+                itemDoc._id,
+                resistantTopicDoc.infoItems,
+            );
+            return indexInResistantTopic !== undefined;
+          }
+          return true;
+        },
     );
 
     return acceptingTopicDoc;
@@ -142,16 +142,15 @@ export class TopicsFinalizer {
 
   /**
    * Checks if an item is sticky.
-   * @todo Use ItemFactory to create info-/actionItem Object then we can use the isSticky-Method
+   * @todo Use ItemFactory to create info-/actionItem Object then we can use the
+   * isSticky-Method
    * @param {Object} item - The item to check.
    * @returns {boolean} - Returns true if the item is sticky, false otherwise.
    */
   static isStickyItem(item) {
 
-    return (
-      (item.itemType === "infoItem" && item.isSticky) ||
-      (item.itemType === "actionItem" && item.isOpen)
-    );
+    return ((item.itemType === "infoItem" && item.isSticky) ||
+            (item.itemType === "actionItem" && item.isOpen));
   }
 
   static isTopicClosedAndHasNoOpenAIs(topicDoc) {

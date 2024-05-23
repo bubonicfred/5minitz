@@ -1,14 +1,18 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 
-import { ActionItem } from "../../../../imports/actionitem";
-import { extractDateFromString } from "../../../../imports/helpers/date";
-import { StringUtils } from "../../../../imports/helpers/string-utils";
-import { InfoItem } from "../../../../imports/infoitem";
-import { Priority } from "../../../../imports/priority";
-import { LabelExtractor } from "../../../../imports/services/labelExtractor";
-import { ResponsibleExtractor } from "../../../../imports/services/responsibleExtractor";
+import {ActionItem} from "../../../../imports/actionitem";
+import {extractDateFromString} from "../../../../imports/helpers/date";
+import {StringUtils} from "../../../../imports/helpers/string-utils";
+import {InfoItem} from "../../../../imports/infoitem";
+import {Priority} from "../../../../imports/priority";
+import {LabelExtractor} from "../../../../imports/services/labelExtractor";
+import {
+  ResponsibleExtractor
+} from "../../../../imports/services/responsibleExtractor";
 
-import { convertOrCreateLabelsFromStrings } from "./convert-or-create-label-from-string";
+import {
+  convertOrCreateLabelsFromStrings
+} from "./convert-or-create-label-from-string";
 
 /**
  * Creates a new item for a topic.
@@ -17,19 +21,21 @@ import { convertOrCreateLabelsFromStrings } from "./convert-or-create-label-from
  * @param {Object} parentTopic - The parent topic object.
  * @param {string} minutesId - The ID of the minutes.
  * @param {Object} meetingSeries - The meeting series object.
- * @param {string} [type="infoItem"] - The type of the item. Defaults to "infoItem".
- * @param {Array} [labels=[]] - The labels for the item. Defaults to an empty array.
+ * @param {string} [type="infoItem"] - The type of the item. Defaults to
+ *     "infoItem".
+ * @param {Array} [labels=[]] - The labels for the item. Defaults to an empty
+ *     array.
  * @returns {Object} - The newly created item.
  * @throws {Meteor.Error} - If the subject is missing for the new item.
  * @throws {Meteor.Error} - If the type is unknown.
  */
 export function createItem(
-  itemDoc,
-  parentTopic,
-  minutesId,
-  meetingSeries,
-  type = "infoItem",
-  labels = [],
+    itemDoc,
+    parentTopic,
+    minutesId,
+    meetingSeries,
+    type = "infoItem",
+    labels = [],
 ) {
   itemDoc.labels = convertOrCreateLabelsFromStrings(labels, meetingSeries);
 
@@ -39,39 +45,39 @@ export function createItem(
 
   if (!itemDoc.subject) {
     throw new Meteor.Error(
-      "illegal-argument",
-      "Please add a subject for the new item",
+        "illegal-argument",
+        "Please add a subject for the new item",
     );
   }
 
   let newItem;
   switch (type) {
-    case "actionItem": {
-      // extract duedate
-      const duedate = extractDateFromString(itemDoc.subject);
-      if (duedate) {
-        itemDoc.duedate = duedate;
-        itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
-      }
-      // extract priority
-      const prio = Priority.extractPriorityFromString(itemDoc.subject);
-      if (prio) {
-        itemDoc.priority = prio.value;
-        itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
-      }
+  case "actionItem": {
+    // extract duedate
+    const duedate = extractDateFromString(itemDoc.subject);
+    if (duedate) {
+      itemDoc.duedate = duedate;
+      itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
+    }
+    // extract priority
+    const prio = Priority.extractPriorityFromString(itemDoc.subject);
+    if (prio) {
+      itemDoc.priority = prio.value;
+      itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
+    }
 
-      newItem = new ActionItem(parentTopic, itemDoc);
-      if (itemDoc.priority) {
-        newItem.setPriority(new Priority(itemDoc.priority));
-      }
-      break;
+    newItem = new ActionItem(parentTopic, itemDoc);
+    if (itemDoc.priority) {
+      newItem.setPriority(new Priority(itemDoc.priority));
     }
-    case "infoItem": {
-      newItem = new InfoItem(parentTopic, itemDoc);
-      break;
-    }
-    default:
-      throw new Meteor.Error("Unknown type!");
+    break;
+  }
+  case "infoItem": {
+    newItem = new InfoItem(parentTopic, itemDoc);
+    break;
+  }
+  default:
+    throw new Meteor.Error("Unknown type!");
   }
 
   const labelExtractor = new LabelExtractor(itemDoc.subject, meetingSeries._id);
@@ -82,10 +88,10 @@ export function createItem(
 }
 
 export function detectTypeAndCreateItem(
-  itemDoc,
-  parentTopic,
-  minutesId,
-  meetingSeries,
+    itemDoc,
+    parentTopic,
+    minutesId,
+    meetingSeries,
 ) {
   const responsibleExtractor = new ResponsibleExtractor(itemDoc.subject, true);
   let type = "infoItem";

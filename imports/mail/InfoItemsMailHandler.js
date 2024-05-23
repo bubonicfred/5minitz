@@ -1,20 +1,20 @@
-import { User } from "/imports/user";
-import { i18n } from "meteor/universe:i18n";
+import {User} from "/imports/user";
+import {i18n} from "meteor/universe:i18n";
 
-import { DocumentGeneration } from "../documentGeneration";
+import {DocumentGeneration} from "../documentGeneration";
 
-import { TopicItemsMailHandler } from "./TopicItemsMailHandler";
+import {TopicItemsMailHandler} from "./TopicItemsMailHandler";
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
   constructor(
-    sender,
-    recipients,
-    minute,
-    topics,
-    meetingSeries,
-    participants,
-    informed,
-    template = "publishInfoItems",
+      sender,
+      recipients,
+      minute,
+      topics,
+      meetingSeries,
+      participants,
+      informed,
+      template = "publishInfoItems",
   ) {
     super(sender, recipients, minute, template);
     this._topics = topics;
@@ -26,9 +26,11 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
   }
 
   _getSubject() {
-    return `${this._getSubjectPrefix()} (${i18n.__(
-      "Mail.minutesSubject",
-    )} ${i18n.__("Minutes.versionTag")}${this._minute.finalizedVersion})`;
+    return `${this._getSubjectPrefix()} (${
+        i18n.__(
+            "Mail.minutesSubject",
+            )} ${i18n.__("Minutes.versionTag")}${
+        this._minute.finalizedVersion})`;
   }
 
   _sendMail(mailData) {

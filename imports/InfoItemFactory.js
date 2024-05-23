@@ -1,5 +1,5 @@
-import { ActionItem } from "./actionitem";
-import { InfoItem } from "./infoitem";
+import {ActionItem} from "./actionitem";
+import {InfoItem} from "./infoitem";
 
 /**
  * Factory class for creating InfoItems and ActionItems.
@@ -18,7 +18,7 @@ export class InfoItemFactory {
    */
   static createInfoItem(parentTopic, infoItemDoc) {
     return InfoItem.isActionItem(infoItemDoc)
-      ? new ActionItem(parentTopic, infoItemDoc)
-      : new InfoItem(parentTopic, infoItemDoc);
+               ? new ActionItem(parentTopic, infoItemDoc)
+               : new InfoItem(parentTopic, infoItemDoc);
   }
 }

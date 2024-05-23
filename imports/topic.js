@@ -1,28 +1,34 @@
 /**
  * @file Topic.js
- * @summary Defines the Topic class, which represents an Agenda Topic with sub-items called InfoItems.
- * @description This file contains the implementation of the Topic class, which is used to create and manipulate Agenda Topics in a meeting management system. It provides methods for resolving parent elements, resolving topics, finding topic index in an array, checking if a topic has open action items, and more.
+ * @summary Defines the Topic class, which represents an Agenda Topic with
+ * sub-items called InfoItems.
+ * @description This file contains the implementation of the Topic class, which
+ * is used to create and manipulate Agenda Topics in a meeting management
+ * system. It provides methods for resolving parent elements, resolving topics,
+ * finding topic index in an array, checking if a topic has open action items,
+ * and more.
  * @module Topic
  */
 
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "lodash";
-import { Meteor } from "meteor/meteor";
-import { Random } from "meteor/random";
+import {subElementsHelper} from "/imports/helpers/subElements";
+import {_} from "lodash";
+import {Meteor} from "meteor/meteor";
+import {Random} from "meteor/random";
 
-import { InfoItem } from "./infoitem";
-import { InfoItemFactory } from "./InfoItemFactory";
-import { MeetingSeries } from "./meetingseries";
-import { Minutes } from "./minutes";
+import {InfoItem} from "./infoitem";
+import {InfoItemFactory} from "./InfoItemFactory";
+import {MeetingSeries} from "./meetingseries";
+import {Minutes} from "./minutes";
 
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
     const parentId = parent;
     parent = MeetingSeries.findOne(parentId);
-    if (!parent) return Minutes.findOne(parentId);
+    if (!parent)
+      return Minutes.findOne(parentId);
     return parent;
   }
 
@@ -46,11 +52,11 @@ function resolveTopic(parentElement, source) {
   }
 
   _.defaults(source, {
-    isOpen: true,
-    isNew: true,
-    isRecurring: false,
-    labels: [],
-    isSkipped: false,
+    isOpen : true,
+    isNew : true,
+    isRecurring : false,
+    labels : [],
+    isSkipped : false,
   });
 
   return source;
@@ -95,7 +101,8 @@ export class Topic {
    *
    * @param {string} id - The ID of the topic to find.
    * @param {Array} topics - The array of topics to search in.
-   * @returns {number} - The index of the topic in the array, or -1 if not found.
+   * @returns {number} - The index of the topic in the array, or -1 if not
+   *     found.
    */
   static findTopicIndexInArray(id, topics) {
     return subElementsHelper.findIndexById(id, topics);
@@ -121,13 +128,9 @@ export class Topic {
 
   // ################### object methods
 
-  toString() {
-    return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
-  }
+  toString() { return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`; }
 
-  log() {
-    console.log(this.toString());
-  }
+  log() { console.log(this.toString()); }
 
   invalidateIsNewFlag() {
     this._topicDoc.isNew = false;
@@ -146,28 +149,19 @@ export class Topic {
    * @returns {boolean}
    */
   isFinallyCompleted() {
-    return (
-      !this.getDocument().isOpen &&
-      !this.hasOpenActionItem() &&
-      !this.isRecurring()
-    );
+    return (!this.getDocument().isOpen && !this.hasOpenActionItem() &&
+            !this.isRecurring());
   }
 
   isDeleteAllowed() {
     return this.getDocument().createdInMinute === this._parentMinutes._id;
   }
 
-  isRecurring() {
-    return this.getDocument().isRecurring;
-  }
+  isRecurring() { return this.getDocument().isRecurring; }
 
-  toggleRecurring() {
-    this.getDocument().isRecurring = !this.isRecurring();
-  }
+  toggleRecurring() { this.getDocument().isRecurring = !this.isRecurring(); }
 
-  isSkipped() {
-    return this.getDocument().isSkipped;
-  }
+  isSkipped() { return this.getDocument().isSkipped; }
 
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
@@ -183,10 +177,8 @@ export class Topic {
     }
     let i = undefined;
     if (topicItemDoc._id) {
-      i = subElementsHelper.findIndexById(
-        topicItemDoc._id,
-        this.getInfoItems()
-      );
+      i = subElementsHelper.findIndexById(topicItemDoc._id,
+                                          this.getInfoItems());
     } else {
       // brand-new topicItem
       topicItemDoc._id = Random.id(); // create our own local _id here!
@@ -215,15 +207,12 @@ export class Topic {
   async removeInfoItem(id) {
     const index = subElementsHelper.findIndexById(id, this.getInfoItems());
     const item = this.getInfoItems()[index];
-    if (
-      InfoItem.isActionItem(item) &&
-      !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)
-    ) {
+    if (InfoItem.isActionItem(item) &&
+        !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)) {
       throw new Meteor.Error(
-        "Cannot remove item",
-        "It is not allowed to remove an action item which was not " +
-          "created within the current minutes"
-      );
+          "Cannot remove item",
+          "It is not allowed to remove an action item which was not " +
+              "created within the current minutes");
     }
 
     if (index !== undefined) {
@@ -238,12 +227,11 @@ export class Topic {
    * no action items)
    */
   tailorTopic() {
-    this._topicDoc.infoItems = this._topicDoc.infoItems.filter(
-      (infoItemDoc) => {
-        const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
-        return infoItem.isSticky();
-      }
-    );
+    this._topicDoc.infoItems =
+        this._topicDoc.infoItems.filter((infoItemDoc) => {
+          const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+          return infoItem.isSticky();
+        });
   }
 
   /**
@@ -261,20 +249,16 @@ export class Topic {
     return undefined;
   }
 
-  getInfoItems() {
-    return this._topicDoc.infoItems;
-  }
+  getInfoItems() { return this._topicDoc.infoItems; }
 
   getOnlyInfoItems() {
-    return this.getInfoItems().filter((item) => {
-      return !InfoItem.isActionItem(item);
-    });
+    return this.getInfoItems().filter(
+        (item) => { return !InfoItem.isActionItem(item); });
   }
 
   getOnlyActionItems() {
-    return this._topicDoc.infoItems.filter((infoItemDoc) => {
-      return InfoItem.isActionItem(infoItemDoc);
-    });
+    return this._topicDoc.infoItems.filter(
+        (infoItemDoc) => { return InfoItem.isActionItem(infoItemDoc); });
   }
 
   getOpenActionItems() {
@@ -283,21 +267,13 @@ export class Topic {
     });
   }
 
-  setItems(items) {
-    this._topicDoc.infoItems = items;
-  }
+  setItems(items) { this._topicDoc.infoItems = items; }
 
-  setSubject(subject) {
-    this._topicDoc.subject = subject;
-  }
+  setSubject(subject) { this._topicDoc.subject = subject; }
 
-  getSubject() {
-    return this._topicDoc.subject;
-  }
+  getSubject() { return this._topicDoc.subject; }
 
-  async save() {
-    return this._parentMinutes.upsertTopic(this._topicDoc);
-  }
+  async save() { return this._parentMinutes.upsertTopic(this._topicDoc); }
 
   async saveAtBottom() {
     return this._parentMinutes.upsertTopic(this._topicDoc, false);
@@ -307,26 +283,20 @@ export class Topic {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
     return Meteor.callPromise("minutes.updateTopic", this._topicDoc._id, {
-      isOpen: this._topicDoc.isOpen,
+      isOpen : this._topicDoc.isOpen,
     });
   }
 
   async closeTopicAndAllOpenActionItems() {
     this._topicDoc.isOpen = false;
     this._topicDoc.isRecurring = false;
-    this.getOpenActionItems().forEach((item) => {
-      item.isOpen = false;
-    });
+    this.getOpenActionItems().forEach((item) => { item.isOpen = false; });
     await this.save();
   }
 
-  hasOpenActionItem() {
-    return Topic.hasOpenActionItem(this._topicDoc);
-  }
+  hasOpenActionItem() { return Topic.hasOpenActionItem(this._topicDoc); }
 
-  getDocument() {
-    return this._topicDoc;
-  }
+  getDocument() { return this._topicDoc; }
 
   addLabelsByIds(labelIds) {
     labelIds.forEach((id) => {
@@ -372,7 +342,5 @@ export class Topic {
    *
    * @return {Array}
    */
-  getResponsibles() {
-    return this._topicDoc.responsibles;
-  }
+  getResponsibles() { return this._topicDoc.responsibles; }
 }

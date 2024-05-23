@@ -1,7 +1,7 @@
-import { E2EApp } from "./helpers/E2EApp";
-import { E2EGlobal } from "./helpers/E2EGlobal";
+import {E2EApp} from "./helpers/E2EApp";
+import {E2EGlobal} from "./helpers/E2EGlobal";
 
-before(function () {
+before(function() {
   console.log("End2End Settings:");
   console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 
@@ -14,7 +14,8 @@ before(function () {
     } catch (e) {
       const id = Math.random().toString(36).substr(2, 5);
       console.log(
-        `browser.click() target "${args[0]}" not found - see screenshot with ID: ${id}`,
+          `browser.click() target "${
+              args[0]}" not found - see screenshot with ID: ${id}`,
       );
       E2EGlobal.saveScreenshot(`click-error_${id}`);
       throw e;
@@ -30,7 +31,8 @@ before(function () {
     } catch (e) {
       const id = Math.random().toString(36).substr(2, 5);
       console.log(
-        `browser.waitForVisible() target "${selector}" not found - see screenshot with ID: ${id}`,
+          `browser.waitForVisible() target "${
+              selector}" not found - see screenshot with ID: ${id}`,
       );
       E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
       throw e;
@@ -46,7 +48,8 @@ before(function () {
     } catch (e) {
       const id = Math.random().toString(36).substr(2, 5);
       console.log(
-        `browser.elementIdClick() target "${args[0]}" not found - see screenshot with ID: ${id}`,
+          `browser.elementIdClick() target "${
+              args[0]}" not found - see screenshot with ID: ${id}`,
       );
       E2EGlobal.saveScreenshot(`clickId-error_${id}`);
       throw e;
@@ -56,8 +59,8 @@ before(function () {
   // Some E2E tests run more robust on "large" width screen
   if (E2EGlobal.browserIsPhantomJS()) {
     browser.setViewportSize({
-      width: 1024,
-      height: browser.getViewportSize("height"),
+      width : 1024,
+      height : browser.getViewportSize("height"),
     });
   }
 
@@ -67,34 +70,33 @@ before(function () {
   expect(E2EApp.isLoggedIn(), "User is logged in").to.be.true;
 });
 
-beforeEach(function () {
+beforeEach(function() {
   if (!this.currentTest) {
     return;
   }
 
   const testName = this.currentTest.title;
-  browser.execute((testName) => {
-    console.log(`--- TEST CASE STARTED --- >${testName}<`);
-  }, testName);
+  browser.execute(
+      (testName) => { console.log(`--- TEST CASE STARTED --- >${testName}<`); },
+      testName);
 
   server.call("e2e.debugLog", `--- TEST CASE STARTED --- >${testName}<`);
 });
 
-afterEach(function () {
+afterEach(function() {
   if (!this.currentTest) {
     return;
   }
 
-  const testName = this.currentTest.title,
-    testState = this.currentTest.state;
+  const testName = this.currentTest.title, testState = this.currentTest.state;
 
   browser.execute(
-    (testName, state) => {
-      console.log(`--- TEST CASE FINISHED --- >${testName}<`);
-      console.log(`--- TEST CASE STATUS: ${state}`);
-    },
-    testName,
-    testState,
+      (testName, state) => {
+        console.log(`--- TEST CASE FINISHED --- >${testName}<`);
+        console.log(`--- TEST CASE STATUS: ${state}`);
+      },
+      testName,
+      testState,
   );
 
   server.call("e2e.debugLog", `--- TEST CASE FINISHED --- >${testName}<`);

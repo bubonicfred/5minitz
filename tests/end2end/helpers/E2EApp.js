@@ -1,8 +1,9 @@
-import { E2EGlobal } from "./E2EGlobal";
+import {E2EGlobal} from "./E2EGlobal";
 
 /**
- * The `E2EApp` class represents an end-to-end testing helper for the 4Minitz application.
- * It provides various methods for interacting with the application during end-to-end tests.
+ * The `E2EApp` class represents an end-to-end testing helper for the 4Minitz
+ * application. It provides various methods for interacting with the application
+ * during end-to-end tests.
  */
 export class E2EApp {
   static titlePrefix = "4Minitz!";
@@ -14,14 +15,15 @@ export class E2EApp {
     } catch (e) {
       console.log(`Exception: ${e}`);
       console.log(
-        "Did you forget to run the server with '--settings settings-test-end2end.json'?",
+          "Did you forget to run the server with '--settings settings-test-end2end.json'?",
       );
     }
   }
 
   static isLoggedIn() {
     try {
-      browser.waitForExist("#navbar-usermenu", 5000); // browser = WebdriverIO instance
+      browser.waitForExist("#navbar-usermenu",
+                           5000); // browser = WebdriverIO instance
     } catch (e) {
       // give browser some time, on fresh login
       E2EGlobal.saveScreenshot("isLoggedIn_failed");
@@ -33,7 +35,8 @@ export class E2EApp {
   // "!isLoggedIn()"
   static isNotLoggedIn() {
     try {
-      browser.waitForExist("#tab_standard", 5000); // browser = WebdriverIO instance
+      browser.waitForExist("#tab_standard",
+                           5000); // browser = WebdriverIO instance
     } catch (e) {
       // give browser some time, on fresh login
       E2EGlobal.saveScreenshot("isNotLoggedIn_failed");
@@ -58,36 +61,33 @@ export class E2EApp {
 
   static loginFailed() {
     const standardLoginErrorAlertExists = browser.isExisting(
-      ".at-error.alert.alert-danger",
+        ".at-error.alert.alert-danger",
     );
     const generalAlertExists = browser.isExisting(".alert.alert-danger");
     let generalAlertShowsLoginFailure = false;
 
     try {
       if (generalAlertExists) {
-        generalAlertShowsLoginFailure = browser
-          .getHTML(".alert.alert-danger")
-          .includes("403");
+        generalAlertShowsLoginFailure =
+            browser.getHTML(".alert.alert-danger").includes("403");
       }
     } catch (e) {
       const expectedError =
-        'An element could not be located on the page using the given search parameters (".alert.alert-danger")';
+          'An element could not be located on the page using the given search parameters (".alert.alert-danger")';
       if (!e.toString().includes(expectedError)) {
         throw e;
       }
     }
 
-    return (
-      standardLoginErrorAlertExists ||
-      (generalAlertExists && generalAlertShowsLoginFailure)
-    );
+    return (standardLoginErrorAlertExists ||
+            (generalAlertExists && generalAlertShowsLoginFailure));
   }
 
   static loginUserWithCredentials(
-    username,
-    password,
-    autoLogout = true,
-    tab = "#tab_standard",
+      username,
+      password,
+      autoLogout = true,
+      tab = "#tab_standard",
   ) {
     if (autoLogout) {
       E2EApp.logoutUser();
@@ -98,20 +98,19 @@ export class E2EApp {
       E2EGlobal.clickWithRetry(tab);
 
       browser.waitUntil(
-        (_) => {
-          const tabIsStandard = browser.isExisting(
-            "#at-field-username_and_email",
-          );
-          const userWantsStandard = tab === "#tab_standard";
-          const tabIsLdap = browser.isExisting("#id_ldapUsername");
-          const userWantsLdap = tab === "#tab_ldap";
+          (_) => {
+            const tabIsStandard = browser.isExisting(
+                "#at-field-username_and_email",
+            );
+            const userWantsStandard = tab === "#tab_standard";
+            const tabIsLdap = browser.isExisting("#id_ldapUsername");
+            const userWantsLdap = tab === "#tab_ldap";
 
-          return (
-            (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap)
-          );
-        },
-        7500,
-        "The login screen could not been loaded in time",
+            return ((tabIsStandard && userWantsStandard) ||
+                    (tabIsLdap && userWantsLdap));
+          },
+          7500,
+          "The login screen could not been loaded in time",
       );
 
       const tabIsStandard = browser.isExisting("#at-field-username_and_email");
@@ -119,8 +118,8 @@ export class E2EApp {
 
       if (tabIsStandard) {
         E2EGlobal.setValueSafe(
-          'input[id="at-field-username_and_email"]',
-          username,
+            'input[id="at-field-username_and_email"]',
+            username,
         );
         E2EGlobal.setValueSafe('input[id="at-field-password"]', password);
       }
@@ -130,15 +129,15 @@ export class E2EApp {
         E2EGlobal.setValueSafe('input[id="id_ldapPassword"]', password);
       }
 
-      browser.keys(["Enter"]);
+      browser.keys([ "Enter" ]);
 
       browser.waitUntil(
-        (_) => {
-          const userMenuExists = browser.isExisting("#navbar-usermenu");
-          return userMenuExists || E2EApp.loginFailed();
-        },
-        20_000,
-        "The login could not been processed in time",
+          (_) => {
+            const userMenuExists = browser.isExisting("#navbar-usermenu");
+            return userMenuExists || E2EApp.loginFailed();
+          },
+          20_000,
+          "The login could not been processed in time",
       );
 
       if (E2EApp.loginFailed()) {
@@ -147,11 +146,10 @@ export class E2EApp {
 
       if (!E2EApp.isLoggedIn()) {
         console.log(
-          "loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()",
+            "loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()",
         );
-        browser.execute(() => {
-          Meteor.loginWithPassword(username, password);
-        });
+        browser.execute(
+            () => { Meteor.loginWithPassword(username, password); });
         browser.waitUntil((_) => {
           const userMenuExists = browser.isExisting("#navbar-usermenu");
           return userMenuExists || E2EApp.loginFailed();
@@ -162,7 +160,7 @@ export class E2EApp {
     } catch (e) {
       E2EGlobal.saveScreenshot("loginUserWithCredentials_failed");
       throw new Error(
-        `Login failed for user ${username} with ${password}\nwith ${e}`,
+          `Login failed for user ${username} with ${password}\nwith ${e}`,
       );
     }
   }
@@ -179,10 +177,11 @@ export class E2EApp {
     if (typeof indexOrUsername === "string") {
       const orgUserName = indexOrUsername;
       indexOrUsername =
-        E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
+          E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
       if (indexOrUsername === -1) {
         console.log(
-          `Error {E2EApp.loginUser} : Could not find user ${orgUserName}. Fallback: index=0.`,
+            `Error {E2EApp.loginUser} : Could not find user ${
+                orgUserName}. Fallback: index=0.`,
         );
         indexOrUsername = 0;
       }
@@ -194,9 +193,7 @@ export class E2EApp {
     this.loginUserWithCredentials(aUser, aPassword, autoLogout);
   }
 
-  static getCurrentUser() {
-    return E2EApp._currentlyLoggedInUser;
-  }
+  static getCurrentUser() { return E2EApp._currentlyLoggedInUser; }
 
   static launchApp() {
     browser.url(E2EGlobal.SETTINGS.e2eUrl);
@@ -205,7 +202,8 @@ export class E2EApp {
     const title = browser.getTitle();
     if (title !== E2EApp.titlePrefix) {
       throw new Error(
-        `App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`,
+          `App not loaded. Unexpected title ${
+              title}. Please run app with 'meteor npm run test:end2end:server'`,
       );
     }
   }
@@ -223,7 +221,7 @@ export class E2EApp {
   // We can't use "launchApp" here, as this resets the browser
   // so we click on the "Logo" icon
   static gotoStartPage() {
-    browser.keys(["Escape"]); // close eventually open modal dialog
+    browser.keys([ "Escape" ]); // close eventually open modal dialog
     E2EGlobal.waitSomeTime();
     try {
       browser.waitForExist("a.navbar-brand", 2500);
@@ -248,10 +246,10 @@ export class E2EApp {
     // give title change time to settle
     try {
       browser.waitUntil(
-        () => browser.getTitle() === E2EApp.titlePrefix,
-        5000,
-        "Timeout! Title did not change! Will try to re-launchApp().",
-        250,
+          () => browser.getTitle() === E2EApp.titlePrefix,
+          5000,
+          "Timeout! Title did not change! Will try to re-launchApp().",
+          250,
       );
     } catch (e) {
       E2EApp.launchApp();
@@ -264,9 +262,10 @@ export class E2EApp {
   static confirmationDialogCheckMessage(containedText) {
     E2EGlobal.waitSomeTime();
     expect(
-      browser.getText("div#confirmDialog"),
-      "Check confirmation messagebox contains text",
-    ).to.contain(containedText);
+        browser.getText("div#confirmDialog"),
+        "Check confirmation messagebox contains text",
+        )
+        .to.contain(containedText);
   }
 
   static confirmationDialogAnswer(pressOK) {

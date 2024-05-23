@@ -1,6 +1,6 @@
-import { InfoItem } from "./infoitem";
-import { Priority } from "./priority";
-import { currentDatePlusDeltaDays } from "./helpers/date";
+import {currentDatePlusDeltaDays} from "./helpers/date";
+import {InfoItem} from "./infoitem";
+import {Priority} from "./priority";
 
 /**
  * Represents an action item.
@@ -29,24 +29,22 @@ export class ActionItem extends InfoItem {
 
   // ################### object methods
 
-  isSticky() {
-    return this._infoItemDoc.isOpen;
-  }
+  isSticky() { return this._infoItemDoc.isOpen; }
 
   /**
    * Gets the date of the detail item
    * at the given index.
    *
    * @param index position in the details array (0 if undefined)
-   * @returns {boolean|string} false (if date is not given) or date as ISO8601 string.
+   * @returns {boolean|string} false (if date is not given) or date as ISO8601
+   *     string.
    */
   getDateFromDetails(index) {
-    if (index === undefined) index = 0;
+    if (index === undefined)
+      index = 0;
     const details = this._infoItemDoc.details;
-    if (
-      details.length > index &&
-      Object.prototype.hasOwnProperty.call(details[index], "date")
-    ) {
+    if (details.length > index &&
+        Object.prototype.hasOwnProperty.call(details[index], "date")) {
       return details[index].date;
     }
     return false;
@@ -60,13 +58,11 @@ export class ActionItem extends InfoItem {
    * @returns {string}
    */
   getTextFromDetails(index) {
-    if (index === undefined) index = 0;
+    if (index === undefined)
+      index = 0;
     const details = this._infoItemDoc.details;
-    if (
-      details &&
-      details.length > 0 &&
-      Object.prototype.hasOwnProperty.call(details[index], "text")
-    ) {
+    if (details && details.length > 0 &&
+        Object.prototype.hasOwnProperty.call(details[index], "text")) {
       return details[index].text;
     }
     return "";
@@ -79,9 +75,7 @@ export class ActionItem extends InfoItem {
    *
    * @return {boolean}
    */
-  hasResponsibles() {
-    return this._infoItemDoc.responsibles?.length;
-  }
+  hasResponsibles() { return this._infoItemDoc.responsibles?.length; }
   /**
    * Returns all responsible participants associated with this
    * topic. This method must have the same name as the
@@ -89,9 +83,7 @@ export class ActionItem extends InfoItem {
    *
    * @return {Array}
    */
-  getResponsibles() {
-    return this._infoItemDoc.responsibles;
-  }
+  getResponsibles() { return this._infoItemDoc.responsibles; }
 
   getResponsibleRawArray() {
     return this.hasResponsibles() ? this._infoItemDoc.responsibles : [];
@@ -107,7 +99,8 @@ export class ActionItem extends InfoItem {
 
   /**
    * Retrieves the priority of the action item.
-   * @returns {Priority|string} The priority of the action item, or an empty string if no priority is set.
+   * @returns {Priority|string} The priority of the action item, or an empty
+   *     string if no priority is set.
    */
   getPriority() {
     const prio = this._infoItemDoc.priority;
@@ -118,9 +111,7 @@ export class ActionItem extends InfoItem {
    * Retrieves the due date of the action item.
    * @returns {Date} The due date of the action item.
    */
-  getDuedate() {
-    return this._infoItemDoc.duedate;
-  }
+  getDuedate() { return this._infoItemDoc.duedate; }
 
   /**
    * Toggles the state of the info item document.

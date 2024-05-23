@@ -1,11 +1,12 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
 const TOKEN_TYPE_LABEL = 3;
 
 /**
- * Represents a query parser that parses search queries and extracts filter tokens, label tokens, and search tokens.
+ * Represents a query parser that parses search queries and extracts filter
+ * tokens, label tokens, and search tokens.
  */
 export class QueryParser {
   /**
@@ -50,9 +51,7 @@ export class QueryParser {
   parse(query) {
     this.query = query;
     this.tokens = query.split(/\s/);
-    this.tokens.forEach((token) => {
-      this._parseToken(token);
-    });
+    this.tokens.forEach((token) => { this._parseToken(token); });
     // add last label
     if (this.currentLabel !== null) {
       this._addCompleteLabelToken();
@@ -61,9 +60,8 @@ export class QueryParser {
   }
 
   isCaseSensitive() {
-    return this.queryParsed
-      ? this.matchCase
-      : this.query.indexOf("do:match-case") !== -1;
+    return this.queryParsed ? this.matchCase
+                            : this.query.indexOf("do:match-case") !== -1;
   }
 
   hasKeyword(key, value) {
@@ -90,9 +88,7 @@ export class QueryParser {
    *
    * @returns {FilterToken[]}
    */
-  getFilterTokens() {
-    return this.filterTokens;
-  }
+  getFilterTokens() { return this.filterTokens; }
 
   /**
    * Returns all label tokens of the current
@@ -101,9 +97,7 @@ export class QueryParser {
    *
    * @returns {LabelToken[]}
    */
-  getLabelTokens() {
-    return this.labelTokens;
-  }
+  getLabelTokens() { return this.labelTokens; }
 
   /**
    * Returns all search tokens of the current
@@ -111,34 +105,32 @@ export class QueryParser {
    *
    * @returns {string[]}
    */
-  getSearchTokens() {
-    return this.searchTokens;
-  }
+  getSearchTokens() { return this.searchTokens; }
 
   _parseToken(token) {
     const tokenType = this._getTokenType(token);
     switch (tokenType) {
-      case TOKEN_TYPE_FILTER: {
-        this._addFilterToken(token);
-        break;
-      }
+    case TOKEN_TYPE_FILTER: {
+      this._addFilterToken(token);
+      break;
+    }
 
-      case TOKEN_TYPE_LABEL: {
-        const result = this._addLabelToken(token);
-        if (!result) {
-          this.searchTokens.push(token);
-        }
-        break;
-      }
-      case TOKEN_TYPE_SEARCH: {
+    case TOKEN_TYPE_LABEL: {
+      const result = this._addLabelToken(token);
+      if (!result) {
         this.searchTokens.push(token);
-        break;
       }
-      default:
-        throw new Meteor.Error(
+      break;
+    }
+    case TOKEN_TYPE_SEARCH: {
+      this.searchTokens.push(token);
+      break;
+    }
+    default:
+      throw new Meteor.Error(
           "illegal-state",
           `Unknown token type ${tokenType}`,
-        );
+      );
     }
   }
 
@@ -157,12 +149,8 @@ export class QueryParser {
   _isFilterKeyword(token) {
     const arr = token.split(":");
     const res = this.keywords.isKeyword(token);
-    if (
-      Object.prototype.hasOwnProperty.call(this.keywords, "DO") &&
-      res &&
-      arr[0] === this.keywords.DO.key &&
-      arr[1] === "match-case"
-    ) {
+    if (Object.prototype.hasOwnProperty.call(this.keywords, "DO") && res &&
+        arr[0] === this.keywords.DO.key && arr[1] === "match-case") {
       this.matchCase = true;
     }
     return res;
@@ -170,7 +158,7 @@ export class QueryParser {
 
   _addFilterToken(token) {
     this.filterTokens.push(
-      this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName),
+        this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName),
     );
   }
 
@@ -189,13 +177,12 @@ export class QueryParser {
       this.currentLabel = token.substring(1);
     } else {
       completeLabel = `${this.currentLabel} ${token}`; // prepend whitespace!
-      const matchingIds = this.queryLabelIdsByName
-        ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
-        : true;
-      if (
-        matchingIds === true ||
-        (matchingIds !== null && matchingIds.length > 0)
-      ) {
+      const matchingIds =
+          this.queryLabelIdsByName
+              ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
+              : true;
+      if (matchingIds === true ||
+          (matchingIds !== null && matchingIds.length > 0)) {
         this.currentLabel = completeLabel;
       } else {
         // the current token does not match any labels
@@ -215,8 +202,8 @@ export class QueryParser {
   _addCompleteLabelToken() {
     const token = this.currentLabel;
     const ids = this.queryLabelIdsByName
-      ? this.queryLabelIdsByName(token, this.isCaseSensitive())
-      : [token];
+                    ? this.queryLabelIdsByName(token, this.isCaseSensitive())
+                    : [ token ];
     this.labelTokens.push({
       token,
       ids,
