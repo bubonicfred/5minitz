@@ -37,10 +37,12 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "./label": { Label, "@noCallThru": true },
 });
 
-describe("InfoItem", () => {
-  let dummyTopic, infoItemDoc;
-
-  beforeEach(() => {
+// skipcq: JS-0241
+describe("InfoItem", function() {
+  let dummyTopic;
+  let infoItemDoc;
+// skipcq: JS-0241
+  beforeEach(function() {
     dummyTopic = {
       _id: "AaBbCcDd",
       _infoItems: [],
@@ -64,21 +66,22 @@ describe("InfoItem", () => {
       createdInMinute: "AaBbCcDd01",
     };
   });
-
-  describe("#constructor", () => {
-    it("sets the reference to the parent topic correctly", () => {
+// skipcq: JS-0241
+  describe("#constructor", function() {
+    // skipcq: JS-0241
+    it("sets the reference to the parent topic correctly", function() {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // the infoItem should have a reference of our dummyTopic
       expect(myInfoItem._parentTopic).to.equal(dummyTopic);
     });
-
-    it("sets the document correctly", () => {
+// skipcq: JS-0241
+    it("sets the document correctly", function() {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // the doc should be equal to our initial document
       expect(myInfoItem._infoItemDoc).to.equal(infoItemDoc);
     });
-
-    it("creates the same object by passing the id of an existing one", () => {
+// skipcq: JS-0241
+    it("creates the same object by passing the id of an existing one", function() {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // add the created info item to our dummy topic
       dummyTopic.addInfoItem(myInfoItem);
@@ -93,8 +96,8 @@ describe("InfoItem", () => {
       expect(sameInfoItem._infoItemDoc).to.equal(myInfoItem._infoItemDoc);
     });
   });
-
-  it("#isActionItem", () => {
+// skipcq: JS-0241
+  it("#isActionItem", function() {
     const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
     expect(
       myInfoItem.isActionItem(),
@@ -111,8 +114,8 @@ describe("InfoItem", () => {
       "Item with the itemType-property set to actionItem should be an ActionItem",
     ).to.be.true;
   });
-
-  it("#save", () => {
+// skipcq: JS-0241
+  it("#save", function() {
     const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
 
     myInfoItem.save();
