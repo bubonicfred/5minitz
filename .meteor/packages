@@ -50,9 +50,9 @@ universe:i18n
 universe:i18n-blaze
 softwarerero:accounts-t9n
 babrahams:accounts-ldap
-underscore@1.0.13
+underscore@1.6.0
 promise@0.12.2
-accounts-base@2.2.9
+accounts-base@2.2.10
 babel-compiler@7.10.5
 ostrio:files@2.3.3
 ddp-client@2.6.1
