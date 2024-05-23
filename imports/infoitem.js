@@ -5,7 +5,7 @@
  * and a list of associated tags.
  */
 import { User } from "/imports/user";
-import _ from "lodash";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
