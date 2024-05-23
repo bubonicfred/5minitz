@@ -357,7 +357,8 @@ export class Topic {
    * Sets the isOpen property of all open action items to false.
    * Saves the changes to the database.
    *
-   * @returns {Promise<void>} A promise that resolves when the changes are saved.
+   * @returns {Promise<void>} A promise that resolves when the changes are
+   *     saved.
    */
   async closeTopicAndAllOpenActionItems() {
     this._topicDoc.isOpen = false;
@@ -371,7 +372,8 @@ export class Topic {
   /**
    * Checks if the topic has an open action item.
    *
-   * @returns {boolean} True if the topic has an open action item, false otherwise.
+   * @returns {boolean} True if the topic has an open action item, false
+   *     otherwise.
    */
   hasOpenActionItem() {
     return Topic.hasOpenActionItem(this._topicDoc);
@@ -403,7 +405,8 @@ export class Topic {
    * Checks if the topic has a label with the specified ID.
    *
    * @param {string} labelId - The ID of the label to check.
-   * @returns {boolean} - Returns true if the topic has a label with the specified ID, false otherwise.
+   * @returns {boolean} - Returns true if the topic has a label with the
+   *     specified ID, false otherwise.
    */
   hasLabelWithId(labelId) {
     let i;

@@ -1,7 +1,7 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "lodash";
 
 class MeteorError {}
 const Meteor = {
