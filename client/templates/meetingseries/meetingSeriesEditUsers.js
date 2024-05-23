@@ -93,13 +93,15 @@ Template.meetingSeriesEditUsers.helpers({
     const rolesNames = UserRoles.allRolesNames();
     const rolesNums = UserRoles.allRolesNumerical();
     for (const i in rolesNames) {
-      const roleNum = rolesNums[i];
-      const roleName = rolesNames[i];
-      let startTag = `<option value='${roleName}'>`;
-      if (roleNum === currentRoleNum) {
-        startTag = `<option value="${roleName}" selected="selected">`;
+      if (Object.prototype.hasOwnProperty.call(rolesNames, i)) {
+        const roleNum = rolesNums[i];
+        const roleName = rolesNames[i];
+        let startTag = `<option value='${roleName}'>`;
+        if (roleNum === currentRoleNum) {
+          startTag = `<option value="${roleName}" selected="selected">`;
+        }
+        rolesHTML += `${startTag + UserRoles.role2Text(roleNum)}</option>`;
       }
-      rolesHTML += `${startTag + UserRoles.role2Text(roleNum)}</option>`;
     }
     rolesHTML += "</select>";
     return rolesHTML;
