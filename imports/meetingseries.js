@@ -135,7 +135,7 @@ export class MeetingSeries {
    * @instance
    * @deprecated This method is obsolete. Please refactor the topic class.
    */
-  upsertTopic() {
+static upsertTopic() {
 //Intentionally empty
   }
 

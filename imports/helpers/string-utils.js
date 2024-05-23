@@ -3,6 +3,30 @@
  */
 export class StringUtils {
   /**
+   * Creates a custom `toString` function for the given instance.
+   * The `toString` function returns a string representation of the instance,
+   * including the class name and the JSON representation of the instance.
+   *
+   * @param {Object} instance - The instance for which to create the `toString` function.
+   * @returns {Function} The custom `toString` function.
+   */
+
+  static createToString = (instance) => {
+    return function () {
+      const className = instance.constructor.name;
+      let doc = instance;
+
+      if (className === "InfoItem") {
+        doc = instance._infoItemDoc;
+      } else if (className === "Topic") {
+        doc = instance._topicDoc;
+      }
+
+      return `${className}: ${JSON.stringify(doc, null, 4)}`;
+    };
+  };
+
+  /**
    * Removes all occurrences of a substring from a given string.
    *
    * @param {string} string - The original string.

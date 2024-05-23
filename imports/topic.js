@@ -56,6 +56,10 @@ function resolveTopic(parentElement, source) {
   return source;
 }
 
+/**
+ * Represents a topic in a meeting or minute.
+ * @class
+ */
 export class Topic {
   /**
    *
@@ -86,6 +90,13 @@ export class Topic {
   }
 
   // ################### static methods
+  /**
+   * Finds the index of a topic in an array based on its ID.
+   *
+   * @param {string} id - The ID of the topic to find.
+   * @param {Array} topics - The array of topics to search in.
+   * @returns {number} - The index of the topic in the array, or -1 if not found.
+   */
   static findTopicIndexInArray(id, topics) {
     return subElementsHelper.findIndexById(id, topics);
   }
@@ -109,6 +120,7 @@ export class Topic {
   }
 
   // ################### object methods
+
   toString() {
     return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
   }
@@ -342,7 +354,7 @@ export class Topic {
   }
 
   /**
-   * Checks whether this topic has associated responsibles
+   * Checks whether this topic has associated responsible particpants
    * or not. This method must have the same name as the
    * actionItem.hasResponsibles method.
    *
@@ -354,7 +366,7 @@ export class Topic {
   }
 
   /**
-   * Returns all responsibles associated with this
+   * Returns all responsible participants associated with this
    * topic. This method must have the same name as the
    * actionItem.getResponsibles method.
    *

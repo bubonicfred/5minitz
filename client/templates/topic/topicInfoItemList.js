@@ -30,6 +30,9 @@ import { resizeTextarea } from "./helpers/resize-textarea";
 
 const INITIAL_ITEMS_LIMIT = 4;
 
+/**
+ * Represents a context for managing a list of topic information items.
+ */
 export class TopicInfoItemListContext {
   // called from Meeting Series "actionItemList" view (aka "My Action Items")
   static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
