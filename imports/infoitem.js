@@ -10,6 +10,7 @@ import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
 import { formatDateISO8601 } from "./helpers/date";
+import { StringUtils } from './helpers/string-utils';
 
 /**
  * The InfoItem class represents an information item in a topic.
@@ -247,6 +248,15 @@ export class InfoItem {
     return this._infoItemDoc.labels;
   }
 
+  /**
+   * Returns a string representation of the InfoItem object.
+   * @todo refactor to use {@link StringUtils.createToString}
+   *   constructor() {
+   *
+   *this.toString = StringUtils.createToString(this);
+   * }
+   * @returns {string} The string representation of the InfoItem object.
+   */
   toString() {
     return `InfoItem: ${JSON.stringify(this._infoItemDoc, null, 4)}`;
   }

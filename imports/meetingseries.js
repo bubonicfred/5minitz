@@ -52,7 +52,7 @@ export class MeetingSeries {
   static async remove(meetingSeries) {
     return Meteor.callPromise(
       "workflow.removeMeetingSeries",
-      meetingSeries._id,
+      meetingSeries._id
     );
   }
 
@@ -64,7 +64,7 @@ export class MeetingSeries {
     // we return an array with just a list of visible meeting series IDs
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [userId] } },
-      { _id: 1 },
+      { _id: 1 }
     ).map((item) => item._id);
   }
 
@@ -135,8 +135,8 @@ export class MeetingSeries {
    * @instance
    * @deprecated This method is obsolete. Please refactor the topic class.
    */
-static upsertTopic() {
-//Intentionally empty
+  static upsertTopic() {
+    //Intentionally empty
   }
 
   hasMinute(id) {
@@ -195,13 +195,11 @@ static upsertTopic() {
 
   /**
    * Get the date of the latest minute excluding the given minuteId.
-   *
+   * @todo check if excluding the given minuteId could be done directly in the find call on the collection
    * @param {string} minuteId - The ID of the minute to exclude.
    * @returns {Date|undefined} The date of the first non-matching minute, or undefined if no non-matching minute is found.
    */
   _getDateOfLatestMinuteExcluding(minuteId) {
-    // TODO check if excluding the given minuteId could be done directly in the find call on the collection
-
     const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
       return {
         _id: minute._id,
@@ -214,7 +212,7 @@ static upsertTopic() {
     }
 
     const firstNonMatchingMinute = latestMinutes.find(
-      (minute) => minute._id !== minuteId,
+      (minute) => minute._id !== minuteId
     );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
@@ -264,7 +262,7 @@ static upsertTopic() {
     if (!this._id) {
       throw new Meteor.Error(
         "MeetingSeries not saved.",
-        "Call save() before using addVisibleUser()",
+        "Call save() before using addVisibleUser()"
       );
     }
     if (!Array.isArray(newVisibleForArray)) {
@@ -318,7 +316,7 @@ static upsertTopic() {
     return subElementsHelper.getElementById(
       labelName,
       this.availableLabels,
-      "name",
+      "name"
     );
   }
 
@@ -333,7 +331,7 @@ static upsertTopic() {
   removeLabel(id) {
     const index = subElementsHelper.findIndexById(
       id,
-      this.getAvailableLabels(),
+      this.getAvailableLabels()
     );
     if (undefined === index) {
       return;

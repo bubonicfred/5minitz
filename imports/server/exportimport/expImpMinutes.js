@@ -6,7 +6,15 @@ class ExpImpMinutes {
   static get FILENAME_POSTFIX() {
     return "_minutes.json";
   }
-  // TODO big function. consider refactoring.
+  /**
+   * Export minutes of a meeting series to a file and collect additional user IDs.
+   * @todo big function. consider refactoring.
+   * @param {Object} db - The database object.
+   * @param {string} msID - The ID of the meeting series.
+   * @param {Object} userIDs - The object to collect additional user IDs.
+   * @returns {Promise<Object>} A promise that resolves with the database object and the collected user IDs.
+   * @throws {Error} If the meeting series ID is unknown.
+   */
   static doExport(db, msID, userIDs) {
     return new Promise((resolve, reject) => {
       db.collection("minutes")
