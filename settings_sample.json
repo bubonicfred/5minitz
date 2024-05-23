@@ -15,9 +15,7 @@
     "Admins may register users, de-activate users, send broadcast messages, ...",
     "All admins will receive 'new version exists' emails if update check finds new version."
   ],
-  "adminIDs": [
-    "Th1s1s0nlyADummy1d"
-  ],
+  "adminIDs": ["Th1s1s0nlyADummy1d"],
   "//2.1 branding": [
     "Via branding you can configure the 'first impression' of your local installation. ",
     "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
@@ -79,10 +77,7 @@
       "inside their company with their mail address in FROM: header.",
       "This really looks like spam, so it will probably be blocked!."
     ],
-    "defaultEMailSenderExceptionDomains": [
-      "yourdomain.de",
-      "yourdomain.com"
-    ],
+    "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.com"],
     "//3.5": [
       "fallbackEMailSenderAddress: if sending user has no mail address specified in the user profile,",
       "this will be 'FROM:' sender.",
@@ -189,9 +184,7 @@
     "inactiveUsers": {
       "strategy": "none"
     },
-    "autopublishFields": [
-      "cn"
-    ],
+    "autopublishFields": ["cn"],
     "importOnLaunch": true,
     "importCronTab": false,
     "hideStandardLogin": false,

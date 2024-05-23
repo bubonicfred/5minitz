@@ -1,20 +1,8 @@
 {
   "isEnd2EndTest": true,
   "e2eUrl": "http://localhost:3100",
-  "e2eTestUsers": [
-    "user1",
-    "user2",
-    "user3",
-    "user4",
-    "admin"
-  ],
-  "e2eTestPasswords": [
-    "PwdPwd1",
-    "PwdPwd2",
-    "PwdPwd3",
-    "PwdPwd4",
-    "AdmAdm1"
-  ],
+  "e2eTestUsers": ["user1", "user2", "user3", "user4", "admin"],
+  "e2eTestPasswords": ["PwdPwd1", "PwdPwd2", "PwdPwd3", "PwdPwd4", "AdmAdm1"],
   "e2eTestEmails": [
     "user1@4minitz.com",
     "user2@4minitz.com",
@@ -102,13 +90,8 @@
     "serverDn": "DC=example,DC=com",
     "serverUrl": "ldap://localhost:1389",
     "allowSelfSignedTLS": true,
-    "allowListedFields": [
-      "cn",
-      "mail"
-    ],
-    "autopublishFields": [
-      "cn"
-    ],
+    "allowListedFields": ["cn", "mail"],
+    "autopublishFields": ["cn"],
     "inactiveUsers": {
       "strategy": "userAccountControl"
     },
@@ -123,15 +106,8 @@
     "serverDn": "DC=example,DC=com",
     "serverUrl": "ldap://ldap.forumsys.com",
     "allowSelfSignedTLS": true,
-    "allowListedFields": [
-      "uid",
-      "cn",
-      "mail"
-    ],
-    "autopublishFields": [
-      "uid",
-      "cn"
-    ],
+    "allowListedFields": ["uid", "cn", "mail"],
+    "autopublishFields": ["uid", "cn"],
     "//": "Set to false to disable",
     "importCronTab": false
   },
