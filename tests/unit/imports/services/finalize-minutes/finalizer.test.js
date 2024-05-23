@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-import _ from "underscore";
+import _ from "lodash";
 
 import * as DateHelpers from "../../../../../imports/helpers/date";
 
@@ -79,7 +79,7 @@ const { Finalizer } = proxyquire(
   {
     "meteor/meteor": { Meteor, "@noCallThru": true },
     "meteor/universe:i18n": { i18n, "@noCallThru": true },
-    "meteor/underscore": { _, "@noCallThru": true },
+    lodash: { _, "@noCallThru": true },
     "meteor/check": { check, "@noCallThru": true },
     "/imports/collections/minutes.schema": {
       MinutesSchema,
