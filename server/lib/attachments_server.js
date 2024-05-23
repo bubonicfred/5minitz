@@ -7,7 +7,7 @@
 import { Meteor } from "meteor/meteor";
 
 const fs = require("fs-extra");
-import * as path from "node:path";
+import * as path from "pathe";
 
 calculateAndCreateStoragePath = (fileObj) => {
   // eslint-disable-line
