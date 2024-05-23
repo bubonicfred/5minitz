@@ -226,7 +226,7 @@ describe("workflow.finalizeMinute", function () {
   });
 // skipcq: JS-0241
   it("sets the finalizedBy property to the user that is currently logged in", function () {
-    User.PROFILENAMEWITHFALLBACK.returns(user.username);
+    User.profileNameWithFallback.returns(user.username);
     finalizeMeteorMethod(minutes._id);
     verifyPropertyOfMinutesUpdate(minutes, "finalizedBy", user.username);
   });
@@ -382,7 +382,7 @@ describe("workflow.unfinalizeMinute", function () {
 });
 // skipcq: JS-0241
 describe("Finalizer", function () {
-  let minutesId;
+  let minutesId = ""; // Initialized with an empty string as a default value
   let minutes;
 // skipcq: JS-0241
   beforeEach(function () {
@@ -453,7 +453,7 @@ describe("Finalizer", function () {
   });
 // skipcq: JS-0241
   describe("#finalizedInfo", function () {
-    let minutes;
+    let minutes = {}; // Initialized directly
 // skipcq: JS-0241
     beforeEach(function () {
       minutes = {};
@@ -523,8 +523,8 @@ describe("Finalizer", function () {
   });
 // skipcq: JS-0241
   describe("#isUnfinalizeMinutesAllowed", function () {
-    let meetingSeries;
-    let minutes;
+    let meetingSeries = {}; // Initialized directly
+    let minutes = {}; // Adjusted initialization
 // skipcq: JS-0241
     beforeEach(function () {
       const minutesId = "some-fance-minutes-id";

@@ -168,7 +168,7 @@ Meteor.methods({
     }
 
     doc.updatedAt = new Date();
-    doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+    doc.updatedBy = User.profileNameWithFallback(Meteor.user());
 
     const modifierDoc = {};
     for (const property in doc) {
@@ -225,9 +225,9 @@ Meteor.methods({
 
       doc.createdInMinute = minutesId;
       doc.createdAt = new Date();
-      doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+      doc.createdBy = User.profileNameWithFallback(Meteor.user());
       doc.updatedAt = new Date();
-      doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+      doc.updatedBy = User.profileNameWithFallback(Meteor.user());
 
       const topicModifier = {
         topics: {

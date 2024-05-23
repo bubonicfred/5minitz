@@ -595,7 +595,7 @@ Template.topicInfoItemList.events({
       });
 
       const tmplData = {
-        isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+        isEditedByName: User.profileNameWithFallback(user),
         isEditedDate: formatDateISO8601Time(
           aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
         ),
