@@ -637,7 +637,7 @@ See your settings.json file:
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
 | serverDn            | undefined                        | Your server base dn, e.g. "dc=example,dc=com"                               |
 | serverUrl           | undefined                        | Server url, e.g. "ldaps://ldap.example.com:1234                             |
-| whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
+| allowListedFields   | []                               | Attributes that are copied into the user's profile property                 |
 | autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
 | inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
 | allowSelfSignedTLS  | false                            | If true, self-signed certs will be allowed for the Meteor server process |

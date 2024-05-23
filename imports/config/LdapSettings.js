@@ -46,7 +46,7 @@ const defaultLdapSettings = {
   authentication: {},
   searchFilter: "",
   allowSelfSignedTLS: false,
-  whiteListedFields: [],
+  allowListedFields: [],
   inactiveUsers: { strategy: "none" },
   autopublishFields: [],
   importCronTab: false,

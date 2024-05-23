@@ -78,7 +78,7 @@ describe("transformUser", function () {
     expect(meteorUser.profile.name).to.equal(userData.cn);
   });
 
-  it("copies nothing into the user's profile if no whitelisted fields are given", function () {
+  it("copies nothing into the user's profile if no allowlisted fields are given", function () {
     let ldapSettings = {},
       userData = {
         someAttribute: "someValue",
@@ -90,9 +90,9 @@ describe("transformUser", function () {
     expect(meteorUser.profile).to.deep.equal({});
   });
 
-  it("copies over the attributes given as whitelistedFields into the user's profile", function () {
+  it("copies over the attributes given as allowListedFields into the user's profile", function () {
     let ldapSettings = {
-        whiteListedFields: ["someAttribute", "anotherAttribute"],
+        allowListedFields: ["someAttribute", "anotherAttribute"],
       },
       userData = {
         someAttribute: "someValue",

@@ -90,7 +90,7 @@
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
-        "whiteListedFields": [ "cn", "mail" ],
+        "allowListedFields": [ "cn", "mail" ],
         "autopublishFields": [ "cn" ],
         "inactiveUsers": {
             "strategy": "userAccountControl"
@@ -107,7 +107,7 @@
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://ldap.forumsys.com",
         "allowSelfSignedTLS": true,
-        "whiteListedFields": [ "uid", "cn", "mail" ],
+        "allowListedFields": [ "uid", "cn", "mail" ],
         "autopublishFields": [ "uid", "cn" ],
 
         "//": "Set to false to disable",

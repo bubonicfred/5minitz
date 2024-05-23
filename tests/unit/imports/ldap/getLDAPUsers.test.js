@@ -43,7 +43,7 @@ describe("getLDAPUsers", function () {
     ldap.createClient.reset();
     settings = {
       propertyMap: {},
-      whiteListedFields: [],
+      allowListedFields: [],
       inactiveUsers: {
         strategy: "none",
       },
@@ -200,13 +200,13 @@ describe("getLDAPUsers", function () {
         });
     });
 // skipcq: JS-0241
-    it("adds property map attributes to whitelist automatically", function (done) {
+    it("adds property map attributes to allowlist automatically", function (done) {
       const s = Object.assign({}, settings, {
         propertyMap: {
           username: "someweirdAttribute",
           email: "anEmailAttribute",
         },
-        whiteListedFields: ["someField"],
+        allowListedFields: ["someField"],
       });
       const parameters = [];
       const client = {

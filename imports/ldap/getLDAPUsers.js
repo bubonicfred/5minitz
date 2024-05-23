@@ -82,8 +82,8 @@ const _fetchLDAPUsers = (connection) => {
   const emailAttribute = _.get(settings, "propertyMap.email", searchDn);
   const filter = `(&(${searchDn}=*)${settings.searchFilter})`;
   const scope = "sub";
-  const whiteListedFields = _.get(settings, "whiteListedFields", []);
-  const attributes = whiteListedFields.concat([
+  const allowListedFields = _.get(settings, "allowListedFields", []);
+  const attributes = allowListedFields.concat([
     "userAccountControl",
     searchDn,
     userLongNameAttribute,

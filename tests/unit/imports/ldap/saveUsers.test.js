@@ -61,7 +61,7 @@ describe("saveUsers", function () {
 
     settings = {
       propertyMap: {},
-      whiteListedFields: [],
+      allowListedFields: [],
       inactiveUsers: {
         strategy: "none",
       },
