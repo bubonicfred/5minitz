@@ -14,7 +14,7 @@ describe("subElementsHelper", function () {
 
       expect(result).to.be.undefined;
     });
- // skipcq JS-0241
+    // skipcq JS-0241
     it("returns undefined if the given id is not found", function () {
       const list = [{}, {}, {}];
       const id = "someId";
@@ -23,7 +23,7 @@ describe("subElementsHelper", function () {
 
       expect(result).to.be.undefined;
     });
- // skipcq JS-0241
+    // skipcq JS-0241
     it("returns the index of the element with the given id", function () {
       const id = "someId";
       const list = [{}, { _id: "someId" }, {}];
