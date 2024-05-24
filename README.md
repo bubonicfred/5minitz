@@ -1,5 +1,4 @@
-master/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=master)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
-develop/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
+main/ [![4Minitz TestRunner](https://github.com/bubonicfred/4minitz/actions/workflows/runtests.js.yml/badge.svg?branch=main)](https://github.com/bubonicfred/4minitz/actions/workflows/runtests.js.yml)
 [![DeepSource](https://app.deepsource.com/gh/bubonicfred/4minitz.svg/?label=active+issues&show_trend=true&token=1tQ4rdje5JBGoo8W5wsWKdkF)](https://app.deepsource.com/gh/bubonicfred/4minitz/)
 [![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/4minitz?project_id=30798)
 
