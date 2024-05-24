@@ -17,9 +17,9 @@ tests/mongodump
 versions/
 tests/e2e_downloads
 tests/end2end/logs/*.log
-
+out/
 public/fonts/glyphicons-halflings-regular.*
-
+conf.json
 4minitz_settings\.json
 *.json.bak
 *.code-workspace
