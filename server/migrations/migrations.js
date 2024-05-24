@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Migrations } from "meteor/percolate:migrations";
 import moment from "moment/moment";
-import path from "path";
+import * as path from "pathe";
 
 import { backupMongo } from "../mongoBackup";
 
