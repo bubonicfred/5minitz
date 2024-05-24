@@ -3,7 +3,7 @@ const mongoUriParser = require("mongo-uri");
 const transformUser = require("./transformUser");
 
 import { _ } from "lodash";
-import { Random } from "tests/performance/fixtures/lib/random";
+import { Random } from "../../tests/performance/fixtures/lib/random";
 
 const _transformUsers = (settings, users) =>
   _.map(users, (user) => transformUser(settings, user));
@@ -42,7 +42,7 @@ const _insertUsers = (client, mongoUri, users) => {
             .upsert()
             .updateOne({
               $setOnInsert: {
-                _id: Random.id(),
+                _id: Random.generateId(),
                 // by setting this only on insert we won't log out everyone
                 // everytime we sync the users
                 services: {
