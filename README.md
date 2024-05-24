@@ -1,13 +1,11 @@
-master/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=master)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
-develop/ [![Build Status](https://github.com/4minitz/4minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
-[![DeepSource](https://app.deepsource.com/gh/bubonicfred/4minitz.svg/?label=active+issues&show_trend=true&token=1tQ4rdje5JBGoo8W5wsWKdkF)](https://app.deepsource.com/gh/bubonicfred/4minitz/)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/bubonicfred/4minitz/runtests.js.yml?branch=main&style=flat&link=https%3A%2F%2Fgithub.com%2Fbubonicfred%2F4minitz%2Factions%2Fworkflows%2Fruntests.js.yml) 
+[![DeepSource](https://app.deepsource.com/gh/bubonicfred/4minitz.svg/?label=active+issues&show_trend=true&token=1tQ4rdje5JBGoo8W5wsWKdkF)](https://app.deepsource.com/gh/bubonicfred/4minitz/) 
 [![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/4minitz?project_id=30798)
 
 # 4Minitz
 
 This is an attempt to maintain 4minitz.
 
-The buildfix branch is mainly just maintenance patches. While develope_new will potentially receive breaking changes. All changes to buildfix get ported to develop_new at the moment.
 
 _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 
