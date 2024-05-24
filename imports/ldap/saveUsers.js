@@ -1,6 +1,6 @@
-let mongo = require("mongodb").MongoClient,
-  mongoUriParser = require("mongo-uri"),
-  transformUser = require("./transformUser");
+const mongo = require("mongodb").MongoClient;
+const mongoUriParser = require("mongo-uri");
+const transformUser = require("./transformUser");
 
 import { _ } from "lodash";
 import { Random } from "meteor/random";
@@ -18,10 +18,10 @@ const _insertUsers = (client, mongoUri, users) => {
   // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
   // string length:
   // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
-  const randomStringConfig = {
-    length: 17,
-    charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
-  };
+  // const randomStringConfig = {
+  //  length: 17,
+  //  charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
+ // };
 
   return new Promise((resolve, reject) => {
     try {

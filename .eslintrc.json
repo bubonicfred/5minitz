@@ -27,7 +27,8 @@
         "plugin:no-jquery/all",
         "plugin:promise/recommended",
         "plugin:mocha-cleanup/recommended",
-        "plugin:mocha/recommended"
+        "plugin:mocha/recommended",
+        "plugin:import/recommended"
     ],
 
 
@@ -53,6 +54,8 @@
         "@babel/semi": "error",
         "prefer-template": "error",
         "eqeqeq": ["error", "smart"],
-        "object-shorthand": ["error", "always"]
+        "object-shorthand": ["error", "always"],
+        "import/no-absolute-path": ["error" ],
+        "import/no-useless-path-segments": ["error" ]
     }
 }

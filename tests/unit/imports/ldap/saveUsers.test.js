@@ -45,7 +45,7 @@ const users = [
 
 const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
   mongodb: { MongoClient, "@noCallThru": true },
-  randomstring: { generate, "@noCallThru": true },
+  Random: { generate, "@noCallThru": true },
 });
 // skipcq: JS-0241
 describe("saveUsers", function () {

@@ -1,4 +1,4 @@
-import { LdapSettings } from "/imports/config/LdapSettings";
+import { LdapSettings } from "imports/config/LdapSettings";
 import { LDAP } from "meteor/babrahams:accounts-ldap";
 import { Meteor } from "meteor/meteor";
 

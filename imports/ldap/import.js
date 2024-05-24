@@ -1,9 +1,9 @@
-let getLDAPUsers = require("./getLDAPUsers"),
-  saveUsers = require("./saveUsers");
+const getLDAPUsers = require("./getLDAPUsers");
+const saveUsers = require("./saveUsers");
 
 const report = (bulkResult) => {
-  let inserted = bulkResult.nUpserted,
-    updated = bulkResult.nModified;
+  const inserted = bulkResult.nUpserted;
+  const updated = bulkResult.nModified;
 
   console.log(
     `Successfully inserted ${inserted} users and updated ${updated} users.`,

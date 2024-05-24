@@ -8,7 +8,8 @@
 .docker/4minitz_bin
 .deploy/4minitz_bin/
 4minitz_storage/
-
+.dependencygraph/
+.dependency-cruiser.js
 node_modules/
 npm-debug.log
 settings.json
