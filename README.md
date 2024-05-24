@@ -1,4 +1,4 @@
-main/ [![4Minitz TestRunner](https://github.com/bubonicfred/4minitz/actions/workflows/runtests.js.yml/badge.svg?branch=main)](https://github.com/bubonicfred/4minitz/actions/workflows/runtests.js.yml) 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/bubonicfred/4minitz/runtests.js.yml?branch=main&style=flat&link=https%3A%2F%2Fgithub.com%2Fbubonicfred%2F4minitz%2Factions%2Fworkflows%2Fruntests.js.yml) 
 [![DeepSource](https://app.deepsource.com/gh/bubonicfred/4minitz.svg/?label=active+issues&show_trend=true&token=1tQ4rdje5JBGoo8W5wsWKdkF)](https://app.deepsource.com/gh/bubonicfred/4minitz/) 
 [![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/4minitz?project_id=30798)
 
