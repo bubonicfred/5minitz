@@ -6,7 +6,6 @@
 
 This is an attempt to maintain 4minitz.
 
-The buildfix branch is mainly just maintenance patches. While develope_new will potentially receive breaking changes. All changes to buildfix get ported to develop_new at the moment.
 
 _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 
