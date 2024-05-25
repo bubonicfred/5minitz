@@ -7,7 +7,7 @@
         "module-resolver",
         {
           "alias": {
-            "@imports": ["./imports/*"]
+            "@imports": ["/imports/*"]
           }
         }
       ]
