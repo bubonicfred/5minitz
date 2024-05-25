@@ -102,13 +102,13 @@ server.search("dc=example,dc=com", authorize, (req, res, next) => {
  * @param {Function} callback - Callback function.
  */
 server.bind("dc=example,dc=com", (req, res, next) => {
-  let dn = req.dn.toString(),
-    normalizedDn = dn.replace(/ /g, ""),
-    password = req.credentials;
+  const dn = req.dn.toString();
+  const normalizedDn = dn.replace(/ /g, "");
+  const password = req.credentials;
 
   console.log(dn, normalizedDn, password);
 
-  const matchingUsers = _.filter(users, (user) => normalizedDn === user.dn);
+  const matchingUsers = users.filter((user) => normalizedDn === user.dn);
 
   console.log(matchingUsers);
 
