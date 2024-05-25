@@ -1,4 +1,4 @@
-name: 4Minitz CI TestRunner HZI
+name: 4Minitz TestRunner
 on: [push, pull_request]
 
 jobs:
