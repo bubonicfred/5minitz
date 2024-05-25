@@ -22,10 +22,12 @@ const { ldap } = proxyquire("../../../server/ldap", {
   "/imports/config/LdapSettings": { LdapSettings, "@noCallThru": true },
   "meteor/babrahams:accounts-ldap": { LDAP, "@noCallThru": true },
 });
-
-describe("ldap", () => {
-  describe("#bindValue", () => {
-    beforeEach(() => {
+// skipcq: JS-0241
+describe("ldap", function () {
+  // skipcq: JS-0241
+  describe("#bindValue", function () {
+    // skipcq: JS-0241
+    beforeEach(function () {
       Meteor.settings = {
         ldap: {
           enabled: true,
@@ -39,8 +41,8 @@ describe("ldap", () => {
       LdapSettings.usernameAttribute.reset();
       LdapSettings.usernameAttribute.returns("test");
     });
-
-    it("generates a dn based on the configuration and the given username", () => {
+    // skipcq: JS-0241
+    it("generates a dn based on the configuration and the given username", function () {
       const isEmail = false;
       const username = "username";
 
@@ -48,8 +50,8 @@ describe("ldap", () => {
 
       expect(result).to.equal("test=username,dc=example,dc=com");
     });
-
-    it("removes the host part if an email address is given", () => {
+    // skipcq: JS-0241
+    it("removes the host part if an email address is given", function () {
       const isEmail = true;
       const username = "username@example.com";
 
@@ -57,16 +59,16 @@ describe("ldap", () => {
 
       expect(result).to.equal("test=username,dc=example,dc=com");
     });
-
-    it("returns an empty string if ldap is not enabled", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if ldap is not enabled", function () {
       LdapSettings.ldapEnabled.returns(false);
 
       const result = LDAP.bindValue();
 
       expect(result).to.equal("");
     });
-
-    it("returns an empty string if serverDn is not set", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if serverDn is not set", function () {
       LdapSettings.serverDn.returns("");
 
       const result = LDAP.bindValue();
@@ -74,7 +76,8 @@ describe("ldap", () => {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if no username attribute mapping is not defined", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if no username attribute mapping is not defined", function () {
       LdapSettings.usernameAttribute.returns("");
 
       const result = LDAP.bindValue();
@@ -82,9 +85,10 @@ describe("ldap", () => {
       expect(result).to.equal("");
     });
   });
-
-  describe("#filter", () => {
-    beforeEach(() => {
+  // skipcq: JS-0241
+  describe("#filter", function () {
+    // skipcq: JS-0241
+    beforeEach(function () {
       LdapSettings.usernameAttribute.reset();
       LdapSettings.searchFilter.reset();
 
@@ -94,8 +98,8 @@ describe("ldap", () => {
         },
       };
     });
-
-    it("generates a dn based on the configuration and the given username", () => {
+    // skipcq: JS-0241
+    it("generates a dn based on the configuration and the given username", function () {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("");
 
@@ -106,8 +110,8 @@ describe("ldap", () => {
 
       expect(result).to.equal("(&(test=username))");
     });
-
-    it("removes the host part if an email address is given", () => {
+    // skipcq: JS-0241
+    it("removes the host part if an email address is given", function () {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("");
 
@@ -118,8 +122,8 @@ describe("ldap", () => {
 
       expect(result).to.equal("(&(test=username))");
     });
-
-    it("still works if searchFilter is undefined", () => {
+    // skipcq: JS-0241
+    it("still works if searchFilter is undefined", function () {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns();
 
@@ -131,7 +135,8 @@ describe("ldap", () => {
       expect(result).to.equal("(&(test=username))");
     });
 
-    it("appends the searchFilter configuration to the filter", () => {
+    // skipcq: JS-0241
+    it("appends the searchFilter configuration to the filter", function () {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("(objectClass=user)");
 
@@ -142,32 +147,33 @@ describe("ldap", () => {
 
       expect(result).to.equal("(&(test=username)(objectClass=user))");
     });
-
-    it("returns an empty string if the ldap configuration is missing", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if the ldap configuration is missing", function () {
       delete Meteor.settings.ldap;
 
       const result = LDAP.filter();
 
       expect(result).to.equal("");
     });
-
-    it("returns an empty string if ldap is not enabled", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if ldap is not enabled", function () {
       Meteor.settings.ldap.enabled = false;
 
       const result = LDAP.filter();
 
       expect(result).to.equal("");
     });
-
-    it("returns an empty string if searchDn is not set", () => {
+    // skipcq: JS-0241
+    it("returns an empty string if searchDn is not set", function () {
       const result = LDAP.filter();
 
       expect(result).to.equal("");
     });
   });
-
-  describe("#addFields", () => {
-    it("returns an object with a password property that holds an empty string", () => {
+  // skipcq: JS-0241
+  describe("#addFields", function () {
+    // skipcq: JS-0241
+    it("returns an object with a password property that holds an empty string", function () {
       const expectedResult = {
         password: "",
       };
@@ -177,29 +183,30 @@ describe("ldap", () => {
       expect(result).to.deep.equal(expectedResult);
     });
   });
-
-  describe("#log", () => {
-    beforeEach(() => {
+  // skipcq: JS-0241
+  describe("#log", function () {
+    // skipcq: JS-0241
+    beforeEach(function () {
       sinon.spy(console, "log");
       sinon.spy(console, "error");
       sinon.spy(console, "warn");
     });
-
-    afterEach(() => {
+    // skipcq: JS-0241
+    afterEach(function () {
       console.log.restore();
       console.error.restore();
       console.warn.restore();
     });
-
-    it("forwards error messages to the console", () => {
+    // skipcq: JS-0241
+    it("forwards error messages to the console", function () {
       const message = "some error";
 
       LDAP.error(message);
 
       expect(console.error.calledOnce).to.be.true;
     });
-
-    it("forwards warning messages to the console", () => {
+    // skipcq: JS-0241
+    it("forwards warning messages to the console", function () {
       const message = "some warning";
 
       LDAP.warn(message);

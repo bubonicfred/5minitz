@@ -30,7 +30,7 @@ const _insertUsers = (client, mongoUri, users) => {
         .db(mongoConnection.database)
         .collection("users")
         .initializeUnorderedBulkOp();
-      _.forEach(users, (user) => {
+      users.forEach((user) => {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           const usrRegExp = new RegExp(
@@ -69,9 +69,9 @@ const _insertUsers = (client, mongoUri, users) => {
 };
 
 const _closeMongo = (data) => {
-  let force = false,
-    client = data.client,
-    result = data.bulkResult;
+  const force = false;
+  const client = data.client;
+  const result = data.bulkResult;
 
   return new Promise((resolve) => {
     client.close(force);
