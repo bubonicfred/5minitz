@@ -17,28 +17,31 @@ import "/imports/services/finalize-minutes/finalizer";
 import "/imports/services/isEditedService";
 import "/imports/helpers/i18n";
 
-import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { LdapSettings } from "/imports/config/LdapSettings";
+import {
+  BroadcastMessageSchema
+} from "/imports/collections/broadcastmessages.schema";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {LdapSettings} from "/imports/config/LdapSettings";
 import importUsers from "/imports/ldap/import";
-import { Accounts } from "meteor/accounts-base";
-import { Meteor } from "meteor/meteor";
-import { Markdown } from "meteor/perak:markdown";
-import { i18n } from "meteor/universe:i18n";
+import {Accounts} from "meteor/accounts-base";
+import {Meteor} from "meteor/meteor";
+import {Markdown} from "meteor/perak:markdown";
+import {i18n} from "meteor/universe:i18n";
 import cron from "node-cron";
 
-import { handleMigration } from "./migrations/migrations";
+import {handleMigration} from "./migrations/migrations";
 
 i18n.setLocale("en");
 
 /**
  * Finds a demo user based on the provided criteria.
- * @param {Object} additionalCriteria - Additional criteria to filter the search.
+ * @param {Object} additionalCriteria - Additional criteria to filter the
+ *     search.
  * @returns {Object|null} - The found demo user object, or null if not found.
  */
 const findDemoUser = (additionalCriteria = {}) => {
   return Meteor.users.findOne({
-    $and: [{ username: "demo" }, { isDemoUser: true }, ...additionalCriteria],
+    $and : [ {username : "demo"}, {isDemoUser : true}, ...additionalCriteria ],
   });
 };
 
@@ -48,26 +51,25 @@ const findDemoUser = (additionalCriteria = {}) => {
  * @param {Object} updates - The updates to apply to the demo user.
  */
 const updateDemoUser = (updates) => {
-  Meteor.users.update({ username: "demo" }, { $set: updates });
+  Meteor.users.update({username : "demo"}, {$set : updates});
 };
 /**
  * Creates a demo user account.
  */
 const createDemoUser = () => {
   Accounts.createUser({
-    username: "demo",
-    password: "demo",
-    email: "",
-    profile: { name: "Demo User" },
+    username : "demo",
+    password : "demo",
+    email : "",
+    profile : {name : "Demo User"},
   });
   updateDemoUser({
-    isDemoUser: true,
-    isInactive: false,
-    "emails.0.verified": true,
+    isDemoUser : true,
+    isInactive : false,
+    "emails.0.verified" : true,
   });
   console.log(
-    "*** ATTENTION ***\n    Created demo/demo user account once on startup"
-  );
+      "*** ATTENTION ***\n    Created demo/demo user account once on startup");
 };
 const handleDemoUserAccount = () => {
   if (GlobalSettings.createDemoAccount()) {
@@ -75,10 +77,10 @@ const handleDemoUserAccount = () => {
     if (demoUser) {
       // we already have one, let's ensure he is not switched Inactive
       if (demoUser.isInactive) {
-        updateDemoUser({ isInactive: false });
+        updateDemoUser({isInactive : false});
       }
       if (!demoUser.emails[0].verified) {
-        updateDemoUser({ "emails.0.verified": true });
+        updateDemoUser({"emails.0.verified" : true});
       }
       return;
     }
@@ -91,38 +93,38 @@ const handleDemoUserAccount = () => {
    *
    * @type {Object}
    */
-  const demoUserActive = findDemoUser({ isInactive: false });
+  const demoUserActive = findDemoUser({isInactive : false});
   // we don't want a demo user
   if (demoUserActive) {
     // set demo account to Inactive
-    updateDemoUser({ isInactive: true });
+    updateDemoUser({isInactive : true});
     console.log(
-      "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)"
-    );
+        "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)");
   }
   /**
    * Represents a demo user that is active again.
    *
    * @type {User}
    */
-  const demoUserActiveAgain = findDemoUser({ isInactive: false });
+  const demoUserActiveAgain = findDemoUser({isInactive : false});
   // #Security: warn admin if demo user exists
   if (demoUserActiveAgain) {
     console.log(
-      "*** ATTENTION ***\n" +
+        "*** ATTENTION ***\n" +
         "    There exists an account with user name 'demo'.\n" +
         "    If this account was created with the setting 'branding.createDemoAccount',\n" +
         "    the password for user 'demo' is also 'demo'.\n" +
-        "    Please check, if this is wanted for your site's installation.\n"
-    );
+        "    Please check, if this is wanted for your site's installation.\n");
   }
 };
 
 /**
  * Synchronizes the ROOT_URL with the preference on Meteor.settings.
- * If ROOT_URL is specified in Meteor.settings, it updates the process.env.ROOT_URL,
- * __meteor_runtime_config__.ROOT_URL, and Meteor.absoluteUrl.defaultOptions.rootUrl.
- * If ROOT_URL is not specified in Meteor.settings, it grabs the ROOT_URL from the env variable.
+ * If ROOT_URL is specified in Meteor.settings, it updates the
+ * process.env.ROOT_URL,
+ * __meteor_runtime_config__.ROOT_URL, and
+ * Meteor.absoluteUrl.defaultOptions.rootUrl. If ROOT_URL is not specified in
+ * Meteor.settings, it grabs the ROOT_URL from the env variable.
  * @returns {void}
  */
 const syncRootUrl = () => {
@@ -143,7 +145,8 @@ const syncRootUrl = () => {
   // contain a value
   if (Meteor.settings.ROOT_URL) {
     process.env.ROOT_URL = Meteor.settings.ROOT_URL;
-    __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; // eslint-disable-line
+    __meteor_runtime_config__.ROOT_URL =
+        Meteor.settings.ROOT_URL; // eslint-disable-line
     // We overwrite the `rootUrl` also in the `defaultOptions` which might be
     // overwritten by any other package ?! see
     // https://github.com/meteor/meteor/blob/24865b28a0689de8b4949fb69ea1f95da647cd7a/packages/meteor/url_common.js#L52
@@ -167,7 +170,7 @@ Meteor.startup(() => {
   // #Security: Make sure that all server side markdown rendering quotes all
   // HTML <TAGs>
   Markdown.setOptions({
-    sanitize: true,
+    sanitize : true,
   });
 
   handleMigration();
@@ -183,23 +186,19 @@ Meteor.startup(() => {
     // know the desired language But admin may do so in Admin frontend where
     // messages can be overwritten.
     const message =
-      "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
-      "Downtime will be about 4 Minutes. Just submit open dialogs. " +
-      "Then nothing is lost. You may finalize meetings later.";
+        "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
+        "Downtime will be about 4 Minutes. Just submit open dialogs. " +
+        "Then nothing is lost. You may finalize meetings later.";
     BroadcastMessageSchema.insert({
-      text: message,
-      isActive: false,
-      createdAt: new Date(),
-      dismissForUserIDs: [],
+      text : message,
+      isActive : false,
+      createdAt : new Date(),
+      dismissForUserIDs : [],
     });
   }
 
-  if (
-    !(
-      GlobalSettings.hasImportUsersCronTab() ||
-      GlobalSettings.getImportUsersOnLaunch()
-    )
-  ) {
+  if (!(GlobalSettings.hasImportUsersCronTab() ||
+        GlobalSettings.getImportUsersOnLaunch())) {
     return;
   }
   const crontab = GlobalSettings.getImportUsersCronTab();
@@ -209,18 +208,20 @@ Meteor.startup(() => {
 
   if (GlobalSettings.getImportUsersOnLaunch()) {
     console.log(
-      "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch."
-    );
-    importUsers(ldapSettings, mongoUrl).catch(() => {
-        // intentionally empty. Error handling is not required for this operation.
-    });
+        "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.");
+    importUsers(ldapSettings, mongoUrl)
+        .catch(() => {
+                   // intentionally empty. Error handling is not required for
+                   // this operation.
+               });
   }
   if (GlobalSettings.hasImportUsersCronTab()) {
     console.log("Configuring cron job for regular LDAP user import.");
     cron.schedule(crontab, () => {
-      importUsers(ldapSettings, mongoUrl).catch(() => {
-        // intentionally empty. No action required for catch.
-      });
+      importUsers(ldapSettings, mongoUrl)
+          .catch(() => {
+                     // intentionally empty. No action required for catch.
+                 });
     });
   }
 });
