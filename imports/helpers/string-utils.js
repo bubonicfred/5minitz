@@ -6,7 +6,8 @@ export class StringUtils {
    * Creates a custom `toString` function for the given instance.
    * The `toString` function returns a string representation of the instance,
    * including the class name and the JSON representation of the instance.
-   *
+   * @todo This function is not used in the current codebase and should be
+   * @todo Write unit tests for this function.
    * @param {Object} instance - The instance for which to create the `toString`
    *     function.
    * @returns {Function} The custom `toString` function.

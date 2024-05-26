@@ -16,6 +16,11 @@ if (Meteor.isClient) {
   Meteor.subscribe("statistics");
 }
 
+/**
+ * Represents a row in the statistics table.
+ *
+ * @class StatisticsRow
+ */
 const StatisticsRow = SchemaClass.create({
   name: "StatisticsRow",
   fields: {
@@ -75,12 +80,15 @@ export const Statistics = SchemaClass.create({
   },
 });
 
-// Generate some statistics for non-testing meeting series.
-// logs results to console
-// @param minTopicsCount {Number} only meeting series with at least so much
-// minutes are considered
-// @param minTopicsCount {Number} only meeting series with at least so much
-// finalized topics are considered
+/**
+ * Calculates and logs various statistics related to meeting series, minutes,
+ * topics, items, and details.
+ *
+ * @param {number} [minMinutesCount=2] - The minimum number of minutes required
+ *     for a meeting series to be considered.
+ * @param {number} [minTopicsCount=5] - The minimum number of topics required
+ *     for a meeting series to be considered.
+ */
 const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
   // eslint-disable-line
   const MS = MeetingSeriesSchema.find();
