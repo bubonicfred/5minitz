@@ -1,7 +1,7 @@
 require("@babel/register")({
-  "presets" : [ "@babel/preset-env" ],
-  "plugins" : [
+  presets: ["@babel/preset-env"],
+  plugins: [
     "@babel/plugin-transform-runtime",
-    [ "module-resolver", {"alias" : {"@imports" : "./imports"}} ]
-  ]
+    ["module-resolver", { alias: { "@imports": "./imports" } }],
+  ],
 });
