@@ -8,12 +8,15 @@ const { backupMongo } = proxyquire("../../../server/mongoBackup", {
   child_process: { spawn, "@noCallThru": true },
 });
 
+// skipcq: JS-0241
 describe("mongoBackup", function () {
+  // skipcq: JS-0241
   describe("#backupMongo", function () {
+    // skipcq: JS-0241
     beforeEach(function () {
       spawn.resetHistory();
     });
-
+// skipcq: JS-0241
     it("uses mongodump to create a backup", function () {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
