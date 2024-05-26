@@ -14,14 +14,13 @@ export const emailAddressRegExpTest = /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/;
  * @deprecated
  */
 export const emailAddressRegExpMatch =
-  /([a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z0-9._-]{2,})/gi;
+    /([a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z0-9._-]{2,})/gi;
 
-
-  /**
-   * Regular expression pattern for validating email addresses.
-   * @type {RegExp}
-   */
-  export const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+/**
+ * Regular expression pattern for validating email addresses.
+ * @type {RegExp}
+ */
+export const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 /**
  * Checks if the given email is valid.
  *
