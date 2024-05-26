@@ -1,3 +1,11 @@
+/**
+ * Represents a ParticipantsPreparer object.
+ * @constructor
+ * @param {Object} minutes - The minutes object.
+ * @param {Object} currentTopicOrItem - The current topic or item object.
+ * @param {Object} usersCollection - The users collection object.
+ * @param {Function} [freeTextValidator] - The optional free text validator function.
+ */
 export class ParticipantsPreparer {
   /**
    * @typedef {{id: string, text: string}} ResponsibleObject

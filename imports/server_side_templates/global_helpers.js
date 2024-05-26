@@ -1,6 +1,11 @@
 import { Markdown } from "meteor/perak:markdown";
 import { Spacebars } from "meteor/spacebars";
 
+/**
+ * Object containing global helper functions for server-side templates.
+ *
+ * @namespace GlobalHelpers
+ */
 export const GlobalHelpers = {
   markdown2html(text = "") {
     text = text.toString();
