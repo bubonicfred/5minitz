@@ -22,10 +22,10 @@ export class ParticipantsPreparer {
    *     function.
    */
   constructor(
-      minutes,
-      currentTopicOrItem,
-      usersCollection,
-      freeTextValidator = undefined,
+    minutes,
+    currentTopicOrItem,
+    usersCollection,
+    freeTextValidator = undefined,
   ) {
     this.minutes = minutes;
     this.parentSeries = minutes.parentMeetingSeries();
@@ -41,10 +41,9 @@ export class ParticipantsPreparer {
    * Sets up the initial state of the object by initializing the properties.
    */
   _init() {
-    this.possibleResponsibles = [];       // sorted later on
+    this.possibleResponsibles = []; // sorted later on
     this.possibleResponsiblesUnique = {}; // ensure uniqueness
-    this.buffer =
-        []; // userIds and names from different sources, may have doubles
+    this.buffer = []; // userIds and names from different sources, may have doubles
   }
 
   /**
@@ -52,21 +51,27 @@ export class ParticipantsPreparer {
    *
    * @returns {Array}
    */
-  getPossibleResponsibles() { return this.possibleResponsibles; }
+  getPossibleResponsibles() {
+    return this.possibleResponsibles;
+  }
 
   /**
    * Retrieves the remaining users.
    *
    * @return {ResponsibleObject[]} The remaining users.
    */
-  getRemainingUsers() { return this.remainingUsers; }
+  getRemainingUsers() {
+    return this.remainingUsers;
+  }
 
   /**
    * Prepares the responsibles for the participants.
    * Calls the _preparePossibleResponsibles method.
    * @see @_preparePossibleResponsibles
    */
-  _prepareResponsibles() { this._preparePossibleResponsibles(); }
+  _prepareResponsibles() {
+    this._preparePossibleResponsibles();
+  }
 
   /**
    * Prepares the possible responsibles by adding regular participants from the
@@ -87,8 +92,9 @@ export class ParticipantsPreparer {
    * @private
    */
   _addRegularParticipantsFromCurrentMinutes() {
-    this.minutes.participants.forEach(
-        (participant) => { this.buffer.push(participant.userId); });
+    this.minutes.participants.forEach((participant) => {
+      this.buffer.push(participant.userId);
+    });
   }
 
   /**
@@ -99,8 +105,9 @@ export class ParticipantsPreparer {
   _addAdditionalParticipantsFromMinutesAsFreetext() {
     const participantsAdditional = this.minutes.participantsAdditional;
     if (participantsAdditional) {
-      participantsAdditional.split(/[,;]/).forEach(
-          (freeText) => { this._addFreeTextElementToBuffer(freeText.trim()); });
+      participantsAdditional.split(/[,;]/).forEach((freeText) => {
+        this._addFreeTextElementToBuffer(freeText.trim());
+      });
     }
   }
 
@@ -115,11 +122,12 @@ export class ParticipantsPreparer {
       return;
     }
     if (this.freeTextValidator) {
-      this.parentSeries.additionalResponsibles.forEach(
-          (resp) => { this._addFreeTextElementToBuffer(resp); });
+      this.parentSeries.additionalResponsibles.forEach((resp) => {
+        this._addFreeTextElementToBuffer(resp);
+      });
     } else {
       this.buffer = this.buffer.concat(
-          this.parentSeries.additionalResponsibles,
+        this.parentSeries.additionalResponsibles,
       );
     }
   }
@@ -145,7 +153,7 @@ export class ParticipantsPreparer {
       if (!this.possibleResponsiblesUnique[userIdOrFreeText]) {
         this.possibleResponsiblesUnique[userIdOrFreeText] = true;
         this.possibleResponsibles.push(
-            this._createResponsibleObject(userIdOrFreeText),
+          this._createResponsibleObject(userIdOrFreeText),
         );
       }
     });
@@ -167,13 +175,13 @@ export class ParticipantsPreparer {
       user = this.usersCollection.findOne(userIdOrFreeTextOrUserObject);
       if (!user) {
         return {
-          id : userIdOrFreeTextOrUserObject,
-          text : userIdOrFreeTextOrUserObject,
+          id: userIdOrFreeTextOrUserObject,
+          text: userIdOrFreeTextOrUserObject,
         };
       }
     }
 
-    return {id : user._id, text : ParticipantsPreparer._formatUser(user)};
+    return { id: user._id, text: ParticipantsPreparer._formatUser(user) };
   }
 
   /**

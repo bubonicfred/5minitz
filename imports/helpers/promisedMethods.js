@@ -1,4 +1,4 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 /**
  * Wraps a Meteor method call in a Promise.
@@ -9,15 +9,16 @@ import {Meteor} from "meteor/meteor";
  *     Meteor method call, or rejects with the error.
  * @deprecated Use Meteor.callCallback instead.
  */
-Meteor.callPromise = (method, ...args) => new Promise((resolve, reject) => {
-  Meteor.call(method, ...args, (error, result) => {
-    if (error) {
-      reject(error);
-    }
+Meteor.callPromise = (method, ...args) =>
+  new Promise((resolve, reject) => {
+    Meteor.call(method, ...args, (error, result) => {
+      if (error) {
+        reject(error);
+      }
 
-    resolve(result);
+      resolve(result);
+    });
   });
-});
 
 /**
  * Wraps a Meteor method with a callback function.

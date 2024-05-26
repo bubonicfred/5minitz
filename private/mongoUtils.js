@@ -1,5 +1,5 @@
-import {Mongo} from "meteor/mongo";
-import {MongoClient} from "mongodb";
+import { Mongo } from "meteor/mongo";
+import { MongoClient } from "mongodb";
 
 /**
  * Connects to a MongoDB database using the provided URL.
@@ -22,5 +22,6 @@ export const connectMongo = async (mongoUrl) => {
  * @param {Object} options - The options for the Mongo collection.
  * @returns {Mongo.Collection} The new Mongo collection.
  */
-export const createCollection =
-    (title, options) => { return new Mongo.Collection(title, options);};
+export const createCollection = (title, options) => {
+  return new Mongo.Collection(title, options);
+};
