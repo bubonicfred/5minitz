@@ -81,12 +81,21 @@ export class ParticipantsPreparer {
     this._pruneDuplicatesAndPrepareResult();
   }
 
+  /**
+   * Adds regular participants from the current minutes to the buffer.
+   * @private
+   */
   _addRegularParticipantsFromCurrentMinutes() {
     this.minutes.participants.forEach((participant) => {
       this.buffer.push(participant.userId);
     });
   }
 
+  /**
+   * Adds additional participants from the minutes as freetext.
+   *
+   * @private
+   */
   _addAdditionalParticipantsFromMinutesAsFreetext() {
     const participantsAdditional = this.minutes.participantsAdditional;
     if (participantsAdditional) {
@@ -96,6 +105,11 @@ export class ParticipantsPreparer {
     }
   }
 
+  /**
+   * Adds former responsibles from the parent series to the buffer.
+   * If a freeTextValidator is available, adds each responsible as a free text element to the buffer.
+   * Otherwise, concatenates the additional responsibles to the buffer.
+   */
   _addFormerResponsiblesFromParentSeries() {
     if (!this.parentSeries.additionalResponsibles) {
       return;
@@ -111,12 +125,21 @@ export class ParticipantsPreparer {
     }
   }
 
+  /**
+   * Adds responsibles from the current element to the buffer.
+   * If the current element has responsibles, they are concatenated to the buffer.
+   */
   _addResponsiblesFromCurrentElement() {
     if (this.currentElement?.hasResponsibles()) {
       this.buffer = this.buffer.concat(this.currentElement.getResponsibles());
     }
   }
 
+  /**
+   * Prunes duplicates from the buffer and prepares the result.
+   *
+   * @private
+   */
   _pruneDuplicatesAndPrepareResult() {
     this.buffer.forEach((userIdOrFreeText) => {
       if (!this.possibleResponsiblesUnique[userIdOrFreeText]) {
@@ -128,10 +151,12 @@ export class ParticipantsPreparer {
     });
   }
 
+
   /**
+   * Creates a responsible object based on the provided userId, free text, or user object.
    *
-   * @param userIdOrFreeTextOrUserObject
-   * @return {ResponsibleObject}
+   * @param {string|Object} userIdOrFreeTextOrUserObject - The userId, free text, or user object.
+   * @returns {ResponsibleObject} The responsible object with id and text properties.
    * @private
    */
   _createResponsibleObject(userIdOrFreeTextOrUserObject) {
@@ -149,6 +174,11 @@ export class ParticipantsPreparer {
     return { id: user._id, text: ParticipantsPreparer._formatUser(user) };
   }
 
+  /**
+   * Formats the user information.
+   * @param {Object} user - The user object.
+   * @returns {string} The formatted user information.
+   */
   static _formatUser(user) {
     let usertext = user.username;
     if (user.profile?.name && user.profile.name !== "") {
@@ -157,12 +187,24 @@ export class ParticipantsPreparer {
     return usertext;
   }
 
+  /**
+   * Adds a free text element to the buffer.
+   *
+   * @param {string} text - The text to be added to the buffer.
+   * @returns {void}
+   */
   _addFreeTextElementToBuffer(text) {
     if (!this.freeTextValidator || this.freeTextValidator(text)) {
       this.buffer.push(text);
     }
   }
 
+  /**
+   * Checks if the given value might be a valid responsible ID.
+   *
+   * @param {any} value - The value to check.
+   * @returns {boolean} - Returns true if the value might be a valid responsible ID, false otherwise.
+   */
   static _responsibleMightBeID(value) {
     return value.id && value.id.length > 15; // Meteor _ids default to 17 chars
   }
