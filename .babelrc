@@ -6,6 +6,7 @@
                 [
                   "module-resolver",
                   {
+                    "root": ["."],
                     "alias": {
                       "@imports": "./imports"
                     }
