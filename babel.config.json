@@ -1,18 +1,22 @@
 {
   "env": {
-      "end2end": {
-          "presets": ["@babel/preset-env"],
-          "plugins": [
-              [
-                "module-resolver",
-                {
-                  "root": ["."],
-                  "alias": {
-                    "@imports": "./imports"
-                  }
-                }
-              ]
-            ]
-      }
+    "end2end": {
+      "presets": [
+        "@babel/preset-env"
+      ],
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": [
+              "."
+            ],
+            "alias": {
+              "@imports": "./imports"
+            }
+          }
+        ]
+      ]
+    }
   }
 }
