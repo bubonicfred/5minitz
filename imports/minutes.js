@@ -2,8 +2,8 @@ import "./collections/minutes_private";
 import "./collections/workflow_private";
 import "./helpers/promisedMethods";
 
-import { emailAddressRegExpMatch } from "/imports/helpers/email";
-import { subElementsHelper } from "/imports/helpers/subElements";
+import { emailAddressRegExpMatch } from "@imports/helpers/email";
+import { subElementsHelper } from "@imports/helpers/subElements";
 import { User } from "/imports/user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
@@ -529,6 +529,12 @@ export class Minutes {
   }
 
   // ################### private methods
+  /**
+   * Finds the index of a topic with the given id in the topics array.
+   *
+   * @param {string} id - The id of the topic to find.
+   * @returns {number} - The index of the topic in the topics array, or -1 if not found.
+   */
   _findTopicIndex(id) {
     return subElementsHelper.findIndexById(id, this.topics);
   }
