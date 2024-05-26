@@ -80,13 +80,14 @@ export const Statistics = SchemaClass.create({
   },
 });
 
-
-
 /**
- * Calculates and logs various statistics related to meeting series, minutes, topics, items, and details.
+ * Calculates and logs various statistics related to meeting series, minutes,
+ * topics, items, and details.
  *
- * @param {number} [minMinutesCount=2] - The minimum number of minutes required for a meeting series to be considered.
- * @param {number} [minTopicsCount=5] - The minimum number of topics required for a meeting series to be considered.
+ * @param {number} [minMinutesCount=2] - The minimum number of minutes required
+ *     for a meeting series to be considered.
+ * @param {number} [minTopicsCount=5] - The minimum number of topics required
+ *     for a meeting series to be considered.
  */
 const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
   // eslint-disable-line
