@@ -1,8 +1,9 @@
-import { spawn } from "child_process";
+import {spawn} from "child_process";
 import mongoUri from "mongo-uri";
 
 /**
- * Generates an array of parameters for MongoDB dump command based on the provided URI and path.
+ * Generates an array of parameters for MongoDB dump command based on the
+ * provided URI and path.
  *
  * @param {object} uri - The MongoDB URI object.
  * @param {string} path - The path where the dump will be saved.

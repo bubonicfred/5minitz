@@ -1,14 +1,14 @@
 import DDPClient from "meteor-sdk";
 
 const ddpclient = new DDPClient({
-  host: "localhost",
-  port: 3100,
-  ssl: false,
-  autoReconnect: true,
-  autoReconnectTimer: 500,
-  maintainCollections: true,
-  ddpVersion: "1",
-  useSockJs: true,
+  host : "localhost",
+  port : 3100,
+  ssl : false,
+  autoReconnect : true,
+  autoReconnectTimer : 500,
+  maintainCollections : true,
+  ddpVersion : "1",
+  useSockJs : true,
 });
 
 const connect = () => {
@@ -24,9 +24,7 @@ const connect = () => {
   });
 };
 
-const close = () => {
-  ddpclient.close();
-};
+const close = () => { ddpclient.close(); };
 
 const call = (...args) => {
   return new Promise((resolve, reject) => {
@@ -42,9 +40,9 @@ const call = (...args) => {
 };
 
 const server = {
-  connect: () => connect(),
-  close: () => close(),
-  call: (...args) => call(...args),
+  connect : () => connect(),
+  close : () => close(),
+  call : (...args) => call(...args),
 };
 
 global.server = server;
