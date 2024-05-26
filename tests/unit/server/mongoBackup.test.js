@@ -4,25 +4,19 @@ import sinon from "sinon";
 
 const spawn = sinon.stub().returns({ on: sinon.spy() });
 
-class Future {
-  constructor() {
-    this["return"] = sinon.spy();
-    this.wait = sinon.spy();
-  }
-}
-Future["@noCallThru"] = true;
-
 const { backupMongo } = proxyquire("../../../server/mongoBackup", {
   child_process: { spawn, "@noCallThru": true },
-  "fibers/future": Future,
 });
 
+// skipcq: JS-0241
 describe("mongoBackup", function () {
+  // skipcq: JS-0241
   describe("#backupMongo", function () {
+    // skipcq: JS-0241
     beforeEach(function () {
       spawn.resetHistory();
     });
-
+    // skipcq: JS-0241
     it("uses mongodump to create a backup", function () {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
