@@ -4,7 +4,8 @@
  * @param {Object} minutes - The minutes object.
  * @param {Object} currentTopicOrItem - The current topic or item object.
  * @param {Object} usersCollection - The users collection object.
- * @param {Function} [freeTextValidator] - The optional free text validator function.
+ * @param {Function} [freeTextValidator] - The optional free text validator
+ *     function.
  */
 export class ParticipantsPreparer {
   /**
@@ -112,8 +113,9 @@ export class ParticipantsPreparer {
 
   /**
    * Adds former responsibles from the parent series to the buffer.
-   * If a freeTextValidator is available, adds each responsible as a free text element to the buffer.
-   * Otherwise, concatenates the additional responsibles to the buffer.
+   * If a freeTextValidator is available, adds each responsible as a free text
+   * element to the buffer. Otherwise, concatenates the additional responsibles
+   * to the buffer.
    */
   _addFormerResponsiblesFromParentSeries() {
     if (!this.parentSeries.additionalResponsibles) {
@@ -132,7 +134,8 @@ export class ParticipantsPreparer {
 
   /**
    * Adds responsibles from the current element to the buffer.
-   * If the current element has responsibles, they are concatenated to the buffer.
+   * If the current element has responsibles, they are concatenated to the
+   * buffer.
    */
   _addResponsiblesFromCurrentElement() {
     if (this.currentElement?.hasResponsibles()) {
@@ -156,12 +159,14 @@ export class ParticipantsPreparer {
     });
   }
 
-
   /**
-   * Creates a responsible object based on the provided userId, free text, or user object.
+   * Creates a responsible object based on the provided userId, free text, or
+   * user object.
    *
-   * @param {string|Object} userIdOrFreeTextOrUserObject - The userId, free text, or user object.
-   * @returns {ResponsibleObject} The responsible object with id and text properties.
+   * @param {string|Object} userIdOrFreeTextOrUserObject - The userId, free
+   *     text, or user object.
+   * @returns {ResponsibleObject} The responsible object with id and text
+   *     properties.
    * @private
    */
   _createResponsibleObject(userIdOrFreeTextOrUserObject) {
@@ -208,7 +213,8 @@ export class ParticipantsPreparer {
    * Checks if the given value might be a valid responsible ID.
    *
    * @param {any} value - The value to check.
-   * @returns {boolean} - Returns true if the value might be a valid responsible ID, false otherwise.
+   * @returns {boolean} - Returns true if the value might be a valid responsible
+   *     ID, false otherwise.
    */
   static _responsibleMightBeID(value) {
     return value.id && value.id.length > 15; // Meteor _ids default to 17 chars

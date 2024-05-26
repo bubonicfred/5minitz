@@ -24,7 +24,8 @@ Meteor.callPromise = (method, ...args) =>
  * Wraps a Meteor method with a callback function.
  *
  * @param {string} method - The name of the Meteor method to call.
- * @param {function} callback - The callback function to handle the result or error.
+ * @param {function} callback - The callback function to handle the result or
+ *     error.
  * @param {...any} args - The arguments to pass to the Meteor method.
  */
 Meteor.callCallback = (method, callback, ...args) => {

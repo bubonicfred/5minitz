@@ -1,6 +1,5 @@
-import { MongoClient } from "mongodb";
-
 import { Mongo } from "meteor/mongo";
+import { MongoClient } from "mongodb";
 
 /**
  * Connects to a MongoDB database using the provided URL.
