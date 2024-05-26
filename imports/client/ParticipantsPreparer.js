@@ -63,6 +63,11 @@ export class ParticipantsPreparer {
     return this.remainingUsers;
   }
 
+  /**
+   * Prepares the responsibles for the participants.
+   * Calls the _preparePossibleResponsibles method.
+   * @see @_preparePossibleResponsibles
+   */
   _prepareResponsibles() {
     this._preparePossibleResponsibles();
   }
