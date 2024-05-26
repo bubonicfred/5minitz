@@ -4,17 +4,8 @@ import sinon from "sinon";
 
 const spawn = sinon.stub().returns({ on: sinon.spy() });
 
-class Future {
-  constructor() {
-    this["return"] = sinon.spy();
-    this.wait = sinon.spy();
-  }
-}
-Future["@noCallThru"] = true;
-
 const { backupMongo } = proxyquire("../../../server/mongoBackup", {
   child_process: { spawn, "@noCallThru": true },
-  "fibers/future": Future,
 });
 
 describe("mongoBackup", function () {
@@ -26,7 +17,7 @@ describe("mongoBackup", function () {
     it("uses mongodump to create a backup", function () {
       backupMongo(
         "mongodb://user:password@localhost:1234/database",
-        "outputdir",
+        "outputdir"
       );
 
       const firstCall = spawn.args[0];
@@ -35,7 +26,7 @@ describe("mongoBackup", function () {
 
       expect(command).to.equal("mongodump");
       expect(parameters).to.equal(
-        "-h;localhost:1234;-u;user;-p;password;-d;database;-o;outputdir",
+        "-h;localhost:1234;-u;user;-p;password;-d;database;-o;outputdir"
       );
     });
   });
