@@ -3,6 +3,14 @@ require("@babel/register")({
         "@babel/preset-env"
     ],
     "plugins": [
-        "@babel/plugin-transform-runtime"
+        "@babel/plugin-transform-runtime",
+        [
+            "module-resolver",
+            {
+              "alias": {
+                "@imports": "./imports"
+              }
+            }
+          ]
     ]
 });
