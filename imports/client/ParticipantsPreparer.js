@@ -4,7 +4,8 @@
  * @param {Object} minutes - The minutes object.
  * @param {Object} currentTopicOrItem - The current topic or item object.
  * @param {Object} usersCollection - The users collection object.
- * @param {Function} [freeTextValidator] - The optional free text validator function.
+ * @param {Function} [freeTextValidator] - The optional free text validator
+ *     function.
  */
 export class ParticipantsPreparer {
   /**
@@ -21,10 +22,10 @@ export class ParticipantsPreparer {
    *     function.
    */
   constructor(
-    minutes,
-    currentTopicOrItem,
-    usersCollection,
-    freeTextValidator = undefined,
+      minutes,
+      currentTopicOrItem,
+      usersCollection,
+      freeTextValidator = undefined,
   ) {
     this.minutes = minutes;
     this.parentSeries = minutes.parentMeetingSeries();
@@ -40,9 +41,10 @@ export class ParticipantsPreparer {
    * Sets up the initial state of the object by initializing the properties.
    */
   _init() {
-    this.possibleResponsibles = []; // sorted later on
+    this.possibleResponsibles = [];       // sorted later on
     this.possibleResponsiblesUnique = {}; // ensure uniqueness
-    this.buffer = []; // userIds and names from different sources, may have doubles
+    this.buffer =
+        []; // userIds and names from different sources, may have doubles
   }
 
   /**
@@ -50,27 +52,21 @@ export class ParticipantsPreparer {
    *
    * @returns {Array}
    */
-  getPossibleResponsibles() {
-    return this.possibleResponsibles;
-  }
+  getPossibleResponsibles() { return this.possibleResponsibles; }
 
   /**
    * Retrieves the remaining users.
    *
    * @return {ResponsibleObject[]} The remaining users.
    */
-  getRemainingUsers() {
-    return this.remainingUsers;
-  }
+  getRemainingUsers() { return this.remainingUsers; }
 
   /**
    * Prepares the responsibles for the participants.
    * Calls the _preparePossibleResponsibles method.
    * @see @_preparePossibleResponsibles
    */
-  _prepareResponsibles() {
-    this._preparePossibleResponsibles();
-  }
+  _prepareResponsibles() { this._preparePossibleResponsibles(); }
 
   /**
    * Prepares the possible responsibles by adding regular participants from the
@@ -91,9 +87,8 @@ export class ParticipantsPreparer {
    * @private
    */
   _addRegularParticipantsFromCurrentMinutes() {
-    this.minutes.participants.forEach((participant) => {
-      this.buffer.push(participant.userId);
-    });
+    this.minutes.participants.forEach(
+        (participant) => { this.buffer.push(participant.userId); });
   }
 
   /**
@@ -104,35 +99,35 @@ export class ParticipantsPreparer {
   _addAdditionalParticipantsFromMinutesAsFreetext() {
     const participantsAdditional = this.minutes.participantsAdditional;
     if (participantsAdditional) {
-      participantsAdditional.split(/[,;]/).forEach((freeText) => {
-        this._addFreeTextElementToBuffer(freeText.trim());
-      });
+      participantsAdditional.split(/[,;]/).forEach(
+          (freeText) => { this._addFreeTextElementToBuffer(freeText.trim()); });
     }
   }
 
   /**
    * Adds former responsibles from the parent series to the buffer.
-   * If a freeTextValidator is available, adds each responsible as a free text element to the buffer.
-   * Otherwise, concatenates the additional responsibles to the buffer.
+   * If a freeTextValidator is available, adds each responsible as a free text
+   * element to the buffer. Otherwise, concatenates the additional responsibles
+   * to the buffer.
    */
   _addFormerResponsiblesFromParentSeries() {
     if (!this.parentSeries.additionalResponsibles) {
       return;
     }
     if (this.freeTextValidator) {
-      this.parentSeries.additionalResponsibles.forEach((resp) => {
-        this._addFreeTextElementToBuffer(resp);
-      });
+      this.parentSeries.additionalResponsibles.forEach(
+          (resp) => { this._addFreeTextElementToBuffer(resp); });
     } else {
       this.buffer = this.buffer.concat(
-        this.parentSeries.additionalResponsibles,
+          this.parentSeries.additionalResponsibles,
       );
     }
   }
 
   /**
    * Adds responsibles from the current element to the buffer.
-   * If the current element has responsibles, they are concatenated to the buffer.
+   * If the current element has responsibles, they are concatenated to the
+   * buffer.
    */
   _addResponsiblesFromCurrentElement() {
     if (this.currentElement?.hasResponsibles()) {
@@ -150,18 +145,20 @@ export class ParticipantsPreparer {
       if (!this.possibleResponsiblesUnique[userIdOrFreeText]) {
         this.possibleResponsiblesUnique[userIdOrFreeText] = true;
         this.possibleResponsibles.push(
-          this._createResponsibleObject(userIdOrFreeText),
+            this._createResponsibleObject(userIdOrFreeText),
         );
       }
     });
   }
 
-
   /**
-   * Creates a responsible object based on the provided userId, free text, or user object.
+   * Creates a responsible object based on the provided userId, free text, or
+   * user object.
    *
-   * @param {string|Object} userIdOrFreeTextOrUserObject - The userId, free text, or user object.
-   * @returns {ResponsibleObject} The responsible object with id and text properties.
+   * @param {string|Object} userIdOrFreeTextOrUserObject - The userId, free
+   *     text, or user object.
+   * @returns {ResponsibleObject} The responsible object with id and text
+   *     properties.
    * @private
    */
   _createResponsibleObject(userIdOrFreeTextOrUserObject) {
@@ -170,13 +167,13 @@ export class ParticipantsPreparer {
       user = this.usersCollection.findOne(userIdOrFreeTextOrUserObject);
       if (!user) {
         return {
-          id: userIdOrFreeTextOrUserObject,
-          text: userIdOrFreeTextOrUserObject,
+          id : userIdOrFreeTextOrUserObject,
+          text : userIdOrFreeTextOrUserObject,
         };
       }
     }
 
-    return { id: user._id, text: ParticipantsPreparer._formatUser(user) };
+    return {id : user._id, text : ParticipantsPreparer._formatUser(user)};
   }
 
   /**
@@ -208,7 +205,8 @@ export class ParticipantsPreparer {
    * Checks if the given value might be a valid responsible ID.
    *
    * @param {any} value - The value to check.
-   * @returns {boolean} - Returns true if the value might be a valid responsible ID, false otherwise.
+   * @returns {boolean} - Returns true if the value might be a valid responsible
+   *     ID, false otherwise.
    */
   static _responsibleMightBeID(value) {
     return value.id && value.id.length > 15; // Meteor _ids default to 17 chars

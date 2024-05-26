@@ -1,5 +1,5 @@
-import { Markdown } from "meteor/perak:markdown";
-import { Spacebars } from "meteor/spacebars";
+import {Markdown} from "meteor/perak:markdown";
+import {Spacebars} from "meteor/spacebars";
 
 /**
  * Object containing global helper functions for server-side templates.
@@ -30,7 +30,7 @@ export const GlobalHelpers = {
 
   doctype() {
     const dt =
-      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
     return Spacebars.SafeString(dt);
   },
 
