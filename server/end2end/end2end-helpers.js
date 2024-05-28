@@ -1,26 +1,20 @@
-import {AttachmentsCollection} from "/imports/collections/attachments_private";
-import {
-  BroadcastMessageSchema
-} from "/imports/collections/broadcastmessages.schema";
-import {
-  DocumentsCollection
-} from "/imports/collections/documentgeneration_private";
-import {TopicSchema} from "/imports/collections/topic.schema";
-import {DocumentGeneration} from "/imports/documentGeneration";
-import {TestMailCollection} from "/imports/mail/TestMail";
-import {Accounts} from "meteor/accounts-base";
-import {Meteor} from "meteor/meteor";
-import {Migrations} from "meteor/percolate:migrations";
+import { AttachmentsCollection } from "/imports/collections/attachments_private";
+import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
+import { DocumentsCollection } from "/imports/collections/documentgeneration_private";
+import { TopicSchema } from "/imports/collections/topic.schema";
+import { DocumentGeneration } from "/imports/documentGeneration";
+import { TestMailCollection } from "/imports/mail/TestMail";
+import { Accounts } from "meteor/accounts-base";
+import { Meteor } from "meteor/meteor";
+import { Migrations } from "meteor/percolate:migrations";
 
-import {GlobalSettings} from "../../imports/config/GlobalSettings";
+import { GlobalSettings } from "../../imports/config/GlobalSettings";
 import importUsers from "../../imports/ldap/import";
-import {TopicsFinder} from "../../imports/services/topicsFinder";
+import { TopicsFinder } from "../../imports/services/topicsFinder";
 
-import {
-  MeetingSeriesSchema
-} from "./../../imports/collections/meetingseries.schema";
-import {MinutesSchema} from "./../../imports/collections/minutes.schema";
-import {Minutes} from "./../../imports/minutes";
+import { MeetingSeriesSchema } from "./../../imports/collections/meetingseries.schema";
+import { MinutesSchema } from "./../../imports/collections/minutes.schema";
+import { Minutes } from "./../../imports/minutes";
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -29,38 +23,38 @@ if (Meteor.settings.isEnd2EndTest) {
   console.log("End2End helpers loaded on server-side!");
 
   Meteor.methods({
-    "e2e.debugLog"(message) { console.log(message); },
+    "e2e.debugLog"(message) {
+      console.log(message);
+    },
     async "e2e.resetMyApp"(skipUsersCreation) {
       console.log("-------------------------- E2E-METHOD: resetMyApp ");
       AttachmentsCollection.remove({});
       console.log(
-          `Count AttachmentsCollection after reset:${
-              await AttachmentsCollection.find().countAsync()}`,
+        `Count AttachmentsCollection after reset:${await AttachmentsCollection.find().countAsync()}`,
       );
       // remove the meeting series attachment dir
-      (await MeetingSeriesSchema.getCollection().find().fetchAsync())
-          .forEach((ms) => {
-            removeMeetingSeriesAttachmentDir(ms._id); // eslint-disable-line
-          });
+      (await MeetingSeriesSchema.getCollection().find().fetchAsync()).forEach(
+        (ms) => {
+          removeMeetingSeriesAttachmentDir(ms._id); // eslint-disable-line
+        },
+      );
       MeetingSeriesSchema.remove({});
       console.log(
-          `Count MeetingSeries after reset:${
-              await MeetingSeriesSchema.find().countAsync()}`,
+        `Count MeetingSeries after reset:${await MeetingSeriesSchema.find().countAsync()}`,
       );
       MinutesSchema.remove({});
-      console.log(`Count Minutes after reset:${
-          await MinutesSchema.find().countAsync()}`);
+      console.log(
+        `Count Minutes after reset:${await MinutesSchema.find().countAsync()}`,
+      );
       TestMailCollection.remove({});
       console.log(
-          `Count saved test mails after reset:${
-              await TestMailCollection.find().countAsync()}`,
+        `Count saved test mails after reset:${await TestMailCollection.find().countAsync()}`,
       );
       BroadcastMessageSchema.remove({});
       TopicSchema.remove({});
       DocumentsCollection.remove({});
       console.log(
-          `Count Protocls after reset:${
-              await DocumentsCollection.find().countAsync()}`,
+        `Count Protocls after reset:${await DocumentsCollection.find().countAsync()}`,
       );
       resetDocumentStorageDirectory(); // eslint-disable-line
 
@@ -72,20 +66,20 @@ if (Meteor.settings.isEnd2EndTest) {
           const newPassword = Meteor.settings.e2eTestPasswords[i];
           const newEmail = Meteor.settings.e2eTestEmails[i];
           Accounts.createUser({
-            username : newUser,
-            password : newPassword,
-            email : newEmail,
+            username: newUser,
+            password: newPassword,
+            email: newEmail,
           });
           await Meteor.users.updateAsync(
-              {username : newUser},
-              {$set : {"emails.0.verified" : true}},
+            { username: newUser },
+            { $set: { "emails.0.verified": true } },
           );
           console.log(`Created user: ${newUser} with password: ${newPassword}`);
         }
         if (Meteor.settings.e2eAdminUser) {
           await Meteor.users.updateAsync(
-              {username : Meteor.settings.e2eAdminUser},
-              {$set : {isAdmin : true}},
+            { username: Meteor.settings.e2eAdminUser },
+            { $set: { isAdmin: true } },
           );
         }
         return;
@@ -94,13 +88,13 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getServerCurrentWorkingDir"() {
       console.log(
-          "-------------------------- E2E-METHOD: getServerCurrentWorkingDir",
+        "-------------------------- E2E-METHOD: getServerCurrentWorkingDir",
       );
       return process.cwd();
     },
     "e2e.getServerAttachmentsDir"() {
       console.log(
-          "-------------------------- E2E-METHOD: getServerAttachmentsDir",
+        "-------------------------- E2E-METHOD: getServerAttachmentsDir",
       );
       return calculateAndCreateStoragePath(); // eslint-disable-line
     },
@@ -114,63 +108,66 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     async "e2e.countAttachmentsInMongoDB"() {
       console.log(
-          "-------------------------- E2E-METHOD: countAttachmentsInMongoDB",
+        "-------------------------- E2E-METHOD: countAttachmentsInMongoDB",
       );
       return await AttachmentsCollection.find({}).countAsync();
     },
     async "e2e.getAttachmentsForMinute"(minID) {
       console.log(
-          "-------------------------- E2E-METHOD: getAttachmentsForMinute",
+        "-------------------------- E2E-METHOD: getAttachmentsForMinute",
       );
-      return await AttachmentsCollection
-          .find({
-            "meta.meetingminutes_id" : minID,
-          })
-          .fetchAsync();
+      return await AttachmentsCollection.find({
+        "meta.meetingminutes_id": minID,
+      }).fetchAsync();
     },
     "e2e.getPresentParticipantNames"(minutesId) {
       console.log(
-          "-------------------------- E2E-METHOD: getParticipantsString",
+        "-------------------------- E2E-METHOD: getParticipantsString",
       );
       const aMin = new Minutes(minutesId);
       return aMin.getPresentParticipantNames();
     },
-    "e2e.updateMeetingSeries"(
-        id, doc) { MeetingSeriesSchema.update(id, {$set : doc}); },
-    "e2e.resetTestMailDB"() { TestMailCollection.remove({}); },
+    "e2e.updateMeetingSeries"(id, doc) {
+      MeetingSeriesSchema.update(id, { $set: doc });
+    },
+    "e2e.resetTestMailDB"() {
+      TestMailCollection.remove({});
+    },
     async "e2e.findSentMails"(...args) {
       return await TestMailCollection.find(...args).mapAsync((mail) => {
         return {
-          _id : mail._id,
-          to : mail.to,
-          from : mail.from,
-          replyTo : mail.replyTo,
-          subject : mail.subject,
-          html : mail.html,
-          text : mail.text,
+          _id: mail._id,
+          to: mail.to,
+          from: mail.from,
+          replyTo: mail.replyTo,
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
         };
       });
     },
-    "e2e.removeAllBroadcasts"() { BroadcastMessageSchema.remove({}); },
+    "e2e.removeAllBroadcasts"() {
+      BroadcastMessageSchema.remove({});
+    },
     "e2e.findMeetingSeries"(MSid) {
       console.log("-------------------------- E2E-METHOD: findMeetingSeries");
       return MeetingSeriesSchema.getCollection().findOne(MSid);
     },
     "e2e.getTopicsOfMeetingSeries"(MSid) {
       console.log(
-          "-------------------------- E2E-METHOD: getTopicsOfMeetingSeries",
+        "-------------------------- E2E-METHOD: getTopicsOfMeetingSeries",
       );
       return TopicsFinder.allTopicsOfMeetingSeries(MSid);
     },
     async "e2e.countProtocolsInMongoDB"() {
       console.log(
-          "-------------------------- E2E-METHOD: countProtocolsInMongoDB",
+        "-------------------------- E2E-METHOD: countProtocolsInMongoDB",
       );
       return await DocumentsCollection.find({}).countAsync();
     },
     "e2e.setSettingsForProtocolGeneration"(format) {
       console.log(
-          "-------------------------- E2E-METHOD: setSettingsForProtocolGeneration",
+        "-------------------------- E2E-METHOD: setSettingsForProtocolGeneration",
       );
       // This method sets the document generation to specific settings.
       // An empty format parameter will lead to deactivation of the document
@@ -184,24 +181,24 @@ if (Meteor.settings.isEnd2EndTest) {
 
       Meteor.settings.docGeneration.enabled = Boolean(format);
       Meteor.settings.public.docGeneration.enabled =
-          Meteor.settings.docGeneration.enabled;
+        Meteor.settings.docGeneration.enabled;
 
       if (format) {
         Meteor.settings.docGeneration.format = format;
         Meteor.settings.public.docGeneration.format =
-            Meteor.settings.docGeneration.format;
+          Meteor.settings.docGeneration.format;
       }
     },
     "e2e.getProtocolStoragePathForMinute"(minuteId) {
       console.log(
-          "-------------------------- E2E-METHOD: getProtocolStoragePathForMinute",
+        "-------------------------- E2E-METHOD: getProtocolStoragePathForMinute",
       );
       const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.path : undefined;
     },
     "e2e.getProtocolLinkForMinute"(minuteId) {
       console.log(
-          "-------------------------- E2E-METHOD: getProtocolLinkForMinute",
+        "-------------------------- E2E-METHOD: getProtocolLinkForMinute",
       );
       const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.link() : undefined;
@@ -209,7 +206,7 @@ if (Meteor.settings.isEnd2EndTest) {
     async "e2e.getUserRole"(MSid, i) {
       console.log("-------------------------- E2E-METHOD: getUserRole");
       const usr = await Meteor.users.findOneAsync({
-        username : Meteor.settings.e2eTestUsers[i],
+        username: Meteor.settings.e2eTestUsers[i],
       });
       if (usr.roles?.[MSid] && usr.roles[MSid][0]) {
         return usr.roles[MSid][0];
@@ -223,13 +220,13 @@ if (Meteor.settings.isEnd2EndTest) {
     async "e2e.getUserId"(i) {
       console.log("-------------------------- E2E-METHOD: getUserId");
       const usr = await Meteor.users.findOneAsync({
-        username : Meteor.settings.e2eTestUsers[i],
+        username: Meteor.settings.e2eTestUsers[i],
       });
       return usr._id;
     },
     "e2e.countTopicsInMongoDB"(minuteID) {
       console.log(
-          "-------------------------- E2E-METHOD: countTopicsInMongoDB",
+        "-------------------------- E2E-METHOD: countTopicsInMongoDB",
       );
       const minId = MinutesSchema.getCollection().findOne(minuteID);
       return minId.topics.length;
@@ -244,10 +241,12 @@ if (Meteor.settings.isEnd2EndTest) {
       Migrations.migrateTo(version);
     },
     async "e2e.removeLdapUsersFromDb"() {
-      await Meteor.users.removeAsync({isLdapUser : true});
+      await Meteor.users.removeAsync({ isLdapUser: true });
       return await Meteor.callAsync("e2e.countUsers");
     },
-    async "e2e.countUsers"() { return await Meteor.users.find().countAsync(); },
+    async "e2e.countUsers"() {
+      return await Meteor.users.find().countAsync();
+    },
     async "e2e.importLdapUsers"() {
       const mongoUrl = process.env.MONGO_URL;
       const ldapSettings = GlobalSettings.getLDAPSettings();

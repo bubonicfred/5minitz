@@ -1,42 +1,46 @@
-import {MinutesSchema} from "/imports/collections/minutes.schema";
+import { MinutesSchema } from "/imports/collections/minutes.schema";
 
 // convert the participants fields
 export class MigrateV2 {
   static async up() {
-    await MinutesSchema.getCollection().find().forEachAsync((minute) => {
-      if (!minute.participants) {
-        minute.participants = "";
-      }
+    await MinutesSchema.getCollection()
+      .find()
+      .forEachAsync((minute) => {
+        if (!minute.participants) {
+          minute.participants = "";
+        }
 
-      // We switch off bypassCollection2 here, to skip .clean & .validate to
-      // allow empty string values
-      MinutesSchema.getCollection().update(
+        // We switch off bypassCollection2 here, to skip .clean & .validate to
+        // allow empty string values
+        MinutesSchema.getCollection().update(
           minute._id,
           {
-            $set : {
-              participantsAdditional : minute.participants,
-              participants : [],
+            $set: {
+              participantsAdditional: minute.participants,
+              participants: [],
             },
           },
-          {bypassCollection2 : true},
-      );
-    });
+          { bypassCollection2: true },
+        );
+      });
   }
 
   static async down() {
     // We switch off bypassCollection2 here to avoid useless schema exceptions
-    await MinutesSchema.getCollection().find().forEachAsync((minute) => {
-      MinutesSchema.getCollection().update(
+    await MinutesSchema.getCollection()
+      .find()
+      .forEachAsync((minute) => {
+        MinutesSchema.getCollection().update(
           minute._id,
-          {$set : {participants : minute.participantsAdditional}},
-          {bypassCollection2 : true},
-      );
-    });
+          { $set: { participants: minute.participantsAdditional } },
+          { bypassCollection2: true },
+        );
+      });
     // delete the participantsAdditional attribute from all minutes
     MinutesSchema.getCollection().update(
-        {},
-        {$unset : {participantsAdditional : 1}},
-        {multi : true, bypassCollection2 : true},
+      {},
+      { $unset: { participantsAdditional: 1 } },
+      { multi: true, bypassCollection2: true },
     );
   }
 }

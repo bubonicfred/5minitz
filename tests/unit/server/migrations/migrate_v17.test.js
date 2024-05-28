@@ -1,10 +1,11 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import proxyquire from "proxyquire";
 
 const MeetingSeriesSchema = {
-  update : (id, doc) => {
-    const meetingSeries = MeetingSeriesSchema.getCollection().find().find(
-        (series) => series._id === id);
+  update: (id, doc) => {
+    const meetingSeries = MeetingSeriesSchema.getCollection()
+      .find()
+      .find((series) => series._id === id);
     if (Object.prototype.hasOwnProperty.call(doc, "$set")) {
       // called by migrate-up
       meetingSeries.lastMinutesFinalized = doc.$set.lastMinutesFinalized;
@@ -20,15 +21,15 @@ MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
 class MeteorError {}
 const Meteor = {
-  Error : MeteorError,
+  Error: MeteorError,
 };
 
 const MinutesFinder = {
   lastMinutesOfMeetingSeries(meetingSeries) {
     if (meetingSeries.hasMinute) {
       return {
-        isFinalized : meetingSeries.lastMinuteIsFinalized,
-        _id : "MIN_ID",
+        isFinalized: meetingSeries.lastMinuteIsFinalized,
+        _id: "MIN_ID",
       };
     }
     return undefined;
@@ -37,37 +38,35 @@ const MinutesFinder = {
 
 let firstFakeMeetingSeries, sndFakeMeetingSeries, thirdFakeMeetingSeries;
 MeetingSeriesSchema.find = () => {
-  return [
-    firstFakeMeetingSeries, sndFakeMeetingSeries, thirdFakeMeetingSeries
-  ];
+  return [firstFakeMeetingSeries, sndFakeMeetingSeries, thirdFakeMeetingSeries];
 };
 
-const {MigrateV17} = proxyquire("../../../../server/migrations/migrate_v17", {
-  "meteor/meteor" : {Meteor, "@noCallThru" : true},
-  "/imports/collections/meetingseries.schema" : {
+const { MigrateV17 } = proxyquire("../../../../server/migrations/migrate_v17", {
+  "meteor/meteor": { Meteor, "@noCallThru": true },
+  "/imports/collections/meetingseries.schema": {
     MeetingSeriesSchema,
-    "@noCallThru" : true,
+    "@noCallThru": true,
   },
-  "/imports/services/minutesFinder" : {MinutesFinder, "@noCallThru" : true},
+  "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
 
 describe("Migrate Version 17", () => {
   beforeEach(() => {
     firstFakeMeetingSeries = {
-      _id : "MS001",
-      hasMinute : true,
-      lastMinuteIsFinalized : true,
+      _id: "MS001",
+      hasMinute: true,
+      lastMinuteIsFinalized: true,
     };
 
     sndFakeMeetingSeries = {
-      _id : "MS002",
-      hasMinute : true,
-      lastMinuteIsFinalized : true,
+      _id: "MS002",
+      hasMinute: true,
+      lastMinuteIsFinalized: true,
     };
 
     thirdFakeMeetingSeries = {
-      _id : "MS003",
-      hasMinute : false,
+      _id: "MS003",
+      hasMinute: false,
     };
   });
 
@@ -77,15 +76,14 @@ describe("Migrate Version 17", () => {
       await MeetingSeriesSchema.find().forEachAsync((meetingSeries) => {
         const expectedMinuteId = meetingSeries.hasMinute ? "MIN_ID" : null;
         const expectedMinuteStatus =
-            meetingSeries.hasMinute && meetingSeries.lastMinuteIsFinalized
-                ? true
-                : false;
+          meetingSeries.hasMinute && meetingSeries.lastMinuteIsFinalized
+            ? true
+            : false;
 
         expect(meetingSeries.lastMinutesId).to.equal(expectedMinuteId);
-        expect(meetingSeries.lastMinutesFinalized)
-            .to.equal(
-                expectedMinuteStatus,
-            );
+        expect(meetingSeries.lastMinutesFinalized).to.equal(
+          expectedMinuteStatus,
+        );
       });
     });
   });

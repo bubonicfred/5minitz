@@ -1,6 +1,6 @@
-import {LdapSettings} from "/imports/config/LdapSettings";
-import {LDAP} from "meteor/babrahams:accounts-ldap";
-import {Meteor} from "meteor/meteor";
+import { LdapSettings } from "/imports/config/LdapSettings";
+import { LDAP } from "meteor/babrahams:accounts-ldap";
+import { Meteor } from "meteor/meteor";
 
 const allowSelfSignedTLS = LdapSettings.allowSelfSignedTLS();
 if (allowSelfSignedTLS) {
@@ -22,8 +22,9 @@ LDAP.bindValue = async (usernameOrEmail, isEmailAddress) => {
     return "";
   }
 
-  const username =
-      isEmailAddress ? usernameOrEmail.split("@")[0] : usernameOrEmail;
+  const username = isEmailAddress
+    ? usernameOrEmail.split("@")[0]
+    : usernameOrEmail;
 
   // #Security
   // If users have been imported with importUsers.js and "isInactivePredicate"
@@ -32,7 +33,7 @@ LDAP.bindValue = async (usernameOrEmail, isEmailAddress) => {
   if (Meteor?.users) {
     // skip this during unit tests
     const uid = username.toLowerCase();
-    const user = await Meteor.users.findOneAsync({username : uid});
+    const user = await Meteor.users.findOneAsync({ username: uid });
 
     if (user?.isInactive) {
       throw new Meteor.Error(403, "User is inactive");
@@ -43,7 +44,7 @@ LDAP.bindValue = async (usernameOrEmail, isEmailAddress) => {
     }
   }
 
-  return [ searchDn, "=", username, ",", serverDn ].join("");
+  return [searchDn, "=", username, ",", serverDn].join("");
 };
 
 LDAP.filter = (isEmailAddress, usernameOrEmail) => {
@@ -57,29 +58,34 @@ LDAP.filter = (isEmailAddress, usernameOrEmail) => {
     return "";
   }
 
-  const searchValue =
-      isEmailAddress ? usernameOrEmail.split("@")[0] : usernameOrEmail;
+  const searchValue = isEmailAddress
+    ? usernameOrEmail.split("@")[0]
+    : usernameOrEmail;
   const filter = LdapSettings.searchFilter();
 
-  return [ "(&(", searchField, "=", searchValue, ")", filter, ")" ].join("");
+  return ["(&(", searchField, "=", searchValue, ")", filter, ")"].join("");
 };
 
 LDAP.addFields = () => ({
   // overwrite the password to prevent local logins
-  password : "",
+  password: "",
 });
 
 // Called after successful LDAP sign in
 if (LDAP.onSignIn) {
   // not available in unit test environment
-  LDAP.onSignIn(async userDocument => {
+  LDAP.onSignIn(async (userDocument) => {
     await Meteor.users.updateAsync(
-        {_id : userDocument._id},
-        {$set : {isLDAPuser : true}},
+      { _id: userDocument._id },
+      { $set: { isLDAPuser: true } },
     );
   });
 }
 
 LDAP.logging = false;
-LDAP.warn = (message) => { console.warn(message); };
-LDAP.error = (message) => { console.error(message); };
+LDAP.warn = (message) => {
+  console.warn(message);
+};
+LDAP.error = (message) => {
+  console.error(message);
+};

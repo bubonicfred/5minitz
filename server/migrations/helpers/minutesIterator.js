@@ -1,7 +1,4 @@
-
-
 export class MinutesIterator {
-
   constructor(minutesHandler, minutesFinder, meetingSeriesSchema) {
     this.minutesHandler = minutesHandler;
     this.minutesFinder = minutesFinder;
@@ -10,7 +7,7 @@ export class MinutesIterator {
 
   async iterate() {
     const allSeries = this.meetingSeriesSchema.getCollection().find();
-    await allSeries.forEachAsync(series => {
+    await allSeries.forEachAsync((series) => {
       this._iterateOverMinutesOfSeries(series);
       this.minutesHandler.finishedSeries(series);
     });
