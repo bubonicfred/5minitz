@@ -6,7 +6,7 @@ export class MeteorMail extends Mail {
     super(replyTo, recipient);
   }
 
-  _sendMail() {
+  async _sendMail() {
     const config = {
       to: this._recipients,
       from: this._from,
@@ -21,6 +21,6 @@ export class MeteorMail extends Mail {
       config.html = this._html;
     }
 
-    Email.send(config);
+    await Email.sendAsync(config);
   }
 }

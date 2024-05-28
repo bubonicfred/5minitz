@@ -19,10 +19,10 @@ export class AdminNewVersionMailHandler {
     }
   }
 
-  send() {
+  async send() {
     const adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 
-    const admins = Meteor.users.find({ isAdmin: true }).fetch();
+    const admins = await Meteor.users.find({ isAdmin: true }).fetchAsync();
     if (GlobalSettings.isEMailDeliveryEnabled() && admins.length > 0) {
       const mailParams = {
         rootUrl: GlobalSettings.getRootUrl(),

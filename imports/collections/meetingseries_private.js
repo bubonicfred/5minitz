@@ -151,7 +151,7 @@ Meteor.methods({
     }
   },
 
-  "meetingseries.sendRoleChange"(userId, oldRole, newRole, meetingSeriesId) {
+  async "meetingseries.sendRoleChange"(userId, oldRole, newRole, meetingSeriesId) {
     // Make sure the user is logged in before trying to send mails
     if (!Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
@@ -175,7 +175,7 @@ Meteor.methods({
           userId,
           oldRole,
           newRole,
-          Meteor.user(),
+          await Meteor.userAsync(),
           meetingSeriesId,
         );
         roleChangeMailHandler.send();

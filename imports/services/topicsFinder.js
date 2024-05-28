@@ -4,19 +4,19 @@ import { TopicSchema } from "/imports/collections/topic.schema";
  * Class representing a TopicsFinder.
  */
 export class TopicsFinder {
-  static allTopicsOfMeetingSeries(meetingSeriesId) {
-    return TopicSchema.getCollection()
+  static async allTopicsOfMeetingSeries(meetingSeriesId) {
+    return await TopicSchema.getCollection()
       .find({ parentId: meetingSeriesId }, { sort: { updatedAt: -1 } })
-      .fetch();
+      .fetchAsync();
   }
 
-  static allOpenTopicsOfMeetingSeries(meetingSeriesId) {
-    return TopicSchema.getCollection()
+  static async allOpenTopicsOfMeetingSeries(meetingSeriesId) {
+    return await TopicSchema.getCollection()
       .find(
         { parentId: meetingSeriesId, isOpen: true },
         { sort: { sortOrder: 1 } },
       )
-      .fetch(); // restore the sort order of the previous meeting minutes
+      .fetchAsync(); // restore the sort order of the previous meeting minutes
   }
 
   /**
@@ -27,16 +27,13 @@ export class TopicsFinder {
    * @param {string} minutesId - The ID of the minute.
    * @returns {Array} - An array of topics that match the criteria.
    */
-  static allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(
-    meetingSeriesId,
-    minutesId,
-  ) {
-    return TopicSchema.getCollection()
+  static async allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(meetingSeriesId, minutesId) {
+    return await TopicSchema.getCollection()
       .find({
         parentId: meetingSeriesId,
         "infoItems.createdInMinute": minutesId,
       })
-      .fetch();
+      .fetchAsync();
   }
 
   /**
@@ -54,9 +51,9 @@ export class TopicsFinder {
     });
   }
 
-  static allTopicsIdentifiedById(ids) {
-    return TopicSchema.getCollection()
+  static async allTopicsIdentifiedById(ids) {
+    return await TopicSchema.getCollection()
       .find({ _id: { $in: ids } })
-      .fetch();
+      .fetchAsync();
   }
 }

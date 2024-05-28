@@ -50,8 +50,10 @@ const { MigrateV17 } = proxyquire("../../../../server/migrations/migrate_v17", {
   "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
 
-describe("Migrate Version 17", () => {
-  beforeEach(() => {
+// skipcq: JS-0241
+describe("Migrate Version 17", function () {
+  // skipcq: JS-0241
+  beforeEach(function () {
     firstFakeMeetingSeries = {
       _id: "MS001",
       hasMinute: true,
@@ -70,8 +72,10 @@ describe("Migrate Version 17", () => {
     };
   });
 
-  describe("#up", () => {
-    it("adds new fields to all meetingseries correctly", async () => {
+  // skipcq: JS-0241
+  describe("#up", function () {
+    // skipcq: JS-0241
+    it("adds new fields to all meetingseries correctly", async function () {
       MigrateV17.up();
       await MeetingSeriesSchema.find().forEachAsync((meetingSeries) => {
         const expectedMinuteId = meetingSeries.hasMinute ? "MIN_ID" : null;
@@ -82,21 +86,24 @@ describe("Migrate Version 17", () => {
 
         expect(meetingSeries.lastMinutesId).to.equal(expectedMinuteId);
         expect(meetingSeries.lastMinutesFinalized).to.equal(
-          expectedMinuteStatus,
+          expectedMinuteStatus
         );
       });
     });
   });
 
-  describe("#down", () => {
-    beforeEach(async () => {
+  // skipcq: JS-0241
+  describe("#down", function () {
+    // skipcq: JS-0241
+    beforeEach(async function () {
       await MeetingSeriesSchema.find().forEachAsync((meetingSeries) => {
         meetingSeries.lastMinutesFinalized = true;
         meetingSeries.lastMinutesId = "MIN_ID";
       });
     });
 
-    it("removes the fields in all Meeting Series", async () => {
+    // skipcq: JS-0241
+    it("removes the fields in all Meeting Series", async function () {
       MigrateV17.down();
       await MeetingSeriesSchema.find().forEachAsync((meetingSeries) => {
         expect(meetingSeries).not.have.ownProperty("lastMinutesFinalized");

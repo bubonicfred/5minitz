@@ -218,9 +218,9 @@ Meteor.methods({
 });
 
 export class IsEditedService {
-  static removeIsEditedOnLogout() {
+  static async removeIsEditedOnLogout() {
     const allMs = MeetingSeriesSchema.getCollection().find();
-    allMs.forEach((meetingSerie) => {
+    await allMs.forEachAsync((meetingSerie) => {
       Meteor.callPromise(
         "workflow.removeIsEditedMeetingSerie",
         meetingSerie._id,
@@ -229,7 +229,7 @@ export class IsEditedService {
     });
 
     const allMinutes = MinutesSchema.getCollection().find();
-    allMinutes.forEach((minute) => {
+    await allMinutes.forEachAsync((minute) => {
       Meteor.callPromise("workflow.removeIsEditedMinute", minute._id, false);
     });
   }

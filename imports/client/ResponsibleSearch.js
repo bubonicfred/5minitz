@@ -125,8 +125,8 @@ export function configureSelect2Responsibles(
   const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
     const responsibles = topicOrItemDoc.responsibles || [];
-    responsibles.forEach((responsibleId) => {
-      let responsibleUser = Meteor.users.findOne(responsibleId);
+    responsibles.forEach(async responsibleId => {
+      let responsibleUser = await Meteor.users.findOneAsync(responsibleId);
       if (responsibleUser) {
         Minutes.formatResponsibles(
           responsibleUser,

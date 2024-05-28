@@ -159,7 +159,7 @@ Meteor.methods({
     return tmplRenderer.render();
   },
 
-  "documentgeneration.createAndStoreFile"(minutesId) {
+  async "documentgeneration.createAndStoreFile"(minutesId) {
     if (Meteor.isClient) {
       return;
     }
@@ -242,7 +242,7 @@ Meteor.methods({
 
     // generate and store protocol
     try {
-      const htmldata = Meteor.call(
+      const htmldata = await Meteor.callAsync(
         "documentgeneration.createHTML",
         minutesObj._id,
       ); // this one will run synchronous

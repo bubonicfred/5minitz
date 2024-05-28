@@ -35,7 +35,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   }
 }
 
-function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
+async function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
   if (!GlobalSettings.isEMailDeliveryEnabled()) {
     console.log(
       "Skip sending mails because email delivery is not enabled. To enable email delivery set " +
@@ -44,7 +44,7 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     return;
   }
 
-  const emails = Meteor.user().emails;
+  const emails = (await Meteor.userAsync()).emails;
   const i18nLocale = i18n.getLocale(); // we have to remember this, as it will not
   // survive the Meteor.defer()
   Meteor.defer(() => {
@@ -89,7 +89,7 @@ function compileFinalizedInfo(minutes) {
 }
 
 Meteor.methods({
-  "workflow.finalizeMinute"(id, sendActionItems, sendInfoItems) {
+  async "workflow.finalizeMinute"(id, sendActionItems, sendInfoItems) {
     console.log(`workflow.finalizeMinute on ${id}`);
     check(id, String);
 
@@ -126,7 +126,7 @@ Meteor.methods({
 
     const doc = {
       finalizedAt: new Date(),
-      finalizedBy: User.profileNameWithFallback(Meteor.user()),
+      finalizedBy: User.profileNameWithFallback(await Meteor.userAsync()),
       isFinalized: true,
       finalizedVersion: version,
     };
@@ -140,7 +140,7 @@ Meteor.methods({
 
     const affectedDocs = MinutesSchema.update(id, { $set: doc });
     if (affectedDocs === 1 && !Meteor.isClient) {
-      sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
+      await sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
     }
 
     // update meeting series fields to correctly resemble the finalized status
@@ -150,7 +150,7 @@ Meteor.methods({
     console.log("workflow.finalizeMinute DONE.");
   },
 
-  "workflow.unfinalizeMinute"(id) {
+  async "workflow.unfinalizeMinute"(id) {
     console.log(`workflow.unfinalizeMinute on ${id}`);
     check(id, String);
 
@@ -171,7 +171,7 @@ Meteor.methods({
 
     const doc = {
       finalizedAt: new Date(),
-      finalizedBy: User.profileNameWithFallback(Meteor.user()),
+      finalizedBy: User.profileNameWithFallback(await Meteor.userAsync()),
       isFinalized: false,
     };
 
@@ -194,8 +194,8 @@ Meteor.methods({
 });
 
 export class Finalizer {
-  static finalize(minutesId, sendActionItems, sendInfoItems, onErrorCallback) {
-    Meteor.call(
+  static async finalize(minutesId, sendActionItems, sendInfoItems, onErrorCallback) {
+    await Meteor.callAsync(
       "workflow.finalizeMinute",
       minutesId,
       sendActionItems,
@@ -216,11 +216,11 @@ export class Finalizer {
     }
   }
 
-  static unfinalize(minutesId) {
-    Meteor.call("workflow.unfinalizeMinute", minutesId);
+  static async unfinalize(minutesId) {
+    await Meteor.callAsync("workflow.unfinalizeMinute", minutesId);
     // remove protocol if enabled
     if (Meteor.settings.public.docGeneration.enabled) {
-      Meteor.call("documentgeneration.removeFile", minutesId);
+      await Meteor.callAsync("documentgeneration.removeFile", minutesId);
     }
   }
 

@@ -71,11 +71,8 @@ export class Minutes {
     );
   }
 
-  static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
-    parentSeriesID,
-    visibleForArray,
-  ) {
-    if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
+  static async updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray) {
+    if ((await MinutesSchema.find({ meetingSeries_id: parentSeriesID }).countAsync()) > 0) {
       MinutesSchema.update(
         { meetingSeries_id: parentSeriesID },
         { $set: { visibleFor: visibleForArray } },
@@ -83,9 +80,9 @@ export class Minutes {
       );
 
       // add missing participants to non-finalized meetings
-      MinutesSchema.getCollection()
+      await MinutesSchema.getCollection()
         .find({ meetingSeries_id: parentSeriesID })
-        .forEach((min) => {
+        .forEachAsync((min) => {
           if (!min.isFinalized) {
             const newparticipants = min.generateNewParticipants();
             if (newparticipants) {
@@ -122,18 +119,18 @@ export class Minutes {
   }
 
   // method
-  save(optimisticUICallback, serverCallback) {
+  async save(optimisticUICallback, serverCallback) {
     console.log("Minutes.save()");
     if (this.createdAt === undefined) {
       this.createdAt = new Date();
     }
     if (this._id && this._id !== "") {
-      Meteor.call("minutes.update", this);
+      await Meteor.callAsync("minutes.update", this);
     } else {
       if (this.topics === undefined) {
         this.topics = [];
       }
-      Meteor.call(
+      await Meteor.callAsync(
         "workflow.addMinutes",
         this,
         optimisticUICallback,
@@ -493,7 +490,7 @@ export class Minutes {
    * @param maxChars truncate and add ellipsis if necessary
    * @returns {String} with comma separated list of names
    */
-  getPresentParticipantNames(maxChars) {
+  async getPresentParticipantNames(maxChars) {
     // todo: does this member have to be updated?
     this.participants = this.participants || [];
     const additionalParticipants = this.participantsAdditional || [];
@@ -506,11 +503,11 @@ export class Minutes {
       _id: { $in: presentParticipantIds },
     });
 
-    const names = presentParticipants
-      .map((p) => {
+    const names = (await presentParticipants
+      .mapAsync((p) => {
         const user = new User(p);
         return user.profileNameWithFallback();
-      })
+      }))
       .concat(additionalParticipants)
       .join("; ");
 

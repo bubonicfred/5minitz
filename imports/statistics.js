@@ -36,21 +36,21 @@ export const Statistics = SchemaClass.create({
     result: { type: [StatisticsRow] },
   },
   meteorMethods: {
-    update() {
-      const numberOfMeetingSeries = MeetingSeriesSchema.find().count();
-      const numberOfMinutes = MinutesSchema.find().count();
-      const numberOfUsers = Meteor.users.find().count();
-      const numberOfActiveUsers = Meteor.users
+    async update() {
+      const numberOfMeetingSeries = await MeetingSeriesSchema.find().countAsync();
+      const numberOfMinutes = await MinutesSchema.find().countAsync();
+      const numberOfUsers = await Meteor.users.find().countAsync();
+      const numberOfActiveUsers = await Meteor.users
         .find({
           $or: [{ isInactive: { $exists: false } }, { isInactive: false }],
         })
-        .count();
+        .countAsync();
       const numberOfAttachments = Attachment.countAll();
       const numberOfAttachmentMB = `${Math.floor(
         Attachment.countAllBytes() / 1024 / 1024,
       )} MB`;
 
-      StatisticsCollection.remove({});
+      await StatisticsCollection.removeAsync({});
 
       this.result = [
         {
@@ -89,7 +89,7 @@ export const Statistics = SchemaClass.create({
  * @param {number} [minTopicsCount=5] - The minimum number of topics required
  *     for a meeting series to be considered.
  */
-const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
+const statisticsDetails = async (minMinutesCount = 2, minTopicsCount = 5) => {
   // eslint-disable-line
   const MS = MeetingSeriesSchema.find();
   let MScount = 0;
@@ -101,7 +101,7 @@ const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
   let DetailCount = 0;
   let DetailMax = 0;
 
-  MS.forEach((ms) => {
+  await MS.forEachAsync((ms) => {
     if (
       !(
         ms.minutes &&

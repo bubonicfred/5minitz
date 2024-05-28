@@ -15,10 +15,10 @@ import { MailFactory } from "./MailFactory";
  * @param {string} password - The password of the new user.
  */
 export class AdminRegisterUserMailHandler {
-  constructor(newUserId, includePassword, password) {
+  async constructor(newUserId, includePassword, password) {
     this._includePassword = includePassword;
     this._password = password;
-    this._user = Meteor.users.findOne(newUserId);
+    this._user = await Meteor.users.findOneAsync(newUserId);
     if (!this._user) {
       throw new Meteor.Error(
         "Send Admin Mail",
@@ -33,8 +33,8 @@ export class AdminRegisterUserMailHandler {
    * password. The email is sent from the default email sender address
    * configured in GlobalSettings.
    */
-  send() {
-    const emails = Meteor.user().emails;
+  async send() {
+    const emails = (await Meteor.userAsync()).emails;
     const adminFrom =
       emails && emails.length > 0
         ? emails[0].address

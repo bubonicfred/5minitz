@@ -2,11 +2,7 @@ import { MinutesSchema } from "../collections/minutes.schema";
 import { Minutes } from "../minutes";
 
 export class MinutesFinder {
-  static allMinutesOfMeetingSeries(
-    meetingSeries,
-    limit,
-    descendingByDate = true,
-  ) {
+  static async allMinutesOfMeetingSeries(meetingSeries, limit, descendingByDate = true) {
     if (meetingSeries === undefined) {
       return [];
     }
@@ -24,9 +20,9 @@ export class MinutesFinder {
     }
 
     // todo: use minutes schema directly?
-    return MinutesSchema.getCollection()
+    return await MinutesSchema.getCollection()
       .find({ _id: { $in: minutesIds } }, options)
-      .map((doc) => new Minutes(doc));
+      .mapAsync((doc) => new Minutes(doc));
   }
 
   static _getCornerMinutes(meetingSeries, limit, descendingByDate = true) {

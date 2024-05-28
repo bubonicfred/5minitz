@@ -8,7 +8,7 @@ export class TestMail extends Mail {
     super(replyTo, recipient);
   }
 
-  _sendMail() {
+  async _sendMail() {
     const config = {
       to: this._recipients,
       from: this._from,
@@ -23,6 +23,6 @@ export class TestMail extends Mail {
       config.html = this._html;
     }
 
-    TestMailCollection.insert(config);
+    await TestMailCollection.insertAsync(config);
   }
 }

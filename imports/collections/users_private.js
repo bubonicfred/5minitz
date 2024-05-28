@@ -7,20 +7,20 @@ import { checkWithMsg } from "../helpers/check";
 import { AdminRegisterUserMailHandler } from "../mail/AdminRegisterUserMailHandler";
 
 Meteor.methods({
-  "users.saveSettings"(settings) {
+  async "users.saveSettings"(settings) {
     const id = Meteor.userId();
-    Meteor.users.update(id, { $set: { settings } });
+    await Meteor.users.updateAsync(id, { $set: { settings } });
     console.log(`saved settings for user ${id}: ${settings}`);
   },
 
-  "users.editProfile"(userId, eMail, longName) {
+  async "users.editProfile"(userId, eMail, longName) {
     check(eMail, String);
     check(longName, String);
     if (!Meteor.userId()) {
       throw new Meteor.Error("Cannot edit profile", "User not logged in.");
     }
 
-    if (!Meteor.user().isAdmin && Meteor.userId() !== userId) {
+    if (!(await Meteor.userAsync()).isAdmin && Meteor.userId() !== userId) {
       throw new Meteor.Error(
         "Cannot edit profile",
         "You are not admin or you are trying to change someone else's profile",
@@ -31,7 +31,7 @@ Meteor.methods({
       throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
     }
 
-    const targetUser = Meteor.users.findOne({ _id: userId });
+    const targetUser = await Meteor.users.findOneAsync({ _id: userId });
     if (!targetUser) {
       throw new Meteor.Error(
         "Could not find user",
@@ -48,7 +48,7 @@ Meteor.methods({
     const hasMailChanged = eMail !== targetUser.emails[0].address;
 
     if (hasMailChanged) {
-      const ifEmailExists = Meteor.users.findOne({ "emails.0.address": eMail });
+      const ifEmailExists = await Meteor.users.findOneAsync({ "emails.0.address": eMail });
       if (ifEmailExists !== undefined) {
         throw new Meteor.Error(
           "Invalid E-Mail",
@@ -57,15 +57,15 @@ Meteor.methods({
       }
     }
 
-    Meteor.users.update(userId, {
+    await Meteor.users.updateAsync(userId, {
       $set: { "emails.0.address": eMail, "profile.name": longName },
     });
 
     if (hasMailChanged) {
-      if (Meteor.user().isAdmin) {
-        Meteor.users.update(userId, { $set: { "emails.0.verified": true } });
+      if ((await Meteor.userAsync()).isAdmin) {
+        await Meteor.users.updateAsync(userId, { $set: { "emails.0.verified": true } });
       } else {
-        Meteor.users.update(userId, { $set: { "emails.0.verified": false } });
+        await Meteor.users.updateAsync(userId, { $set: { "emails.0.verified": false } });
         if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail) {
           Accounts.sendVerificationEmail(userId);
         }
@@ -73,7 +73,7 @@ Meteor.methods({
     }
   },
 
-  "users.admin.changePassword"(userId, password1, password2) {
+  async "users.admin.changePassword"(userId, password1, password2) {
     if (!Meteor.isServer) {
       return;
     }
@@ -83,7 +83,7 @@ Meteor.methods({
     if (!Meteor.userId()) {
       throw new Meteor.Error("Cannot change password", "User not logged in.");
     }
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error("Cannot change password", "You are not admin.");
     }
 
@@ -106,22 +106,14 @@ Meteor.methods({
     Accounts.setPassword(userId, password1, { logout: false });
   },
 
-  "users.admin.registerUser"(
-    username,
-    longname,
-    email,
-    password1,
-    password2,
-    sendMail,
-    sendPassword,
-  ) {
+  async "users.admin.registerUser"(username, longname, email, password1, password2, sendMail, sendPassword) {
     console.log(`users.admin.registerUser for user: ${username}`);
     // #Security: Only logged in admin may invoke this method:
     // users.admin.registerUser
     if (!Meteor.userId()) {
       throw new Meteor.Error("Cannot register user", "User not logged in.");
     }
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error("Cannot register user", "You are not admin.");
     }
 
@@ -162,7 +154,7 @@ Meteor.methods({
       profile: { name: longname },
     });
 
-    Meteor.users.update({ username }, { $set: { "emails.0.verified": true } });
+    await Meteor.users.updateAsync({ username }, { $set: { "emails.0.verified": true } });
 
     if (Meteor.isServer && newUserId && sendMail) {
       const mailer = new AdminRegisterUserMailHandler(
@@ -174,24 +166,24 @@ Meteor.methods({
     }
   },
 
-  "users.admin.ToggleInactiveUser"(userId) {
+  async "users.admin.ToggleInactiveUser"(userId) {
     console.log(`users.admin.ToggleInactiveUser for ${userId}`);
     // #Security: Only logged in admin may invoke this method:
     // users.admin.ToggleInactiveUser
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error(
         "Cannot toggle inactive user",
         "You are not admin.",
       );
     }
-    const usr = Meteor.users.findOne(userId);
+    const usr = await Meteor.users.findOneAsync(userId);
     if (usr) {
       if (usr.isInactive) {
-        Meteor.users.update({ _id: userId }, { $unset: { isInactive: "" } });
+        await Meteor.users.updateAsync({ _id: userId }, { $unset: { isInactive: "" } });
       } else {
-        Meteor.users.update({ _id: userId }, { $set: { isInactive: true } });
+        await Meteor.users.updateAsync({ _id: userId }, { $set: { isInactive: true } });
         // Logout user
-        Meteor.users.update(
+        await Meteor.users.updateAsync(
           { _id: userId },
           { $set: { "services.resume.loginTokens": [] } },
         );

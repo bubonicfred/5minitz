@@ -4,15 +4,15 @@ import { Meteor } from "meteor/meteor";
  * Represents a user in the system.
  */
 export class User {
-  constructor(source) {
+  async constructor(source) {
     if (!source) {
       // Case 1: currently logged in user
-      this.user = Meteor.user();
+      this.user = await Meteor.userAsync();
       this.id = this.user._id;
     } else if (typeof source === "string") {
       // Case 2: we assume we have a user ID here.
       this.id = source;
-      this.user = Meteor.users.findOne(source);
+      this.user = await Meteor.users.findOneAsync(source);
     }
     if (typeof source === "object") {
       // Case 3: make deep copy of user object

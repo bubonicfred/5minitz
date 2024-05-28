@@ -33,16 +33,16 @@ export class BroadcastMessage {
     return BroadcastMessageSchema.findOne(...args);
   }
 
-  static dismissForMe() {
-    Meteor.call("broadcastmessage.dismiss");
+  static async dismissForMe() {
+    await Meteor.callAsync("broadcastmessage.dismiss");
   }
 
   // ************************
   // * static server-only methods
   // ************************
-  static show(message, active = true) {
+  static async show(message, active = true) {
     if (Meteor.isServer) {
-      Meteor.call("broadcastmessage.show", message, active);
+      await Meteor.callAsync("broadcastmessage.show", message, active);
     }
   }
 
@@ -63,13 +63,13 @@ export class BroadcastMessage {
     }
   }
 
-  static listAll() {
+  static async listAll() {
     if (!Meteor.isServer) {
       return;
     }
     console.log("List All BroadcastMessages.");
     const allMsgs = [];
-    BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
+    await BroadcastMessageSchema.find({ isActive: true }).forEachAsync((msg) => {
       const oneMsg = `Message: ${msg._id} ${formatDateISO8601Time(
         msg.createdAt,
       )} dismissed:${msg.dismissForUserIDs.length}\n${msg.text}`;

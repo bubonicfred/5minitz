@@ -10,12 +10,12 @@ export class ResponsibleResolver {
     }
 
     return responsibleList
-      .map((userIdOrEmail) => {
+      .map(async userIdOrEmail => {
         let emailFromDb = "";
         let userNameFromDB = "";
         if (userIdOrEmail.length > 15) {
           // maybe DB Id or free text
-          const user = Meteor.users.findOne(userIdOrEmail);
+          const user = await Meteor.users.findOneAsync(userIdOrEmail);
           if (user) {
             userNameFromDB = user.username;
             if (user.emails?.length) {

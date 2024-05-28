@@ -34,8 +34,8 @@ export class ResponsibleExtractor {
     }
   }
 
-  _addResponsible(responsibleName) {
-    const user = Meteor.users.findOne({ username: responsibleName });
+  async _addResponsible(responsibleName) {
+    const user = await Meteor.users.findOneAsync({ username: responsibleName });
     if (user) {
       this.extractedResponsible.push(user._id);
       return true;

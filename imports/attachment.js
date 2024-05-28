@@ -23,18 +23,18 @@ export class Attachment {
     return AttachmentsCollection.find({ "meta.meetingminutes_id": minID });
   }
 
-  static countAll() {
-    return AttachmentsCollection.find().count();
+  static async countAll() {
+    return await AttachmentsCollection.find().countAsync();
   }
 
   static countForMinutes(minID) {
     return Attachment.findForMinutes(minID).count();
   }
 
-  static countAllBytes() {
+  static async countAllBytes() {
     const atts = AttachmentsCollection.find({}, { size: 1 });
     let sumBytes = 0;
-    atts.forEach((att) => {
+    await atts.forEachAsync((att) => {
       sumBytes += att.size;
     });
     return sumBytes;

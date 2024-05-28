@@ -8,12 +8,12 @@ import { i18n } from "meteor/universe:i18n";
 import { MeetingSeries } from "./meetingseries";
 
 export class UserRoles {
-  constructor(userId /* may be null */, userCollection /* may be null */) {
+  async constructor(userId /* may be null */, userCollection /* may be null */) {
     this._userId = userId ? userId : Meteor.userId();
 
     const currentUser = userCollection
       ? userCollection.findOne(this._userId)
-      : Meteor.users.findOne(this._userId);
+      : await Meteor.users.findOneAsync(this._userId);
 
     if (!currentUser) {
       FlowRouter.go("/");

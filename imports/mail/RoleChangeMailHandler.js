@@ -9,12 +9,12 @@ import { UserRoles as userroles } from "../userroles";
 import { MailFactory } from "./MailFactory";
 
 export class RoleChangeMailHandler {
-  constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
+  async constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
     this._oldRole = oldRole;
     this._newRole = newRole;
     this._moderator = moderator;
     this._meetingSeriesId = meetingSeriesId;
-    this._user = Meteor.users.findOne(userId);
+    this._user = await Meteor.users.findOneAsync(userId);
     if (!this._user) {
       throw new Meteor.Error(
         "Send Role Change Mail",
