@@ -2,7 +2,7 @@
     "env": {
         "end2end": {
             "presets": ["@babel/preset-env"],
-            "plugins": [
+            "plugins": ["babel-plugin-meteor-tracker-async-enhance"
 
             ]
         }
