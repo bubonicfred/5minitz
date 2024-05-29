@@ -22,7 +22,6 @@ const Meteor = {
   Error: MeteorError,
 };
 
-
 const isCurrentUserModeratorStub = sinon.stub();
 const updateLastMinutesFieldsStub = sinon.stub();
 const updateLastMinutesFieldsAsyncStub = sinon.stub().resolves(true);

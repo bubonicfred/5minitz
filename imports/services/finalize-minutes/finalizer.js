@@ -1,4 +1,3 @@
-
 import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
 import { MinutesSchema } from "/imports/collections/minutes.schema";
 import { GlobalSettings } from "/imports/config/GlobalSettings";
