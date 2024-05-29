@@ -33,12 +33,19 @@ i18n.setLocale("en");
 
 /**
  * Finds a demo user based on the provided criteria.
- * @param {Object} additionalCriteria - Additional criteria to filter the search.
+ * @param {Object} additionalCriteria - Additional criteria to filter the
+ *     search.
  * @returns {Object|null} - The found demo user object, or null if not found.
  */
 const findDemoUser = (additionalCriteria = {}) => {
   return Meteor.users.findOne({
-    $and: [{ username: "demo" }, { isDemoUser: true }, ...(Array.isArray(additionalCriteria) ? additionalCriteria : [additionalCriteria])],
+    $and: [
+      { username: "demo" },
+      { isDemoUser: true },
+      ...(Array.isArray(additionalCriteria)
+        ? additionalCriteria
+        : [additionalCriteria]),
+    ],
   });
 };
 
@@ -66,7 +73,7 @@ const createDemoUser = () => {
     "emails.0.verified": true,
   });
   console.log(
-    "*** ATTENTION ***\n    Created demo/demo user account once on startup"
+    "*** ATTENTION ***\n    Created demo/demo user account once on startup",
   );
 };
 const handleDemoUserAccount = () => {
@@ -97,7 +104,7 @@ const handleDemoUserAccount = () => {
     // set demo account to Inactive
     updateDemoUser({ isInactive: true });
     console.log(
-      "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)"
+      "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
     );
   }
   /**
@@ -113,16 +120,18 @@ const handleDemoUserAccount = () => {
         "    There exists an account with user name 'demo'.\n" +
         "    If this account was created with the setting 'branding.createDemoAccount',\n" +
         "    the password for user 'demo' is also 'demo'.\n" +
-        "    Please check, if this is wanted for your site's installation.\n"
+        "    Please check, if this is wanted for your site's installation.\n",
     );
   }
 };
 
 /**
  * Synchronizes the ROOT_URL with the preference on Meteor.settings.
- * If ROOT_URL is specified in Meteor.settings, it updates the process.env.ROOT_URL,
- * __meteor_runtime_config__.ROOT_URL, and Meteor.absoluteUrl.defaultOptions.rootUrl.
- * If ROOT_URL is not specified in Meteor.settings, it grabs the ROOT_URL from the env variable.
+ * If ROOT_URL is specified in Meteor.settings, it updates the
+ * process.env.ROOT_URL,
+ * __meteor_runtime_config__.ROOT_URL, and
+ * Meteor.absoluteUrl.defaultOptions.rootUrl. If ROOT_URL is not specified in
+ * Meteor.settings, it grabs the ROOT_URL from the env variable.
  * @returns {void}
  */
 const syncRootUrl = () => {
@@ -209,10 +218,11 @@ Meteor.startup(() => {
 
   if (GlobalSettings.getImportUsersOnLaunch()) {
     console.log(
-      "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch."
+      "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
     );
     importUsers(ldapSettings, mongoUrl).catch(() => {
-        // intentionally empty. Error handling is not required for this operation.
+      // intentionally empty. Error handling is not required for
+      // this operation.
     });
   }
   if (GlobalSettings.hasImportUsersCronTab()) {
