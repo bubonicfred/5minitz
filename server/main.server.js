@@ -31,66 +31,90 @@ import { handleMigration } from "./migrations/migrations";
 
 i18n.setLocale("en");
 
+/**
+ * Finds a demo user based on the provided criteria.
+ * @param {Object} additionalCriteria - Additional criteria to filter the
+ *     search.
+ * @returns {Object|null} - The found demo user object, or null if not found.
+ */
+const findDemoUser = (additionalCriteria = {}) => {
+  return Meteor.users.findOne({
+    $and: [
+      { username: "demo" },
+      { isDemoUser: true },
+      ...(Array.isArray(additionalCriteria)
+        ? additionalCriteria
+        : [additionalCriteria]),
+    ],
+  });
+};
+
+/**
+ * Updates the demo user with the specified updates.
+ *
+ * @param {Object} updates - The updates to apply to the demo user.
+ */
+const updateDemoUser = (updates) => {
+  Meteor.users.update({ username: "demo" }, { $set: updates });
+};
+/**
+ * Creates a demo user account.
+ */
+const createDemoUser = () => {
+  Accounts.createUser({
+    username: "demo",
+    password: "demo",
+    email: "",
+    profile: { name: "Demo User" },
+  });
+  updateDemoUser({
+    isDemoUser: true,
+    isInactive: false,
+    "emails.0.verified": true,
+  });
+  console.log(
+    "*** ATTENTION ***\n    Created demo/demo user account once on startup",
+  );
+};
 const handleDemoUserAccount = () => {
   if (GlobalSettings.createDemoAccount()) {
-    const demoUser = Meteor.users.findOne({
-      $and: [{ username: "demo" }, { isDemoUser: true }],
-    });
+    const demoUser = findDemoUser();
     if (demoUser) {
       // we already have one, let's ensure he is not switched Inactive
       if (demoUser.isInactive) {
-        Meteor.users.update(
-          { username: "demo" },
-          { $set: { isInactive: false } },
-        );
+        updateDemoUser({ isInactive: false });
       }
       if (!demoUser.emails[0].verified) {
-        Meteor.users.update(
-          { username: "demo" },
-          { $set: { "emails.0.verified": true } },
-        );
+        updateDemoUser({ "emails.0.verified": true });
       }
-    } else {
-      // we don't have a demo user, but settings demand one
-      Accounts.createUser({
-        username: "demo",
-        password: "demo",
-        email: "",
-        profile: { name: "Demo User" },
-      });
-      Meteor.users.update(
-        { username: "demo" },
-        {
-          $set: {
-            isDemoUser: true,
-            isInactive: false,
-            "emails.0.verified": true,
-          },
-        },
-      );
-      console.log(
-        "*** ATTENTION ***\n    Created demo/demo user account once on startup",
-      );
+      return;
     }
-  } else {
-    // we don't want a demo user
-    const demoUserActive = Meteor.users.findOne({
-      $and: [{ username: "demo" }, { isDemoUser: true }, { isInactive: false }],
-    });
-    if (demoUserActive) {
-      // set demo account to Inactive
-      Meteor.users.update({ username: "demo" }, { $set: { isInactive: true } });
-      console.log(
-        "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
-      );
-    }
+    // we don't have a demo user, but settings demand one
+    createDemoUser();
+    return;
   }
-
-  // #Security: warn admin if demo user exists
-  const demoUserActive = Meteor.users.findOne({
-    $and: [{ username: "demo" }, { isDemoUser: true }, { isInactive: false }],
-  });
+  /**
+   * Represents the active demo user.
+   *
+   * @type {Object}
+   */
+  const demoUserActive = findDemoUser({ isInactive: false });
+  // we don't want a demo user
   if (demoUserActive) {
+    // set demo account to Inactive
+    updateDemoUser({ isInactive: true });
+    console.log(
+      "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
+    );
+  }
+  /**
+   * Represents a demo user that is active again.
+   *
+   * @type {User}
+   */
+  const demoUserActiveAgain = findDemoUser({ isInactive: false });
+  // #Security: warn admin if demo user exists
+  if (demoUserActiveAgain) {
     console.log(
       "*** ATTENTION ***\n" +
         "    There exists an account with user name 'demo'.\n" +
@@ -101,6 +125,15 @@ const handleDemoUserAccount = () => {
   }
 };
 
+/**
+ * Synchronizes the ROOT_URL with the preference on Meteor.settings.
+ * If ROOT_URL is specified in Meteor.settings, it updates the
+ * process.env.ROOT_URL,
+ * __meteor_runtime_config__.ROOT_URL, and
+ * Meteor.absoluteUrl.defaultOptions.rootUrl. If ROOT_URL is not specified in
+ * Meteor.settings, it grabs the ROOT_URL from the env variable.
+ * @returns {void}
+ */
 const syncRootUrl = () => {
   if (!Meteor.settings) {
     console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
@@ -187,12 +220,17 @@ Meteor.startup(() => {
     console.log(
       "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
     );
-    importUsers(ldapSettings, mongoUrl).catch(() => {});
+    importUsers(ldapSettings, mongoUrl).catch(() => {
+      // intentionally empty. Error handling is not required for
+      // this operation.
+    });
   }
   if (GlobalSettings.hasImportUsersCronTab()) {
     console.log("Configuring cron job for regular LDAP user import.");
     cron.schedule(crontab, () => {
-      importUsers(ldapSettings, mongoUrl).catch(() => {});
+      importUsers(ldapSettings, mongoUrl).catch(() => {
+        // intentionally empty. No action required for catch.
+      });
     });
   }
 });
