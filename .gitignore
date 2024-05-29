@@ -24,3 +24,5 @@ conf.json
 *.json.bak
 *.code-workspace
 jsconfig.json
+.dependencygraph/
+.dependency-cruiser.js
