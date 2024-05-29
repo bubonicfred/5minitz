@@ -89,7 +89,7 @@ const { Topic } = proxyquire("../../../imports/topic", {
   "./InfoItemFactory": { InfoItemFactory, "@noCallThru": true },
   "./minutes": { Minutes, "@noCallThru": true },
   "./meetingseries": { MeetingSeries, "@noCallThru": true },
-  "./helpers/promisedMethods": { null: null, "@noCallThru": true },
+
   "./collections/minutes_private": { null: null, "@noCallThru": true },
 });
 

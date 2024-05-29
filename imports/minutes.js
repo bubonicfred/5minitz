@@ -1,6 +1,5 @@
 import "./collections/minutes_private";
 import "./collections/workflow_private";
-import "./helpers/promisedMethods";
 
 import { emailAddressRegExpMatch } from "/imports/helpers/email";
 import { subElementsHelper } from "/imports/helpers/subElements";

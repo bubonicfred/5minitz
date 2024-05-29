@@ -1,4 +1,4 @@
-import "./promisedMethods";
+
 
 import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor/softwarerero:accounts-t9n";

@@ -7,7 +7,7 @@
  * @module meetingseries
  * @exports MeetingSeries
  */
-import "./helpers/promisedMethods";
+
 import "./collections/meetingseries_private";
 
 import { formatDateISO8601 } from "/imports/helpers/date";
