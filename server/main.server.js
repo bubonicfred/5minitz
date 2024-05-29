@@ -38,7 +38,7 @@ i18n.setLocale("en");
  */
 const findDemoUser = (additionalCriteria = {}) => {
   return Meteor.users.findOne({
-    $and: [{ username: "demo" }, { isDemoUser: true }, ...additionalCriteria],
+    $and: [{ username: "demo" }, { isDemoUser: true }, ...(Array.isArray(additionalCriteria) ? additionalCriteria : [additionalCriteria])],
   });
 };
 
