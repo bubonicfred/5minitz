@@ -42,7 +42,6 @@ const Meteor = {
   settings: { public: { docGeneration: { enabled: true } } },
 };
 
-const PromisedMethods = {};
 DateHelpers["@noCallThru"] = true;
 
 const GlobalSettings = {
@@ -93,10 +92,6 @@ const { Finalizer } = proxyquire(
     "/imports/topic": { Topics, "@noCallThru": true },
     "/imports/userroles": { UserRoles, "@noCallThru": true },
     "/imports/user": { User, "@noCallThru": true },
-    "/imports/helpers/promisedMethods": {
-      PromisedMethods,
-      "@noCallThru": true,
-    },
     "/imports/mail/FinalizeMailHandler": {
       FinalizeMailHandler,
       "@noCallThru": true,

@@ -14,7 +14,6 @@ const Meteor = {
 const Minutes = {};
 const Topic = {};
 const UserRoles = {};
-const PromisedMethods = {};
 const MinutesFinder = {
   result: undefined,
   lastMinutesOfMeetingSeries() {
@@ -42,7 +41,6 @@ const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
     MeetingSeriesSchema,
     "@noCallThru": true,
   },
-  "./helpers/promisedMethods": { PromisedMethods, "@noCallThru": true },
   "./minutes": { Minutes, "@noCallThru": true },
   "./topic": { Topic, "@noCallThru": true },
   "./userroles": { UserRoles, "@noCallThru": true },

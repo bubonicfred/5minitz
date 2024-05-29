@@ -1,4 +1,4 @@
-import "/imports/helpers/promisedMethods";
+
 
 import { Meteor } from "meteor/meteor";
 

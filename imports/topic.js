@@ -10,7 +10,6 @@
  * @module Topic
  */
 
-import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
 import { subElementsHelper } from "/imports/helpers/subElements";

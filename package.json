@@ -59,7 +59,6 @@
     "bootstrap-material-design": "^0.5.10",
     "bson": "^6.6.0",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.49",
-    "fibers": "^5.0.3",
     "fs-extra": "^11.2.0",
     "git-rev-sync": "^3.0.2",
     "jquery": "^3.3.1",

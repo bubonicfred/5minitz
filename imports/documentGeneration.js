@@ -4,7 +4,6 @@
  *    - send meeting minutes as HTML eMails
  */
 
-import "./helpers/promisedMethods";
 
 import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";

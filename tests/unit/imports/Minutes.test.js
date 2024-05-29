@@ -22,7 +22,6 @@ const Meteor = {
   Error: MeteorError,
 };
 
-const PromisedMethods = {};
 
 const isCurrentUserModeratorStub = sinon.stub();
 const updateLastMinutesFieldsStub = sinon.stub();
@@ -59,7 +58,6 @@ const { Minutes } = proxyquire("../../../imports/minutes", {
   "./collections/minutes_private": { MinutesSchema, "@noCallThru": true },
   "./collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
   "./collections/workflow_private": { null: null, "@noCallThru": true },
-  "./helpers/promisedMethods": { PromisedMethods, "@noCallThru": true },
   "./meetingseries": { MeetingSeries, "@noCallThru": true },
   "./topic": { Topic, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },

@@ -1,4 +1,4 @@
-import "/imports/helpers/promisedMethods";
+
 
 import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
 import { MinutesSchema } from "/imports/collections/minutes.schema";
