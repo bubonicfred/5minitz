@@ -52,10 +52,7 @@ export class MeetingSeries {
   }
 
   static async remove(meetingSeries) {
-    return Meteor.callAsync(
-      "workflow.removeMeetingSeries",
-      meetingSeries._id,
-    );
+    return Meteor.callAsync("workflow.removeMeetingSeries", meetingSeries._id);
   }
 
   static async leave(meetingSeries) {

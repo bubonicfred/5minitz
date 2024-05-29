@@ -205,10 +205,7 @@ describe("Minutes", () => {
     it("sends the minutes id to the meteor method minutes.remove", () => {
       Minutes.remove(minute._id);
       expect(
-        Meteor.callAsync.calledWithExactly(
-          "workflow.removeMinute",
-          minute._id,
-        ),
+        Meteor.callAsync.calledWithExactly("workflow.removeMinute", minute._id),
       ).to.be.true;
     });
   });

@@ -173,9 +173,8 @@ describe("MeetingSeries", () => {
     it("sends the document to the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
-      expect(
-        Meteor.callAsync.calledWith("meetingseries.insert", meetingSeries),
-      ).to.be.true;
+      expect(Meteor.callAsync.calledWith("meetingseries.insert", meetingSeries))
+        .to.be.true;
     });
   });
 });
