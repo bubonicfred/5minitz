@@ -1,27 +1,27 @@
 import "./collections/minutes_private";
 import "./collections/workflow_private";
 
-import {emailAddressRegExpMatch} from "/imports/helpers/email";
-import {subElementsHelper} from "/imports/helpers/subElements";
-import {User} from "/imports/user";
-import {_} from "lodash";
-import {Meteor} from "meteor/meteor";
-import {Random} from "meteor/random";
-import {i18n} from "meteor/universe:i18n";
+import { emailAddressRegExpMatch } from "/imports/helpers/email";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { User } from "/imports/user";
+import { _ } from "lodash";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { i18n } from "meteor/universe:i18n";
 
-import {ActionItem} from "./actionitem";
-import {MinutesSchema} from "./collections/minutes.schema";
-import {StringUtils} from "./helpers/string-utils";
-import {MeetingSeries} from "./meetingseries";
-import {Topic} from "./topic";
+import { ActionItem } from "./actionitem";
+import { MinutesSchema } from "./collections/minutes.schema";
+import { StringUtils } from "./helpers/string-utils";
+import { MeetingSeries } from "./meetingseries";
+import { Topic } from "./topic";
 
 export class Minutes {
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
     if (!source)
       throw new Meteor.Error(
-          "invalid-argument",
-          "Mongo ID or Mongo document required",
+        "invalid-argument",
+        "Mongo ID or Mongo document required",
       );
 
     if (typeof source === "string") {
@@ -35,7 +35,9 @@ export class Minutes {
   }
 
   // ################### static methods
-  static find(...args) { return MinutesSchema.getCollection().find(...args); }
+  static find(...args) {
+    return MinutesSchema.getCollection().find(...args);
+  }
 
   static findOne(...args) {
     return MinutesSchema.getCollection().findOne(...args);
@@ -47,51 +49,53 @@ export class Minutes {
     }
 
     const sort = lastMintuesFirst ? -1 : 1;
-    const options = {sort : {date : sort}};
+    const options = { sort: { date: sort } };
     if (limit) {
       options.limit = limit;
     }
-    return Minutes.find({_id : {$in : MinutesIDArray}}, options);
+    return Minutes.find({ _id: { $in: MinutesIDArray } }, options);
   }
 
   // method
-  static remove(id) { return Meteor.callAsync("workflow.removeMinute", id); }
+  static remove(id) {
+    return Meteor.callAsync("workflow.removeMinute", id);
+  }
 
   // method
   static async syncVisibility(parentSeriesID, visibleForArray) {
     return Meteor.callAsync(
-        "minutes.syncVisibilityAndParticipants",
-        parentSeriesID,
-        visibleForArray,
+      "minutes.syncVisibilityAndParticipants",
+      parentSeriesID,
+      visibleForArray,
     );
   }
 
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
-      parentSeriesID,
-      visibleForArray,
+    parentSeriesID,
+    visibleForArray,
   ) {
-    if (MinutesSchema.find({meetingSeries_id : parentSeriesID}).count() > 0) {
+    if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
       MinutesSchema.update(
-          {meetingSeries_id : parentSeriesID},
-          {$set : {visibleFor : visibleForArray}},
-          {multi : true},
+        { meetingSeries_id: parentSeriesID },
+        { $set: { visibleFor: visibleForArray } },
+        { multi: true },
       );
 
       // add missing participants to non-finalized meetings
       MinutesSchema.getCollection()
-          .find({meetingSeries_id : parentSeriesID})
-          .forEach((min) => {
-            if (!min.isFinalized) {
-              const newparticipants = min.generateNewParticipants();
-              if (newparticipants) {
-                // Write participants to database if they have changed
-                MinutesSchema.update(
-                    {_id : min._id},
-                    {$set : {participants : newparticipants}},
-                );
-              }
+        .find({ meetingSeries_id: parentSeriesID })
+        .forEach((min) => {
+          if (!min.isFinalized) {
+            const newparticipants = min.generateNewParticipants();
+            if (newparticipants) {
+              // Write participants to database if they have changed
+              MinutesSchema.update(
+                { _id: min._id },
+                { $set: { participants: newparticipants } },
+              );
             }
-          });
+          }
+        });
     }
   }
 
@@ -102,14 +106,16 @@ export class Minutes {
     console.log("Minutes.update()");
     const parentMeetingSeries = this.parentMeetingSeries();
 
-    _.assignIn(docPart, {_id : this._id});
+    _.assignIn(docPart, { _id: this._id });
     await Meteor.callAsync("minutes.update", docPart, callback);
 
     // merge new doc fragment into this document
     _.assignIn(this, docPart);
 
-    if (Object.prototype.hasOwnProperty.call(docPart, "date") ||
-        Object.prototype.hasOwnProperty.call(docPart, "isFinalized")) {
+    if (
+      Object.prototype.hasOwnProperty.call(docPart, "date") ||
+      Object.prototype.hasOwnProperty.call(docPart, "isFinalized")
+    ) {
       return parentMeetingSeries.updateLastMinutesFieldsAsync(this);
     }
   }
@@ -127,10 +133,10 @@ export class Minutes {
         this.topics = [];
       }
       Meteor.call(
-          "workflow.addMinutes",
-          this,
-          optimisticUICallback,
-          serverCallback,
+        "workflow.addMinutes",
+        this,
+        optimisticUICallback,
+        serverCallback,
       );
     }
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
@@ -141,13 +147,21 @@ export class Minutes {
    * @todo refactor to use {@link StringUtils.createToString}
    * @returns {string} The string representation of the Minutes object.
    */
-  toString() { return `Minutes: ${JSON.stringify(this, null, 4)}`; }
+  toString() {
+    return `Minutes: ${JSON.stringify(this, null, 4)}`;
+  }
 
-  log() { console.log(this.toString()); }
+  log() {
+    console.log(this.toString());
+  }
 
-  parentMeetingSeries() { return new MeetingSeries(this.meetingSeries_id); }
+  parentMeetingSeries() {
+    return new MeetingSeries(this.meetingSeries_id);
+  }
 
-  parentMeetingSeriesID() { return this.meetingSeries_id; }
+  parentMeetingSeriesID() {
+    return this.meetingSeries_id;
+  }
 
   // This also does a minimal update of collection!
   // method
@@ -172,7 +186,9 @@ export class Minutes {
    * within this meeting.
    */
   getNewTopics() {
-    return this.topics.filter((topic) => { return topic.isNew; });
+    return this.topics.filter((topic) => {
+      return topic.isNew;
+    });
   }
 
   /**
@@ -192,7 +208,7 @@ export class Minutes {
    * @returns {boolean}
    */
   hasOpenActionItems() {
-    for (let i = this.topics.length; i-- > 0;) {
+    for (let i = this.topics.length; i-- > 0; ) {
       const topic = new Topic(this, this.topics[i]);
       if (topic.hasOpenActionItem()) {
         return true;
@@ -202,11 +218,14 @@ export class Minutes {
   }
 
   getOpenTopicsWithoutItems() {
-    return this.topics.filter((topicDoc) => { return topicDoc.isOpen; })
-        .map((topicDoc) => {
-          topicDoc.infoItems = [];
-          return topicDoc;
-        });
+    return this.topics
+      .filter((topicDoc) => {
+        return topicDoc.isOpen;
+      })
+      .map((topicDoc) => {
+        topicDoc.infoItems = [];
+        return topicDoc;
+      });
   }
 
   // method
@@ -223,10 +242,10 @@ export class Minutes {
     if (i === undefined) {
       // topic not in array
       return Meteor.callAsync(
-          "minutes.addTopic",
-          this._id,
-          topicDoc,
-          insertPlacementTop,
+        "minutes.addTopic",
+        this._id,
+        topicDoc,
+        insertPlacementTop,
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
@@ -239,25 +258,28 @@ export class Minutes {
    * @returns ActionItem[]
    */
   getOpenActionItems(includeSkippedTopics = true) {
-    const nonSkippedTopics =
-        includeSkippedTopics ? this.topics
-                             : this.topics.filter((topic) => !topic.isSkipped);
+    const nonSkippedTopics = includeSkippedTopics
+      ? this.topics
+      : this.topics.filter((topic) => !topic.isSkipped);
 
     return nonSkippedTopics.reduce(
-        (acc, topicDoc) => {
-          const topic = new Topic(this, topicDoc);
-          const actionItemDocs = topic.getOpenActionItems();
-          return acc.concat(
-              actionItemDocs.map(
-                  (doc) => { return new ActionItem(topic, doc); }),
-          );
-        },
-        /* initial value */[],
+      (acc, topicDoc) => {
+        const topic = new Topic(this, topicDoc);
+        const actionItemDocs = topic.getOpenActionItems();
+        return acc.concat(
+          actionItemDocs.map((doc) => {
+            return new ActionItem(topic, doc);
+          }),
+        );
+      },
+      /* initial value */ [],
     );
   }
 
   // method
-  sendAgenda() { return Meteor.callAsync("minutes.sendAgenda", this._id); }
+  sendAgenda() {
+    return Meteor.callAsync("minutes.sendAgenda", this._id);
+  }
 
   getAgendaSentAt() {
     if (!this.agendaSentAt) {
@@ -295,34 +317,34 @@ export class Minutes {
    */
   getPersonsInformedWithEmail(userCollection) {
     const recipientResult = this.getPersonsInformed().reduce(
-        (recipients, userId) => {
-          const user = userCollection.findOne(userId);
-          if (user.emails && user.emails.length > 0) {
-            recipients.push({
-              userId,
-              name : user.username,
-              address : user.emails[0].address,
-            });
-          }
-          return recipients;
-        },
-        /* initial value */[],
+      (recipients, userId) => {
+        const user = userCollection.findOne(userId);
+        if (user.emails && user.emails.length > 0) {
+          recipients.push({
+            userId,
+            name: user.username,
+            address: user.emails[0].address,
+          });
+        }
+        return recipients;
+      },
+      /* initial value */ [],
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
       const addMails = this.participantsAdditional.match(
-          emailAddressRegExpMatch,
+        emailAddressRegExpMatch,
       );
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
         // expression
         addMails.forEach((additionalMail) => {
           recipientResult.push({
-            userId : "additionalRecipient",
-            name : additionalMail,
-            address : additionalMail,
+            userId: "additionalRecipient",
+            name: additionalMail,
+            address: additionalMail,
           });
         });
       }
@@ -346,7 +368,7 @@ export class Minutes {
   generateNewParticipants() {
     if (this.isFinalized) {
       throw new Error(
-          "generateNewParticipants () must not be called on finalized minutes",
+        "generateNewParticipants () must not be called on finalized minutes",
       );
     }
     let changed = false;
@@ -369,8 +391,8 @@ export class Minutes {
         changed = true;
         return {
           userId,
-          present : false,
-          minuteKeeper : false,
+          present: false,
+          minuteKeeper: false,
         };
       }
     });
@@ -404,7 +426,7 @@ export class Minutes {
       }
       if (index > -1) {
         this.participants[index].present = isPresent;
-        return this.update({participants : this.participants});
+        return this.update({ participants: this.participants });
       }
     }
     return false;
@@ -438,7 +460,7 @@ export class Minutes {
    */
   async changeParticipantsStatus(isPresent) {
     this.participants.forEach((p) => (p.present = isPresent));
-    return this.update({participants : this.participants});
+    return this.update({ participants: this.participants });
   }
 
   /**
@@ -449,16 +471,17 @@ export class Minutes {
    */
   getInformed(userCollection) {
     if (this.informedUsers) {
-      return userCollection ? this.informedUsers.map((informed) => {
-        const user = userCollection.findOne(informed);
-        informed = {
-          id : informed,
-          name : user ? user.username : `Unknown ${informed}`,
-          profile : user ? user.profile : null,
-        };
-        return informed;
-      })
-                            : this.informedUsers;
+      return userCollection
+        ? this.informedUsers.map((informed) => {
+            const user = userCollection.findOne(informed);
+            informed = {
+              id: informed,
+              name: user ? user.username : `Unknown ${informed}`,
+              profile: user ? user.profile : null,
+            };
+            return informed;
+          })
+        : this.informedUsers;
     }
 
     return [];
@@ -474,20 +497,21 @@ export class Minutes {
     this.participants = this.participants || [];
     const additionalParticipants = this.participantsAdditional || [];
 
-    const presentParticipantIds =
-        this.participants.filter((p) => p.present).map((p) => p.userId);
+    const presentParticipantIds = this.participants
+      .filter((p) => p.present)
+      .map((p) => p.userId);
 
     const presentParticipants = Meteor.users.find({
-      _id : {$in : presentParticipantIds},
+      _id: { $in: presentParticipantIds },
     });
 
     const names = presentParticipants
-                      .map((p) => {
-                        const user = new User(p);
-                        return user.profileNameWithFallback();
-                      })
-                      .concat(additionalParticipants)
-                      .join("; ");
+      .map((p) => {
+        const user = new User(p);
+        return user.profileNameWithFallback();
+      })
+      .concat(additionalParticipants)
+      .join("; ");
 
     if (maxChars && names.length > maxChars) {
       return `${names.substring(0, maxChars)}...`;
@@ -510,9 +534,9 @@ export class Minutes {
 
   static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
     responsible.fullname =
-        isProfileAvaliable && responsible.profile && responsible.profile.name
-            ? `${responsible[usernameField]} - ${responsible.profile.name}`
-            : responsible[usernameField];
+      isProfileAvaliable && responsible.profile && responsible.profile.name
+        ? `${responsible[usernameField]} - ${responsible.profile.name}`
+        : responsible[usernameField];
     return responsible;
   }
 }
