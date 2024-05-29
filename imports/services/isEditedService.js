@@ -1,5 +1,3 @@
-
-
 import { Meteor } from "meteor/meteor";
 
 import { MeetingSeriesSchema } from "../collections/meetingseries.schema";

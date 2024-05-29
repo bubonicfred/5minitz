@@ -1,5 +1,3 @@
-
-
 import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor/softwarerero:accounts-t9n";
 import { i18n } from "meteor/universe:i18n";
