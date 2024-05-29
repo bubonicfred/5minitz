@@ -10,7 +10,7 @@ import rewiremock from "../../test-helper/rewiremock.cjs";
 const MeetingSeriesSchema = {};
 const Meteor = {
   call: sinon.stub(),
-  callPromise: sinon.stub(),
+  callAsync: sinon.stub(),
 };
 const Minutes = {};
 const Topic = {};
@@ -168,15 +168,14 @@ describe("MeetingSeries", () => {
     it("calls the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the document to the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
-      expect(
-        Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries),
-      ).to.be.true;
+      expect(Meteor.callAsync.calledWith("meetingseries.insert", meetingSeries))
+        .to.be.true;
     });
   });
 });

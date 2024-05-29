@@ -10,7 +10,7 @@ class MeteorError {}
 const Meteor = {
   call: sinon.stub(),
   Error: MeteorError,
-  callPromise: sinon.stub(),
+  callAsync: sinon.stub(),
   user: () => {
     return { username: "unit-test" };
   },

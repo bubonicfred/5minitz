@@ -59,12 +59,12 @@ export class Minutes {
 
   // method
   static remove(id) {
-    return Meteor.callPromise("workflow.removeMinute", id);
+    return Meteor.callAsync("workflow.removeMinute", id);
   }
 
   // method
   static async syncVisibility(parentSeriesID, visibleForArray) {
-    return Meteor.callPromise(
+    return Meteor.callAsync(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
       visibleForArray,
@@ -108,7 +108,7 @@ export class Minutes {
     const parentMeetingSeries = this.parentMeetingSeries();
 
     _.assignIn(docPart, { _id: this._id });
-    await Meteor.callPromise("minutes.update", docPart, callback);
+    await Meteor.callAsync("minutes.update", docPart, callback);
 
     // merge new doc fragment into this document
     _.assignIn(this, docPart);
@@ -170,7 +170,7 @@ export class Minutes {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
       this.topics.splice(i, 1);
-      return Meteor.callPromise("minutes.removeTopic", id);
+      return Meteor.callAsync("minutes.removeTopic", id);
     }
   }
 
@@ -242,7 +242,7 @@ export class Minutes {
 
     if (i === undefined) {
       // topic not in array
-      return Meteor.callPromise(
+      return Meteor.callAsync(
         "minutes.addTopic",
         this._id,
         topicDoc,
@@ -250,7 +250,7 @@ export class Minutes {
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
-      return Meteor.callPromise("minutes.updateTopic", topicDoc._id, topicDoc);
+      return Meteor.callAsync("minutes.updateTopic", topicDoc._id, topicDoc);
     }
   }
 
@@ -279,7 +279,7 @@ export class Minutes {
 
   // method
   sendAgenda() {
-    return Meteor.callPromise("minutes.sendAgenda", this._id);
+    return Meteor.callAsync("minutes.sendAgenda", this._id);
   }
 
   getAgendaSentAt() {

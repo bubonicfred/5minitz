@@ -52,14 +52,11 @@ export class MeetingSeries {
   }
 
   static async remove(meetingSeries) {
-    return Meteor.callPromise(
-      "workflow.removeMeetingSeries",
-      meetingSeries._id,
-    );
+    return Meteor.callAsync("workflow.removeMeetingSeries", meetingSeries._id);
   }
 
   static async leave(meetingSeries) {
-    return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+    return Meteor.callAsync("workflow.leaveMeetingSeries", meetingSeries._id);
   }
 
   static getAllVisibleIDsForUser(userId) {
@@ -85,8 +82,8 @@ export class MeetingSeries {
 
   save(optimisticUICallback) {
     return this._id
-      ? Meteor.callPromise("meetingseries.update", this)
-      : Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
+      ? Meteor.callAsync("meetingseries.update", this)
+      : Meteor.callAsync("meetingseries.insert", this, optimisticUICallback);
   }
 
   async saveAsync(optimisticUICallback) {
@@ -179,7 +176,7 @@ export class MeetingSeries {
       ? lastMinutes.isFinalized
       : false;
 
-    return Meteor.callPromise("meetingseries.update", updateInfo);
+    return Meteor.callAsync("meetingseries.update", updateInfo);
   }
 
   addNewMinutesAllowed() {
