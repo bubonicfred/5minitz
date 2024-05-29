@@ -25,7 +25,7 @@ export class DocumentGeneration {
       const minuteID = FlowRouter.getParam("_id"); // eslint-disable-line
 
       // Create HTML
-      const htmldata = await Meteor.callPromise(
+      const htmldata = await Meteor.callAsync(
         "documentgeneration.createHTML",
         minuteID,
       );

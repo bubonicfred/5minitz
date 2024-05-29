@@ -221,7 +221,7 @@ export class IsEditedService {
   static removeIsEditedOnLogout() {
     const allMs = MeetingSeriesSchema.getCollection().find();
     allMs.forEach((meetingSerie) => {
-      Meteor.callPromise(
+      Meteor.callAsync(
         "workflow.removeIsEditedMeetingSerie",
         meetingSerie._id,
         false,
@@ -230,24 +230,24 @@ export class IsEditedService {
 
     const allMinutes = MinutesSchema.getCollection().find();
     allMinutes.forEach((minute) => {
-      Meteor.callPromise("workflow.removeIsEditedMinute", minute._id, false);
+      Meteor.callAsync("workflow.removeIsEditedMinute", minute._id, false);
     });
   }
 
   static setIsEditedMeetingSerie(msId) {
-    Meteor.callPromise("workflow.setIsEditedMeetingSerie", msId);
+    Meteor.callAsync("workflow.setIsEditedMeetingSerie", msId);
   }
 
   static removeIsEditedMeetingSerie(msId, ignoreLock) {
-    Meteor.callPromise("workflow.removeIsEditedMeetingSerie", msId, ignoreLock);
+    Meteor.callAsync("workflow.removeIsEditedMeetingSerie", msId, ignoreLock);
   }
 
   static setIsEditedTopic(minutesId, topicId) {
-    Meteor.callPromise("workflow.setIsEditedTopic", minutesId, topicId);
+    Meteor.callAsync("workflow.setIsEditedTopic", minutesId, topicId);
   }
 
   static removeIsEditedTopic(minutesId, topicId, ignoreLock) {
-    Meteor.callPromise(
+    Meteor.callAsync(
       "workflow.removeIsEditedTopic",
       minutesId,
       topicId,
@@ -256,7 +256,7 @@ export class IsEditedService {
   }
 
   static setIsEditedInfoItem(minutesId, topicId, infoItemId) {
-    Meteor.callPromise(
+    Meteor.callAsync(
       "workflow.setIsEditedInfoItem",
       minutesId,
       topicId,
@@ -265,7 +265,7 @@ export class IsEditedService {
   }
 
   static removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
-    Meteor.callPromise(
+    Meteor.callAsync(
       "workflow.removeIsEditedInfoItem",
       minutesId,
       topicId,
@@ -275,7 +275,7 @@ export class IsEditedService {
   }
 
   static setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
-    Meteor.callPromise(
+    Meteor.callAsync(
       "workflow.setIsEditedDetail",
       minutesId,
       topicId,
@@ -291,7 +291,7 @@ export class IsEditedService {
     detailIdx,
     ignoreLock,
   ) {
-    Meteor.callPromise(
+    Meteor.callAsync(
       "workflow.removeIsEditedDetail",
       minutesId,
       topicId,

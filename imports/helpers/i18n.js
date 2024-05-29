@@ -46,12 +46,12 @@ export class I18nHelper {
     if (I18nHelper.supportedCodes.length === 0) {
       // cache the supported languages
       try {
-        I18nHelper.supportedCodes = await Meteor.callPromise(
+        I18nHelper.supportedCodes = await Meteor.callAsync(
           "getAvailableLocaleCodes",
         );
       } catch (err) {
         console.log(
-          "Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server.",
+          "Error callAsync(getAvailableLocaleCodes): No supported language locales reported by server.",
         );
       }
     }
