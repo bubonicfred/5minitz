@@ -1,6 +1,7 @@
-import { Random } from "../lib/random";
 import moment from "moment/moment";
-import { DateHelper } from "../lib/date-helper";
+
+import {DateHelper} from "../lib/date-helper";
+import {Random} from "../lib/random";
 
 /**
  * Represents a MinutesGenerator object.
@@ -8,7 +9,8 @@ import { DateHelper } from "../lib/date-helper";
  * @param {Object} config - The configuration object.
  * @param {string} parentSeriesId - The ID of the parent series.
  * @param {string} user - The user associated with the generator.
- * @param {Date} [nextMinutesDate=null] - The next minutes date. Defaults to the current date if not provided.
+ * @param {Date} [nextMinutesDate=null] - The next minutes date. Defaults to the
+ *     current date if not provided.
  */
 export class MinutesGenerator {
 
@@ -18,7 +20,8 @@ export class MinutesGenerator {
    * @param {Object} config - The configuration object.
    * @param {string} parentSeriesId - The ID of the parent series.
    * @param {string} user - The user associated with the generator.
-   * @param {Date} [nextMinutesDate=null] - The next minutes date. Defaults to the current date if not provided.
+   * @param {Date} [nextMinutesDate=null] - The next minutes date. Defaults to
+   *     the current date if not provided.
    */
   constructor(config, parentSeriesId, user, nextMinutesDate = null) {
     if (nextMinutesDate === null) {
@@ -29,7 +32,6 @@ export class MinutesGenerator {
     this.user = user;
     this.nextMinutesDate = nextMinutesDate;
   }
-
 
   /**
    * Generates an array of minutes using the provided topics generator.
@@ -53,32 +55,33 @@ export class MinutesGenerator {
    * Generates a new minute object.
    *
    * @param {Object} topicsGenerator - The topics generator object.
-   * @param {boolean} [isLastOne=false] - Indicates if this is the last minute object.
+   * @param {boolean} [isLastOne=false] - Indicates if this is the last minute
+   *     object.
    * @returns {Object} - The generated minute object.
    */
   generateOne(topicsGenerator, isLastOne = false) {
     const id = Random.generateId();
     const min = {
-      _id: id,
-      meetingSeries_id: this.parentSeriesId,
-      date: this.constructor._formatDate(this.nextMinutesDate),
-      topics: topicsGenerator.generateNextListForMinutes(
-        id,
-        this.nextMinutesDate,
-        isLastOne,
-      ),
-      visibleFor: [this.user._id],
-      participants: [
-        { userId: this.user._id, present: false, minuteKeeper: false },
+      _id : id,
+      meetingSeries_id : this.parentSeriesId,
+      date : this.constructor._formatDate(this.nextMinutesDate),
+      topics : topicsGenerator.generateNextListForMinutes(
+          id,
+          this.nextMinutesDate,
+          isLastOne,
+          ),
+      visibleFor : [ this.user._id ],
+      participants : [
+        {userId : this.user._id, present : false, minuteKeeper : false},
       ],
-      createdAt: new Date(),
-      createdBy: this.user.username,
-      isFinalized: !isLastOne,
-      globalNote: "",
-      participantsAdditional: "",
-      finalizedVersion: isLastOne ? 0 : 1,
-      finalizedHistory: [],
-      agenda: "",
+      createdAt : new Date(),
+      createdBy : this.user.username,
+      isFinalized : !isLastOne,
+      globalNote : "",
+      participantsAdditional : "",
+      finalizedVersion : isLastOne ? 0 : 1,
+      finalizedHistory : [],
+      agenda : "",
     };
 
     if (!isLastOne) {
@@ -86,9 +89,10 @@ export class MinutesGenerator {
       min.finalizedBy = this.user.username;
       const dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
 
-      // #I18N: We will leave this is English, as it is published to the database!
+      // #I18N: We will leave this is English, as it is published to the
+      // database!
       min.finalizedHistory.push(
-        `Version 1. Finalized on ${dateTime} by ${this.user.username}`,
+          `Version 1. Finalized on ${dateTime} by ${this.user.username}`,
       );
     }
     return min;
@@ -104,9 +108,7 @@ export class MinutesGenerator {
   /**
    * @borrows DateHelper.formatDateISO8601 as _formatDate
    */
-  static _formatDate(date) {
-    return DateHelper.formatDateISO8601(date);
-  }
+  static _formatDate(date) { return DateHelper.formatDateISO8601(date); }
 
   /**
    * @borrows DateHelper.formatDateISO8601Time as _formatDateTime
