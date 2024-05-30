@@ -1,3 +1,4 @@
+import * as path from "pathe";
 /*
  * This script will check i18n resources keys
  * 1. read all available keys from YAML
@@ -19,7 +20,7 @@ const IGNOREKEYS = {
 const fs = require("fs");
 const yaml = require("js-yaml");
 
-const en_yaml = `${__dirname}/../../both/i18n/en.i18n.yml`;
+const en_yaml = path.join(__dirname, "../../both/i18n/en.i18n.yml");
 let anyErrorExitCodeToShell = 0;
 let globalErrorCount = 0;
 let globalWarningCount = 0;
@@ -65,16 +66,15 @@ function collectFilesRecursive(dir, extension) {
   });
   return results;
 }
-
-// Recursively iterate a JS object build full pathes of keys
-function buildFullPathes(obj, stack, separator = ".") {
+// Recursively iterate a JS object build full paths of keys
+function buildFullPaths(obj, stack, separator = ".") {
   for (const property in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, property)) {
       if (typeof obj[property] == "object") {
         if (stack) {
-          buildFullPathes(obj[property], stack + separator + property);
+          buildFullPaths(obj[property], stack + separator + property);
         } else {
-          buildFullPathes(obj[property], property);
+          buildFullPaths(obj[property], property);
         }
       } else {
         dictKeysFromYaml[stack + separator + property] = 0; // Remember leaf!
@@ -83,10 +83,18 @@ function buildFullPathes(obj, stack, separator = ".") {
   }
 }
 
+/**
+ * Checks the usage of i18n keys in code files and compares them with YAML
+ * files.
+ *
+ * @param {string} extension - The file extension to search for.
+ * @param {RegExp} keyPattern - The regular expression pattern to match i18n
+ *     keys.
+ */
 function checkCodeUsage(extension, keyPattern) {
   dictKeysFromCode = {};
   let localErrorCount = 0;
-  const files_js = collectFilesRecursive(`${__dirname}/../..`, extension);
+  const files_js = collectFilesRecursive(path.join(__dirname, ".."), extension);
 
   // Find all i18n __ keys used in this file, according to regexp key pattern
   // provided
@@ -127,15 +135,15 @@ function checkCodeUsage(extension, keyPattern) {
 // Read and parse YAML file to JS object
 let yaml_doc = undefined;
 try {
-  yaml_doc = yaml.safeLoad(fs.readFileSync(en_yaml, "utf8"));
+  yaml_doc = yaml.load(fs.readFileSync(en_yaml, "utf8"));
 } catch (e) {
   console.log(e);
   anyErrorExitCodeToShell = 10;
 }
-// Recursively walk the YAML JS object, build key pathes like:
+// Recursively walk the YAML JS object, build key paths like:
 // 'Admin.Users.State.column'
 if (yaml_doc) {
-  buildFullPathes(yaml_doc, ""); // ==> results in dictKeysFromYaml
+  buildFullPaths(yaml_doc, ""); // ==> results in dictKeysFromYaml
 } else {
   console.log("Error: could not parse YAML");
   anyErrorExitCodeToShell = 20;
