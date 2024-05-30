@@ -28,7 +28,7 @@ export const GlobalHelpers = {
       html = Markdown(text);
     } catch (e) {
       console.error(
-        `Could( not convert the following markdown to html: ${text}`
+        `Could( not convert the following markdown to html: ${text}`,
       );
       throw new Error(`Markdown conversion failed: ${e.message}`);
     }
