@@ -23,7 +23,14 @@ import { MeetingSeries } from "./meetingseries";
 import { Minutes } from "./minutes";
 
 /**
- * @param {{ upsertTopic: any; }} parent
+ * Resolves the parent element based on the given input.
+ * If the input is a string, it tries to find a MeetingSeries or Minutes document with the given ID.
+ * If the input is an object with an `upsertTopic` function, it returns the input itself.
+ * Throws a Meteor.Error if the input is not a valid parent element.
+ *
+ * @param {string|object} parent - The parent element to resolve.
+ * @returns {object} - The resolved parent element.
+ * @throws {Meteor.Error} - If the input is not a valid parent element.
  */
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
@@ -117,11 +124,12 @@ export class Topic {
     return subElementsHelper.findIndexById(id, topics);
   }
 
+
   /**
-   * Checks if the given topic document
-   * has at least one open ActionItem.
-   * @param {{ infoItems: any; }} topicDoc document of a topic
-   * @returns {boolean}
+   * Checks if a topic document has an open action item.
+   *
+   * @param {Object} topicDoc - The topic document to check.
+   * @returns {boolean} - True if the topic document has an open action item, false otherwise.
    */
   static hasOpenActionItem(topicDoc) {
     const infoItemDocs = topicDoc.infoItems;
@@ -359,8 +367,13 @@ export class Topic {
    *
    * @returns {Array} An array of open action items.
    */
+  /**
+   * Returns an array of open action items from the topic document.
+   *
+   * @returns {Array} An array of open action items.
+   */
   getOpenActionItems() {
-    return this._topicDoc.infoItems.filter((/** @type {{ isOpen: any; }} */ infoItemDoc) => {
+    return this._topicDoc.infoItems.filter((infoItemDoc) => {
       return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
     });
   }
