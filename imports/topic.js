@@ -22,6 +22,9 @@ import { InfoItemFactory } from "./InfoItemFactory";
 import { MeetingSeries } from "./meetingseries";
 import { Minutes } from "./minutes";
 
+/**
+ * @param {{ upsertTopic: any; }} parent
+ */
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
     const parentId = parent;
@@ -117,8 +120,7 @@ export class Topic {
   /**
    * Checks if the given topic document
    * has at least one open ActionItem.
-   *
-   * @param topicDoc document of a topic
+   * @param {{ infoItems: any; }} topicDoc document of a topic
    * @returns {boolean}
    */
   static hasOpenActionItem(topicDoc) {
@@ -157,7 +159,7 @@ export class Topic {
    */
   invalidateIsNewFlag() {
     this._topicDoc.isNew = false;
-    this._topicDoc.infoItems.forEach((infoItemDoc) => {
+    this._topicDoc.infoItems.forEach((/** @type {any} */ infoItemDoc) => {
       const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
       infoItem.invalidateIsNewFlag();
     });
@@ -301,7 +303,7 @@ export class Topic {
    */
   tailorTopic() {
     this._topicDoc.infoItems = this._topicDoc.infoItems.filter(
-      (infoItemDoc) => {
+      (/** @type {any} */ infoItemDoc) => {
         const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
       },
@@ -311,9 +313,8 @@ export class Topic {
   /**
    * Finds the InfoItem identified by its
    * id.
-   *
-   * @param id
-   * @returns {undefined|InfoItem|ActionItem}
+   * @param {string} id
+   * @returns {undefined | InfoItem | ActionItem}
    */
   findInfoItem(id) {
     const i = subElementsHelper.findIndexById(id, this.getInfoItems());
@@ -348,7 +349,7 @@ export class Topic {
    * @returns {Array} An array of action items.
    */
   getOnlyActionItems() {
-    return this._topicDoc.infoItems.filter((infoItemDoc) => {
+    return this._topicDoc.infoItems.filter((/** @type {any} */ infoItemDoc) => {
       return InfoItem.isActionItem(infoItemDoc);
     });
   }
@@ -359,7 +360,7 @@ export class Topic {
    * @returns {Array} An array of open action items.
    */
   getOpenActionItems() {
-    return this._topicDoc.infoItems.filter((infoItemDoc) => {
+    return this._topicDoc.infoItems.filter((/** @type {{ isOpen: any; }} */ infoItemDoc) => {
       return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
     });
   }
