@@ -19,6 +19,14 @@ function setIsEditedMeetingSerie(msId) {
   ms.save();
 }
 
+/**
+ * Removes the "isEdited" flag from a meeting series.
+ * If the ignoreLock parameter is true, the flag is removed regardless of the current user's ownership.
+ * If the ignoreLock parameter is false or not provided, the flag is only removed if the current user owns the meeting series.
+ *
+ * @param {string} msId - The ID of the meeting series.
+ * @param {boolean} [ignoreLock=false] - Optional. If true, the flag is removed regardless of ownership. Defaults to false.
+ */
 function removeIsEditedMeetingSerie(msId, ignoreLock) {
   let unset = false;
   const ms = new MeetingSeries(msId);
@@ -37,6 +45,11 @@ function removeIsEditedMeetingSerie(msId, ignoreLock) {
   ms.save();
 }
 
+/**
+ * Removes the "isEdited" flag from a minute and its associated topics, info items, and details.
+ * @param {string} minuteId - The ID of the minute to remove the "isEdited" flag from.
+ * @param {boolean} ignoreLock - If true, the "isEdited" flag will be removed regardless of the lock status.
+ */
 function removeIsEditedMinute(minuteId, ignoreLock) {
   const minute = new Minutes(minuteId);
   for (const topic of minute.topics) {
@@ -69,6 +82,12 @@ function removeIsEditedMinute(minuteId, ignoreLock) {
   minute.save();
 }
 
+/**
+ * Sets the edited status for a topic.
+ *
+ * @param {string} minutesId - The ID of the minutes containing the topic.
+ * @param {string} topicId - The ID of the topic to set as edited.
+ */
 function setIsEditedTopic(minutesId, topicId) {
   const topic = new Topic(minutesId, topicId);
 
@@ -96,6 +115,13 @@ function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
   topic.save();
 }
 
+/**
+ * Sets the "isEdited" information for an info item.
+ *
+ * @param {string} minutesId - The ID of the minutes.
+ * @param {string} topicId - The ID of the topic.
+ * @param {string} infoItemId - The ID of the info item.
+ */
 function setIsEditedInfoItem(minutesId, topicId, infoItemId) {
   const topic = new Topic(minutesId, topicId);
   const infoItem = topic.findInfoItem(infoItemId);
@@ -106,6 +132,13 @@ function setIsEditedInfoItem(minutesId, topicId, infoItemId) {
   infoItem.save();
 }
 
+/**
+ * Removes the "isEdited" information from an info item.
+ * @param {string} minutesId - The ID of the minutes.
+ * @param {string} topicId - The ID of the topic.
+ * @param {string} infoItemId - The ID of the info item.
+ * @param {boolean} ignoreLock - Whether to ignore the lock and force removal.
+ */
 function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
   let unset = false;
   const topic = new Topic(minutesId, topicId);
@@ -129,6 +162,13 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
   infoItem.save();
 }
 
+/**
+ * Sets the "isEditedBy" and "isEditedDate" properties of a detail in an info item.
+ * @param {string} minutesId - The ID of the minutes.
+ * @param {string} topicId - The ID of the topic.
+ * @param {string} infoItemId - The ID of the info item.
+ * @param {number} detailIdx - The index of the detail in the info item.
+ */
 function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
   const topic = new Topic(minutesId, topicId);
   const infoItem = topic.findInfoItem(infoItemId);
