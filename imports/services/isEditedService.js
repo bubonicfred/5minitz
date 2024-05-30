@@ -21,11 +21,14 @@ function setIsEditedMeetingSerie(msId) {
 
 /**
  * Removes the "isEdited" flag from a meeting series.
- * If the ignoreLock parameter is true, the flag is removed regardless of the current user's ownership.
- * If the ignoreLock parameter is false or not provided, the flag is only removed if the current user owns the meeting series.
+ * If the ignoreLock parameter is true, the flag is removed regardless of the
+ * current user's ownership. If the ignoreLock parameter is false or not
+ * provided, the flag is only removed if the current user owns the meeting
+ * series.
  *
  * @param {string} msId - The ID of the meeting series.
- * @param {boolean} [ignoreLock=false] - Optional. If true, the flag is removed regardless of ownership. Defaults to false.
+ * @param {boolean} [ignoreLock=false] - Optional. If true, the flag is removed
+ *     regardless of ownership. Defaults to false.
  */
 function removeIsEditedMeetingSerie(msId, ignoreLock) {
   let unset = false;
@@ -46,9 +49,12 @@ function removeIsEditedMeetingSerie(msId, ignoreLock) {
 }
 
 /**
- * Removes the "isEdited" flag from a minute and its associated topics, info items, and details.
- * @param {string} minuteId - The ID of the minute to remove the "isEdited" flag from.
- * @param {boolean} ignoreLock - If true, the "isEdited" flag will be removed regardless of the lock status.
+ * Removes the "isEdited" flag from a minute and its associated topics, info
+ * items, and details.
+ * @param {string} minuteId - The ID of the minute to remove the "isEdited" flag
+ *     from.
+ * @param {boolean} ignoreLock - If true, the "isEdited" flag will be removed
+ *     regardless of the lock status.
  */
 function removeIsEditedMinute(minuteId, ignoreLock) {
   const minute = new Minutes(minuteId);
@@ -102,7 +108,8 @@ function setIsEditedTopic(minutesId, topicId) {
  *
  * @param {string} minutesId - The ID of the minutes containing the topic.
  * @param {string} topicId - The ID of the topic to remove the flag from.
- * @param {boolean} ignoreLock - Whether to ignore the lock and remove the flag regardless of ownership.
+ * @param {boolean} ignoreLock - Whether to ignore the lock and remove the flag
+ *     regardless of ownership.
  */
 function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
   let unset = false;
@@ -170,7 +177,8 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
 }
 
 /**
- * Sets the "isEditedBy" and "isEditedDate" properties of a detail in an info item.
+ * Sets the "isEditedBy" and "isEditedDate" properties of a detail in an info
+ * item.
  * @param {string} minutesId - The ID of the minutes.
  * @param {string} topicId - The ID of the topic.
  * @param {string} infoItemId - The ID of the info item.
@@ -193,7 +201,8 @@ function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
  * @param {string} topicId - The ID of the topic.
  * @param {string} infoItemId - The ID of the info item.
  * @param {number} detailIdx - The index of the detail to remove.
- * @param {boolean} ignoreLock - Whether to ignore the lock and remove the detail.
+ * @param {boolean} ignoreLock - Whether to ignore the lock and remove the
+ *     detail.
  */
 function removeIsEditedDetail(
   minutesId,

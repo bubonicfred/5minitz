@@ -102,34 +102,34 @@ describe("Topic", function () {
       infoItems: [],
     };
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#constructor", function () {
     // skipcq: JS-0241
     it("sets the reference to the parent minute correctly", function () {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("can instantiate a topic with the parent minutes object instead of its id", function () {
       const myTopic = new Topic(dummyMinute, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("sets the subject correctly", function () {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("sets the initial value of the isOpen-flag correctly", function () {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isOpen).to.be.true;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("sets the initial value of the isNew-flag correctly", function () {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isNew).to.be.true;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("enforces infoItems to be of type Array", function () {
       topicDoc.infoItems = "something";
       const myTopic = new Topic(dummyMinute._id, topicDoc);
@@ -137,19 +137,19 @@ describe("Topic", function () {
       expect(myTopic._topicDoc.infoItems).to.be.an("array");
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#findTopicIndexInArray", function () {
     const topicArray = [topicDoc];
     const index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
     expect(index).to.equal(0);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#hasOpenActionItem", function () {
     // skipcq: JS-0241
     it("returns false if the topic does not have any sub items", function () {
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns true if the topic has at least one open action items", function () {
       topicDoc.infoItems.push({
         itemType: "actionItem",
@@ -162,7 +162,7 @@ describe("Topic", function () {
 
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns false if the topic has only closed action items", function () {
       topicDoc.infoItems.push({
         itemType: "actionItem",
@@ -175,7 +175,7 @@ describe("Topic", function () {
 
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns false if the topic has only info items (whose open state is unimportant)", function () {
       topicDoc.infoItems.push({
         itemType: "infoItem",
@@ -191,7 +191,7 @@ describe("Topic", function () {
       });
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns true if the topic has a open action item (object method call)", function () {
       topicDoc.infoItems.push({
         itemType: "actionItem",
@@ -201,7 +201,7 @@ describe("Topic", function () {
       expect(myTopic.hasOpenActionItem()).to.be.true;
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#invalidateIsNewFlag", function () {
     let myTopic;
 
@@ -215,18 +215,18 @@ describe("Topic", function () {
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("clears the isNew-Flag of the topic itself", function () {
       myTopic.invalidateIsNewFlag();
       expect(topicDoc.isNew).to.be.false;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("clears the isNew-Flag of the action item", function () {
       myTopic.invalidateIsNewFlag();
       expect(topicDoc.infoItems[0].isNew).to.be.false;
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#toggleState", function () {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
@@ -237,43 +237,43 @@ describe("Topic", function () {
     // state should have changed
     expect(myTopic._topicDoc.isOpen).to.not.equal(oldState);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#isRecurring", function () {
     let myTopic;
 
     beforeEach(function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("sets the default value correctly", function () {
       expect(myTopic.isRecurring()).to.be.false;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns the correct value", function () {
       myTopic.getDocument().isRecurring = true;
       expect(myTopic.isRecurring()).to.be.true;
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#toggleRecurring", function () {
     let myTopic;
 
     beforeEach(function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("can change the value correctly", function () {
       myTopic.toggleRecurring();
       expect(myTopic.isRecurring()).to.be.true;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("can reset the isRecurring-Flag", function () {
       myTopic.toggleRecurring();
       myTopic.toggleRecurring();
       expect(myTopic.isRecurring()).to.be.false;
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#upsertInfoItem", function () {
     let myTopic;
     let topicItemDoc;
@@ -286,7 +286,7 @@ describe("Topic", function () {
         createdAt: new Date(),
       };
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("adds a new info item to our topic", function () {
       myTopic.upsertInfoItem(topicItemDoc);
 
@@ -301,7 +301,7 @@ describe("Topic", function () {
         "the subject should be set correctly",
       ).to.equal(topicItemDoc.subject);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("updates an existing info item", function () {
       myTopic.upsertInfoItem(topicItemDoc);
 
@@ -325,7 +325,7 @@ describe("Topic", function () {
       ).to.equal(topicItem.subject);
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#findInfoItem", function () {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
     const infoItemDoc = {
@@ -351,7 +351,7 @@ describe("Topic", function () {
       "the correct info item should be found",
     ).to.equal(infoItemDoc.subject);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#removeInfoItem", function () {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
@@ -390,7 +390,7 @@ describe("Topic", function () {
       "The other info item should not be removed.",
     ).to.equal(infoItemDoc._id);
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#tailorTopic", function () {
     let myTopic;
 
@@ -413,7 +413,7 @@ describe("Topic", function () {
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("removes all info items and closed action items", function () {
       myTopic.tailorTopic();
 
@@ -426,7 +426,7 @@ describe("Topic", function () {
       expect(myTopic._topicDoc.infoItems[0].isOpen).to.be.true;
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   describe("#getOpenActionItems", function () {
     let myTopic;
 
@@ -451,11 +451,11 @@ describe("Topic", function () {
       });
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns the correct amount of items", function () {
       expect(myTopic.getOpenActionItems()).to.have.length(2);
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("returns only open action items", function () {
       myTopic.getOpenActionItems().forEach((item) => {
         expect(item, "the item should be a action item").to.have.ownProperty(
@@ -465,7 +465,7 @@ describe("Topic", function () {
       });
     });
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#save", function () {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
@@ -484,7 +484,7 @@ describe("Topic", function () {
 
     spy.restore();
   });
-// skipcq: JS-0241
+  // skipcq: JS-0241
   it("#getDocument", function () {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 

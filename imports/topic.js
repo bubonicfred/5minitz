@@ -24,9 +24,10 @@ import { Minutes } from "./minutes";
 
 /**
  * Resolves the parent element based on the given input.
- * If the input is a string, it tries to find a MeetingSeries or Minutes document with the given ID.
- * If the input is an object with an `upsertTopic` function, it returns the input itself.
- * Throws a Meteor.Error if the input is not a valid parent element.
+ * If the input is a string, it tries to find a MeetingSeries or Minutes
+ * document with the given ID. If the input is an object with an `upsertTopic`
+ * function, it returns the input itself. Throws a Meteor.Error if the input is
+ * not a valid parent element.
  *
  * @param {string|object} parent - The parent element to resolve.
  * @returns {object} - The resolved parent element.
@@ -51,9 +52,11 @@ function resolveParentElement(parent) {
  * Resolves a topic based on the provided parent element and source.
  *
  * @param {Object} parentElement - The parent element to search for the topic.
- * @param {string|Object} source - The source string or object representing the topic.
+ * @param {string|Object} source - The source string or object representing the
+ *     topic.
  * @returns {Object} - The resolved topic object.
- * @throws {Meteor.Error} - If the parent element is illegal or the topic cannot be found.
+ * @throws {Meteor.Error} - If the parent element is illegal or the topic cannot
+ *     be found.
  */
 function resolveTopic(parentElement, source) {
   if (typeof source === "string") {
@@ -124,12 +127,12 @@ export class Topic {
     return subElementsHelper.findIndexById(id, topics);
   }
 
-
   /**
    * Checks if a topic document has an open action item.
    *
    * @param {Object} topicDoc - The topic document to check.
-   * @returns {boolean} - True if the topic document has an open action item, false otherwise.
+   * @returns {boolean} - True if the topic document has an open action item,
+   *     false otherwise.
    */
   static hasOpenActionItem(topicDoc) {
     const infoItemDocs = topicDoc.infoItems;
@@ -191,7 +194,8 @@ export class Topic {
 
   /**
    * Checks if the deletion of the topic is allowed.
-   * @returns {boolean} Returns true if the deletion is allowed, otherwise false.
+   * @returns {boolean} Returns true if the deletion is allowed, otherwise
+   *     false.
    */
   isDeleteAllowed() {
     return this.getDocument().createdInMinute === this._parentMinutes._id;
@@ -222,9 +226,11 @@ export class Topic {
 
   /**
    * Toggles the skip state of the topic.
-   * If `forceOpenTopic` is true, it also opens the topic if it is skipped and not already open.
+   * If `forceOpenTopic` is true, it also opens the topic if it is skipped and
+   * not already open.
    *
-   * @param {boolean} [forceOpenTopic=true] - Whether to force open the topic if it is skipped and not already open.
+   * @param {boolean} [forceOpenTopic=true] - Whether to force open the topic if
+   *     it is skipped and not already open.
    */
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
@@ -238,8 +244,10 @@ export class Topic {
    * Upserts an info item in the topic.
    *
    * @param {Object} topicItemDoc - The info item document to upsert.
-   * @param {boolean} [saveChanges=true] - Indicates whether to save changes to the topic after upserting the info item. Default is true.
-   * @param {boolean} [insertPlacementTop=true] - Indicates whether to insert the info item at the top of the info items array. Default is true.
+   * @param {boolean} [saveChanges=true] - Indicates whether to save changes to
+   *     the topic after upserting the info item. Default is true.
+   * @param {boolean} [insertPlacementTop=true] - Indicates whether to insert
+   *     the info item at the top of the info items array. Default is true.
    * @returns {string} The _id of the upserted info item.
    */
   async upsertInfoItem(topicItemDoc, saveChanges, insertPlacementTop = true) {
@@ -281,8 +289,10 @@ export class Topic {
    * Removes an info item from the topic.
    *
    * @param {string} id - The ID of the info item to be removed.
-   * @returns {Promise} A promise that resolves when the info item is successfully removed.
-   * @throws {Meteor.Error} If the info item is an action item created in a different set of minutes.
+   * @returns {Promise} A promise that resolves when the info item is
+   *     successfully removed.
+   * @throws {Meteor.Error} If the info item is an action item created in a
+   *     different set of minutes.
    */
   async removeInfoItem(id) {
     const index = subElementsHelper.findIndexById(id, this.getInfoItems());

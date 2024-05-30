@@ -256,7 +256,8 @@ export class Minutes {
   /**
    * Retrieves the open action items from the topics.
    *
-   * @param {boolean} includeSkippedTopics - Flag indicating whether to include skipped topics.
+   * @param {boolean} includeSkippedTopics - Flag indicating whether to include
+   *     skipped topics.
    * @returns {Array<ActionItem>} - An array of open action items.
    */
   getOpenActionItems(includeSkippedTopics = true) {
@@ -539,7 +540,8 @@ export class Minutes {
    * Finds the index of a topic with the given id in the topics array.
    *
    * @param {string} id - The id of the topic to find.
-   * @returns {number} - The index of the topic in the topics array, or -1 if not found.
+   * @returns {number} - The index of the topic in the topics array, or -1 if
+   *     not found.
    * @private
    */
   _findTopicIndex(id) {

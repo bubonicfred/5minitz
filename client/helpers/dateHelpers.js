@@ -21,7 +21,12 @@ Template.registerHelper("formatDateISO8601Time", (/** @type {Date} */ date) => {
  */
 Template.registerHelper(
   "formateUpdatedHint",
-  (/** @type {Date} */ dateCreate, /** @type {any} */ userCreate, /** @type {Date} */ dateUpd, /** @type {any} */ userUpd) => {
+  (
+    /** @type {Date} */ dateCreate,
+    /** @type {any} */ userCreate,
+    /** @type {Date} */ dateUpd,
+    /** @type {any} */ userUpd,
+  ) => {
     const dateCreateStr = formatDateISO8601Time(dateCreate);
     const dateUpdStr = formatDateISO8601Time(dateUpd);
 
