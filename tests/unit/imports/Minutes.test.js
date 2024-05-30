@@ -254,7 +254,6 @@ describe("Minutes", () => {
         Meteor.callAsync.calledWithExactly(
           "minutes.update",
           sentObj,
-          undefined,
         ),
       ).to.be.true;
     });
@@ -279,8 +278,6 @@ describe("Minutes", () => {
         Meteor.call.calledWithExactly(
           "workflow.addMinutes",
           minute,
-          undefined,
-          undefined,
         ),
       ).to.be.true;
     });
