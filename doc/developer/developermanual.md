@@ -38,18 +38,18 @@
 
 ## DoD - Our "Definition of Done"
 
-- __Acceptance critera__: from the user story are checked and work OK
+- **Acceptance critera**: from the user story are checked and work OK
 
-- __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
-- __Unit tests:__ do cover your new code
-- __Documentation updated:__ the developer doc and the user doc are updated
-- __Code Quality:__ the code passes our eslint rules and no eslint errors will be thrown
-- __No client-side exceptions:__ Check your user story and watch the browser console
-- __No server-side exceptions:__ Check your user story and the meteor console
-- __No open issues:__ on your user story
-- __Create issues:__ if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues)
-- __ES2015:__ Where possible we use ES2015 language features
-- __Localization:__ All UI strings are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) with their corresponding ressource key
+- **Responsiveness:** Your user story shall look great on small (<= 480px width) and large (>1000px) screens
+- **Unit tests:** do cover your new code
+- **Documentation updated:** the developer doc and the user doc are updated
+- **Code Quality:** the code passes our eslint rules and no eslint errors will be thrown
+- **No client-side exceptions:** Check your user story and watch the browser console
+- **No server-side exceptions:** Check your user story and the meteor console
+- **No open issues:** on your user story
+- **Create issues:** if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues)
+- **ES2015:** Where possible we use ES2015 language features
+- **Localization:** All UI strings are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) with their corresponding ressource key
 
 ## Running Tests
 
@@ -61,32 +61,32 @@ We use several approaches to test as many aspects of our application as possible
 1. Install the [node version manager](https://github.com/nvm-sh/nvm) `nvm` to quickly switch between node versions.
 1. Install a global node & npm version from <https://nodejs.org/en/> (so that you can run our package.json test runner scripts)
 1. Install C/C++ commandline compiler (so that you can build native node modules with node-gyp)
-   1. __Windows:__ Install Microsoft's windows-build-tools using: `npm install --global --production windows-build-tools`
-    from an elevated PowerShell or CMD.exe (run as Administrator)
-   1. __MacOS:__ Run in shell: `xcode-select --install`
+   1. **Windows:** Install Microsoft's windows-build-tools using: `npm install --global --production windows-build-tools`
+      from an elevated PowerShell or CMD.exe (run as Administrator)
+   1. **MacOS:** Run in shell: `xcode-select --install`
 1. If not yet done, install all 4Minitz dependencies: `meteor npm install`
 1. Install chrome-driver
-    1. Check version number of you installed chrome browser
-    1. If your `node` version is less than 12.x temporarily switch with `nvm use 12`
-    1. `npm i chromedriver` or specific version `npm i chromedriver@^84.0.0`
-    1. `./node_modules/chromedriver/bin/chromedriver --version` check your chrome driver version
+   1. Check version number of you installed chrome browser
+   1. If your `node` version is less than 12.x temporarily switch with `nvm use 12`
+   1. `npm i chromedriver` or specific version `npm i chromedriver@^84.0.0`
+   1. `./node_modules/chromedriver/bin/chromedriver --version` check your chrome driver version
 
 ### Unit Tests
 
-Unit tests are stored in ```tests/unit```. They are implemented so they do not use any meteor dependencies at all. In order
+Unit tests are stored in `tests/unit`. They are implemented so they do not use any meteor dependencies at all. In order
 to execute unit tests run:
 
-```npm run test:unit```
+`npm run test:unit`
 
 ### End2End Tests
 
-End-to-End tests are stored in directory ```tests/end2end/```.
+End-to-End tests are stored in directory `tests/end2end/`.
 
 To run the e2e tests, you need to run the server in "end2end" mode.
 
-```npm run test:end2end:server```
+`npm run test:end2end:server`
 
-This will set some specific e2e settings from ```settings-test-end2end.json```.
+This will set some specific e2e settings from `settings-test-end2end.json`.
 
 After the end2end server is up and running you may run all(!) end2end tests in either of the following ways:
 
@@ -98,21 +98,21 @@ npm run test:end2end:watchheadless  # invisible browser, tests re-run when any t
 
 To run any of the above scripts with a specific test file, you may append that test spec like so:
 
-```npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js```
+`npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js`
 
 #### Headless debugging with screenshots
 
 To debug headless testcases that run red, you can create screenshots at interesting timepoints in your tests by either calling WebDriver.io's:
 
-```browser.saveScreenshot("my-testcase");```
+`browser.saveScreenshot("my-testcase");`
 
 or by calling our convenience wrapper function:
 
-```E2EGlobal.saveScreenshot("my-testcase");```
+`E2EGlobal.saveScreenshot("my-testcase");`
 
 where the later one adds a timestamp (YYYYMMDDHHMMSS plus milliseconds) in front
 of the file name to create unique names. The screenshots of the headless
-browser are stored in ```/tests/snapshots```.
+browser are stored in `/tests/snapshots`.
 
 Headless end2end tests are executed via GitHub Actions. Screenshots are
 exported as github action artifacts with every build run.
@@ -126,7 +126,7 @@ rules is defined in the [.eslintrc.json](../../.eslintrc.json) configuration fil
 
 You can run eslint to check the code by executing the npm script `eslint`:
 
-```npm run eslint```
+`npm run eslint`
 
 Some rules can be applied automatically like correcting file indention or transforming double quoted literals into
 single quoted ones (yes we use single quotes like recommended in the
@@ -134,7 +134,7 @@ single quoted ones (yes we use single quotes like recommended in the
 together with template strings if necessary). To automatically fix all those errors which can be fixed automatically
 run the npm script `eslint:fix`:
 
-```npm run eslint:fix```
+`npm run eslint:fix`
 
 ## Localization
 
@@ -143,9 +143,9 @@ We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys 
 - PascalCase for nodes
 - camelCase for leafs
 
-After your changes were merged to the ``develop`` branch, you will be able to translate the UI strings directly within Crowdin.
+After your changes were merged to the `develop` branch, you will be able to translate the UI strings directly within Crowdin.
 Any changes on Crowdin are synced every ten minutes to GitHub. Our faithful servant [4minitz-bot](https://github.com/4minitz-bot) will
-automatically commit these changes to the branch ``l10n_develop`` and create a PR to ``develop``. __Don't manually edit any translation file or it will be overwritten with the next PR__.
+automatically commit these changes to the branch `l10n_develop` and create a PR to `develop`. **Don't manually edit any translation file or it will be overwritten with the next PR**.
 
 ## Database Seeding
 
@@ -155,11 +155,11 @@ a custom amount of minutes containing a custom amount of topics and items.
 
 Simply execute:
 
-```npm run fixtures:seed-minutes```
+`npm run fixtures:seed-minutes`
 
 The parameter `--help` displays all command-line options:
 
-```npm run fixtures:seed-minutes -- --help```
+`npm run fixtures:seed-minutes -- --help`
 
 ## Coding - Where to start
 
@@ -201,7 +201,7 @@ With this object you can prepare your email by providing a subject, setting a em
 or both. After that you can send the email by calling the Method send() of the Mail-Object.
 
 When sending the mail by calling the send method, the abstract class Mail takes care about some general things like
-checking if the necessary parameters are set. Then it calls the abstract method _sendMail() which will be implemented
+checking if the necessary parameters are set. Then it calls the abstract method \_sendMail() which will be implemented
 by the concrete implementation either MeteorMail or MailgunMail which takes care about actually sending the mail.
 Afterwords the send-method of the Mail-Class takes care about logging the result.
 
@@ -214,8 +214,8 @@ get an instance of a Mailer.
 ### Adding a different email deliverer
 
 If you want to add an additional email service you have to write your own class which derives from the abstract class
-Mail. In your class you have to implement the method _sendMail() only. There you can access the attributes_replyTo,
-_recipients,_from, _html and_text for building and sending the mail. Then you have to adjust the MailFactory so that
+Mail. In your class you have to implement the method \_sendMail() only. There you can access the attributes_replyTo,
+\_recipients,\_from, \_html and_text for building and sending the mail. Then you have to adjust the MailFactory so that
 it will return your implementation depending on the current configuration. Do not forget to adjust the settings_sample.json
 file to draw attention to your new email delivery service.
 
@@ -237,13 +237,13 @@ Sending action items works analog.
 
 The email layout will be provided as a spacebars template. You can pass a template name to the TopicItemsMailHandler
 which must be found under the path "/private/server_side_templates/email" (e.g InfoItemsMailHandler uses the template
-"publishInfoItems"). In a concrete derivation of the base class you have to call the method _buildMail() of the base
+"publishInfoItems"). In a concrete derivation of the base class you have to call the method \_buildMail() of the base
 class and pass the subject and the data required by the template as parameters. The method_buildMail() will then take
 care about rendering the template and sending the email.
 
 ## MongoDB Collection Schema
 
-See *.schema.js files in imports/collections.
+See \*.schema.js files in imports/collections.
 
 ## MongoDB Migrations
 
