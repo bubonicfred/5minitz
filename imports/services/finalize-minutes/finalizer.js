@@ -13,7 +13,13 @@ import { i18n } from "meteor/universe:i18n";
 
 import { TopicsFinalizer } from "./topicsFinalizer";
 
-// todo merge with finalizer copy
+/**
+ * Checks if the user is available and is a moderator of the specified meeting series.
+ * @todo merge with finalizer copy
+ *
+ * @param {string} meetingSeriesId - The ID of the meeting series.
+ * @throws {Meteor.Error} Throws an error if the user is not authorized or not a moderator.
+ */
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   // Make sure the user is logged in before changing collections
   if (!Meteor.userId()) {
@@ -33,6 +39,13 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   }
 }
 
+/**
+ * Sends finalization mail for the given minutes.
+ *
+ * @param {Object} minutes - The minutes object to be finalized.
+ * @param {boolean} sendActionItems - Indicates whether to send action items in the mail.
+ * @param {boolean} sendInfoItems - Indicates whether to send info items in the mail.
+ */
 function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
   if (!GlobalSettings.isEMailDeliveryEnabled()) {
     console.log(

@@ -97,6 +97,13 @@ function setIsEditedTopic(minutesId, topicId) {
   topic.save();
 }
 
+/**
+ * Removes the "isEdited" flag from a topic.
+ *
+ * @param {string} minutesId - The ID of the minutes containing the topic.
+ * @param {string} topicId - The ID of the topic to remove the flag from.
+ * @param {boolean} ignoreLock - Whether to ignore the lock and remove the flag regardless of ownership.
+ */
 function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
   let unset = false;
   const topic = new Topic(minutesId, topicId);
