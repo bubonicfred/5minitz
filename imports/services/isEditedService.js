@@ -6,6 +6,10 @@ import { MeetingSeries } from "../meetingseries";
 import { Minutes } from "../minutes";
 import { Topic } from "../topic";
 
+/**
+ * Sets the "isEdited" properties of a meeting series.
+ * @param {string} msId - The ID of the meeting series.
+ */
 function setIsEditedMeetingSerie(msId) {
   const ms = new MeetingSeries(msId);
 
@@ -135,6 +139,15 @@ function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
   infoItem.save();
 }
 
+/**
+ * Removes the "isEdited" details for a specific info item.
+ *
+ * @param {string} minutesId - The ID of the minutes.
+ * @param {string} topicId - The ID of the topic.
+ * @param {string} infoItemId - The ID of the info item.
+ * @param {number} detailIdx - The index of the detail to remove.
+ * @param {boolean} ignoreLock - Whether to ignore the lock and remove the detail.
+ */
 function removeIsEditedDetail(
   minutesId,
   topicId,
@@ -215,7 +228,13 @@ Meteor.methods({
   },
 });
 
+/**
+ * Service class for managing the "isEdited" flag for various entities.
+ */
 export class IsEditedService {
+  /**
+   * Removes the "isEdited" flag for all meeting series and minutes on logout.
+   */
   static removeIsEditedOnLogout() {
     const allMs = MeetingSeriesSchema.getCollection().find();
     allMs.forEach((meetingSerie) => {
@@ -232,18 +251,42 @@ export class IsEditedService {
     });
   }
 
+  /**
+   * Sets the "isEdited" flag for a specific meeting series.
+   *
+   * @param {string} msId - The ID of the meeting series.
+   */
   static setIsEditedMeetingSerie(msId) {
     Meteor.callAsync("workflow.setIsEditedMeetingSerie", msId);
   }
 
+  /**
+   * Removes the "isEdited" flag for a specific meeting series.
+   *
+   * @param {string} msId - The ID of the meeting series.
+   * @param {boolean} ignoreLock - Whether to ignore the lock status.
+   */
   static removeIsEditedMeetingSerie(msId, ignoreLock) {
     Meteor.callAsync("workflow.removeIsEditedMeetingSerie", msId, ignoreLock);
   }
 
+  /**
+   * Sets the "isEdited" flag for a specific topic within a set of minutes.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   */
   static setIsEditedTopic(minutesId, topicId) {
     Meteor.callAsync("workflow.setIsEditedTopic", minutesId, topicId);
   }
 
+  /**
+   * Removes the "isEdited" flag for a specific topic within a set of minutes.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   * @param {boolean} ignoreLock - Whether to ignore the lock status.
+   */
   static removeIsEditedTopic(minutesId, topicId, ignoreLock) {
     Meteor.callAsync(
       "workflow.removeIsEditedTopic",
@@ -253,6 +296,13 @@ export class IsEditedService {
     );
   }
 
+  /**
+   * Sets the "isEdited" flag for a specific info item within a topic.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   * @param {string} infoItemId - The ID of the info item.
+   */
   static setIsEditedInfoItem(minutesId, topicId, infoItemId) {
     Meteor.callAsync(
       "workflow.setIsEditedInfoItem",
@@ -262,6 +312,14 @@ export class IsEditedService {
     );
   }
 
+  /**
+   * Removes the "isEdited" flag for a specific info item within a topic.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   * @param {string} infoItemId - The ID of the info item.
+   * @param {boolean} ignoreLock - Whether to ignore the lock status.
+   */
   static removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     Meteor.callAsync(
       "workflow.removeIsEditedInfoItem",
@@ -272,6 +330,14 @@ export class IsEditedService {
     );
   }
 
+  /**
+   * Sets the "isEdited" flag for a specific detail within an info item.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   * @param {string} infoItemId - The ID of the info item.
+   * @param {number} detailIdx - The index of the detail.
+   */
   static setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
     Meteor.callAsync(
       "workflow.setIsEditedDetail",
@@ -282,6 +348,15 @@ export class IsEditedService {
     );
   }
 
+  /**
+   * Removes the "isEdited" flag for a specific detail within an info item.
+   *
+   * @param {string} minutesId - The ID of the minutes.
+   * @param {string} topicId - The ID of the topic.
+   * @param {string} infoItemId - The ID of the info item.
+   * @param {number} detailIdx - The index of the detail to remove.
+   * @param {boolean} ignoreLock - Whether to ignore the lock status.
+   */
   static removeIsEditedDetail(
     minutesId,
     topicId,
