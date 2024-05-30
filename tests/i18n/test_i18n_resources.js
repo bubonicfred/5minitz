@@ -127,7 +127,7 @@ function checkCodeUsage(extension, keyPattern) {
 // Read and parse YAML file to JS object
 let yaml_doc = undefined;
 try {
-  yaml_doc = yaml.safeLoad(fs.readFileSync(en_yaml, "utf8"));
+  yaml_doc = yaml.load(fs.readFileSync(en_yaml, "utf8"));
 } catch (e) {
   console.log(e);
   anyErrorExitCodeToShell = 10;
