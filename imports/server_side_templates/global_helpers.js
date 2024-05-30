@@ -1,6 +1,20 @@
 import { Markdown } from "meteor/perak:markdown";
 import { Spacebars } from "meteor/spacebars";
+import sanitizeHtml from "sanitize-html"; // Import the sanitize-html package
+// Replace <p> tags with <br> to preserve email layout
+const PARAGRAPH_REGEX = /<p>(.*?)<\/p>/gi;
 
+/**
+ * Sanitizes and formats an HTML string.
+ *  Sanitize the HTML to prevent XSS attacks
+ * @param {string} html - The HTML string to sanitize and format.
+ * @returns {Spacebars.SafeString} - The sanitized and formatted HTML string.
+ */
+const sanitizeAndFormatHtml = (html) => {
+  const brhtml = html.replace(PARAGRAPH_REGEX, "$1<br>");
+  const cleanhtml = sanitizeHtml(brhtml);
+  return Spacebars.SafeString(cleanhtml);
+};
 /**
  * Object containing global helper functions for server-side templates.
  *
@@ -9,23 +23,17 @@ import { Spacebars } from "meteor/spacebars";
 export const GlobalHelpers = {
   markdown2html(text = "") {
     text = text.toString();
-
     let html = `<pre>${text}</pre>`;
     try {
       html = Markdown(text);
     } catch (e) {
-      console.log(e);
-      console.log("Could not convert markdown to html for:");
-      console.log(text);
-      throw e;
+      console.error(
+        `Could( not convert the following markdown to html: ${text}`,
+      );
+      throw new Error(`Markdown conversion failed: ${e.message}`);
     }
 
-    // as we embed markdown under a <li> tag in emails we
-    // don't want <p> tags to destroy the layout...
-    // so we replace "<p>....</p>" to "....<br>"
-    html = html.replace(/<p>(.*?)<\/p>/gi, "$1<br>");
-
-    return Spacebars.SafeString(html);
+    return sanitizeAndFormatHtml(html);
   },
 
   doctype() {
@@ -34,6 +42,9 @@ export const GlobalHelpers = {
     return Spacebars.SafeString(dt);
   },
 
+  /**
+   * @param {string} filename
+   */
   style(filename) {
     //  Assets cannot be imported!
     const style = Assets.getText(filename); // eslint-disable-line
