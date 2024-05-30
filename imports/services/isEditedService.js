@@ -1,10 +1,10 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
-import {MeetingSeriesSchema} from "../collections/meetingseries.schema";
-import {MinutesSchema} from "../collections/minutes.schema";
-import {MeetingSeries} from "../meetingseries";
-import {Minutes} from "../minutes";
-import {Topic} from "../topic";
+import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
+import { MinutesSchema } from "../collections/minutes.schema";
+import { MeetingSeries } from "../meetingseries";
+import { Minutes } from "../minutes";
+import { Topic } from "../topic";
 
 /**
  * Sets the "isEdited" properties of a meeting series.
@@ -205,11 +205,11 @@ function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
  *     detail.
  */
 function removeIsEditedDetail(
-    minutesId,
-    topicId,
-    infoItemId,
-    detailIdx,
-    ignoreLock,
+  minutesId,
+  topicId,
+  infoItemId,
+  detailIdx,
+  ignoreLock,
 ) {
   let unset = false;
   const topic = new Topic(minutesId, topicId);
@@ -221,8 +221,9 @@ function removeIsEditedDetail(
 
   if (ignoreLock === true) {
     unset = true;
-  } else if (infoItem._infoItemDoc.details[detailIdx].isEditedBy ===
-             Meteor.userId()) {
+  } else if (
+    infoItem._infoItemDoc.details[detailIdx].isEditedBy === Meteor.userId()
+  ) {
     unset = true;
   }
 
@@ -235,42 +236,49 @@ function removeIsEditedDetail(
 }
 
 Meteor.methods({
-  "workflow.setIsEditedMeetingSerie"(msId) { setIsEditedMeetingSerie(msId); },
+  "workflow.setIsEditedMeetingSerie"(msId) {
+    setIsEditedMeetingSerie(msId);
+  },
 
-  "workflow.removeIsEditedMeetingSerie"(
-      msId, ignoreLock) { removeIsEditedMeetingSerie(msId, ignoreLock); },
+  "workflow.removeIsEditedMeetingSerie"(msId, ignoreLock) {
+    removeIsEditedMeetingSerie(msId, ignoreLock);
+  },
 
-  "workflow.removeIsEditedMinute"(
-      minuteId, ignoreLock) { removeIsEditedMinute(minuteId, ignoreLock); },
+  "workflow.removeIsEditedMinute"(minuteId, ignoreLock) {
+    removeIsEditedMinute(minuteId, ignoreLock);
+  },
 
-  "workflow.setIsEditedTopic"(
-      minutesId, topicId) { setIsEditedTopic(minutesId, topicId); },
+  "workflow.setIsEditedTopic"(minutesId, topicId) {
+    setIsEditedTopic(minutesId, topicId);
+  },
 
-  "workflow.removeIsEditedTopic"(
-      minutesId, topicId,
-      ignoreLock) { removeIsEditedTopic(minutesId, topicId, ignoreLock); },
+  "workflow.removeIsEditedTopic"(minutesId, topicId, ignoreLock) {
+    removeIsEditedTopic(minutesId, topicId, ignoreLock);
+  },
 
-  "workflow.setIsEditedInfoItem"(
-      minutesId, topicId,
-      infoItemId) { setIsEditedInfoItem(minutesId, topicId, infoItemId); },
+  "workflow.setIsEditedInfoItem"(minutesId, topicId, infoItemId) {
+    setIsEditedInfoItem(minutesId, topicId, infoItemId);
+  },
 
   "workflow.removeIsEditedInfoItem"(
-      minutesId,
-      topicId,
-      infoItemId,
-      ignoreLock,
-  ) { removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock); },
+    minutesId,
+    topicId,
+    infoItemId,
+    ignoreLock,
+  ) {
+    removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock);
+  },
 
   "workflow.setIsEditedDetail"(minutesId, topicId, infoItemId, detailIdx) {
     setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx);
   },
 
   "workflow.removeIsEditedDetail"(
-      minutesId,
-      topicId,
-      infoItemId,
-      detailIdx,
-      ignoreLock,
+    minutesId,
+    topicId,
+    infoItemId,
+    detailIdx,
+    ignoreLock,
   ) {
     removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
   },
@@ -287,9 +295,9 @@ export class IsEditedService {
     const allMs = MeetingSeriesSchema.getCollection().find();
     allMs.forEach((meetingSerie) => {
       Meteor.callAsync(
-          "workflow.removeIsEditedMeetingSerie",
-          meetingSerie._id,
-          false,
+        "workflow.removeIsEditedMeetingSerie",
+        meetingSerie._id,
+        false,
       );
     });
 
@@ -337,10 +345,10 @@ export class IsEditedService {
    */
   static removeIsEditedTopic(minutesId, topicId, ignoreLock) {
     Meteor.callAsync(
-        "workflow.removeIsEditedTopic",
-        minutesId,
-        topicId,
-        ignoreLock,
+      "workflow.removeIsEditedTopic",
+      minutesId,
+      topicId,
+      ignoreLock,
     );
   }
 
@@ -353,10 +361,10 @@ export class IsEditedService {
    */
   static setIsEditedInfoItem(minutesId, topicId, infoItemId) {
     Meteor.callAsync(
-        "workflow.setIsEditedInfoItem",
-        minutesId,
-        topicId,
-        infoItemId,
+      "workflow.setIsEditedInfoItem",
+      minutesId,
+      topicId,
+      infoItemId,
     );
   }
 
@@ -370,11 +378,11 @@ export class IsEditedService {
    */
   static removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     Meteor.callAsync(
-        "workflow.removeIsEditedInfoItem",
-        minutesId,
-        topicId,
-        infoItemId,
-        ignoreLock,
+      "workflow.removeIsEditedInfoItem",
+      minutesId,
+      topicId,
+      infoItemId,
+      ignoreLock,
     );
   }
 
@@ -388,11 +396,11 @@ export class IsEditedService {
    */
   static setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
     Meteor.callAsync(
-        "workflow.setIsEditedDetail",
-        minutesId,
-        topicId,
-        infoItemId,
-        detailIdx,
+      "workflow.setIsEditedDetail",
+      minutesId,
+      topicId,
+      infoItemId,
+      detailIdx,
     );
   }
 
@@ -406,19 +414,19 @@ export class IsEditedService {
    * @param {boolean} ignoreLock - Whether to ignore the lock status.
    */
   static removeIsEditedDetail(
+    minutesId,
+    topicId,
+    infoItemId,
+    detailIdx,
+    ignoreLock,
+  ) {
+    Meteor.callAsync(
+      "workflow.removeIsEditedDetail",
       minutesId,
       topicId,
       infoItemId,
       detailIdx,
       ignoreLock,
-  ) {
-    Meteor.callAsync(
-        "workflow.removeIsEditedDetail",
-        minutesId,
-        topicId,
-        infoItemId,
-        detailIdx,
-        ignoreLock,
     );
   }
 }
