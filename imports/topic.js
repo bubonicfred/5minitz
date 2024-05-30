@@ -37,6 +37,14 @@ function resolveParentElement(parent) {
   throw new Meteor.Error("Runtime error, illegal parent element");
 }
 
+/**
+ * Resolves a topic based on the provided parent element and source.
+ *
+ * @param {Object} parentElement - The parent element to search for the topic.
+ * @param {string|Object} source - The source string or object representing the topic.
+ * @returns {Object} - The resolved topic object.
+ * @throws {Meteor.Error} - If the parent element is illegal or the topic cannot be found.
+ */
 function resolveTopic(parentElement, source) {
   if (typeof source === "string") {
     if (typeof parentElement.findTopic !== "function") {
@@ -126,14 +134,27 @@ export class Topic {
 
   // ################### object methods
 
+  /**
+   * Returns a string representation of the Topic object.
+   * @todo Replace with string utils method
+   * @returns {string} The string representation of the Topic object.
+   */
   toString() {
     return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
   }
 
+  /**
+   * @todo extract to utility function
+   *
+   * Logs the string representation of the object.
+   */
   log() {
     console.log(this.toString());
   }
 
+  /**
+   * Invalidates the isNew flag for the topic and its info items.
+   */
   invalidateIsNewFlag() {
     this._topicDoc.isNew = false;
     this._topicDoc.infoItems.forEach((infoItemDoc) => {
@@ -158,22 +179,43 @@ export class Topic {
     );
   }
 
+  /**
+   * Checks if the deletion of the topic is allowed.
+   * @returns {boolean} Returns true if the deletion is allowed, otherwise false.
+   */
   isDeleteAllowed() {
     return this.getDocument().createdInMinute === this._parentMinutes._id;
   }
 
+  /**
+   * Checks if the topic is recurring.
+   * @returns {boolean} Returns true if the topic is recurring, false otherwise.
+   */
   isRecurring() {
     return this.getDocument().isRecurring;
   }
 
+  /**
+   * Toggles the recurring status of the document.
+   */
   toggleRecurring() {
     this.getDocument().isRecurring = !this.isRecurring();
   }
 
+  /**
+   * Checks if the topic is skipped.
+   * @returns {boolean} True if the topic is skipped, false otherwise.
+   */
   isSkipped() {
     return this.getDocument().isSkipped;
   }
 
+  /**
+   * Toggles the skip state of the topic.
+   * If `forceOpenTopic` is true, it also opens the topic if it is skipped and not already open.
+   *
+   * @param {boolean} [forceOpenTopic=true] - Whether to force open the topic if it is skipped and not already open.
+   */
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
     if (forceOpenTopic && this.isSkipped() && !this._topicDoc.isOpen) {
@@ -182,6 +224,14 @@ export class Topic {
     }
   }
 
+  /**
+   * Upserts an info item in the topic.
+   *
+   * @param {Object} topicItemDoc - The info item document to upsert.
+   * @param {boolean} [saveChanges=true] - Indicates whether to save changes to the topic after upserting the info item. Default is true.
+   * @param {boolean} [insertPlacementTop=true] - Indicates whether to insert the info item at the top of the info items array. Default is true.
+   * @returns {string} The _id of the upserted info item.
+   */
   async upsertInfoItem(topicItemDoc, saveChanges, insertPlacementTop = true) {
     if (saveChanges === undefined) {
       saveChanges = true;
@@ -217,6 +267,13 @@ export class Topic {
     return topicItemDoc._id;
   }
 
+  /**
+   * Removes an info item from the topic.
+   *
+   * @param {string} id - The ID of the info item to be removed.
+   * @returns {Promise} A promise that resolves when the info item is successfully removed.
+   * @throws {Meteor.Error} If the info item is an action item created in a different set of minutes.
+   */
   async removeInfoItem(id) {
     const index = subElementsHelper.findIndexById(id, this.getInfoItems());
     const item = this.getInfoItems()[index];
@@ -334,14 +391,26 @@ export class Topic {
     return this._topicDoc.subject;
   }
 
+  /**
+   * Saves the topic by calling the `upsertTopic` method of the parent minutes.
+   * @returns {Promise} A promise that resolves when the topic is saved.
+   */
   async save() {
     return this._parentMinutes.upsertTopic(this._topicDoc);
   }
 
+  /**
+   * Saves the topic at the bottom of the parent minutes.
+   * @returns {Promise} A promise that resolves when the topic is saved.
+   */
   async saveAtBottom() {
     return this._parentMinutes.upsertTopic(this._topicDoc, false);
   }
 
+  /**
+   * Toggles the state of the topic, opening it if closed or closing it if open.
+   * @returns {Promise<void>} A promise that resolves when the state is toggled.
+   */
   async toggleState() {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
