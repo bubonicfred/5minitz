@@ -1,0 +1,45 @@
+name: Move new issues into Project Boards
+on:
+  issues:
+    types: [ opened ]
+jobs:
+  move-issue-to-repository-project-column:
+    name: Move issues to repository project column
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move issue to 'To do' column if body has a mark 'issue:todo'
+        uses: fojia/action-move-issues-to-column@master
+        with:
+          project: 'Actions Project'
+          column: 'To do'
+          owner: 'fojia'
+          repo: 'action-move-issues-to-column'
+          type: 'repo'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          marker: 'issue:todo'
+  move-issue-to-organization-project-column:
+    name: Move issues to organization project column
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move issue to 'To do' column if body has a mark 'issue:todo'
+        uses: fojia/action-move-issues-to-column@master
+        with:
+          project: 'Organization Project'
+          column: 'To do'
+          owner: 'fojia'
+          type: 'org'
+          github_token: ${{ secrets.GA_ACCESS_TOKEN}}
+          marker: 'issue:todo'
+  move-issue-to-user-project-column:
+    name: Move issues to user project column
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move issue to 'To do' column if body has a mark 'issue:todo'
+        uses: fojia/action-move-issues-to-column@master
+        with:
+          project: 'User Project'
+          column: 'To do'
+          owner: 'fojia'
+          type: 'user'
+          github_token: ${{ secrets.GA_ACCESS_TOKEN}}
+          marker: 'issue:todo'
