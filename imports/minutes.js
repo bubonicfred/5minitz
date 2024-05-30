@@ -254,8 +254,10 @@ export class Minutes {
   }
 
   /**
+   * Retrieves the open action items from the topics.
    *
-   * @returns ActionItem[]
+   * @param {boolean} includeSkippedTopics - Flag indicating whether to include skipped topics.
+   * @returns {Array<ActionItem>} - An array of open action items.
    */
   getOpenActionItems(includeSkippedTopics = true) {
     const nonSkippedTopics = includeSkippedTopics
@@ -520,6 +522,10 @@ export class Minutes {
     return names || i18n.__("Minutes.Participants.none");
   }
 
+  /**
+   * Checks if the current minute has a valid parent meeting series.
+   * @throws {Meteor.Error} If the minute is an orphan.
+   */
   checkParent() {
     const parent = this.parentMeetingSeries();
     if (!parent.hasMinute(this._id)) {
@@ -528,10 +534,27 @@ export class Minutes {
   }
 
   // ################### private methods
+
+  /**
+   * Finds the index of a topic with the given id in the topics array.
+   *
+   * @param {string} id - The id of the topic to find.
+   * @returns {number} - The index of the topic in the topics array, or -1 if not found.
+   * @private
+   */
   _findTopicIndex(id) {
     return subElementsHelper.findIndexById(id, this.topics);
   }
 
+  /**
+   * Formats the responsibles object by adding the fullname property.
+   * If the profile is available, it appends the profile name to the username.
+   * @param {Object} responsible - The responsibles object to be formatted.
+   * @param {string} usernameField - The field name for the username.
+   * @param {any} isProfileAvaliable - Indicates if the profile is available.
+   * @returns {Object} - The formatted responsibles object.
+   * @private
+   */
   static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
     responsible.fullname =
       isProfileAvaliable && responsible.profile && responsible.profile.name
