@@ -84,10 +84,12 @@ function buildFullPaths(obj, stack, separator = ".") {
 }
 
 /**
- * Checks the usage of i18n keys in code files and compares them with YAML files.
+ * Checks the usage of i18n keys in code files and compares them with YAML
+ * files.
  *
  * @param {string} extension - The file extension to search for.
- * @param {RegExp} keyPattern - The regular expression pattern to match i18n keys.
+ * @param {RegExp} keyPattern - The regular expression pattern to match i18n
+ *     keys.
  */
 function checkCodeUsage(extension, keyPattern) {
   dictKeysFromCode = {};
