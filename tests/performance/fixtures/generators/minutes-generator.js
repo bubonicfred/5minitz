@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 
-import { DateHelper } from "../lib/date-helper";
-import { Random } from "../lib/random";
+import {DateHelper} from "../lib/date-helper";
+import {Random} from "../lib/random";
 
 /**
  * Represents a MinutesGenerator object.
@@ -61,26 +61,26 @@ export class MinutesGenerator {
   generateOne(topicsGenerator, isLastOne = false) {
     const id = Random.generateId();
     const min = {
-      _id: id,
-      meetingSeries_id: this.parentSeriesId,
-      date: this.constructor._formatDate(this.nextMinutesDate),
-      topics: topicsGenerator.generateNextListForMinutes(
-        id,
-        this.nextMinutesDate,
-        isLastOne,
-      ),
-      visibleFor: [this.user._id],
-      participants: [
-        { userId: this.user._id, present: false, minuteKeeper: false },
+      _id : id,
+      meetingSeries_id : this.parentSeriesId,
+      date : this.constructor._formatDate(this.nextMinutesDate),
+      topics : topicsGenerator.generateNextListForMinutes(
+          id,
+          this.nextMinutesDate,
+          isLastOne,
+          ),
+      visibleFor : [ this.user._id ],
+      participants : [
+        {userId : this.user._id, present : false, minuteKeeper : false},
       ],
-      createdAt: new Date(),
-      createdBy: this.user.username,
-      isFinalized: !isLastOne,
-      globalNote: "",
-      participantsAdditional: "",
-      finalizedVersion: isLastOne ? 0 : 1,
-      finalizedHistory: [],
-      agenda: "",
+      createdAt : new Date(),
+      createdBy : this.user.username,
+      isFinalized : !isLastOne,
+      globalNote : "",
+      participantsAdditional : "",
+      finalizedVersion : isLastOne ? 0 : 1,
+      finalizedHistory : [],
+      agenda : "",
     };
 
     if (!isLastOne) {
@@ -91,7 +91,7 @@ export class MinutesGenerator {
       // #I18N: We will leave this is English, as it is published to the
       // database!
       min.finalizedHistory.push(
-        `Version 1. Finalized on ${dateTime} by ${this.user.username}`,
+          `Version 1. Finalized on ${dateTime} by ${this.user.username}`,
       );
     }
     return min;
@@ -107,9 +107,7 @@ export class MinutesGenerator {
   /**
    * @borrows DateHelper.formatDateISO8601 as _formatDate
    */
-  static _formatDate(date) {
-    return DateHelper.formatDateISO8601(date);
-  }
+  static _formatDate(date) { return DateHelper.formatDateISO8601(date); }
 
   /**
    * @borrows DateHelper.formatDateISO8601Time as _formatDateTime
