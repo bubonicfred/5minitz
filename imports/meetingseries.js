@@ -86,7 +86,7 @@ export class MeetingSeries {
    *   successfully removed.
    */
   static async remove(meetingSeries) {
-    return Meteor.callAsync("workflow.removeMeetingSeries", meetingSeries._id);
+    await Meteor.callAsync("workflow.removeMeetingSeries", meetingSeries._id);
   }
 
   /**
@@ -97,7 +97,7 @@ export class MeetingSeries {
    *   completed.
    */
   static async leave(meetingSeries) {
-    return Meteor.callAsync("workflow.leaveMeetingSeries", meetingSeries._id);
+    await Meteor.callAsync("workflow.leaveMeetingSeries", meetingSeries._id);
   }
 
   /**
@@ -302,7 +302,7 @@ export class MeetingSeries {
       ? lastMinutes.isFinalized
       : false;
 
-    return Meteor.callAsync("meetingseries.update", updateInfo);
+    await Meteor.callAsync("meetingseries.update", updateInfo);
   }
 
   /**
