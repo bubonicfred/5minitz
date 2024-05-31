@@ -87,7 +87,8 @@ function resolveTopic(parentElement, source) {
  */
 export class Topic {
   /**
-   *
+   * @todo "parent object which has at least the methods
+   * upsertTopic() and findTopic()" seems odd, look into refactoring
    * @param parentElement {string|object} is either the id of the parent minute
    *     or parent meeting series
    *                      or the parent object which has at least the methods
