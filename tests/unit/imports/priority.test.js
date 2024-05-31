@@ -1,7 +1,9 @@
 import { expect } from "chai";
-import { AssertHelper } from "../test-helper/assert-helper";
-import sinon from "sinon";
 import proxyquire from "proxyquire";
+import sinon from "sinon";
+
+import rewiremock from "../../test-helper/rewiremock.cjs";
+import { AssertHelper } from "../test-helper/assert-helper";
 
 const EXPECTED_PRIORITY_MAP = {
   1: "1 - High",
@@ -17,7 +19,7 @@ const i18n = {
   __: sinon.stub(),
 };
 
-const { Priority } = proxyquire("../../../imports/priority", {
+const { Priority } = rewiremock.proxy("#root/imports/priority", {
   "meteor/universe:i18n": { i18n, "@noCallThru": true },
 });
 

@@ -1,4 +1,7 @@
 import { expect } from "chai";
+
+import _ from "lodash";
+
 import proxyquire from "proxyquire";
 
 class MeteorError {}
@@ -8,10 +11,15 @@ const Meteor = {
 // No dependecies left to mock. Replace this with normal import for test
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
-  {},
+
+  {
+    lodash: { _, "@noCallThru": true },
+  },
 );
 
 const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
+  lodash: { _, "@noCallThru": true },
+
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
 // skipcq: JS-0241

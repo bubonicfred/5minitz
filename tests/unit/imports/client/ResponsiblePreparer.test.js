@@ -1,7 +1,6 @@
+import { faker } from "@faker-js/faker";
 import { expect } from "chai";
 import _ from "lodash";
-const { faker } = require("@faker-js/faker");
-
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
 
 const generateId = () => {

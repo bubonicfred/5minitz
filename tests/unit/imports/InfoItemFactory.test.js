@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 
+import rewiremock from "../../test-helper/rewiremock.cjs";
+
 const TestSetup = {
   nextItemIsAnActionItem: false,
   infoItemConstructorCallCount: 0,
@@ -33,7 +35,7 @@ class ActionItem {
   }
 }
 
-const { InfoItemFactory } = proxyquire("../../../imports/InfoItemFactory", {
+const { InfoItemFactory } = rewiremock.proxy("#root/imports/InfoItemFactory", {
   "./infoitem": { InfoItem, "@noCallThru": true },
   "./actionitem": { ActionItem, "@noCallThru": true },
 });

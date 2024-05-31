@@ -1,12 +1,13 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
+import { rewiremock } from "../../test-helper/rewiremock";
 import sinon from "sinon";
 
 import asyncStubs from "../../../support/lib/asyncStubs";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const ldap = {
   createClient: sinon.stub(),
-  "@noCallThru": true,
 };
 
 const ldapSearchResponseWithResult = {
@@ -29,7 +30,10 @@ const ldapSearchResponseWithError = {
   },
 };
 
-const getLDAPUsers = proxyquire("../../../../imports/ldap/getLDAPUsers", {
+// const getLDAPUsers = proxyquire(`../../../../imports/ldap/getLDAPUsers`, {
+//   ldapjs: ldap,
+// });
+const getLDAPUsers = rewiremock.proxy("#root/imports/ldap/getLDAPUsers.js", {
   ldapjs: ldap,
 });
 

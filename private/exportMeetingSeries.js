@@ -4,14 +4,15 @@
    mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
  */
 
-const mongo = require("mongodb").MongoClient;
-const ExpImpSchema = require("../imports/server/exportimport/expImpSchema");
-const ExpImpMeetingSeries = require("../imports/server/exportimport/expImpMeetingseries");
-const ExpImpMinutes = require("../imports/server/exportimport/expImpMinutes");
-const ExpImpTopics = require("../imports/server/exportimport/expImpTopics");
-const ExpImpFileAttachments = require("../imports/server/exportimport/expImpFilesAttachments");
-const ExpImpFileDocuments = require("../imports/server/exportimport/expImpFilesDocuments");
-const ExpImpUsers = require("../imports/server/exportimport/expImpUsers");
+import { MongoClient as mongo } from "mongodb";
+
+import ExpImpFileAttachments from "../imports/server/exportimport/expImpFilesAttachments";
+import ExpImpFileDocuments from "../imports/server/exportimport/expImpFilesDocuments";
+import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
+import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
+import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
+import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
+import ExpImpUsers from "../imports/server/exportimport/expImpUsers";
 
 const optionParser = require("node-getopt").create([
   ["i", "id=[ARG]", "ID of meeting series, e.g. icwrCdJjqWpoH9ugQ"],

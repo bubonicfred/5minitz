@@ -9,7 +9,10 @@ const Meteor = {
 
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
+
+
   {},
+
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {

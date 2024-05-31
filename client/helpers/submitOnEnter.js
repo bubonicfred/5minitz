@@ -1,4 +1,7 @@
-import { $ } from "meteor/jquery";
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
+
+
 
 /**
  * Creates a handler function that prevents the default behavior of the event
@@ -34,6 +37,6 @@ function createHandler(action) {
  */
 export default function (textareas, action) {
   textareas.forEach((input) => {
-    $(input).on("keyup", createHandler(action));
+    window.$(input).on("keyup", createHandler(action));
   });
 }

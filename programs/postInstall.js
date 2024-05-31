@@ -1,5 +1,5 @@
 "use strict";
-const fs = require("fs-extra");
+import fs from "fs-extra";
 
 console.log("copy bootstrap fonts to the public folder");
 fs.copySync("./node_modules/bootstrap/dist/fonts", "./public/fonts");

@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { EJSON } from "bson";
+import fs from "fs";
 
 class ExpImpSchema {
   static get MADE_FOR_SCHEMA() {
@@ -107,4 +107,4 @@ class ExpImpSchema {
   }
 }
 
-module.exports = ExpImpSchema;
+export default ExpImpSchema;

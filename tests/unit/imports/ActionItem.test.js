@@ -1,8 +1,10 @@
 import { expect } from "chai";
+import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as Helpers from "../../../imports/helpers/date";
+import "../../../imports/helpers/date.js";
+import rewiremock from "../test-helper/rewiremock.cjs";
 
 const doNothing = () => {};
 
@@ -19,8 +21,6 @@ const Meteor = {
   },
 };
 
-Helpers["@noCallThru"] = true;
-
 const Random = {
   id: () => {},
 };
@@ -31,27 +31,27 @@ const i18n = {
   __: sinon.stub(),
 };
 
-const { Priority } = proxyquire("../../../imports/priority", {
+const { Priority } = rewiremock.proxy("#root/imports/priority", {
   "meteor/universe:i18n": { i18n, "@noCallThru": true },
 });
 
-const { InfoItem } = proxyquire("../../../imports/infoitem", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/random": { Random, "@noCallThru": true },
+const { InfoItem } = rewiremock.proxy("#root/imports/infoitem", {
+  "meteor/meteor": Meteor,
+  "meteor/random": Random,
   "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": Helpers,
-  "./topic": { Topic, "@noCallThru": true },
-  "./label": { Label, "@noCallThru": true },
+  lodash: _,
+  "./topic": Topic,
+  "./label": Label,
 });
-
-const { ActionItem } = proxyquire("../../../imports/actionitem", {
+const { ActionItem } = rewiremock.proxy("#root/imports/actionitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "/imports/priority": { Priority, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
 });
 
 describe("ActionItem", function () {
-  let dummyTopic, infoItemDoc;
+  let dummyTopic;
+  let infoItemDoc;
 
   beforeEach(function () {
     dummyTopic = {
@@ -105,7 +105,7 @@ describe("ActionItem", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getDateFromDetails()).to.equal(
-      infoItemDoc.details[0].date,
+      infoItemDoc.details[0].date
     );
   });
 
@@ -113,7 +113,7 @@ describe("ActionItem", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getTextFromDetails()).to.equal(
-      infoItemDoc.details[0].text,
+      infoItemDoc.details[0].text
     );
   });
 

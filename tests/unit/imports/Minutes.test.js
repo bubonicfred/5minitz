@@ -6,6 +6,7 @@ import sinon from "sinon";
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
 import * as SubElements from "../../../imports/helpers/subElements";
+import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const MinutesSchema = {
   find: sinon.stub(),
@@ -52,7 +53,7 @@ EmailHelpers["@noCallThru"] = true;
 const Random = {
   id: () => {},
 };
-const { Minutes } = proxyquire("../../../imports/minutes", {
+const { Minutes } = rewiremock.proxy("#root/imports/minutes", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/universe:i18n": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },

@@ -6,6 +6,9 @@ import sinon from "sinon";
 import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 
+import rewiremock from "../../test-helper/rewiremock.cjs";
+
+
 const MeetingSeriesSchema = {};
 const Meteor = {
   call: sinon.stub(),
@@ -30,7 +33,7 @@ const Random = {
 const jQuery = {};
 const TopicsFinder = {};
 
-const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
+const { MeetingSeries } = rewiremock.proxy("#root/imports/meetingseries", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "meteor/jquery": { jQuery, "@noCallThru": true },
