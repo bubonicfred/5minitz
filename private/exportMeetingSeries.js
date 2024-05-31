@@ -4,25 +4,20 @@
    mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
  */
 
-import {MongoClient as mongo} from "mongodb";
+import { MongoClient as mongo } from "mongodb";
 
-import ExpImpFileAttachments from
-    "../imports/server/exportimport/expImpFilesAttachments";
-import ExpImpFileDocuments from
-    "../imports/server/exportimport/expImpFilesDocuments";
-import ExpImpMeetingSeries from
-    "../imports/server/exportimport/expImpMeetingseries";
+import ExpImpFileAttachments from "../imports/server/exportimport/expImpFilesAttachments";
+import ExpImpFileDocuments from "../imports/server/exportimport/expImpFilesDocuments";
+import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
 import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
 import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
 import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
 import ExpImpUsers from "../imports/server/exportimport/expImpUsers";
 
 const optionParser = require("node-getopt").create([
-  [ "i", "id=[ARG]", "ID of meeting series, e.g. icwrCdJjqWpoH9ugQ" ],
-  [
-    "m", "mongourl=[ARG]", "Mongo DB url, e.g. mongodb://localhost:3101/meteor"
-  ],
-  [ "h", "help", "Display this help" ],
+  ["i", "id=[ARG]", "ID of meeting series, e.g. icwrCdJjqWpoH9ugQ"],
+  ["m", "mongourl=[ARG]", "Mongo DB url, e.g. mongodb://localhost:3101/meteor"],
+  ["h", "help", "Display this help"],
 ]);
 const arg = optionParser.bindHelp().parseSystem();
 const mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
@@ -35,7 +30,7 @@ if (!mongoUrl) {
   optionParser.showHelp();
   throw new Error("No --mongourl parameter or MONGO_URL in env");
 }
-const _connectMongo = function(mongoUrl) {
+const _connectMongo = function (mongoUrl) {
   return new Promise((resolve, reject) => {
     mongo.connect(mongoUrl, (error, db) => {
       if (error) {
@@ -48,29 +43,32 @@ const _connectMongo = function(mongoUrl) {
 
 console.log("");
 console.log(
-    `*** 4Minitz MeetingSeries Export Tool *** (made for schema version: ${
-        ExpImpSchema.MADE_FOR_SCHEMA})`,
+  `*** 4Minitz MeetingSeries Export Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`,
 );
 _connectMongo(mongoUrl)
-    .then((db) => { return ExpImpSchema.exportCheck(db, meetingseriesID); })
-    .then((db) => { return ExpImpMeetingSeries.doExport(db, meetingseriesID); })
-    .then(({db, userIDs}) => {
-      return ExpImpMinutes.doExport(db, meetingseriesID, userIDs);
-    })
-    .then(({db, userIDs}) => {
-      return ExpImpTopics.doExport(db, meetingseriesID, userIDs);
-    })
-    .then(({db, userIDs}) => {
-      return ExpImpFileAttachments.doExport(db, meetingseriesID, userIDs);
-    })
-    .then(({db, userIDs}) => {
-      return ExpImpFileDocuments.doExport(db, meetingseriesID, userIDs);
-    })
-    .then(({db, userIDs}) => {
-      return ExpImpUsers.doExport(db, meetingseriesID, userIDs);
-    })
-    .then((db) => db.close())
-    .catch((error) => {
-      console.log(`Error: ${error}`);
-      console.log("Press Ctrl+C to stop.");
-    });
+  .then((db) => {
+    return ExpImpSchema.exportCheck(db, meetingseriesID);
+  })
+  .then((db) => {
+    return ExpImpMeetingSeries.doExport(db, meetingseriesID);
+  })
+  .then(({ db, userIDs }) => {
+    return ExpImpMinutes.doExport(db, meetingseriesID, userIDs);
+  })
+  .then(({ db, userIDs }) => {
+    return ExpImpTopics.doExport(db, meetingseriesID, userIDs);
+  })
+  .then(({ db, userIDs }) => {
+    return ExpImpFileAttachments.doExport(db, meetingseriesID, userIDs);
+  })
+  .then(({ db, userIDs }) => {
+    return ExpImpFileDocuments.doExport(db, meetingseriesID, userIDs);
+  })
+  .then(({ db, userIDs }) => {
+    return ExpImpUsers.doExport(db, meetingseriesID, userIDs);
+  })
+  .then((db) => db.close())
+  .catch((error) => {
+    console.log(`Error: ${error}`);
+    console.log("Press Ctrl+C to stop.");
+  });

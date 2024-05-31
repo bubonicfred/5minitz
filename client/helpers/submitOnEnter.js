@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;
 
 /**
@@ -33,7 +33,8 @@ function createHandler(action) {
  * @param {Array} textareas - An array of textarea elements.
  * @param {Function} action - The action to be triggered on keyup event.
  */
-export default function(textareas, action) {
-  textareas.forEach(
-      (input) => { window.$(input).on("keyup", createHandler(action)); });
+export default function (textareas, action) {
+  textareas.forEach((input) => {
+    window.$(input).on("keyup", createHandler(action));
+  });
 }
