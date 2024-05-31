@@ -101,7 +101,14 @@ export class Minutes {
 
   // ################### object methods
 
-  // method
+
+  /**
+   * Updates the document with the provided `docPart`.
+   *
+   * @param {Object} docPart - The partial document to update.
+   * @param {Function} callback - The callback function to be called after the update is complete.
+   * @returns {Promise} A promise that resolves when the update is complete.
+   */
   async update(docPart, callback) {
     console.log("Minutes.update()");
     const parentMeetingSeries = this.parentMeetingSeries();
@@ -120,7 +127,13 @@ export class Minutes {
     }
   }
 
-  // method
+
+  /**
+   * Saves the minutes.
+   *
+   * @param {Function} optimisticUICallback - The callback function for optimistic UI updates.
+   * @param {Function} serverCallback - The callback function for server updates.
+   */
   save(optimisticUICallback, serverCallback) {
     console.log("Minutes.save()");
     if (this.createdAt === undefined) {
@@ -151,20 +164,38 @@ export class Minutes {
     return `Minutes: ${JSON.stringify(this, null, 4)}`;
   }
 
+  /**
+   * Logs the string representation of the object.
+   * @todo Refactor into utility function (or remove)
+   */
   log() {
     console.log(this.toString());
   }
 
+  /**
+   * Get the parent meeting series of the current meeting.
+   * @returns {MeetingSeries} The parent meeting series.
+   */
   parentMeetingSeries() {
     return new MeetingSeries(this.meetingSeries_id);
   }
 
+  /**
+   * Returns the ID of the parent meeting series.
+   *
+   * @returns {string} The ID of the parent meeting series.
+   */
   parentMeetingSeriesID() {
     return this.meetingSeries_id;
   }
 
   // This also does a minimal update of collection!
   // method
+  /**
+   * Removes a topic from the list of topics in the minutes.
+   * @param {string} id - The ID of the topic to be removed.
+   * @returns {Promise<void>} - A promise that resolves when the topic is successfully removed.
+   */
   async removeTopic(id) {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
@@ -173,6 +204,12 @@ export class Minutes {
     }
   }
 
+  /**
+   * Finds a topic by its ID.
+   * @todo Throw error when not found?
+   * @param {string} id - The ID of the topic to find.
+   * @returns {object|undefined} - The found topic object, or undefined if not found.
+   */
   findTopic(id) {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
@@ -203,7 +240,7 @@ export class Minutes {
 
   /**
    * Checks whether this minute has at least one
-   * open AI.
+   * open Action Item.
    *
    * @returns {boolean}
    */
@@ -217,6 +254,11 @@ export class Minutes {
     return false;
   }
 
+  /**
+   * Returns an array of topics that are open and have no info items.
+   *
+   * @returns {Array} An array of topic documents.
+   */
   getOpenTopicsWithoutItems() {
     return this.topics
       .filter((topicDoc) => {
@@ -228,7 +270,14 @@ export class Minutes {
       });
   }
 
-  // method
+
+  /**
+   * Upserts a topic document into the minutes.
+   *
+   * @param {Object} topicDoc - The topic document to upsert.
+   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert the topic at the top or bottom of the topics array.
+   * @returns {Promise} A promise that resolves with the result of the upsert operation.
+   */
   async upsertTopic(topicDoc, insertPlacementTop = true) {
     let i = undefined;
 
@@ -279,11 +328,19 @@ export class Minutes {
     );
   }
 
-  // method
+
+  /**
+   * Sends the agenda for the minutes.
+   * @returns {Promise} A promise that resolves when the agenda is sent.
+   */
   sendAgenda() {
     return Meteor.callAsync("minutes.sendAgenda", this._id);
   }
 
+  /**
+   * Retrieves the timestamp when the agenda was sent.
+   * @returns {boolean|Date} The timestamp when the agenda was sent, or false if it was not sent.
+   */
   getAgendaSentAt() {
     if (!this.agendaSentAt) {
       return false;
@@ -291,6 +348,10 @@ export class Minutes {
     return this.agendaSentAt;
   }
 
+  /**
+   * Checks if the current user is a moderator.
+   * @returns {boolean} True if the current user is a moderator, false otherwise.
+   */
   isCurrentUserModerator() {
     return this.parentMeetingSeries().isCurrentUserModerator();
   }
@@ -356,7 +417,7 @@ export class Minutes {
     return recipientResult;
   }
 
-  // method?
+
   /**
    * Sync all users of .visibleFor into .participants
    * This method adds and removes users from the .participants list.
@@ -409,7 +470,7 @@ export class Minutes {
     return changed ? newParticipants : undefined;
   }
 
-  // method?
+
   /**
    * Change presence of a single participant. Immediately updates .participants
    * array
