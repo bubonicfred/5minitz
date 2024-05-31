@@ -311,7 +311,7 @@ export class Topic {
 
     if (index !== undefined) {
       this.getInfoItems().splice(index, 1);
-      return this.save();
+      await this.save();
     }
   }
 
@@ -421,25 +421,17 @@ export class Topic {
    * @returns {Promise} A promise that resolves when the topic is saved.
    */
   async save() {
-    return this._parentMinutes.upsertTopic(this._topicDoc);
+ await this._parentMinutes.upsertTopic(this._topicDoc);
   }
 
   /**
    * Saves the topic at the bottom of the parent minutes.
    * @returns {Promise} A promise that resolves when the topic is saved.
    */
-  async saveAtBottom() {
-    return this._parentMinutes.upsertTopic(this._topicDoc, false);
-  }
-
-  /**
-   * Toggles the state of the topic, opening it if closed or closing it if open.
-   * @returns {Promise<void>} A promise that resolves when the state is toggled.
-   */
   async toggleState() {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
-    return Meteor.callAsync("minutes.updateTopic", this._topicDoc._id, {
+    await Meteor.callAsync("minutes.updateTopic", this._topicDoc._id, {
       isOpen: this._topicDoc.isOpen,
     });
   }

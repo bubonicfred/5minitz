@@ -570,7 +570,7 @@ export class Minutes {
    */
   async changeParticipantsStatus(isPresent) {
     this.participants.forEach((p) => (p.present = isPresent));
-    return this.update({ participants: this.participants });
+    await this.update({ participants: this.participants });
   }
 
   /**
