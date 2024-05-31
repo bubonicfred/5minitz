@@ -27,8 +27,7 @@
         "plugin:no-jquery/all",
         "plugin:promise/recommended",
         "plugin:mocha-cleanup/recommended",
-        "plugin:mocha/recommended",
-        "@quave/eslint-plugin-meteor-quave"
+        "plugin:mocha/recommended"
     ],
 
 
