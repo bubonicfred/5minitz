@@ -1,3 +1,4 @@
+import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
 
 import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
@@ -237,26 +238,39 @@ function removeIsEditedDetail(
 
 Meteor.methods({
   "workflow.setIsEditedMeetingSerie"(msId) {
+    check(msId, String);
     setIsEditedMeetingSerie(msId);
   },
 
   "workflow.removeIsEditedMeetingSerie"(msId, ignoreLock) {
+    check(msId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedMeetingSerie(msId, ignoreLock);
   },
 
   "workflow.removeIsEditedMinute"(minuteId, ignoreLock) {
+    check(minuteId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedMinute(minuteId, ignoreLock);
   },
 
   "workflow.setIsEditedTopic"(minutesId, topicId) {
+    check(minutesId, String);
+    check(topicId, String);
     setIsEditedTopic(minutesId, topicId);
   },
 
   "workflow.removeIsEditedTopic"(minutesId, topicId, ignoreLock) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedTopic(minutesId, topicId, ignoreLock);
   },
 
   "workflow.setIsEditedInfoItem"(minutesId, topicId, infoItemId) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
     setIsEditedInfoItem(minutesId, topicId, infoItemId);
   },
 
@@ -266,10 +280,18 @@ Meteor.methods({
     infoItemId,
     ignoreLock,
   ) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock);
   },
 
   "workflow.setIsEditedDetail"(minutesId, topicId, infoItemId, detailIdx) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(detailIdx, Number);
     setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx);
   },
 
@@ -280,6 +302,11 @@ Meteor.methods({
     detailIdx,
     ignoreLock,
   ) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(detailIdx, Number);
+    check(ignoreLock, Boolean);
     removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
   },
 });

@@ -4,7 +4,7 @@ import { Meteor } from "meteor/meteor";
 /**
  * Checks a variable against a pattern and throws a Meteor.Error if the check
  * fails.
- *
+ * @todo do we need this? is it an improvment over default check behaviour?
  * @param {any} variable - The variable to check.
  * @param {any} pattern - The pattern to check the variable against.
  * @param {string} [message] - An optional error message to include in the
