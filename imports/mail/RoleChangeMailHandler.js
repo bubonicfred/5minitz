@@ -35,7 +35,7 @@ export class RoleChangeMailHandler {
     const meetingProject = meetingSeries.project;
     const meetingName = meetingSeries.name;
 
-    const userName = User.PROFILENAMEWITHFALLBACK(this._user);
+    const userName = User.profileNameWithFallback(this._user);
 
     this._oldRole =
       this._oldRole == null ? "None" : userroles.role2Text(this._oldRole);
@@ -55,7 +55,7 @@ export class RoleChangeMailHandler {
         ),
         roleOld: this._oldRole,
         roleNew: this._newRole,
-        moderatorName: User.PROFILENAMEWITHFALLBACK(this._moderator),
+        moderatorName: User.profileNameWithFallback(this._moderator),
         urlRoleDocu:
           "https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights",
         url4Minitz: "https://github.com/4minitz/4minitz",

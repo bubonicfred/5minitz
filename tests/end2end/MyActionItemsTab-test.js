@@ -1,24 +1,27 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("MyActionItems Tab", () => {
+describe("MyActionItems Tab", function () {
   const aProjectName = "MyActionItems Tab";
   const aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
-  });
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
+    },
+  );
 
   // **************
   // ATTENTION!
@@ -95,7 +98,7 @@ describe("MyActionItems Tab", () => {
   // ATTENTION!
   // This test case has expected side effect to next test case!
   // **************
-  it("can filter my action items from all action items", () => {
+  it("can filter my action items from all action items", function () {
     const meetingName = `${aMeetingNameBase}3`;
     E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
@@ -130,7 +133,7 @@ describe("MyActionItems Tab", () => {
     ).to.equal(4);
   });
 
-  it('can navigate from AI on "My Action Item" to parent topic', () => {
+  it('can navigate from AI on "My Action Item" to parent topic', function () {
     E2EApp.gotoStartPage();
     E2EApp.gotoActionItemsTab();
 

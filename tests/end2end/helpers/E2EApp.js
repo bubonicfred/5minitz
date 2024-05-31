@@ -1,5 +1,10 @@
 import { E2EGlobal } from "./E2EGlobal";
 
+/**
+ * The `E2EApp` class represents an end-to-end testing helper for the 4Minitz
+ * application. It provides various methods for interacting with the application
+ * during end-to-end tests.
+ */
 export class E2EApp {
   static titlePrefix = "4Minitz!";
 

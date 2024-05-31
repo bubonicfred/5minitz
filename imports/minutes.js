@@ -12,6 +12,7 @@ import { i18n } from "meteor/universe:i18n";
 
 import { ActionItem } from "./actionitem";
 import { MinutesSchema } from "./collections/minutes.schema";
+import { StringUtils } from "./helpers/string-utils";
 import { MeetingSeries } from "./meetingseries";
 import { Topic } from "./topic";
 
@@ -58,12 +59,12 @@ export class Minutes {
 
   // method
   static remove(id) {
-    return Meteor.callPromise("workflow.removeMinute", id);
+    return Meteor.callAsync("workflow.removeMinute", id);
   }
 
   // method
   static async syncVisibility(parentSeriesID, visibleForArray) {
-    return Meteor.callPromise(
+    return Meteor.callAsync(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
       visibleForArray,
@@ -107,7 +108,7 @@ export class Minutes {
     const parentMeetingSeries = this.parentMeetingSeries();
 
     _.assignIn(docPart, { _id: this._id });
-    await Meteor.callPromise("minutes.update", docPart, callback);
+    await Meteor.callAsync("minutes.update", docPart, callback);
 
     // merge new doc fragment into this document
     _.assignIn(this, docPart);
@@ -142,6 +143,11 @@ export class Minutes {
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
   }
 
+  /**
+   * Returns a string representation of the Minutes object.
+   * @todo refactor to use {@link StringUtils.createToString}
+   * @returns {string} The string representation of the Minutes object.
+   */
   toString() {
     return `Minutes: ${JSON.stringify(this, null, 4)}`;
   }
@@ -164,7 +170,7 @@ export class Minutes {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
       this.topics.splice(i, 1);
-      return Meteor.callPromise("minutes.removeTopic", id);
+      return Meteor.callAsync("minutes.removeTopic", id);
     }
   }
 
@@ -236,7 +242,7 @@ export class Minutes {
 
     if (i === undefined) {
       // topic not in array
-      return Meteor.callPromise(
+      return Meteor.callAsync(
         "minutes.addTopic",
         this._id,
         topicDoc,
@@ -244,7 +250,7 @@ export class Minutes {
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
-      return Meteor.callPromise("minutes.updateTopic", topicDoc._id, topicDoc);
+      return Meteor.callAsync("minutes.updateTopic", topicDoc._id, topicDoc);
     }
   }
 
@@ -273,7 +279,7 @@ export class Minutes {
 
   // method
   sendAgenda() {
-    return Meteor.callPromise("minutes.sendAgenda", this._id);
+    return Meteor.callAsync("minutes.sendAgenda", this._id);
   }
 
   getAgendaSentAt() {
@@ -405,8 +411,8 @@ export class Minutes {
   /**
    * Change presence of a single participant. Immediately updates .participants
    * array
-   * TODO Reactive performance may be better if we only update one array element
-   * in DB
+   * @todo Reactive performance may be better if we only update one array
+   * element in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */

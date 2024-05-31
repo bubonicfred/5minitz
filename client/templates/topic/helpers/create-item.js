@@ -10,6 +10,21 @@ import { ResponsibleExtractor } from "../../../../imports/services/responsibleEx
 
 import { convertOrCreateLabelsFromStrings } from "./convert-or-create-label-from-string";
 
+/**
+ * Creates a new item for a topic.
+ *
+ * @param {Object} itemDoc - The item document.
+ * @param {Object} parentTopic - The parent topic object.
+ * @param {string} minutesId - The ID of the minutes.
+ * @param {Object} meetingSeries - The meeting series object.
+ * @param {string} [type="infoItem"] - The type of the item. Defaults to
+ *     "infoItem".
+ * @param {Array} [labels=[]] - The labels for the item. Defaults to an empty
+ *     array.
+ * @returns {Object} - The newly created item.
+ * @throws {Meteor.Error} - If the subject is missing for the new item.
+ * @throws {Meteor.Error} - If the type is unknown.
+ */
 export function createItem(
   itemDoc,
   parentTopic,

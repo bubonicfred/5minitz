@@ -1,37 +1,40 @@
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
-import { E2EGlobal } from "./helpers/E2EGlobal";
 
 // This test might be helpful if there is a bug with our migrations
 // The tests creates a series with two minutes containing action and info items
-// After that you can migrate down to a specific version and migrate up step by step. After each step
-// the amount of items will be count
-describe.skip("Migrations", () => {
+// After that you can migrate down to a specific version and migrate up step by
+// step. After each step the amount of items will be count
+describe.skip("Migrations", function () {
   const aProjectName = "Migrations";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
 
-    aMeetingCounter++;
-    aMeetingName = aMeetingNameBase + aMeetingCounter;
+      aMeetingCounter++;
+      aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-  });
+      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    },
+  );
 
-  it("should not change meeting series topics history when migration down and up", () => {
+  it("should not change meeting series topics history when migration down and up", function () {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "information" }, 1);
     E2ETopics.addInfoItemToTopic(

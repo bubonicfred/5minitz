@@ -1,27 +1,30 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Minutes Finalize", () => {
+describe("Minutes Finalize", function () {
   const aProjectName = "E2E Minutes Finalize";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
 
-  beforeEach("goto start page and make sure test user is logged in", () => {
-    E2EApp.gotoStartPage();
-    expect(E2EApp.isLoggedIn()).to.be.true;
-  });
+  beforeEach(
+    "goto start page and make sure test user is logged in",
+    function () {
+      E2EApp.gotoStartPage();
+      expect(E2EApp.isLoggedIn()).to.be.true;
+    },
+  );
 
-  it("can finalize minutes", () => {
+  it("can finalize minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -42,7 +45,7 @@ describe("Minutes Finalize", () => {
 
   // this test does only make sense if mail delivery is enabled
   if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
-    it("asks if emails should be sent before finalizing the minute", () => {
+    it("asks if emails should be sent before finalizing the minute", function () {
       aMeetingCounter++;
       aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -76,7 +79,7 @@ describe("Minutes Finalize", () => {
     });
   }
 
-  it("can not add minutes if unfinalized minutes exist", () => {
+  it("can not add minutes if unfinalized minutes exist", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -113,7 +116,7 @@ describe("Minutes Finalize", () => {
     ).to.equal(countInitialMinutes + 1);
   });
 
-  it("can finalize minutes at later timepoint", () => {
+  it("can finalize minutes at later timepoint", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -140,7 +143,7 @@ describe("Minutes Finalize", () => {
     ).to.equal(countInitialMinutes + 2);
   });
 
-  it("can not delete or finalize already finalized minutes", () => {
+  it("can not delete or finalize already finalized minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -154,7 +157,7 @@ describe("Minutes Finalize", () => {
     expect(browser.isExisting("#btn_deleteMinutes")).to.be.false;
   });
 
-  it("can unfinalize minutes", () => {
+  it("can unfinalize minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -221,7 +224,7 @@ describe("Minutes Finalize", () => {
     ).to.equal(1);
   });
 
-  it("does show name of user that did finalize", () => {
+  it("does show name of user that did finalize", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -241,7 +244,7 @@ describe("Minutes Finalize", () => {
     expect(finalizedText).to.contain(currentUsername);
   });
 
-  it("prohibits editing date of finalized minutes", () => {
+  it("prohibits editing date of finalized minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -252,7 +255,8 @@ describe("Minutes Finalize", () => {
 
     let dateOfMinutes = browser.getValue("#id_minutesdateInput");
     expect(dateOfMinutes).to.equal(myDate);
-    // try to change read-only field... we expect an exception in the next statement...  ;-)
+    // try to change read-only field... we expect an exception in the next
+    // statement...  ;-)
     try {
       browser.setValue("#id_minutesdateInput", "2015-05-22");
     } catch (e) {}
@@ -260,7 +264,7 @@ describe("Minutes Finalize", () => {
     expect(dateOfMinutes).to.equal(myDate); // still same as above?
   });
 
-  it("prohibits unfinalizing of non-latest minutes", () => {
+  it("prohibits unfinalizing of non-latest minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate1 = "2015-03-17"; // date of first project commit ;-)
@@ -285,7 +289,7 @@ describe("Minutes Finalize", () => {
     expect(browser.isExisting("#btn_unfinalizeMinutes")).to.be.false;
   });
 
-  it("prohibits minutes on dates before the latest minutes", () => {
+  it("prohibits minutes on dates before the latest minutes", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate1 = "2015-03-17"; // date of first project commit ;-)
@@ -304,7 +308,7 @@ describe("Minutes Finalize", () => {
     expect(E2EMinutes.getMinutesId(currentDateISO)).to.be.ok;
   });
 
-  it("prohibits two minutes on the same date", () => {
+  it("prohibits two minutes on the same date", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
     const myDate1 = "2015-03-17"; // date of first project commit ;-)
@@ -324,7 +328,7 @@ describe("Minutes Finalize", () => {
     expect(E2EMinutes.getMinutesId(currentDateISO)).to.be.ok;
   });
 
-  it("cancel finalize Minutes, when warning-box appears", () => {
+  it("cancel finalize Minutes, when warning-box appears", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -343,7 +347,7 @@ describe("Minutes Finalize", () => {
     ).to.equal(1);
   });
 
-  it("process finalize Minutes, when warning-box appears", () => {
+  it("process finalize Minutes, when warning-box appears", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -362,7 +366,7 @@ describe("Minutes Finalize", () => {
     ).to.equal(1);
   });
 
-  it("update detail on pinned and not discussed item in next minute after finalizing item origin minute", () => {
+  it("update detail on pinned and not discussed item in next minute after finalizing item origin minute", function () {
     aMeetingCounter++;
     aMeetingName = aMeetingNameBase + aMeetingCounter;
 

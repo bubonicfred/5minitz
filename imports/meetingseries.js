@@ -1,3 +1,12 @@
+/**
+ * @fileoverview This file contains the implementation of the MeetingSeries
+ * class. The MeetingSeries class represents a series of meetings and provides
+ * methods for managing and manipulating meeting data. It includes static
+ * methods for finding and removing meeting series, as well as object methods
+ * for adding and removing minutes, saving the meeting series, and more.
+ * @module meetingseries
+ * @exports MeetingSeries
+ */
 import "./helpers/promisedMethods";
 import "./collections/meetingseries_private";
 
@@ -14,6 +23,10 @@ import { Minutes } from "./minutes";
 import { TopicsFinder } from "./services/topicsFinder";
 import { UserRoles } from "./userroles";
 
+/**
+ * Represents a meeting series.
+ * @class
+ */
 export class MeetingSeries {
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
@@ -39,14 +52,11 @@ export class MeetingSeries {
   }
 
   static async remove(meetingSeries) {
-    return Meteor.callPromise(
-      "workflow.removeMeetingSeries",
-      meetingSeries._id,
-    );
+    return Meteor.callAsync("workflow.removeMeetingSeries", meetingSeries._id);
   }
 
   static async leave(meetingSeries) {
-    return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+    return Meteor.callAsync("workflow.leaveMeetingSeries", meetingSeries._id);
   }
 
   static getAllVisibleIDsForUser(userId) {
@@ -72,8 +82,8 @@ export class MeetingSeries {
 
   save(optimisticUICallback) {
     return this._id
-      ? Meteor.callPromise("meetingseries.update", this)
-      : Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
+      ? Meteor.callAsync("meetingseries.update", this)
+      : Meteor.callAsync("meetingseries.insert", this, optimisticUICallback);
   }
 
   async saveAsync(optimisticUICallback) {
@@ -117,8 +127,15 @@ export class MeetingSeries {
     min.save(optimisticUICallback, serverCallback);
   }
 
-  upsertTopic() {
-    // TODO: refactor topic class and make this method obsolete
+  /**
+   * Upserts a topic.
+   * @memberof MeetingSeries
+   * @method upsertTopic
+   * @instance
+   * @deprecated This method is obsolete. Please refactor the topic class.
+   */
+  static upsertTopic() {
+    // Intentionally empty
   }
 
   hasMinute(id) {
@@ -159,7 +176,7 @@ export class MeetingSeries {
       ? lastMinutes.isFinalized
       : false;
 
-    return Meteor.callPromise("meetingseries.update", updateInfo);
+    return Meteor.callAsync("meetingseries.update", updateInfo);
   }
 
   addNewMinutesAllowed() {
@@ -175,10 +192,15 @@ export class MeetingSeries {
     }
   }
 
+  /**
+   * Get the date of the latest minute excluding the given minuteId.
+   * @todo check if excluding the given minuteId could be done directly in the
+   * find call on the collection
+   * @param {string} minuteId - The ID of the minute to exclude.
+   * @returns {Date|undefined} The date of the first non-matching minute, or
+   *     undefined if no non-matching minute is found.
+   */
   _getDateOfLatestMinuteExcluding(minuteId) {
-    // TODO check if excluding the given minuteId could be
-    // done directly in the find call on the collection
-
     const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
       return {
         _id: minute._id,

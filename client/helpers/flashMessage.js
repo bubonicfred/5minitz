@@ -7,6 +7,9 @@ const TYPES = {
   DANGER: "danger",
 };
 
+/**
+ * Represents a flash message that can be displayed to the user.
+ */
 export class FlashMessage {
   /**
    *

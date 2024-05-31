@@ -1,7 +1,7 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 
-before(() => {
+before(function () {
   console.log("End2End Settings:");
   console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 

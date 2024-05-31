@@ -1,5 +1,4 @@
 import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { ReactiveDict } from "meteor/reactive-dict";
 import { Template } from "meteor/templating";
@@ -59,12 +58,16 @@ Template.login.helpers({
 
 Template.login.events({
   "click .nav-tabs li"(event) {
-    const currentTab = $(event.target).closest("li");
+    const currentTab = event.target.closest("li");
 
-    currentTab.addClass("active");
-    $(".nav-tabs li").not(currentTab).removeClass("active");
+    currentTab.classList.add("active");
+    Array.from(document.querySelectorAll(".nav-tabs li")).forEach((tab) => {
+      if (tab !== currentTab) {
+        tab.classList.remove("active");
+      }
+    });
 
-    ReactiveDict.set("currentLoginForm", currentTab.data("template"));
+    ReactiveDict.set("currentLoginForm", currentTab.dataset.template);
   },
 
   "click #btnLegalNotice"() {

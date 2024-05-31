@@ -2,8 +2,8 @@ const expect = require("chai").expect;
 
 import { TopicsGenerator } from "../../generators/topics-generator";
 
-describe("TopicsGenerator", () => {
-  describe("#generateNextListForMinutes", () => {
+describe("TopicsGenerator", function () {
+  describe("#generateNextListForMinutes", function () {
     const CONFIG = {
       topicsRange: { min: 3, max: 4 },
       itemsRange: { min: 3, max: 10 },
@@ -12,11 +12,11 @@ describe("TopicsGenerator", () => {
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(() => {
+    beforeEach(function () {
       generator = new TopicsGenerator(CONFIG);
     });
 
-    it("should not modify the previously returned topics array", () => {
+    it("should not modify the previously returned topics array", function () {
       const firstTopicList = generator.generateNextListForMinutes("a"); // all AIs of this list should be open!
       generator.generateNextListForMinutes("a");
 
@@ -28,7 +28,7 @@ describe("TopicsGenerator", () => {
     });
   });
 
-  describe("#_generateANewTopic", () => {
+  describe("#_generateANewTopic", function () {
     const CONFIG = {
       topicsRange: { min: 3, max: 4 },
       itemsRange: { min: 3, max: 7 },
@@ -37,11 +37,11 @@ describe("TopicsGenerator", () => {
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(() => {
+    beforeEach(function () {
       generator = new TopicsGenerator(CONFIG);
     });
 
-    it("generates one topic with the correct amount of info items", () => {
+    it("generates one topic with the correct amount of info items", function () {
       for (let i = 0; i < 100; i++) {
         const topic = generator._generateANewTopic();
         expect(topic.infoItems).to.have.length.below(CONFIG.itemsRange.max + 1);
@@ -49,7 +49,7 @@ describe("TopicsGenerator", () => {
       }
     });
 
-    it("sets the createdInMinute attribute for topics correctly", () => {
+    it("sets the createdInMinute attribute for topics correctly", function () {
       const MIN_ID = "AaBbCcDd01";
       generator.currentMinutesId = MIN_ID;
       const topic = generator._generateANewTopic();
@@ -57,15 +57,15 @@ describe("TopicsGenerator", () => {
     });
   });
 
-  describe("#_copyTopicsToSeries", () => {
+  describe("#_copyTopicsToSeries", function () {
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(() => {
+    beforeEach(function () {
       generator = new TopicsGenerator(undefined);
     });
 
-    it("should copy the new list to the seriesTopicList omitting the open items", () => {
+    it("should copy the new list to the seriesTopicList omitting the open items", function () {
       generator.currentTopicList = [
         {
           _id: "1",
@@ -91,7 +91,7 @@ describe("TopicsGenerator", () => {
       expect(generator.seriesTopicList[1].isOpen).to.be.false;
     });
 
-    it("should append the existing seriesTopicsList", () => {
+    it("should append the existing seriesTopicsList", function () {
       generator.seriesTopicList = [
         {
           _id: "1",
@@ -139,7 +139,7 @@ describe("TopicsGenerator", () => {
     });
   });
 
-  describe("#_extendExistingTopics", () => {
+  describe("#_extendExistingTopics", function () {
     const CONFIG = {
       topicsRange: { min: 1, max: 3 },
       itemsRange: { min: 1, max: 3 },
@@ -147,11 +147,11 @@ describe("TopicsGenerator", () => {
     /** @type {TopicsGenerator} */
     let generator;
 
-    beforeEach(() => {
+    beforeEach(function () {
       generator = new TopicsGenerator(CONFIG);
     });
 
-    it("should not toggle new generated action items", () => {
+    it("should not toggle new generated action items", function () {
       // mock generator
       let nextId = 16;
       generator._generateANewInfoItem = () => {

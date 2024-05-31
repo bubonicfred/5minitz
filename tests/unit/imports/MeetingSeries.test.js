@@ -10,7 +10,7 @@ import rewiremock from "../../test-helper/rewiremock.cjs";
 const MeetingSeriesSchema = {};
 const Meteor = {
   call: sinon.stub(),
-  callPromise: sinon.stub(),
+  callAsync: sinon.stub(),
 };
 const Minutes = {};
 const Topic = {};
@@ -66,13 +66,13 @@ describe("MeetingSeries", () => {
     });
 
     it("sets the project correctly", () => {
-      var ms = new MeetingSeries(meetingSeries);
+      const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.project).to.equal(meetingSeries.project);
     });
 
     it("sets the name correctly", () => {
-      var ms = new MeetingSeries(meetingSeries);
+      const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.name).to.equal(meetingSeries.name);
     });
@@ -108,7 +108,7 @@ describe("MeetingSeries", () => {
 
       MinutesFinder.result = { date: expectedDate };
 
-      var actualDate = series.getMinimumAllowedDateForMinutes();
+      const actualDate = series.getMinimumAllowedDateForMinutes();
 
       compareDates(actualDate, expectedDate);
     });
@@ -128,7 +128,7 @@ describe("MeetingSeries", () => {
         },
       ]);
 
-      var actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
+      const actualDate = series.getMinimumAllowedDateForMinutes(lastMinuteId);
 
       compareDates(actualDate, expectedDate);
     });
@@ -148,7 +148,7 @@ describe("MeetingSeries", () => {
         },
       ]);
 
-      var actualDate =
+      const actualDate =
         series.getMinimumAllowedDateForMinutes(secondToLastMinuteId);
 
       compareDates(actualDate, expectedDate);
@@ -168,15 +168,14 @@ describe("MeetingSeries", () => {
     it("calls the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the document to the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
-      expect(
-        Meteor.callPromise.calledWith("meetingseries.insert", meetingSeries),
-      ).to.be.true;
+      expect(Meteor.callAsync.calledWith("meetingseries.insert", meetingSeries))
+        .to.be.true;
     });
   });
 });

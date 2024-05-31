@@ -1,6 +1,5 @@
 import { handleError } from "/client/helpers/handleError";
 import { Accounts } from "meteor/accounts-base";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
@@ -33,7 +32,10 @@ Template.passwordChangeDialog.onRendered(() => {
   addCustomValidator(
     "#id_newPassword2",
     (value) => {
-      return checkPasswordsIdentical(value, $("#id_newPassword1").val());
+      return checkPasswordsIdentical(
+        value,
+        document.querySelector("#id_newPassword1").value,
+      );
     },
     "New Passwords are not identical",
   );
@@ -82,7 +84,7 @@ Template.passwordChangeDialog.events({
       tmpl.find("#id_oldPassword").value = "";
       tmpl.find("#id_newPassword1").value = "";
       tmpl.find("#id_newPassword2").value = "";
-      $("#dlgChangePassword").modal("hide");
+      document.querySelector("#dlgChangePassword").classList.remove("show");
     });
   },
 

@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { i18n } from "meteor/universe:i18n";
 
 import { Minutes } from "../../../../imports/minutes";
@@ -11,7 +10,7 @@ export const configureSelect2Labels = (
   const aMin = new Minutes(minutesId);
   const aSeries = aMin.parentMeetingSeries();
 
-  const selectLabels = $(elementSelector);
+  const selectLabels = document.querySelector(elementSelector);
   selectLabels
     .find("option") // clear all <option>s
     .remove();

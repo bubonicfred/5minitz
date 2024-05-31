@@ -30,54 +30,54 @@ const { GlobalSettings } = rewiremock.proxy(
   },
 );
 
-describe("GlobalSettings", () => {
-  beforeEach("publish public settings", () => {
+describe("GlobalSettings", function () {
+  beforeEach("publish public settings", function () {
     Meteor.settings = require("../../../settings_sample.json");
     GlobalSettings.publishSettings();
   });
 
-  describe("#getRootUrl", () => {
-    it("returns the correct value", () => {
+  describe("#getRootUrl", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.getRootUrl()).to.equal(Meteor.settings.ROOT_URL);
     });
 
-    it("returns an empty string if property is not set", () => {
+    it("returns an empty string if property is not set", function () {
       delete Meteor.settings.ROOT_URL;
       expect(GlobalSettings.getRootUrl()).to.equal("");
     });
 
-    it("does not fail if no settings file give", () => {
+    it("does not fail if no settings file give", function () {
       Meteor.settings = {};
       expect(GlobalSettings.getRootUrl()).to.equal("");
     });
   });
 
-  describe("#isTrustedIntranetInstallation", () => {
-    it("returns the correct value", () => {
+  describe("#isTrustedIntranetInstallation", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.isTrustedIntranetInstallation()).to.equal(
         Meteor.settings.trustedIntranetInstallation,
       );
     });
 
-    it("returns false if property is not set", () => {
+    it("returns false if property is not set", function () {
       delete Meteor.settings.trustedIntranetInstallation;
       expect(GlobalSettings.isTrustedIntranetInstallation()).to.be.false;
     });
 
-    it("does not fail if no settings file give", () => {
+    it("does not fail if no settings file give", function () {
       Meteor.settings = {};
       expect(GlobalSettings.isTrustedIntranetInstallation()).to.be.false;
     });
   });
 
-  describe("#getDefaultEmailSenderAddress", () => {
-    it("returns the default email sender address", () => {
+  describe("#getDefaultEmailSenderAddress", function () {
+    it("returns the default email sender address", function () {
       expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(
         Meteor.settings.email.defaultEMailSenderAddress,
       );
     });
 
-    it("returns the alternative address of the current user if property is left empty", () => {
+    it("returns the alternative address of the current user if property is left empty", function () {
       Meteor.settings.email.defaultEMailSenderAddress = "";
       const alternative = "alternativeSenderAddress";
       expect(GlobalSettings.getDefaultEmailSenderAddress(alternative)).to.equal(
@@ -85,14 +85,14 @@ describe("GlobalSettings", () => {
       );
     });
 
-    it("returns fallback sender address if no alternative address is given", () => {
+    it("returns fallback sender address if no alternative address is given", function () {
       Meteor.settings.email.defaultEMailSenderAddress = "";
       expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(
         Meteor.settings.email.fallbackEMailSenderAddress,
       );
     });
 
-    it("throws exception if fallback sender address required but not given", () => {
+    it("throws exception if fallback sender address required but not given", function () {
       Meteor.settings.email.defaultEMailSenderAddress = "";
       delete Meteor.settings.email.fallbackEMailSenderAddress;
       let exceptionThrown;
@@ -106,7 +106,7 @@ describe("GlobalSettings", () => {
       expect(exceptionThrown, "Method did not throw exception").to.be.true;
     });
 
-    it("throws exception if property is not set", () => {
+    it("throws exception if property is not set", function () {
       delete Meteor.settings.email.defaultEMailSenderAddress;
 
       let exceptionThrown;
@@ -121,69 +121,69 @@ describe("GlobalSettings", () => {
     });
   });
 
-  describe("#isEMailDeliveryEnabled", () => {
-    it("returns the correct value", () => {
+  describe("#isEMailDeliveryEnabled", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.isEMailDeliveryEnabled()).to.equal(
         Meteor.settings.email.enableMailDelivery,
       );
     });
 
-    it("returns false if property is not set", () => {
+    it("returns false if property is not set", function () {
       delete Meteor.settings.email.enableMailDelivery;
       GlobalSettings.publishSettings();
       expect(GlobalSettings.isEMailDeliveryEnabled()).to.be.false;
     });
 
-    it("does not fail if no settings file give", () => {
+    it("does not fail if no settings file give", function () {
       Meteor.settings = {};
       expect(GlobalSettings.isEMailDeliveryEnabled()).to.be.false;
     });
   });
 
-  describe("#getMailDeliverer", () => {
-    it("returns the correct value", () => {
+  describe("#getMailDeliverer", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.getMailDeliverer()).to.equal(
         Meteor.settings.email.mailDeliverer,
       );
     });
 
-    it("returns smtp if property is not set", () => {
+    it("returns smtp if property is not set", function () {
       delete Meteor.settings.email.mailDeliverer;
       expect(GlobalSettings.getMailDeliverer()).to.equal("smtp");
     });
 
-    it("does not fail if no settings file give", () => {
+    it("does not fail if no settings file give", function () {
       Meteor.settings = {};
       expect(GlobalSettings.getMailDeliverer()).to.equal("smtp");
     });
   });
 
-  describe("#getSMTPMailUrl", () => {
-    it("returns the correct value", () => {
+  describe("#getSMTPMailUrl", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.getSMTPMailUrl()).to.equal(
         Meteor.settings.email.smtp.mailUrl,
       );
     });
 
-    it("returns an empty string if property is not set", () => {
+    it("returns an empty string if property is not set", function () {
       delete Meteor.settings.email.smtp.mailUrl;
       expect(GlobalSettings.getSMTPMailUrl()).to.equal("");
     });
 
-    it("does not fail if no settings file give", () => {
+    it("does not fail if no settings file give", function () {
       Meteor.settings = {};
       expect(GlobalSettings.getSMTPMailUrl()).to.equal("");
     });
   });
 
-  describe("#getMailgunSettings", () => {
-    it("returns the correct value", () => {
+  describe("#getMailgunSettings", function () {
+    it("returns the correct value", function () {
       expect(GlobalSettings.getMailgunSettings()).to.equal(
         Meteor.settings.email.mailgun,
       );
     });
 
-    it("throws exception if property is not set", () => {
+    it("throws exception if property is not set", function () {
       delete Meteor.settings.email.mailgun;
 
       let exceptionThrown;

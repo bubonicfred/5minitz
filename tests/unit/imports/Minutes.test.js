@@ -2,7 +2,8 @@ import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
+import _ from "underscore";
+import { rewiremock } from "../../test-helper/rewiremock.js";
 import * as Helpers from "../../../imports/helpers/date";
 import * as EmailHelpers from "../../../imports/helpers/email";
 import * as SubElements from "../../../imports/helpers/subElements";
@@ -19,7 +20,7 @@ class MeteorError {}
 
 const Meteor = {
   call: sinon.stub(),
-  callPromise: sinon.stub().resolves(true),
+  callAsync: sinon.stub().resolves(true),
   Error: MeteorError,
 };
 
@@ -92,7 +93,7 @@ describe("Minutes", () => {
     MinutesSchema.find.resetHistory();
     MinutesSchema.findOne.resetHistory();
     Meteor.call.resetHistory();
-    Meteor.callPromise.resetHistory();
+    Meteor.callAsync.resetHistory();
     isCurrentUserModeratorStub.resetHistory();
     updateLastMinutesFieldsStub.resetHistory();
     topicGetOpenActionItemsStub.resetHistory();
@@ -200,16 +201,13 @@ describe("Minutes", () => {
   describe("#remove", () => {
     it("calls the meteor method minutes.remove", () => {
       Minutes.remove(minute._id);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the minutes id to the meteor method minutes.remove", () => {
       Minutes.remove(minute._id);
       expect(
-        Meteor.callPromise.calledWithExactly(
-          "workflow.removeMinute",
-          minute._id,
-        ),
+        Meteor.callAsync.calledWithExactly("workflow.removeMinute", minute._id),
       ).to.be.true;
     });
   });
@@ -224,13 +222,13 @@ describe("Minutes", () => {
 
     it("calls the meteor method minutes.syncVisibilityAndParticipants", () => {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants", () => {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
       expect(
-        Meteor.callPromise.calledWithExactly(
+        Meteor.callAsync.calledWithExactly(
           "minutes.syncVisibilityAndParticipants",
           parentSeriesId,
           visibleForArray,
@@ -250,7 +248,7 @@ describe("Minutes", () => {
 
     it("calls the meteor method minutes.update", () => {
       minute.update(updateDocPart);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the doc part and the minutes id to the meteor method minutes.update", () => {
@@ -258,7 +256,7 @@ describe("Minutes", () => {
       const sentObj = JSON.parse(JSON.stringify(updateDocPart));
       sentObj._id = minute._id;
       expect(
-        Meteor.callPromise.calledWithExactly(
+        Meteor.callAsync.calledWithExactly(
           "minutes.update",
           sentObj,
           undefined,
@@ -380,7 +378,7 @@ describe("Minutes", () => {
 
       it("calls the meteor method minutes.update", () => {
         minute.removeTopic(topic1._id);
-        expect(Meteor.callPromise.calledOnce).to.be.true;
+        expect(Meteor.callAsync.calledOnce).to.be.true;
       });
     });
 
@@ -441,9 +439,9 @@ describe("Minutes", () => {
 
     it("adds a new topic to the topic array", () => {
       minute.upsertTopic(topicDoc);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
       expect(
-        Meteor.callPromise.calledWithExactly(
+        Meteor.callAsync.calledWithExactly(
           "minutes.addTopic",
           sinon.match.string,
           topicDoc,
@@ -454,9 +452,9 @@ describe("Minutes", () => {
     it("adds a new topic which already has an id", () => {
       topicDoc._id = "myId";
       minute.upsertTopic(topicDoc);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
       expect(
-        Meteor.callPromise.calledWithExactly(
+        Meteor.callAsync.calledWithExactly(
           "minutes.addTopic",
           topicDoc._id,
           topicDoc,
@@ -481,12 +479,12 @@ describe("Minutes", () => {
 
     it("calls the meteor method minutes.update", () => {
       minute.upsertTopic(topicDoc);
-      expect(Meteor.callPromise.calledOnce).to.be.true;
+      expect(Meteor.callAsync.calledOnce).to.be.true;
     });
 
     it("sends the minutes id and the topic doc to the meteor method minutes.addTopic", () => {
       minute.upsertTopic(topicDoc);
-      const callArgs = Meteor.callPromise.getCall(0).args;
+      const callArgs = Meteor.callAsync.getCall(0).args;
       expect(
         callArgs[0],
         "first argument should be the name of the meteor method",

@@ -7,6 +7,7 @@ import { Meteor } from "meteor/meteor";
  * @param {...any} args - The arguments to pass to the Meteor method.
  * @returns {Promise<any>} - A Promise that resolves with the result of the
  *     Meteor method call, or rejects with the error.
+ * @deprecated Use Meteor.callAsync instead.
  */
 Meteor.callPromise = (method, ...args) =>
   new Promise((resolve, reject) => {

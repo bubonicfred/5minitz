@@ -24,8 +24,8 @@ module.exports = (ldapSettings, userData) => {
 
   const username = userData[usernameAttribute] || "";
 
-  const whiteListedFields = ldapSettings.whiteListedFields || [];
-  const profileFields = whiteListedFields.concat(["dn"]);
+  const allowListedFields = ldapSettings.allowListedFields || [];
+  const profileFields = allowListedFields.concat(["dn"]);
 
   const user = {
     createdAt: new Date(),

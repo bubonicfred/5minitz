@@ -3,22 +3,24 @@ import { Template } from "meteor/templating";
 
 import { ConfirmationDialogFactory } from "../../../helpers/confirmationDialogFactory";
 
+/**
+ * Represents a configuration object for the Topic-Filter-UI-Component.
+ */
 export class FilterControlConfig {
   /**
    * @callback FilterCallback
-   * @param {string} searchQuery
+   * @param {string} searchQuery - The search query entered by the user
    */
 
   /**
-   * Constructor to create a config object
-   * for the Topic-Filter-UI-Component.
+   * Constructor to create a config object for the Topic-Filter-UI-Component.
    *
    * @param {FilterCallback} callback - The callback triggered after the search
    *     query has changed
-   * @param filters
-   * @param filterKeywords
-   * @param filterName
-   * @param defaultFilter
+   * @param {Array} filters - The list of available filters
+   * @param {Array} filterKeywords - The list of filter keywords
+   * @param {string} filterName - The name of the filter
+   * @param {string} defaultFilter - The default filter
    */
   constructor(callback, filters, filterKeywords, filterName, defaultFilter) {
     this.callback = callback;
@@ -46,8 +48,9 @@ const performSearch = (query, tmpl) => {
   }
 
   // toogle Match Case Checkbox
-  const caseSensitive =
-    query.indexOf(MATCH_CASE.substring(0, MATCH_CASE.length - 1)) !== -1;
+  const caseSensitive = query.includes(
+    MATCH_CASE.substring(0, MATCH_CASE.length - 1),
+  );
   tmpl.$("#cbCaseSensitiveFilter").prop("checked", caseSensitive);
 
   // change filters dropdown

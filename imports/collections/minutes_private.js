@@ -1,3 +1,20 @@
+/**
+ * This file defines the server-side functionality for the "minutes" collection.
+ * It includes methods for publishing minutes, sending agenda, updating minutes
+ * and topics, adding and removing topics, and syncing visibility and
+ * participants.
+ *
+ * @module minutes_private
+ * @requires meteor/check
+ * @requires meteor/meteor
+ * @requires ../config/GlobalSettings
+ * @requires ../mail/SendAgendaMailHandler
+ * @requires ../minutes
+ * @requires ../user
+ * @requires ../userroles
+ * @requires ./minutes.schema
+ * @requires ./topic.schema
+ */
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
 
@@ -152,7 +169,7 @@ Meteor.methods({
     }
 
     doc.updatedAt = new Date();
-    doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+    doc.updatedBy = User.profileNameWithFallback(Meteor.user());
 
     const modifierDoc = {};
     for (const property in doc) {
@@ -209,9 +226,9 @@ Meteor.methods({
 
       doc.createdInMinute = minutesId;
       doc.createdAt = new Date();
-      doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+      doc.createdBy = User.profileNameWithFallback(Meteor.user());
       doc.updatedAt = new Date();
-      doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
+      doc.updatedBy = User.profileNameWithFallback(Meteor.user());
 
       const topicModifier = {
         topics: {

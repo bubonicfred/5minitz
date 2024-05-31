@@ -1,5 +1,4 @@
 import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
@@ -53,7 +52,7 @@ Template.adminRegisterUser.events({
           evt.preventDefault();
           handleError(error);
         } else {
-          $("#dlgAdminRegisterUser").modal("hide");
+          tmpl.$("#dlgAdminRegisterUser").hide();
           new FlashMessage(
             i18n.__("FlashMessages.ok"),
             i18n.__("Admin.Register.success", { user: uName }),

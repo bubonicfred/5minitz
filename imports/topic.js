@@ -1,7 +1,15 @@
 /**
- * A Topic is an Agenda Topic which can
- * have multiple sub-items called InfoItem.
+ * @file Topic.js
+ * @summary Defines the Topic class, which represents an Agenda Topic with
+ * sub-items called InfoItems.
+ * @description This file contains the implementation of the Topic class, which
+ * is used to create and manipulate Agenda Topics in a meeting management
+ * system. It provides methods for resolving parent elements, resolving topics,
+ * finding topic index in an array, checking if a topic has open action items,
+ * and more.
+ * @module Topic
  */
+
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
@@ -53,6 +61,10 @@ function resolveTopic(parentElement, source) {
   return source;
 }
 
+/**
+ * Represents a topic in a meeting or minute.
+ * @class
+ */
 export class Topic {
   /**
    *
@@ -83,6 +95,14 @@ export class Topic {
   }
 
   // ################### static methods
+  /**
+   * Finds the index of a topic in an array based on its ID.
+   *
+   * @param {string} id - The ID of the topic to find.
+   * @param {Array} topics - The array of topics to search in.
+   * @returns {number} - The index of the topic in the array, or -1 if not
+   *     found.
+   */
   static findTopicIndexInArray(id, topics) {
     return subElementsHelper.findIndexById(id, topics);
   }
@@ -106,6 +126,7 @@ export class Topic {
   }
 
   // ################### object methods
+
   toString() {
     return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
   }
@@ -246,36 +267,70 @@ export class Topic {
     return undefined;
   }
 
+  /**
+   * Retrieves the information items associated with the topic.
+   * @returns {Array} An array of information items.
+   */
   getInfoItems() {
     return this._topicDoc.infoItems;
   }
 
+  /**
+   * Returns an array of info items excluding action items.
+   *
+   * @returns {Array} An array of info items.
+   */
   getOnlyInfoItems() {
     return this.getInfoItems().filter((item) => {
       return !InfoItem.isActionItem(item);
     });
   }
 
+  /**
+   * Returns an array of action items from the topic document.
+   *
+   * @returns {Array} An array of action items.
+   */
   getOnlyActionItems() {
     return this._topicDoc.infoItems.filter((infoItemDoc) => {
       return InfoItem.isActionItem(infoItemDoc);
     });
   }
 
+  /**
+   * Returns an array of open action items from the topic document.
+   *
+   * @returns {Array} An array of open action items.
+   */
   getOpenActionItems() {
     return this._topicDoc.infoItems.filter((infoItemDoc) => {
       return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
     });
   }
 
+  /**
+   * Sets the items for the topic.
+   *
+   * @param {Array} items - The items to set for the topic.
+   */
   setItems(items) {
     this._topicDoc.infoItems = items;
   }
 
+  /**
+   * Sets the subject of the topic.
+   *
+   * @param {string} subject - The subject to set.
+   */
   setSubject(subject) {
     this._topicDoc.subject = subject;
   }
 
+  /**
+   * Returns the subject of the topic.
+   *
+   * @returns {string} The subject of the topic.
+   */
   getSubject() {
     return this._topicDoc.subject;
   }
@@ -291,11 +346,20 @@ export class Topic {
   async toggleState() {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
-    return Meteor.callPromise("minutes.updateTopic", this._topicDoc._id, {
+    return Meteor.callAsync("minutes.updateTopic", this._topicDoc._id, {
       isOpen: this._topicDoc.isOpen,
     });
   }
 
+  /**
+   * Closes the topic and all open action items associated with it.
+   * Sets the topic's isOpen and isRecurring properties to false.
+   * Sets the isOpen property of all open action items to false.
+   * Saves the changes to the database.
+   *
+   * @returns {Promise<void>} A promise that resolves when the changes are
+   *     saved.
+   */
   async closeTopicAndAllOpenActionItems() {
     this._topicDoc.isOpen = false;
     this._topicDoc.isRecurring = false;
@@ -305,14 +369,30 @@ export class Topic {
     await this.save();
   }
 
+  /**
+   * Checks if the topic has an open action item.
+   *
+   * @returns {boolean} True if the topic has an open action item, false
+   *     otherwise.
+   */
   hasOpenActionItem() {
     return Topic.hasOpenActionItem(this._topicDoc);
   }
 
+  /**
+   * Retrieves the topic document.
+   *
+   * @returns {Object} The topic document.
+   */
   getDocument() {
     return this._topicDoc;
   }
 
+  /**
+   * Adds labels to the topic document by their IDs.
+   *
+   * @param {Array} labelIds - An array of label IDs to be added.
+   */
   addLabelsByIds(labelIds) {
     labelIds.forEach((id) => {
       if (!this.hasLabelWithId(id)) {
@@ -321,6 +401,13 @@ export class Topic {
     });
   }
 
+  /**
+   * Checks if the topic has a label with the specified ID.
+   *
+   * @param {string} labelId - The ID of the label to check.
+   * @returns {boolean} - Returns true if the topic has a label with the
+   *     specified ID, false otherwise.
+   */
   hasLabelWithId(labelId) {
     let i;
     for (i = 0; i < this._topicDoc.labels.length; i++) {
@@ -331,6 +418,12 @@ export class Topic {
     return false;
   }
 
+  /**
+   * Retrieves the raw array of labels for the topic.
+   * If no labels are present, an empty array is returned.
+   *
+   * @returns {Array} The raw array of labels.
+   */
   getLabelsRawArray() {
     if (!this._topicDoc.labels) {
       return [];
@@ -339,7 +432,7 @@ export class Topic {
   }
 
   /**
-   * Checks whether this topic has associated responsibles
+   * Checks whether this topic has associated responsible particpants
    * or not. This method must have the same name as the
    * actionItem.hasResponsibles method.
    *
@@ -351,7 +444,7 @@ export class Topic {
   }
 
   /**
-   * Returns all responsibles associated with this
+   * Returns all responsible participants associated with this
    * topic. This method must have the same name as the
    * actionItem.getResponsibles method.
    *

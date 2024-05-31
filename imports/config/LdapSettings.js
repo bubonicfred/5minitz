@@ -6,14 +6,32 @@
 import _ from "lodash";
 import { Meteor } from "meteor/meteor";
 
+/**
+ * Retrieves the value at the specified path from the Meteor settings object.
+ * If the value is not found, the default value is returned.
+ *
+ * @param {string} path - The path to the value in the Meteor settings object.
+ * @param {*} [def=undefined] - The default value to return if the path is not
+ *     found.
+ * @returns {*} The value at the specified path, or the default value if not
+ *     found.
+ */
 function get(path, def = undefined) {
   return _.get(Meteor.settings, `ldap.${path}`, def);
 }
 
+/**
+ * Sets the value of a specific path in the LDAP settings of Meteor.settings.
+ * @param {string} path - The path to the LDAP setting.
+ * @param {*} value - The value to set for the LDAP setting.
+ */
 function set(path, value) {
   _.set(Meteor.settings, `ldap.${path}`, value);
 }
 
+/**
+ * Disables LDAP by setting the "enabled" flag to false.
+ */
 function disableLdap() {
   set("enabled", false);
 }
@@ -28,7 +46,7 @@ const defaultLdapSettings = {
   authentication: {},
   searchFilter: "",
   allowSelfSignedTLS: false,
-  whiteListedFields: [],
+  allowListedFields: [],
   inactiveUsers: { strategy: "none" },
   autopublishFields: [],
   importCronTab: false,
@@ -46,6 +64,11 @@ if (Meteor.isServer) {
   );
 }
 
+/**
+ * Represents the settings for LDAP (Lightweight Directory Access Protocol).
+ * This class provides static methods to publish, load, and retrieve LDAP
+ * settings.
+ */
 export class LdapSettings {
   static publish() {
     Meteor.settings.public.ldapEnabled = LdapSettings.ldapEnabled();

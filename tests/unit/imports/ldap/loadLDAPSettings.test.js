@@ -14,13 +14,14 @@ const loadLDAPSettings = proxyquire(
     fs,
   },
 );
-
-describe("loadLDAPSettings", () => {
-  beforeEach(() => {
+// skipcq: JS-0241
+describe("loadLDAPSettings", function () {
+  // skipcq: JS-0241
+  beforeEach(function () {
     fs.readFile = asyncStubs.doNothing;
   });
-
-  it("reads a file and resolves with the ldap configuration", (done) => {
+  // skipcq: JS-0241
+  it("reads a file and resolves with the ldap configuration", function (done) {
     fs.readFile = asyncStubs.returns(2, '{"ldap": {"enabled": true}}');
 
     loadLDAPSettings("ldapSettings.json")
@@ -36,8 +37,8 @@ describe("loadLDAPSettings", () => {
         done(new Error(error));
       });
   });
-
-  it("handles file read errors gracefully", (done) => {
+  // skipcq: JS-0241
+  it("handles file read errors gracefully", function (done) {
     fs.readFile = asyncStubs.returnsError(2, new Error("Could not read file"));
 
     loadLDAPSettings("ldapSettings.json")
@@ -55,8 +56,8 @@ describe("loadLDAPSettings", () => {
         }
       });
   });
-
-  it("handles json parse errors properly", (done) => {
+  // skipcq: JS-0241
+  it("handles json parse errors properly", function (done) {
     fs.readFile = asyncStubs.returns(2, "no valid json");
 
     loadLDAPSettings("ldapSettings.json")
@@ -72,8 +73,8 @@ describe("loadLDAPSettings", () => {
         }
       });
   });
-
-  it("handles missing ldap settings", (done) => {
+  // skipcq: JS-0241
+  it("handles missing ldap settings", function (done) {
     fs.readFile = asyncStubs.returns(2, '{"noLdap": true}');
 
     loadLDAPSettings("ldapSettings.json")

@@ -1,12 +1,12 @@
 import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
-import { E2EGlobal } from "./helpers/E2EGlobal";
 
 require("../../imports/helpers/date");
 
-describe("Sticky Info Items", () => {
+describe("Sticky Info Items", function () {
   const aProjectName = "E2E Sticky Info Items";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -32,7 +32,7 @@ describe("Sticky Info Items", () => {
     return aInfoItemName;
   };
 
-  before("reload page and reset app", () => {
+  before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -40,7 +40,7 @@ describe("Sticky Info Items", () => {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    () => {
+    function () {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -62,12 +62,12 @@ describe("Sticky Info Items", () => {
     },
   );
 
-  it("is possible to toggle the sticky-state of info items", () => {
+  it("is possible to toggle the sticky-state of info items", function () {
     E2ETopics.toggleInfoItemStickyState(1, 1);
     expect(E2ETopics.isInfoItemSticky(1, 1)).to.be.true;
   });
 
-  it("ensures that sticky-info-items will be presented in the next minute again", () => {
+  it("ensures that sticky-info-items will be presented in the next minute again", function () {
     E2ETopics.toggleInfoItemStickyState(1, 1);
 
     E2EMinutes.finalizeCurrentMinutes();
@@ -90,7 +90,7 @@ describe("Sticky Info Items", () => {
     expect(E2ETopics.isInfoItemSticky(1, 1)).to.be.true;
   });
 
-  it("closes a discussed topic which has a sticky-info-item but no open AIs and does not present the topic in the next minute again", () => {
+  it("closes a discussed topic which has a sticky-info-item but no open AIs and does not present the topic in the next minute again", function () {
     E2ETopics.toggleInfoItemStickyState(1, 1);
     E2ETopics.toggleTopic(1);
 
@@ -106,7 +106,7 @@ describe("Sticky Info Items", () => {
     ).to.equal(0);
   });
 
-  it("ensures that the sticky-status of an info item in a finalized minute can not be modified", () => {
+  it("ensures that the sticky-status of an info item in a finalized minute can not be modified", function () {
     E2EMinutes.finalizeCurrentMinutes();
 
     E2ETopics.toggleInfoItemStickyState(1, 1);
@@ -125,7 +125,7 @@ describe("Sticky Info Items", () => {
     ).to.be.true;
   });
 
-  it("can not change the sticky status of info-items on the topics page of the meeting series", () => {
+  it("can not change the sticky status of info-items on the topics page of the meeting series", function () {
     E2ETopics.addInfoItemToTopic(
       {
         subject: getNewInfoItemName(),
@@ -156,7 +156,7 @@ describe("Sticky Info Items", () => {
   it(
     "ensures that changing the subject of a sticky-info-item also updates the related item located " +
       "in the topic list of the meeting series after finalizing the minute",
-    () => {
+    function () {
       const newInfoItemName = "updated info item subject";
 
       E2ETopics.toggleInfoItemStickyState(1, 1);
