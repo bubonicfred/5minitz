@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-
+import { check } from "meteor/check";
 import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
 import { MinutesSchema } from "../collections/minutes.schema";
 import { MeetingSeries } from "../meetingseries";
@@ -266,10 +266,18 @@ Meteor.methods({
     infoItemId,
     ignoreLock,
   ) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock);
   },
 
   "workflow.setIsEditedDetail"(minutesId, topicId, infoItemId, detailIdx) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(detailIdx, Number);
     setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx);
   },
 
@@ -280,6 +288,11 @@ Meteor.methods({
     detailIdx,
     ignoreLock,
   ) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
+    check(detailIdx, Number);
+    check(ignoreLock, Boolean);
     removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
   },
 });
