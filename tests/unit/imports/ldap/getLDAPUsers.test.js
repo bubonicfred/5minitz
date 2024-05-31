@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
-import { rewiremock } from "../../test-helper/rewiremock";
 import sinon from "sinon";
 
 import asyncStubs from "../../../support/lib/asyncStubs";
+import { rewiremock } from "../../test-helper/rewiremock";
 import rewiremock from "../../test-helper/rewiremock.cjs";
 
 const ldap = {

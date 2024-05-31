@@ -1,9 +1,10 @@
+import "../../../imports/helpers/date.js";
+
 import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import "../../../imports/helpers/date.js";
 import rewiremock from "../test-helper/rewiremock.cjs";
 
 const doNothing = () => {};
@@ -105,7 +106,7 @@ describe("ActionItem", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getDateFromDetails()).to.equal(
-      infoItemDoc.details[0].date
+      infoItemDoc.details[0].date,
     );
   });
 
@@ -113,7 +114,7 @@ describe("ActionItem", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getTextFromDetails()).to.equal(
-      infoItemDoc.details[0].text
+      infoItemDoc.details[0].text,
     );
   });
 

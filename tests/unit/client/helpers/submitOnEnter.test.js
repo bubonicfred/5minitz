@@ -5,7 +5,6 @@ import sinon from "sinon";
 
 import rewiremock from "../../test-helper/rewiremock.cjs";
 
-
 const jQueryOnStub = sinon.stub();
 const $ = sinon.stub().returns({
   on: jQueryOnStub,
@@ -18,7 +17,6 @@ const submitOnEnter = await rewiremock.module(
     lodash: _,
   },
 ).default;
-
 
 describe("submitOnEnter", function () {
   const action = sinon.stub();
