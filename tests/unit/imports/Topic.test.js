@@ -58,13 +58,13 @@ DateHelpers["@noCallThru"] = true;
 
 const { Label } = proxyquire("../../../imports/label", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
 });
 
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
   "/imports/helpers/date": DateHelpers,
   "./label": { Label, "@noCallThru": true },
@@ -83,7 +83,7 @@ const { InfoItemFactory } = proxyquire("../../../imports/InfoItemFactory", {
 const { Topic } = proxyquire("../../../imports/topic", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "lodash": { _, "@noCallThru": true },
+  lodash: { _, "@noCallThru": true },
   "/imports/helpers/subElements": SubElements,
   "./label": { Label, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
