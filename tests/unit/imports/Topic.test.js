@@ -95,7 +95,7 @@ const { Topic } = proxyquire("../../../imports/topic", {
 // skipcq: JS-0241
 describe("Topic", function () {
   let topicDoc;
-// skipcq: JS-0241
+  // skipcq: JS-0241
   beforeEach(function () {
     topicDoc = {
       subject: "topic-subject",
@@ -204,7 +204,7 @@ describe("Topic", function () {
   // skipcq: JS-0241
   describe("#invalidateIsNewFlag", function () {
     let myTopic;
-// skipcq: JS-0241
+    // skipcq: JS-0241
     beforeEach(function () {
       topicDoc.isNew = true;
       topicDoc.infoItems.push({
@@ -240,7 +240,7 @@ describe("Topic", function () {
   // skipcq: JS-0241
   describe("#isRecurring", function () {
     let myTopic;
-// skipcq: JS-0241
+    // skipcq: JS-0241
     beforeEach(function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
@@ -257,7 +257,7 @@ describe("Topic", function () {
   // skipcq: JS-0241
   describe("#toggleRecurring", function () {
     let myTopic;
-// skipcq: JS-0241
+    // skipcq: JS-0241
     beforeEach(function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
@@ -393,7 +393,7 @@ describe("Topic", function () {
   // skipcq: JS-0241
   describe("#tailorTopic", function () {
     let myTopic;
-// skipcq: JS-0241
+    // skipcq: JS-0241
     beforeEach(function () {
       topicDoc.infoItems.push({
         subject: "myInfoItem",
@@ -429,7 +429,7 @@ describe("Topic", function () {
   // skipcq: JS-0241
   describe("#getOpenActionItems", function () {
     let myTopic;
-// skipcq: JS-0241
+    // skipcq: JS-0241
     beforeEach(function () {
       topicDoc.infoItems.push({
         subject: "myInfoItem",
