@@ -245,18 +245,28 @@ Meteor.methods({
   },
 
   "workflow.removeIsEditedMinute"(minuteId, ignoreLock) {
+    check(minuteId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedMinute(minuteId, ignoreLock);
   },
 
   "workflow.setIsEditedTopic"(minutesId, topicId) {
+    check(minutesId, String);
+    check(topicId, String);
     setIsEditedTopic(minutesId, topicId);
   },
 
   "workflow.removeIsEditedTopic"(minutesId, topicId, ignoreLock) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedTopic(minutesId, topicId, ignoreLock);
   },
 
   "workflow.setIsEditedInfoItem"(minutesId, topicId, infoItemId) {
+    check(minutesId, String);
+    check(topicId, String);
+    check(infoItemId, String);
     setIsEditedInfoItem(minutesId, topicId, infoItemId);
   },
 
