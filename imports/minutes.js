@@ -16,6 +16,12 @@ import { MeetingSeries } from "./meetingseries";
 import { Topic } from "./topic";
 
 export class Minutes {
+  /**
+   * Represents a Minutes object.
+   * @constructs Minutes
+   * @param {string|object} source - The source of the Minutes object. It can be either a Mongo ID or a Mongo document.
+   * @throws {Meteor.Error} Throws an error if the source is not provided or is invalid.
+   */
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
     if (!source)
@@ -34,15 +40,37 @@ export class Minutes {
     }
   }
 
-  // ################### static methods
+
+  /**
+   * Finds documents in the collection.
+   * @todo Refactor into utility?
+   * @param {...any} args - The arguments to be passed to the find method.
+   * @returns {Cursor} - The cursor object representing the result of the find operation.
+   */
   static find(...args) {
     return MinutesSchema.getCollection().find(...args);
   }
 
+  /**
+   * Finds a single document in the collection based on the provided arguments.
+   * @todo Refactor into utility?
+   * @param {...any} args - The arguments to be passed to the findOne method.
+   * @returns {Object|null} - The found document, or null if no document matches the criteria.
+   */
   static findOne(...args) {
     return MinutesSchema.getCollection().findOne(...args);
   }
 
+  /**
+   * Finds all minutes documents with the given IDs.
+   *
+   * @param {Array} MinutesIDArray - An array of minutes document IDs.
+   * @param {number} limit - The maximum number of documents to return.
+   * @param {boolean} [lastMintuesFirst=true] - Determines the sorting order of the documents.
+   *                                             If true, the most recent minutes will be returned first.
+   *                                             If false, the oldest minutes will be returned first.
+   * @returns {Array} - An array of minutes documents matching the given IDs and options.
+   */
   static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
     if (!MinutesIDArray || MinutesIDArray.length === 0) {
       return [];
@@ -56,12 +84,24 @@ export class Minutes {
     return Minutes.find({ _id: { $in: MinutesIDArray } }, options);
   }
 
-  // method
+
+  /**
+   * Removes a minute with the specified ID.
+   *
+   * @param {string} id - The ID of the minute to remove.
+   * @returns {Promise} A promise that resolves when the minute is successfully removed.
+   */
   static remove(id) {
     return Meteor.callAsync("workflow.removeMinute", id);
   }
 
-  // method
+
+  /**
+   * Synchronizes the visibility of minutes with the given parent series ID and visibleForArray.
+   * @param {string} parentSeriesID - The ID of the parent series.
+   * @param {Array} visibleForArray - An array of user IDs specifying who can see the minutes.
+   * @returns {Promise} - A promise that resolves when the visibility is synchronized.
+   */
   static async syncVisibility(parentSeriesID, visibleForArray) {
     return Meteor.callAsync(
       "minutes.syncVisibilityAndParticipants",
@@ -70,6 +110,12 @@ export class Minutes {
     );
   }
 
+  /**
+   * Updates the visibleFor and participants fields for all minutes of a meeting series.
+   *
+   * @param {string} parentSeriesID - The ID of the parent meeting series.
+   * @param {Array} visibleForArray - An array of users who have visibility to the minutes.
+   */
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
     visibleForArray,

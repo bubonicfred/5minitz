@@ -7,6 +7,12 @@ import { Priority } from "./priority";
  * @extends InfoItem
  */
 export class ActionItem extends InfoItem {
+  /**
+   * Represents an ActionItem object.
+   * @constructs ActionItem
+   * @param {ParentTopic} parentTopic - The parent topic of the action item.
+   * @param {Source} source - The source of the action item.
+   */
   constructor(parentTopic, source) {
     // constructs obj from item ID or document
     super(parentTopic, source);
