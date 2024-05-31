@@ -421,7 +421,7 @@ export class Topic {
    * @returns {Promise} A promise that resolves when the topic is saved.
    */
   async save() {
- await this._parentMinutes.upsertTopic(this._topicDoc);
+    await this._parentMinutes.upsertTopic(this._topicDoc);
   }
 
   /**

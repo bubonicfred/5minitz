@@ -19,8 +19,10 @@ export class Minutes {
   /**
    * Represents a Minutes object.
    * @constructs Minutes
-   * @param {string|object} source - The source of the Minutes object. It can be either a Mongo ID or a Mongo document.
-   * @throws {Meteor.Error} Throws an error if the source is not provided or is invalid.
+   * @param {string|object} source - The source of the Minutes object. It can be
+   *     either a Mongo ID or a Mongo document.
+   * @throws {Meteor.Error} Throws an error if the source is not provided or is
+   *     invalid.
    */
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
@@ -40,12 +42,12 @@ export class Minutes {
     }
   }
 
-
   /**
    * Finds documents in the collection.
    * @todo Refactor into utility?
    * @param {...any} args - The arguments to be passed to the find method.
-   * @returns {Cursor} - The cursor object representing the result of the find operation.
+   * @returns {Cursor} - The cursor object representing the result of the find
+   *     operation.
    */
   static find(...args) {
     return MinutesSchema.getCollection().find(...args);
@@ -55,7 +57,8 @@ export class Minutes {
    * Finds a single document in the collection based on the provided arguments.
    * @todo Refactor into utility?
    * @param {...any} args - The arguments to be passed to the findOne method.
-   * @returns {Object|null} - The found document, or null if no document matches the criteria.
+   * @returns {Object|null} - The found document, or null if no document matches
+   *     the criteria.
    */
   static findOne(...args) {
     return MinutesSchema.getCollection().findOne(...args);
@@ -66,10 +69,13 @@ export class Minutes {
    *
    * @param {Array} MinutesIDArray - An array of minutes document IDs.
    * @param {number} limit - The maximum number of documents to return.
-   * @param {boolean} [lastMintuesFirst=true] - Determines the sorting order of the documents.
-   *                                             If true, the most recent minutes will be returned first.
-   *                                             If false, the oldest minutes will be returned first.
-   * @returns {Array} - An array of minutes documents matching the given IDs and options.
+   * @param {boolean} [lastMintuesFirst=true] - Determines the sorting order of
+   *     the documents.
+   *                                             If true, the most recent
+   * minutes will be returned first. If false, the oldest minutes will be
+   * returned first.
+   * @returns {Array} - An array of minutes documents matching the given IDs and
+   *     options.
    */
   static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
     if (!MinutesIDArray || MinutesIDArray.length === 0) {
@@ -84,26 +90,28 @@ export class Minutes {
     return Minutes.find({ _id: { $in: MinutesIDArray } }, options);
   }
 
-
   /**
    * Removes a minute with the specified ID.
    *
    * @param {string} id - The ID of the minute to remove.
-   * @returns {Promise} A promise that resolves when the minute is successfully removed.
+   * @returns {Promise} A promise that resolves when the minute is successfully
+   *     removed.
    */
   static remove(id) {
     return Meteor.callAsync("workflow.removeMinute", id);
   }
 
-
   /**
-   * Synchronizes the visibility of minutes with the given parent series ID and visibleForArray.
+   * Synchronizes the visibility of minutes with the given parent series ID and
+   * visibleForArray.
    * @param {string} parentSeriesID - The ID of the parent series.
-   * @param {Array} visibleForArray - An array of user IDs specifying who can see the minutes.
-   * @returns {Promise} - A promise that resolves when the visibility is synchronized.
+   * @param {Array} visibleForArray - An array of user IDs specifying who can
+   *     see the minutes.
+   * @returns {Promise} - A promise that resolves when the visibility is
+   *     synchronized.
    */
   static async syncVisibility(parentSeriesID, visibleForArray) {
-  await Meteor.callAsync(
+    await Meteor.callAsync(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
       visibleForArray,
@@ -111,10 +119,12 @@ export class Minutes {
   }
 
   /**
-   * Updates the visibleFor and participants fields for all minutes of a meeting series.
+   * Updates the visibleFor and participants fields for all minutes of a meeting
+   * series.
    *
    * @param {string} parentSeriesID - The ID of the parent meeting series.
-   * @param {Array} visibleForArray - An array of users who have visibility to the minutes.
+   * @param {Array} visibleForArray - An array of users who have visibility to
+   *     the minutes.
    */
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
@@ -147,12 +157,12 @@ export class Minutes {
 
   // ################### object methods
 
-
   /**
    * Updates the document with the provided `docPart`.
    *
    * @param {Object} docPart - The partial document to update.
-   * @param {Function} callback - The callback function to be called after the update is complete.
+   * @param {Function} callback - The callback function to be called after the
+   *     update is complete.
    * @returns {Promise} A promise that resolves when the update is complete.
    */
   async update(docPart, callback) {
@@ -173,12 +183,13 @@ export class Minutes {
     }
   }
 
-
   /**
    * Saves the minutes.
    *
-   * @param {Function} optimisticUICallback - The callback function for optimistic UI updates.
-   * @param {Function} serverCallback - The callback function for server updates.
+   * @param {Function} optimisticUICallback - The callback function for
+   *     optimistic UI updates.
+   * @param {Function} serverCallback - The callback function for server
+   *     updates.
    */
   save(optimisticUICallback, serverCallback) {
     console.log("Minutes.save()");
@@ -240,7 +251,8 @@ export class Minutes {
   /**
    * Removes a topic from the list of topics in the minutes.
    * @param {string} id - The ID of the topic to be removed.
-   * @returns {Promise<void>} - A promise that resolves when the topic is successfully removed.
+   * @returns {Promise<void>} - A promise that resolves when the topic is
+   *     successfully removed.
    */
   async removeTopic(id) {
     const i = this._findTopicIndex(id);
@@ -254,7 +266,8 @@ export class Minutes {
    * Finds a topic by its ID.
    * @todo Throw error when not found?
    * @param {string} id - The ID of the topic to find.
-   * @returns {object|undefined} - The found topic object, or undefined if not found.
+   * @returns {object|undefined} - The found topic object, or undefined if not
+   *     found.
    */
   findTopic(id) {
     const i = this._findTopicIndex(id);
@@ -316,13 +329,14 @@ export class Minutes {
       });
   }
 
-
   /**
    * Upserts a topic document into the minutes.
    *
    * @param {Object} topicDoc - The topic document to upsert.
-   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert the topic at the top or bottom of the topics array.
-   * @returns {Promise} A promise that resolves with the result of the upsert operation.
+   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert
+   *     the topic at the top or bottom of the topics array.
+   * @returns {Promise} A promise that resolves with the result of the upsert
+   *     operation.
    */
   async upsertTopic(topicDoc, insertPlacementTop = true) {
     let i = undefined;
@@ -374,7 +388,6 @@ export class Minutes {
     );
   }
 
-
   /**
    * Sends the agenda for the minutes.
    * @returns {Promise} A promise that resolves when the agenda is sent.
@@ -385,7 +398,8 @@ export class Minutes {
 
   /**
    * Retrieves the timestamp when the agenda was sent.
-   * @returns {boolean|Date} The timestamp when the agenda was sent, or false if it was not sent.
+   * @returns {boolean|Date} The timestamp when the agenda was sent, or false if
+   *     it was not sent.
    */
   getAgendaSentAt() {
     if (!this.agendaSentAt) {
@@ -396,7 +410,8 @@ export class Minutes {
 
   /**
    * Checks if the current user is a moderator.
-   * @returns {boolean} True if the current user is a moderator, false otherwise.
+   * @returns {boolean} True if the current user is a moderator, false
+   *     otherwise.
    */
   isCurrentUserModerator() {
     return this.parentMeetingSeries().isCurrentUserModerator();
@@ -463,7 +478,6 @@ export class Minutes {
     return recipientResult;
   }
 
-
   /**
    * Sync all users of .visibleFor into .participants
    * This method adds and removes users from the .participants list.
@@ -515,7 +529,6 @@ export class Minutes {
     // only return new paricipants if they have changed
     return changed ? newParticipants : undefined;
   }
-
 
   /**
    * Change presence of a single participant. Immediately updates .participants
