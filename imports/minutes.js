@@ -103,7 +103,7 @@ export class Minutes {
    * @returns {Promise} - A promise that resolves when the visibility is synchronized.
    */
   static async syncVisibility(parentSeriesID, visibleForArray) {
-    return Meteor.callAsync(
+  await Meteor.callAsync(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
       visibleForArray,
@@ -246,7 +246,7 @@ export class Minutes {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
       this.topics.splice(i, 1);
-      return Meteor.callAsync("minutes.removeTopic", id);
+      await Meteor.callAsync("minutes.removeTopic", id);
     }
   }
 
@@ -336,7 +336,7 @@ export class Minutes {
 
     if (i === undefined) {
       // topic not in array
-      return Meteor.callAsync(
+      await Meteor.callAsync(
         "minutes.addTopic",
         this._id,
         topicDoc,
@@ -344,7 +344,7 @@ export class Minutes {
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
-      return Meteor.callAsync("minutes.updateTopic", topicDoc._id, topicDoc);
+      await Meteor.callAsync("minutes.updateTopic", topicDoc._id, topicDoc);
     }
   }
 
@@ -536,7 +536,7 @@ export class Minutes {
       }
       if (index > -1) {
         this.participants[index].present = isPresent;
-        return this.update({ participants: this.participants });
+        await this.update({ participants: this.participants });
       }
     }
     return false;
@@ -570,7 +570,7 @@ export class Minutes {
    */
   async changeParticipantsStatus(isPresent) {
     this.participants.forEach((p) => (p.present = isPresent));
-    return this.update({ participants: this.participants });
+    await this.update({ participants: this.participants });
   }
 
   /**

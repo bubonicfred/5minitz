@@ -1,6 +1,5 @@
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-
 import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
 import { MinutesSchema } from "../collections/minutes.schema";
 import { MeetingSeries } from "../meetingseries";
