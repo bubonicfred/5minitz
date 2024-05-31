@@ -1,8 +1,6 @@
 import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 
-
-
 /**
  * Creates a handler function that prevents the default behavior of the event
  * and executes the provided action when the Enter key is pressed while the Ctrl
@@ -35,8 +33,7 @@ function createHandler(action) {
  * @param {Array} textareas - An array of textarea elements.
  * @param {Function} action - The action to be triggered on keyup event.
  */
-export default function (textareas, action) {
-  textareas.forEach((input) => {
-    window.$(input).on("keyup", createHandler(action));
-  });
+export default function(textareas, action) {
+  textareas.forEach(
+      (input) => { window.$(input).on("keyup", createHandler(action)); });
 }
