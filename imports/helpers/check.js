@@ -1,5 +1,5 @@
-import { check } from "meteor/check";
-import { Meteor } from "meteor/meteor";
+import {check} from "meteor/check";
+import {Meteor} from "meteor/meteor";
 
 /**
  * Checks a variable against a pattern and throws a Meteor.Error if the check
