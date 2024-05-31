@@ -10,9 +10,9 @@ jobs:
       - name: Move all issues related to current PR(into main branch) and child PRs to 'Done' column
         uses: fojia/action-move-issues-to-column@master
         with:
-          project: 'Actions Project'
+          project: '4minitz'
           column: 'Done'
-          owner: 'fojia'
+          owner: 'bubonicfred'
           repo: 'action-move-issues-to-column'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
