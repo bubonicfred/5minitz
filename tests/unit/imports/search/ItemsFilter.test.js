@@ -9,9 +9,10 @@ const Meteor = {
 
 const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
-  {
-    lodash: { _, "@noCallThru": true },
-  },
+
+
+  {},
+
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {

@@ -1,6 +1,8 @@
 import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 
+
+
 /**
  * Creates a handler function that prevents the default behavior of the event
  * and executes the provided action when the Enter key is pressed while the Ctrl
