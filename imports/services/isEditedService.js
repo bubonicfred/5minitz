@@ -237,10 +237,13 @@ function removeIsEditedDetail(
 
 Meteor.methods({
   "workflow.setIsEditedMeetingSerie"(msId) {
+    check(msId, String);
     setIsEditedMeetingSerie(msId);
   },
 
   "workflow.removeIsEditedMeetingSerie"(msId, ignoreLock) {
+    check(msId, String);
+    check(ignoreLock, Boolean);
     removeIsEditedMeetingSerie(msId, ignoreLock);
   },
 
