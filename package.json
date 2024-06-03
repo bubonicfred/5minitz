@@ -110,7 +110,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.13.0",
     "js-yaml": "^3.14.1",
-    "markdownlint-cli": "^0.39.0",
+    "markdownlint-cli": "^0.41.0",
     "meteor-sdk": "0.0.21",
     "mocha": "^10.4.0",
     "npm-license-crawler": "github:bubonicfred/npm-license-crawler",
