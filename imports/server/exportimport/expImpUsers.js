@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpUsers {
   static get FILENAME_POSTFIX() {
@@ -36,7 +36,7 @@ class ExpImpUsers {
               userIDsFromDB[usr._id] = 1;
             });
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
-            fs.writeFileSync(usrFile, EJSON.stringify(allUsersDoc, null, 2));
+            writeFileSync(usrFile, stringify(allUsersDoc, null, 2));
             console.log(`Saved: ${usrFile} with ${allUsersDoc.length} users`);
 
             // Save mapping file old => new user ID
@@ -55,7 +55,7 @@ class ExpImpUsers {
               }
             });
             const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
-            fs.writeFileSync(mapFile, JSON.stringify(userIDsOuputMap, null, 2));
+            writeFileSync(mapFile, JSON.stringify(userIDsOuputMap, null, 2));
             console.log(`Saved: ${mapFile}`);
             console.log(
               "       *** IMPORTANT!!! EDIT USER MAP FILE BEFORE IMPORT!!!",
@@ -74,7 +74,7 @@ class ExpImpUsers {
       const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
       let usrMap = undefined;
       try {
-        usrMap = JSON.parse(fs.readFileSync(mapFile, "utf8"));
+        usrMap = JSON.parse(readFileSync(mapFile, "utf8"));
         if (!usrMap) {
           return reject(`Could not read user map file ${mapFile}`);
         }
@@ -146,7 +146,7 @@ class ExpImpUsers {
       const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
       let allUsersDoc = undefined;
       try {
-        allUsersDoc = EJSON.parse(fs.readFileSync(usrFile, "utf8"));
+        allUsersDoc = parse(readFileSync(usrFile, "utf8"));
         if (!allUsersDoc) {
           return reject(`Could not read user file ${usrFile}`);
         }
@@ -205,4 +205,4 @@ class ExpImpUsers {
   }
 }
 
-module.exports = ExpImpUsers;
+export default ExpImpUsers;

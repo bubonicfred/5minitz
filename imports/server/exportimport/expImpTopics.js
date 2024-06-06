@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpTopics {
   static get FILENAME_POSTFIX() {
@@ -14,7 +14,7 @@ class ExpImpTopics {
         .then((doc) => {
           if (doc) {
             const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
-            fs.writeFileSync(topFile, EJSON.stringify(doc, null, 2));
+            writeFileSync(topFile, stringify(doc, null, 2));
             console.log(`Saved: ${topFile} with ${doc.length} topics`);
             resolve({ db, userIDs });
             return;
@@ -29,7 +29,7 @@ class ExpImpTopics {
       const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
       let AllTopicsDoc = undefined;
       try {
-        AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, "utf8"));
+        AllTopicsDoc = parse(readFileSync(topFile, "utf8"));
         if (!AllTopicsDoc) {
           return reject(`Could not read topic file ${topFile}`);
         }
@@ -97,4 +97,4 @@ class ExpImpTopics {
   }
 }
 
-module.exports = ExpImpTopics;
+export default ExpImpTopics;

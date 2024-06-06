@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpFilesDocuments {
   static get FILENAME_POSTFIX() {
@@ -14,7 +14,7 @@ class ExpImpFilesDocuments {
         .then((doc) => {
           if (doc) {
             const protFile = msID + ExpImpFilesDocuments.FILENAME_POSTFIX;
-            fs.writeFileSync(protFile, EJSON.stringify(doc, null, 2));
+            writeFileSync(protFile, stringify(doc, null, 2));
             console.log(
               `Saved: ${protFile} with ${doc.length} protocol documents`,
             );
@@ -42,7 +42,7 @@ class ExpImpFilesDocuments {
       const protFile = msID + ExpImpFilesDocuments.FILENAME_POSTFIX;
       let AllProtocolsDoc = undefined;
       try {
-        AllProtocolsDoc = EJSON.parse(fs.readFileSync(protFile, "utf8"));
+        AllProtocolsDoc = parse(readFileSync(protFile, "utf8"));
         if (!AllProtocolsDoc) {
           return reject(`Could not read documents file ${protFile}`);
         }
@@ -97,4 +97,4 @@ class ExpImpFilesDocuments {
   }
 }
 
-module.exports = ExpImpFilesDocuments;
+export default ExpImpFilesDocuments;
