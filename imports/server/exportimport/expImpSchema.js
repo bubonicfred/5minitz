@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpSchema {
   static get MADE_FOR_SCHEMA() {
@@ -34,7 +34,7 @@ class ExpImpSchema {
               );
             }
             const schemaFile = msID + ExpImpSchema.FILENAME_POSTFIX;
-            fs.writeFileSync(schemaFile, EJSON.stringify(doc, null, 2));
+            writeFileSync(schemaFile, stringify(doc, null, 2));
             console.log(`Saved: ${schemaFile}`);
             resolve(db);
             return;
@@ -57,7 +57,7 @@ class ExpImpSchema {
             const schemaFile = msID + ExpImpSchema.FILENAME_POSTFIX;
             let exportedSchema = undefined;
             try {
-              exportedSchema = EJSON.parse(fs.readFileSync(schemaFile, "utf8"));
+              exportedSchema = parse(readFileSync(schemaFile, "utf8"));
               if (!exportedSchema) {
                 return reject(`Could not read schema file ${schemaFile}`);
               }
@@ -107,4 +107,4 @@ class ExpImpSchema {
   }
 }
 
-module.exports = ExpImpSchema;
+export default ExpImpSchema;

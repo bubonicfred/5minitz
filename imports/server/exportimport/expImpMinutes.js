@@ -1,6 +1,6 @@
-const fs = require("fs");
-const EJSON = require("bson");
-const ExpImpTopics = require("./expImpTopics");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
+import { patchUsers as _patchUsers } from "./expImpTopics";
 
 class ExpImpMinutes {
   static get FILENAME_POSTFIX() {
@@ -25,7 +25,7 @@ class ExpImpMinutes {
         .then((allMinutesDoc) => {
           if (allMinutesDoc) {
             const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
-            fs.writeFileSync(minFile, EJSON.stringify(allMinutesDoc, null, 2));
+            writeFileSync(minFile, stringify(allMinutesDoc, null, 2));
             console.log(
               `Saved: ${minFile} with ${allMinutesDoc.length} minutes`,
             );
@@ -72,7 +72,7 @@ class ExpImpMinutes {
       const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
       let minDoc = undefined;
       try {
-        minDoc = EJSON.parse(fs.readFileSync(minFile, "utf8"));
+        minDoc = parse(readFileSync(minFile, "utf8"));
         if (!minDoc) {
           return reject(new Error(`Could not read minutes file ${minFile}`));
         }
@@ -137,7 +137,7 @@ class ExpImpMinutes {
 
       // iterate topics
       for (let t = 0; element.topics && t < element.topics.length; t++) {
-        element.topics[t] = ExpImpTopics.patchUsers(element.topics[t], usrMap);
+        element.topics[t] = _patchUsers(element.topics[t], usrMap);
       }
     }
 
@@ -145,4 +145,4 @@ class ExpImpMinutes {
   }
 }
 
-module.exports = ExpImpMinutes;
+export default ExpImpMinutes;

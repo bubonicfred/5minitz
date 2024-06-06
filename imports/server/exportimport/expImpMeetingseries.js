@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpMeetingSeries {
   static get FILENAME_POSTFIX() {
@@ -14,7 +14,7 @@ class ExpImpMeetingSeries {
         .then((doc) => {
           if (doc) {
             const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
-            fs.writeFileSync(msFile, EJSON.stringify(doc, null, 2));
+            writeFileSync(msFile, stringify(doc, null, 2));
             console.log(`Saved: ${msFile}`);
             doc.visibleFor?.map((userID) => {
               userIDs[userID] = 1;
@@ -43,7 +43,7 @@ class ExpImpMeetingSeries {
           const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
           let msDoc = undefined;
           try {
-            msDoc = EJSON.parse(fs.readFileSync(msFile, "utf8"));
+            msDoc = parse(readFileSync(msFile, "utf8"));
             if (!msDoc) {
               return reject(`Could not read meeting series file ${msFile}`);
             }
@@ -75,4 +75,4 @@ class ExpImpMeetingSeries {
   }
 }
 
-module.exports = ExpImpMeetingSeries;
+export default ExpImpMeetingSeries;

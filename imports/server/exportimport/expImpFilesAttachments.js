@@ -1,5 +1,5 @@
-const fs = require("fs");
-const EJSON = require("bson");
+import { writeFileSync, readFileSync } from "fs";
+import { stringify, parse } from "bson";
 
 class ExpImpFilesAttachments {
   static get FILENAME_POSTFIX() {
@@ -14,7 +14,7 @@ class ExpImpFilesAttachments {
         .then((doc) => {
           if (doc) {
             const attFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
-            fs.writeFileSync(attFile, EJSON.stringify(doc, null, 2));
+            writeFileSync(attFile, stringify(doc, null, 2));
             console.log(
               `Saved: ${attFile} with ${doc.length} file attachments`,
             );
@@ -37,8 +37,8 @@ class ExpImpFilesAttachments {
       const attachmentFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
       let AllAttachmentsDoc = undefined;
       try {
-        AllAttachmentsDoc = EJSON.parse(
-          fs.readFileSync(attachmentFile, "utf8"),
+        AllAttachmentsDoc = parse(
+          readFileSync(attachmentFile, "utf8"),
         );
         if (!AllAttachmentsDoc) {
           return reject(`Could not read attachment file ${attachmentFile}`);
@@ -94,4 +94,4 @@ class ExpImpFilesAttachments {
   }
 }
 
-module.exports = ExpImpFilesAttachments;
+export default ExpImpFilesAttachments;
