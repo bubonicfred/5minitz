@@ -126,8 +126,15 @@ export class Minutes {
    * @param {Array} visibleForArray - An array of users who have visibility to
    *     the minutes.
    */
-  static async updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray) {
-    if ((await MinutesSchema.find({ meetingSeries_id: parentSeriesID }).countAsync()) > 0) {
+  static async updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
+    parentSeriesID,
+    visibleForArray,
+  ) {
+    if (
+      (await MinutesSchema.find({
+        meetingSeries_id: parentSeriesID,
+      }).countAsync()) > 0
+    ) {
       MinutesSchema.update(
         { meetingSeries_id: parentSeriesID },
         { $set: { visibleFor: visibleForArray } },
@@ -625,11 +632,12 @@ export class Minutes {
       _id: { $in: presentParticipantIds },
     });
 
-    const names = (await presentParticipants
-      .mapAsync((p) => {
+    const names = (
+      await presentParticipants.mapAsync((p) => {
         const user = new User(p);
         return user.profileNameWithFallback();
-      }))
+      })
+    )
       .concat(additionalParticipants)
       .join("; ");
 
