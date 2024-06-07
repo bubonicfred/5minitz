@@ -6,6 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Cache Node modules directory
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     - uses: actions/setup-node@v4
       with:
         node-version: '18.13.0'
@@ -21,7 +28,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-
     - run: meteor --version
     - run: npm install
     - run: npm run test:unit
@@ -56,6 +62,20 @@ jobs:
       - run: pwd
       - run: node --version
       - run: meteor --version
+      - name: Cache Node modules directory
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Cache ChromeDriver
+        uses: actions/cache@v3
+        with:
+          path: node_modules/chromedriver
+          key: ${{ runner.os }}-chromedriver-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-chromedriver-
       - run: npm install chromedriver@^123.0.1
       - run: google-chrome --version
       - run: npm install
