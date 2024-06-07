@@ -69,13 +69,13 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Cache ChromeDriver
+      - name: Cache Chromedriver
         uses: actions/cache@v3
         with:
-          path: node_modules/chromedriver
-          key: ${{ runner.os }}-chromedriver-${{ hashFiles('**/package-lock.json') }}
+          path: /home/runner/work/4minitz/4minitz/node_modules/chromedriver
+          key: chromedriver-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-chromedriver-
+           chromedriver-${{ runner.os }}-
       - run: npm install chromedriver@^123.0.1
       - run: google-chrome --version
       - run: npm install
