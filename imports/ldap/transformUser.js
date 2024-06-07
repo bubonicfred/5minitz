@@ -1,4 +1,4 @@
-import { pick } from "lodash";
+import {pick} from "lodash";
 
 /**
  * Filters an array and returns a new array without the specified values.
@@ -11,7 +11,7 @@ const without = (arr, ...args) => arr.filter(item => !args.includes(item))
 export default (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
-  ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
+      ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
   const longnameAttribute = ldapSettings.propertyMap.longname;
   const mailAttribute = ldapSettings.propertyMap.email || "mail";
 
@@ -24,23 +24,23 @@ export default (ldapSettings, userData) => {
   }
   const tmpEMailArray = [
     {
-      address: tmpEMail,
-      verified: true,
-      fromLDAP: true,
+      address : tmpEMail,
+      verified : true,
+      fromLDAP : true,
     },
   ];
 
   const username = userData[usernameAttribute] || "";
 
   const allowListedFields = ldapSettings.allowListedFields || [];
-  const profileFields = allowListedFields.concat(["dn"]);
+  const profileFields = allowListedFields.concat([ "dn" ]);
 
   const user = {
-    createdAt: new Date(),
-    isInactive: false,
-    emails: tmpEMailArray,
-    username: username.toLowerCase(),
-    profile: pick(userData, without(profileFields, "mail")),
+    createdAt : new Date(),
+    isInactive : false,
+    emails : tmpEMailArray,
+    username : username.toLowerCase(),
+    profile : pick(userData, without(profileFields, "mail")),
   };
 
   // copy over the LDAP user's long name from "cn" field to the meteor accounts
