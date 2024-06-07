@@ -1,5 +1,5 @@
-import { writeFileSync, readFileSync } from "fs";
-import { stringify, parse } from "bson";
+import { parse, stringify } from "bson";
+import { readFileSync, writeFileSync } from "fs";
 
 class ExpImpFilesAttachments {
   static get FILENAME_POSTFIX() {
@@ -37,9 +37,7 @@ class ExpImpFilesAttachments {
       const attachmentFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
       let AllAttachmentsDoc = undefined;
       try {
-        AllAttachmentsDoc = parse(
-          readFileSync(attachmentFile, "utf8"),
-        );
+        AllAttachmentsDoc = parse(readFileSync(attachmentFile, "utf8"));
         if (!AllAttachmentsDoc) {
           return reject(`Could not read attachment file ${attachmentFile}`);
         }
