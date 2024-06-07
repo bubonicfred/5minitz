@@ -10,7 +10,7 @@ const Meteor = {
 };
 const LDAP = {};
 const LdapSettings = {
-  usernameAttribute: undefined,
+  usernameAttribute: sinon.stub(),
   searchFilter: sinon.stub(),
   serverDn: sinon.stub(),
   allowSelfSignedTLS: sinon.stub().returns(false),
@@ -60,7 +60,7 @@ describe("ldap", () => {
   describe("searchField", () => {
     it("should return the username attribute from LdapSettings", () => {
       const result = LDAP.searchField;
-      expect(result).to.equal(LdapSettings.usernameAttribute);
+      expect(result).to.equal(LdapSettings.usernameAttribute());
     });
   });
 
