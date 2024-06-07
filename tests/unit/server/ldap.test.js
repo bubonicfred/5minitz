@@ -10,7 +10,6 @@ const Meteor = {
 };
 const LDAP = {};
 const LdapSettings = {
-  ldapEnabled: sinon.stub(),
   usernameAttribute: sinon.stub(),
   searchFilter: sinon.stub(),
   serverDn: sinon.stub(),
