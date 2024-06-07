@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import { assignIn } from "lodash";
 
 import { AttachmentsCollection } from "./collections/attachments_private";
 import { Minutes } from "./minutes";
@@ -42,7 +42,7 @@ export class Attachment {
 
   static uploadFile(uploadFilename, minutesObj, callbacks = {}) {
     const doNothing = () => {};
-    callbacks = _.assignIn(
+    callbacks = assignIn(
       {
         onStart: doNothing,
         onEnd: doNothing,

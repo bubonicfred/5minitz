@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import { assignIn } from "lodash";
 import { Blaze } from "meteor/blaze";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
@@ -7,7 +7,7 @@ const DIALOG_TEMPLATE = Template.confirmationDialog;
 
 export class ConfirmationDialog {
   constructor(options, callbacks = {}) {
-    this.options = _.assignIn(
+    this.options = assignIn(
       {
         title: i18n.__("Dialog.ConfirmDelete.title"),
         content: i18n.__("Dialog.ConfirmDelete.body"),
@@ -19,7 +19,7 @@ export class ConfirmationDialog {
       },
       options,
     ); // overwrite above defaults with given options
-    this.callback = _.assignIn(
+    this.callback = assignIn(
       {
         onSuccess() {},
       },

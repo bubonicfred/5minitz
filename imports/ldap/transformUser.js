@@ -1,11 +1,19 @@
-import { pick, without } from "lodash";
+import { pick } from "lodash";
 
+/**
+ * Filters an array and returns a new array without the specified values.
+ *
+ * @param {Array} arr - The array to filter.
+ * @param {...*} args - The values to exclude from the filtered array.
+ * @returns {Array} - A new array with the values excluded.
+ */
+const without = (arr, ...args) => arr.filter(item => !args.includes(item))
 export default (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
-      ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn",
-    longnameAttribute = ldapSettings.propertyMap.longname,
-    mailAttribute = ldapSettings.propertyMap.email || "mail";
+  ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
+  const longnameAttribute = ldapSettings.propertyMap.longname;
+  const mailAttribute = ldapSettings.propertyMap.email || "mail";
 
   // userData.mail may be a string with one mail address or an array.
   // Nevertheless we are only interested in the first mail address here - if

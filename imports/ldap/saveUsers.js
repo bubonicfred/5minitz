@@ -1,8 +1,9 @@
 import { MongoClient as mongo } from "mongodb";
 import { parse } from "mongo-uri";
 import transformUser from "./transformUser";
+
 import { map, forEach } from "lodash";
-import { Random } from "../../tests/performance/fixtures/lib/random";
+import { generateId } from "../../tests/performance/fixtures/lib/random";
 
 const _transformUsers = (settings, users) =>
   map(users, (user) => transformUser(settings, user));
@@ -41,7 +42,7 @@ const _insertUsers = (client, mongoUri, users) => {
             .upsert()
             .updateOne({
               $setOnInsert: {
-                _id: Random.generateId(),
+                _id: generateId(),
                 // by setting this only on insert we won't log out everyone
                 // everytime we sync the users
                 services: {
@@ -68,9 +69,9 @@ const _insertUsers = (client, mongoUri, users) => {
 };
 
 const _closeMongo = (data) => {
-  let force = false,
-    client = data.client,
-    result = data.bulkResult;
+  const force = false;
+  const client = data.client;
+  const result = data.bulkResult;
 
   return new Promise((resolve) => {
     client.close(force);

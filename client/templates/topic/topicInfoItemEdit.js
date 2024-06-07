@@ -7,7 +7,7 @@ import { Minutes } from "/imports/minutes";
 import { Priority } from "/imports/priority";
 import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
-import { _ } from "lodash";
+import { assignIn } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { ReactiveDict } from "meteor/reactive-dict";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -214,7 +214,7 @@ Template.topicInfoItemEdit.events({
 
       const doc = {};
       if (editItem) {
-        _.assignIn(doc, editItem._infoItemDoc);
+        assignIn(doc, editItem._infoItemDoc);
       }
 
       doc.subject = newSubject;

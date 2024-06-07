@@ -1,7 +1,7 @@
-const crawler = require("npm-license-crawler"),
-  http = require("http"),
-  https = require("https"),
-  fs = require("fs");
+import { dumpLicenses } from "npm-license-crawler";
+import { get as _get } from "http";
+import { get as __get } from "https";
+import { createWriteStream } from "fs";
 
 const meteorPackages = {
   meteor: {
@@ -107,9 +107,9 @@ const meteorPackages = {
 
 function get(url, callback) {
   if (url.startsWith("https")) {
-    https.get(url, callback);
+    __get(url, callback);
   } else {
-    http.get(url, callback);
+    _get(url, callback);
   }
 }
 
@@ -169,11 +169,11 @@ function streamCollector(streams, index, outStream) {
           outStream.write(`\n\n${licenseSeparator}\n\n`);
           streamCollector(streams, index + 1, outStream);
         });
-      } else {
-        console.log(`NO LICENSE TEXT FOUND FOR ${project}`);
-        outStream.write(`\n\n${licenseSeparator}\n\n`);
-        streamCollector(streams, index + 1, outStream);
+        return;
       }
+      console.log(`NO LICENSE TEXT FOUND FOR ${project}`);
+      outStream.write(`\n\n${licenseSeparator}\n\n`);
+      streamCollector(streams, index + 1, outStream);
     })
     .catch(console.error);
 }
@@ -185,13 +185,13 @@ function getSortedKeys(obj) {
   return keys.sort((a, b) => obj[b] - obj[a]);
 }
 
-crawler.dumpLicenses({ start: ["."] }, (error, res) => {
+dumpLicenses({ start: ["."] }, (error, res) => {
   if (error) {
     console.error("Error:", error);
     return;
   }
 
-  const output = fs.createWriteStream("LicensesOfDependencies.txt");
+  const output = createWriteStream("LicensesOfDependencies.txt");
   const streams = Object.keys(res).map((project) =>
     downloadToStream(project, res[project].licenseUrl, res[project].licenses),
   );
