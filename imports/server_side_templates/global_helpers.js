@@ -6,7 +6,6 @@ const PARAGRAPH_REGEX = /<p>(.*?)<\/p>/gi;
 
 /**
  * Sanitizes and formats an HTML string.
- *  Sanitize the HTML to prevent XSS attacks
  * @param {string} html - The HTML string to sanitize and format.
  * @returns {Spacebars.SafeString} - The sanitized and formatted HTML string.
  */
@@ -28,7 +27,7 @@ export const GlobalHelpers = {
       html = Markdown(text);
     } catch (e) {
       console.error(
-        `Could( not convert the following markdown to html: ${text}`,
+        `Could not convert the following markdown to html: ${text}`,
       );
       throw new Error(`Markdown conversion failed: ${e.message}`);
     }
