@@ -1,6 +1,6 @@
 import { i18n } from "meteor/universe:i18n";
 
-const assert = require("assert");
+import assert from "assert";
 
 // #I18N - Attention: the below strings with longer texts will be never be used
 // in UI! Instead they will be pulled from translation language files via

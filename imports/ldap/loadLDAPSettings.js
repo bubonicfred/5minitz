@@ -1,8 +1,8 @@
-const fs = require("fs");
+import { readFile } from "fs";
 
 const _readSettingsFile = (filename) =>
   new Promise((resolve, reject) => {
-    fs.readFile(filename, "utf8", (error, data) => {
+    readFile(filename, "utf8", (error, data) => {
       if (error) {
         reject(`Could not read settings file "${filename}"`);
       } else {
@@ -38,4 +38,4 @@ const loadLDAPSettings = (filename) =>
       .catch(reject);
   });
 
-module.exports = loadLDAPSettings;
+export default loadLDAPSettings;

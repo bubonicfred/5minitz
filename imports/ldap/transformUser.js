@@ -1,11 +1,19 @@
-import { _ } from "lodash";
+import { pick } from "lodash";
 
-module.exports = (ldapSettings, userData) => {
+/**
+ * Filters an array and returns a new array without the specified values.
+ *
+ * @param {Array} arr - The array to filter.
+ * @param {...*} args - The values to exclude from the filtered array.
+ * @returns {Array} - A new array with the values excluded.
+ */
+const without = (arr, ...args) => arr.filter(item => !args.includes(item))
+export default (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
-      ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn",
-    longnameAttribute = ldapSettings.propertyMap.longname,
-    mailAttribute = ldapSettings.propertyMap.email || "mail";
+  ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
+  const longnameAttribute = ldapSettings.propertyMap.longname;
+  const mailAttribute = ldapSettings.propertyMap.email || "mail";
 
   // userData.mail may be a string with one mail address or an array.
   // Nevertheless we are only interested in the first mail address here - if
@@ -32,7 +40,7 @@ module.exports = (ldapSettings, userData) => {
     isInactive: false,
     emails: tmpEMailArray,
     username: username.toLowerCase(),
-    profile: _.pick(userData, _.without(profileFields, "mail")),
+    profile: pick(userData, without(profileFields, "mail")),
   };
 
   // copy over the LDAP user's long name from "cn" field to the meteor accounts

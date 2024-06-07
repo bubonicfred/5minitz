@@ -1,9 +1,9 @@
-let getLDAPUsers = require("./getLDAPUsers"),
-  saveUsers = require("./saveUsers");
+import getLDAPUsers from "./getLDAPUsers";
+import saveUsers from "./saveUsers";
 
 const report = (bulkResult) => {
-  let inserted = bulkResult.nUpserted,
-    updated = bulkResult.nModified;
+  const inserted = bulkResult.nUpserted;
+  const updated = bulkResult.nModified;
 
   console.log(
     `Successfully inserted ${inserted} users and updated ${updated} users.`,
@@ -55,4 +55,4 @@ const importUsers = (ldapSettings, mongoUrl) =>
     .then(resetSelfSigned)
     .catch(handleRejection);
 
-module.exports = importUsers;
+export default importUsers;

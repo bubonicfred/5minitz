@@ -1,12 +1,12 @@
-let mongo = require("mongodb").MongoClient,
-  mongoUriParser = require("mongo-uri"),
-  transformUser = require("./transformUser");
+import { MongoClient as mongo } from "mongodb";
+import { parse } from "mongo-uri";
+import transformUser from "./transformUser";
 
-import { _ } from "lodash";
-import { Random } from "../../tests/performance/fixtures/lib/random";
+import { map, forEach } from "lodash";
+import { generateId } from "../../tests/performance/fixtures/lib/random";
 
 const _transformUsers = (settings, users) =>
-  _.map(users, (user) => transformUser(settings, user));
+  map(users, (user) => transformUser(settings, user));
 
 const _connectMongo = (mongoUrl) => mongo.connect(mongoUrl);
 
@@ -25,12 +25,12 @@ const _insertUsers = (client, mongoUri, users) => {
 
   return new Promise((resolve, reject) => {
     try {
-      const mongoConnection = mongoUriParser.parse(mongoUri);
+      const mongoConnection = parse(mongoUri);
       const bulk = client
         .db(mongoConnection.database)
         .collection("users")
         .initializeUnorderedBulkOp();
-      _.forEach(users, (user) => {
+      forEach(users, (user) => {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           const usrRegExp = new RegExp(
@@ -42,7 +42,7 @@ const _insertUsers = (client, mongoUri, users) => {
             .upsert()
             .updateOne({
               $setOnInsert: {
-                _id: Random.generateId(),
+                _id: generateId(),
                 // by setting this only on insert we won't log out everyone
                 // everytime we sync the users
                 services: {
@@ -69,9 +69,9 @@ const _insertUsers = (client, mongoUri, users) => {
 };
 
 const _closeMongo = (data) => {
-  let force = false,
-    client = data.client,
-    result = data.bulkResult;
+  const force = false;
+  const client = data.client;
+  const result = data.bulkResult;
 
   return new Promise((resolve) => {
     client.close(force);
@@ -93,4 +93,4 @@ const saveUsers = (settings, mongoUrl, users) => {
   });
 };
 
-module.exports = saveUsers;
+export default saveUsers;
