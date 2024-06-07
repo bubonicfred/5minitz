@@ -17,17 +17,19 @@ import "/imports/services/finalize-minutes/finalizer";
 import "/imports/services/isEditedService";
 import "/imports/helpers/i18n";
 
-import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { LdapSettings } from "/imports/config/LdapSettings";
+import {
+  BroadcastMessageSchema
+} from "/imports/collections/broadcastmessages.schema";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {LdapSettings} from "/imports/config/LdapSettings";
 import importUsers from "/imports/ldap/import";
-import { Accounts } from "meteor/accounts-base";
-import { Meteor } from "meteor/meteor";
-import { Markdown } from "meteor/perak:markdown";
-import { i18n } from "meteor/universe:i18n";
+import {Accounts} from "meteor/accounts-base";
+import {Meteor} from "meteor/meteor";
+import {Markdown} from "meteor/perak:markdown";
+import {i18n} from "meteor/universe:i18n";
 import cron from "node-cron";
 
-import { handleMigration } from "./migrations/migrations";
+import {handleMigration} from "./migrations/migrations";
 
 i18n.setLocale("en");
 
@@ -39,12 +41,11 @@ i18n.setLocale("en");
  */
 const findDemoUser = async (additionalCriteria = {}) => {
   await Meteor.users.findOneAsync({
-    $and: [
-      { username: "demo" },
-      { isDemoUser: true },
-      ...(Array.isArray(additionalCriteria)
-        ? additionalCriteria
-        : [additionalCriteria]),
+    $and : [
+      {username : "demo"},
+      {isDemoUser : true},
+      ...(Array.isArray(additionalCriteria) ? additionalCriteria
+                                            : [ additionalCriteria ]),
     ],
   });
 };
@@ -55,25 +56,25 @@ const findDemoUser = async (additionalCriteria = {}) => {
  * @param {Object} updates - The updates to apply to the demo user.
  */
 const updateDemoUser = async updates => {
-  await Meteor.users.updateAsync({ username: "demo" }, { $set: updates });
+  await Meteor.users.updateAsync({username : "demo"}, {$set : updates});
 };
 /**
  * Creates a demo user account.
  */
 const createDemoUser = async () => {
   Accounts.createUser({
-    username: "demo",
-    password: "demo",
-    email: "",
-    profile: { name: "Demo User" },
+    username : "demo",
+    password : "demo",
+    email : "",
+    profile : {name : "Demo User"},
   });
   await updateDemoUser({
-    isDemoUser: true,
-    isInactive: false,
-    "emails.0.verified": true,
+    isDemoUser : true,
+    isInactive : false,
+    "emails.0.verified" : true,
   });
   console.log(
-    "*** ATTENTION ***\n    Created demo/demo user account once on startup",
+      "*** ATTENTION ***\n    Created demo/demo user account once on startup",
   );
 };
 const handleDemoUserAccount = async () => {
@@ -82,10 +83,10 @@ const handleDemoUserAccount = async () => {
     if (demoUser) {
       // we already have one, let's ensure he is not switched Inactive
       if (demoUser.isInactive) {
-        await updateDemoUser({ isInactive: false });
+        await updateDemoUser({isInactive : false});
       }
       if (!demoUser.emails[0].verified) {
-        await updateDemoUser({ "emails.0.verified": true });
+        await updateDemoUser({"emails.0.verified" : true});
       }
       return;
     }
@@ -98,13 +99,13 @@ const handleDemoUserAccount = async () => {
    *
    * @type {Object}
    */
-  const demoUserActive = await findDemoUser({ isInactive: false });
+  const demoUserActive = await findDemoUser({isInactive : false});
   // we don't want a demo user
   if (demoUserActive) {
     // set demo account to Inactive
-    await updateDemoUser({ isInactive: true });
+    await updateDemoUser({isInactive : true});
     console.log(
-      "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
+        "*** ATTENTION ***\n    De-activated demo/demo user account (isInactive: true)",
     );
   }
   /**
@@ -112,15 +113,15 @@ const handleDemoUserAccount = async () => {
    *
    * @type {User}
    */
-  const demoUserActiveAgain = await findDemoUser({ isInactive: false });
+  const demoUserActiveAgain = await findDemoUser({isInactive : false});
   // #Security: warn admin if demo user exists
   if (demoUserActiveAgain) {
     console.log(
-      "*** ATTENTION ***\n" +
-        "    There exists an account with user name 'demo'.\n" +
-        "    If this account was created with the setting 'branding.createDemoAccount',\n" +
-        "    the password for user 'demo' is also 'demo'.\n" +
-        "    Please check, if this is wanted for your site's installation.\n",
+        "*** ATTENTION ***\n" +
+            "    There exists an account with user name 'demo'.\n" +
+            "    If this account was created with the setting 'branding.createDemoAccount',\n" +
+            "    the password for user 'demo' is also 'demo'.\n" +
+            "    Please check, if this is wanted for your site's installation.\n",
     );
   }
 };
@@ -152,7 +153,8 @@ const syncRootUrl = () => {
   // contain a value
   if (Meteor.settings.ROOT_URL) {
     process.env.ROOT_URL = Meteor.settings.ROOT_URL;
-    __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; // eslint-disable-line
+    __meteor_runtime_config__.ROOT_URL =
+        Meteor.settings.ROOT_URL; // eslint-disable-line
     // We overwrite the `rootUrl` also in the `defaultOptions` which might be
     // overwritten by any other package ?! see
     // https://github.com/meteor/meteor/blob/24865b28a0689de8b4949fb69ea1f95da647cd7a/packages/meteor/url_common.js#L52
@@ -176,7 +178,7 @@ Meteor.startup(async () => {
   // #Security: Make sure that all server side markdown rendering quotes all
   // HTML <TAGs>
   Markdown.setOptions({
-    sanitize: true,
+    sanitize : true,
   });
 
   handleMigration();
@@ -192,23 +194,19 @@ Meteor.startup(async () => {
     // know the desired language But admin may do so in Admin frontend where
     // messages can be overwritten.
     const message =
-      "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
-      "Downtime will be about 4 Minutes. Just submit open dialogs. " +
-      "Then nothing is lost. You may finalize meetings later.";
+        "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
+        "Downtime will be about 4 Minutes. Just submit open dialogs. " +
+        "Then nothing is lost. You may finalize meetings later.";
     BroadcastMessageSchema.insert({
-      text: message,
-      isActive: false,
-      createdAt: new Date(),
-      dismissForUserIDs: [],
+      text : message,
+      isActive : false,
+      createdAt : new Date(),
+      dismissForUserIDs : [],
     });
   }
 
-  if (
-    !(
-      GlobalSettings.hasImportUsersCronTab() ||
-      GlobalSettings.getImportUsersOnLaunch()
-    )
-  ) {
+  if (!(GlobalSettings.hasImportUsersCronTab() ||
+        GlobalSettings.getImportUsersOnLaunch())) {
     return;
   }
   const crontab = GlobalSettings.getImportUsersCronTab();
@@ -218,19 +216,21 @@ Meteor.startup(async () => {
 
   if (GlobalSettings.getImportUsersOnLaunch()) {
     console.log(
-      "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
+        "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
     );
-    importUsers(ldapSettings, mongoUrl).catch(() => {
-      // intentionally empty. Error handling is not required for
-      // this operation.
-    });
+    importUsers(ldapSettings, mongoUrl)
+        .catch(() => {
+                   // intentionally empty. Error handling is not required for
+                   // this operation.
+               });
   }
   if (GlobalSettings.hasImportUsersCronTab()) {
     console.log("Configuring cron job for regular LDAP user import.");
     cron.schedule(crontab, () => {
-      importUsers(ldapSettings, mongoUrl).catch(() => {
-        // intentionally empty. No action required for catch.
-      });
+      importUsers(ldapSettings, mongoUrl)
+          .catch(() => {
+                     // intentionally empty. No action required for catch.
+                 });
     });
   }
 });

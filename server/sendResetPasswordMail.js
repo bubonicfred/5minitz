@@ -1,5 +1,5 @@
-import { Meteor } from "meteor/meteor";
-import { Accounts } from "meteor/accounts-base";
+import {Accounts} from "meteor/accounts-base";
+import {Meteor} from "meteor/meteor";
 
 // We wrap the original Accounts.sendResetPasswordEmail to perform
 // a check for user.isLDAPuser in advance. Because LDAP users
@@ -9,8 +9,8 @@ Accounts.sendResetPasswordEmail = async (userId, email) => {
   const user = await Meteor.users.findOneAsync(userId);
   if (user.isLDAPuser) {
     throw new Meteor.Error(
-      418,
-      "LDAP users are not allowed to reset their password with 'Standard' login",
+        418,
+        "LDAP users are not allowed to reset their password with 'Standard' login",
     );
   }
   originalSendResetPasswordEmail(userId, email);

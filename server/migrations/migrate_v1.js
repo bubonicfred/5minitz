@@ -1,5 +1,5 @@
-import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
-import { MinutesSchema } from "/imports/collections/minutes.schema";
+import {MeetingSeriesSchema} from "/imports/collections/meetingseries.schema";
+import {MinutesSchema} from "/imports/collections/minutes.schema";
 import {
   currentDatePlusDeltaDays,
   formatDateISO8601,
@@ -26,7 +26,7 @@ export class MigrateV1 {
 
       topic.priority = "";
       topic.duedate = currentDatePlusDeltaDays(7, date);
-      topic.details = [{ date: formatDateISO8601(date), text: "" }];
+      topic.details = [ {date : formatDateISO8601(date), text : ""} ];
       delete topic.infoItems;
 
       return topic;
@@ -37,43 +37,39 @@ export class MigrateV1 {
   }
 
   static async _updateTopics(modifyTopic) {
-    await MinutesSchema.getCollection()
-      .find()
-      .forEachAsync((minute) => {
-        minute.topics.forEach((topic, index) => {
-          topic = modifyTopic(topic, minute);
+    await MinutesSchema.getCollection().find().forEachAsync((minute) => {
+      minute.topics.forEach((topic, index) => {
+        topic = modifyTopic(topic, minute);
 
-          const sel = `topics.${index}`;
-          const setNewTopic = {};
-          setNewTopic[sel] = topic;
-          MinutesSchema.getCollection().update(minute._id, {
-            $set: setNewTopic,
-          });
+        const sel = `topics.${index}`;
+        const setNewTopic = {};
+        setNewTopic[sel] = topic;
+        MinutesSchema.getCollection().update(minute._id, {
+          $set : setNewTopic,
         });
       });
+    });
   }
 
   static async _updateMeetingSeries(modifyTopic) {
-    await MeetingSeriesSchema.getCollection()
-      .find()
-      .forEachAsync((series) => {
-        const iterateTopics = (propertyName) => {
-          return (topic, index) => {
-            topic = modifyTopic(topic);
+    await MeetingSeriesSchema.getCollection().find().forEachAsync((series) => {
+      const iterateTopics = (propertyName) => {
+        return (topic, index) => {
+          topic = modifyTopic(topic);
 
-            const sel = `${propertyName}.${index}`;
-            const setNewTopic = {};
-            setNewTopic[sel] = topic;
-            MeetingSeriesSchema.getCollection().update(series._id, {
-              $set: setNewTopic,
-            });
-          };
+          const sel = `${propertyName}.${index}`;
+          const setNewTopic = {};
+          setNewTopic[sel] = topic;
+          MeetingSeriesSchema.getCollection().update(series._id, {
+            $set : setNewTopic,
+          });
         };
+      };
 
-        series.openTopics.forEach(iterateTopics("openTopics"));
-        if (series.closedTopics) {
-          series.closedTopics.forEach(iterateTopics("closedTopics"));
-        }
-      });
+      series.openTopics.forEach(iterateTopics("openTopics"));
+      if (series.closedTopics) {
+        series.closedTopics.forEach(iterateTopics("closedTopics"));
+      }
+    });
   }
 }
