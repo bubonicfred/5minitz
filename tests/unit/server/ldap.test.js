@@ -10,10 +10,11 @@ const Meteor = {
 };
 const LDAP = {};
 const LdapSettings = {
-  usernameAttribute: sinon.stub(),
+  usernameAttribute: undefined,
   searchFilter: sinon.stub(),
   serverDn: sinon.stub(),
   allowSelfSignedTLS: sinon.stub().returns(false),
+  ldapEndabled: undefined
 };
 
 const { ldap } = proxyquire("../../../server/ldap", {
