@@ -1,33 +1,35 @@
 import "./collections/minutes_private";
 import "./collections/workflow_private";
 
-import { emailAddressRegExpMatch } from "/imports/helpers/email";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { User } from "/imports/user";
-import { _ } from "lodash";
-import { Meteor } from "meteor/meteor";
-import { Random } from "meteor/random";
-import { i18n } from "meteor/universe:i18n";
+import {emailAddressRegExpMatch} from "/imports/helpers/email";
+import {subElementsHelper} from "/imports/helpers/subElements";
+import {User} from "/imports/user";
+import {_} from "lodash";
+import {Meteor} from "meteor/meteor";
+import {Random} from "meteor/random";
+import {i18n} from "meteor/universe:i18n";
 
-import { ActionItem } from "./actionitem";
-import { MinutesSchema } from "./collections/minutes.schema";
-import { StringUtils } from "./helpers/string-utils";
-import { MeetingSeries } from "./meetingseries";
-import { Topic } from "./topic";
+import {ActionItem} from "./actionitem";
+import {MinutesSchema} from "./collections/minutes.schema";
+import {StringUtils} from "./helpers/string-utils";
+import {MeetingSeries} from "./meetingseries";
+import {Topic} from "./topic";
 
 export class Minutes {
   /**
    * Represents a Minutes object.
    * @constructs Minutes
-   * @param {string|object} source - The source of the Minutes object. It can be either a Mongo ID or a Mongo document.
-   * @throws {Meteor.Error} Throws an error if the source is not provided or is invalid.
+   * @param {string|object} source - The source of the Minutes object. It can be
+   *     either a Mongo ID or a Mongo document.
+   * @throws {Meteor.Error} Throws an error if the source is not provided or is
+   *     invalid.
    */
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
     if (!source)
       throw new Meteor.Error(
-        "invalid-argument",
-        "Mongo ID or Mongo document required",
+          "invalid-argument",
+          "Mongo ID or Mongo document required",
       );
 
     if (typeof source === "string") {
@@ -40,22 +42,21 @@ export class Minutes {
     }
   }
 
-
   /**
    * Finds documents in the collection.
    * @todo Refactor into utility?
    * @param {...any} args - The arguments to be passed to the find method.
-   * @returns {Cursor} - The cursor object representing the result of the find operation.
+   * @returns {Cursor} - The cursor object representing the result of the find
+   *     operation.
    */
-  static find(...args) {
-    return MinutesSchema.getCollection().find(...args);
-  }
+  static find(...args) { return MinutesSchema.getCollection().find(...args); }
 
   /**
    * Finds a single document in the collection based on the provided arguments.
    * @todo Refactor into utility?
    * @param {...any} args - The arguments to be passed to the findOne method.
-   * @returns {Object|null} - The found document, or null if no document matches the criteria.
+   * @returns {Object|null} - The found document, or null if no document matches
+   *     the criteria.
    */
   static findOne(...args) {
     return MinutesSchema.getCollection().findOne(...args);
@@ -66,10 +67,13 @@ export class Minutes {
    *
    * @param {Array} MinutesIDArray - An array of minutes document IDs.
    * @param {number} limit - The maximum number of documents to return.
-   * @param {boolean} [lastMintuesFirst=true] - Determines the sorting order of the documents.
-   *                                             If true, the most recent minutes will be returned first.
-   *                                             If false, the oldest minutes will be returned first.
-   * @returns {Array} - An array of minutes documents matching the given IDs and options.
+   * @param {boolean} [lastMintuesFirst=true] - Determines the sorting order of
+   *     the documents.
+   *                                             If true, the most recent
+   * minutes will be returned first. If false, the oldest minutes will be
+   * returned first.
+   * @returns {Array} - An array of minutes documents matching the given IDs and
+   *     options.
    */
   static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
     if (!MinutesIDArray || MinutesIDArray.length === 0) {
@@ -77,108 +81,109 @@ export class Minutes {
     }
 
     const sort = lastMintuesFirst ? -1 : 1;
-    const options = { sort: { date: sort } };
+    const options = {sort : {date : sort}};
     if (limit) {
       options.limit = limit;
     }
-    return Minutes.find({ _id: { $in: MinutesIDArray } }, options);
+    return Minutes.find({_id : {$in : MinutesIDArray}}, options);
   }
-
 
   /**
    * Removes a minute with the specified ID.
    *
    * @param {string} id - The ID of the minute to remove.
-   * @returns {Promise} A promise that resolves when the minute is successfully removed.
+   * @returns {Promise} A promise that resolves when the minute is successfully
+   *     removed.
    */
-  static remove(id) {
-    return Meteor.callAsync("workflow.removeMinute", id);
-  }
-
+  static remove(id) { return Meteor.callAsync("workflow.removeMinute", id); }
 
   /**
-   * Synchronizes the visibility of minutes with the given parent series ID and visibleForArray.
+   * Synchronizes the visibility of minutes with the given parent series ID and
+   * visibleForArray.
    * @param {string} parentSeriesID - The ID of the parent series.
-   * @param {Array} visibleForArray - An array of user IDs specifying who can see the minutes.
-   * @returns {Promise} - A promise that resolves when the visibility is synchronized.
+   * @param {Array} visibleForArray - An array of user IDs specifying who can
+   *     see the minutes.
+   * @returns {Promise} - A promise that resolves when the visibility is
+   *     synchronized.
    */
   static async syncVisibility(parentSeriesID, visibleForArray) {
-  await Meteor.callAsync(
-      "minutes.syncVisibilityAndParticipants",
-      parentSeriesID,
-      visibleForArray,
+    await Meteor.callAsync(
+        "minutes.syncVisibilityAndParticipants",
+        parentSeriesID,
+        visibleForArray,
     );
   }
 
   /**
-   * Updates the visibleFor and participants fields for all minutes of a meeting series.
+   * Updates the visibleFor and participants fields for all minutes of a meeting
+   * series.
    *
    * @param {string} parentSeriesID - The ID of the parent meeting series.
-   * @param {Array} visibleForArray - An array of users who have visibility to the minutes.
+   * @param {Array} visibleForArray - An array of users who have visibility to
+   *     the minutes.
    */
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
-    parentSeriesID,
-    visibleForArray,
+      parentSeriesID,
+      visibleForArray,
   ) {
-    if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
+    if (MinutesSchema.find({meetingSeries_id : parentSeriesID}).count() > 0) {
       MinutesSchema.update(
-        { meetingSeries_id: parentSeriesID },
-        { $set: { visibleFor: visibleForArray } },
-        { multi: true },
+          {meetingSeries_id : parentSeriesID},
+          {$set : {visibleFor : visibleForArray}},
+          {multi : true},
       );
 
       // add missing participants to non-finalized meetings
       MinutesSchema.getCollection()
-        .find({ meetingSeries_id: parentSeriesID })
-        .forEach((min) => {
-          if (!min.isFinalized) {
-            const newparticipants = min.generateNewParticipants();
-            if (newparticipants) {
-              // Write participants to database if they have changed
-              MinutesSchema.update(
-                { _id: min._id },
-                { $set: { participants: newparticipants } },
-              );
+          .find({meetingSeries_id : parentSeriesID})
+          .forEach((min) => {
+            if (!min.isFinalized) {
+              const newparticipants = min.generateNewParticipants();
+              if (newparticipants) {
+                // Write participants to database if they have changed
+                MinutesSchema.update(
+                    {_id : min._id},
+                    {$set : {participants : newparticipants}},
+                );
+              }
             }
-          }
-        });
+          });
     }
   }
 
   // ################### object methods
 
-
   /**
    * Updates the document with the provided `docPart`.
    *
    * @param {Object} docPart - The partial document to update.
-   * @param {Function} callback - The callback function to be called after the update is complete.
+   * @param {Function} callback - The callback function to be called after the
+   *     update is complete.
    * @returns {Promise} A promise that resolves when the update is complete.
    */
   async update(docPart, callback) {
     console.log("Minutes.update()");
     const parentMeetingSeries = this.parentMeetingSeries();
 
-    _.assignIn(docPart, { _id: this._id });
+    _.assignIn(docPart, {_id : this._id});
     await Meteor.callAsync("minutes.update", docPart, callback);
 
     // merge new doc fragment into this document
     _.assignIn(this, docPart);
 
-    if (
-      Object.prototype.hasOwnProperty.call(docPart, "date") ||
-      Object.prototype.hasOwnProperty.call(docPart, "isFinalized")
-    ) {
+    if (Object.prototype.hasOwnProperty.call(docPart, "date") ||
+        Object.prototype.hasOwnProperty.call(docPart, "isFinalized")) {
       return parentMeetingSeries.updateLastMinutesFieldsAsync(this);
     }
   }
 
-
   /**
    * Saves the minutes.
    *
-   * @param {Function} optimisticUICallback - The callback function for optimistic UI updates.
-   * @param {Function} serverCallback - The callback function for server updates.
+   * @param {Function} optimisticUICallback - The callback function for
+   *     optimistic UI updates.
+   * @param {Function} serverCallback - The callback function for server
+   *     updates.
    */
   save(optimisticUICallback, serverCallback) {
     console.log("Minutes.save()");
@@ -192,10 +197,10 @@ export class Minutes {
         this.topics = [];
       }
       Meteor.call(
-        "workflow.addMinutes",
-        this,
-        optimisticUICallback,
-        serverCallback,
+          "workflow.addMinutes",
+          this,
+          optimisticUICallback,
+          serverCallback,
       );
     }
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
@@ -206,41 +211,34 @@ export class Minutes {
    * @todo refactor to use {@link StringUtils.createToString}
    * @returns {string} The string representation of the Minutes object.
    */
-  toString() {
-    return `Minutes: ${JSON.stringify(this, null, 4)}`;
-  }
+  toString() { return `Minutes: ${JSON.stringify(this, null, 4)}`; }
 
   /**
    * Logs the string representation of the object.
    * @todo Refactor into utility function (or remove)
    */
-  log() {
-    console.log(this.toString());
-  }
+  log() { console.log(this.toString()); }
 
   /**
    * Get the parent meeting series of the current meeting.
    * @returns {MeetingSeries} The parent meeting series.
    */
-  parentMeetingSeries() {
-    return new MeetingSeries(this.meetingSeries_id);
-  }
+  parentMeetingSeries() { return new MeetingSeries(this.meetingSeries_id); }
 
   /**
    * Returns the ID of the parent meeting series.
    *
    * @returns {string} The ID of the parent meeting series.
    */
-  parentMeetingSeriesID() {
-    return this.meetingSeries_id;
-  }
+  parentMeetingSeriesID() { return this.meetingSeries_id; }
 
   // This also does a minimal update of collection!
   // method
   /**
    * Removes a topic from the list of topics in the minutes.
    * @param {string} id - The ID of the topic to be removed.
-   * @returns {Promise<void>} - A promise that resolves when the topic is successfully removed.
+   * @returns {Promise<void>} - A promise that resolves when the topic is
+   *     successfully removed.
    */
   async removeTopic(id) {
     const i = this._findTopicIndex(id);
@@ -254,7 +252,8 @@ export class Minutes {
    * Finds a topic by its ID.
    * @todo Throw error when not found?
    * @param {string} id - The ID of the topic to find.
-   * @returns {object|undefined} - The found topic object, or undefined if not found.
+   * @returns {object|undefined} - The found topic object, or undefined if not
+   *     found.
    */
   findTopic(id) {
     const i = this._findTopicIndex(id);
@@ -269,9 +268,7 @@ export class Minutes {
    * within this meeting.
    */
   getNewTopics() {
-    return this.topics.filter((topic) => {
-      return topic.isNew;
-    });
+    return this.topics.filter((topic) => { return topic.isNew; });
   }
 
   /**
@@ -291,7 +288,7 @@ export class Minutes {
    * @returns {boolean}
    */
   hasOpenActionItems() {
-    for (let i = this.topics.length; i-- > 0; ) {
+    for (let i = this.topics.length; i-- > 0;) {
       const topic = new Topic(this, this.topics[i]);
       if (topic.hasOpenActionItem()) {
         return true;
@@ -306,23 +303,21 @@ export class Minutes {
    * @returns {Array} An array of topic documents.
    */
   getOpenTopicsWithoutItems() {
-    return this.topics
-      .filter((topicDoc) => {
-        return topicDoc.isOpen;
-      })
-      .map((topicDoc) => {
-        topicDoc.infoItems = [];
-        return topicDoc;
-      });
+    return this.topics.filter((topicDoc) => { return topicDoc.isOpen; })
+        .map((topicDoc) => {
+          topicDoc.infoItems = [];
+          return topicDoc;
+        });
   }
-
 
   /**
    * Upserts a topic document into the minutes.
    *
    * @param {Object} topicDoc - The topic document to upsert.
-   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert the topic at the top or bottom of the topics array.
-   * @returns {Promise} A promise that resolves with the result of the upsert operation.
+   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert
+   *     the topic at the top or bottom of the topics array.
+   * @returns {Promise} A promise that resolves with the result of the upsert
+   *     operation.
    */
   async upsertTopic(topicDoc, insertPlacementTop = true) {
     let i = undefined;
@@ -337,10 +332,10 @@ export class Minutes {
     if (i === undefined) {
       // topic not in array
       await Meteor.callAsync(
-        "minutes.addTopic",
-        this._id,
-        topicDoc,
-        insertPlacementTop,
+          "minutes.addTopic",
+          this._id,
+          topicDoc,
+          insertPlacementTop,
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
@@ -356,36 +351,33 @@ export class Minutes {
    * @returns {Array<ActionItem>} - An array of open action items.
    */
   getOpenActionItems(includeSkippedTopics = true) {
-    const nonSkippedTopics = includeSkippedTopics
-      ? this.topics
-      : this.topics.filter((topic) => !topic.isSkipped);
+    const nonSkippedTopics =
+        includeSkippedTopics ? this.topics
+                             : this.topics.filter((topic) => !topic.isSkipped);
 
     return nonSkippedTopics.reduce(
-      (acc, topicDoc) => {
-        const topic = new Topic(this, topicDoc);
-        const actionItemDocs = topic.getOpenActionItems();
-        return acc.concat(
-          actionItemDocs.map((doc) => {
-            return new ActionItem(topic, doc);
-          }),
-        );
-      },
-      /* initial value */ [],
+        (acc, topicDoc) => {
+          const topic = new Topic(this, topicDoc);
+          const actionItemDocs = topic.getOpenActionItems();
+          return acc.concat(
+              actionItemDocs.map(
+                  (doc) => { return new ActionItem(topic, doc); }),
+          );
+        },
+        /* initial value */[],
     );
   }
-
 
   /**
    * Sends the agenda for the minutes.
    * @returns {Promise} A promise that resolves when the agenda is sent.
    */
-  sendAgenda() {
-    return Meteor.callAsync("minutes.sendAgenda", this._id);
-  }
+  sendAgenda() { return Meteor.callAsync("minutes.sendAgenda", this._id); }
 
   /**
    * Retrieves the timestamp when the agenda was sent.
-   * @returns {boolean|Date} The timestamp when the agenda was sent, or false if it was not sent.
+   * @returns {boolean|Date} The timestamp when the agenda was sent, or false if
+   *     it was not sent.
    */
   getAgendaSentAt() {
     if (!this.agendaSentAt) {
@@ -396,7 +388,8 @@ export class Minutes {
 
   /**
    * Checks if the current user is a moderator.
-   * @returns {boolean} True if the current user is a moderator, false otherwise.
+   * @returns {boolean} True if the current user is a moderator, false
+   *     otherwise.
    */
   isCurrentUserModerator() {
     return this.parentMeetingSeries().isCurrentUserModerator();
@@ -427,34 +420,34 @@ export class Minutes {
    */
   getPersonsInformedWithEmail(userCollection) {
     const recipientResult = this.getPersonsInformed().reduce(
-      (recipients, userId) => {
-        const user = userCollection.findOne(userId);
-        if (user.emails && user.emails.length > 0) {
-          recipients.push({
-            userId,
-            name: user.username,
-            address: user.emails[0].address,
-          });
-        }
-        return recipients;
-      },
-      /* initial value */ [],
+        (recipients, userId) => {
+          const user = userCollection.findOne(userId);
+          if (user.emails && user.emails.length > 0) {
+            recipients.push({
+              userId,
+              name : user.username,
+              address : user.emails[0].address,
+            });
+          }
+          return recipients;
+        },
+        /* initial value */[],
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
       const addMails = this.participantsAdditional.match(
-        emailAddressRegExpMatch,
+          emailAddressRegExpMatch,
       );
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
         // expression
         addMails.forEach((additionalMail) => {
           recipientResult.push({
-            userId: "additionalRecipient",
-            name: additionalMail,
-            address: additionalMail,
+            userId : "additionalRecipient",
+            name : additionalMail,
+            address : additionalMail,
           });
         });
       }
@@ -462,7 +455,6 @@ export class Minutes {
 
     return recipientResult;
   }
-
 
   /**
    * Sync all users of .visibleFor into .participants
@@ -478,7 +470,7 @@ export class Minutes {
   generateNewParticipants() {
     if (this.isFinalized) {
       throw new Error(
-        "generateNewParticipants () must not be called on finalized minutes",
+          "generateNewParticipants () must not be called on finalized minutes",
       );
     }
     let changed = false;
@@ -501,8 +493,8 @@ export class Minutes {
         changed = true;
         return {
           userId,
-          present: false,
-          minuteKeeper: false,
+          present : false,
+          minuteKeeper : false,
         };
       }
     });
@@ -515,7 +507,6 @@ export class Minutes {
     // only return new paricipants if they have changed
     return changed ? newParticipants : undefined;
   }
-
 
   /**
    * Change presence of a single participant. Immediately updates .participants
@@ -536,7 +527,7 @@ export class Minutes {
       }
       if (index > -1) {
         this.participants[index].present = isPresent;
-        await this.update({ participants: this.participants });
+        await this.update({participants : this.participants});
       }
     }
     return false;
@@ -570,7 +561,7 @@ export class Minutes {
    */
   async changeParticipantsStatus(isPresent) {
     this.participants.forEach((p) => (p.present = isPresent));
-    await this.update({ participants: this.participants });
+    await this.update({participants : this.participants});
   }
 
   /**
@@ -581,17 +572,16 @@ export class Minutes {
    */
   getInformed(userCollection) {
     if (this.informedUsers) {
-      return userCollection
-        ? this.informedUsers.map((informed) => {
-            const user = userCollection.findOne(informed);
-            informed = {
-              id: informed,
-              name: user ? user.username : `Unknown ${informed}`,
-              profile: user ? user.profile : null,
-            };
-            return informed;
-          })
-        : this.informedUsers;
+      return userCollection ? this.informedUsers.map((informed) => {
+        const user = userCollection.findOne(informed);
+        informed = {
+          id : informed,
+          name : user ? user.username : `Unknown ${informed}`,
+          profile : user ? user.profile : null,
+        };
+        return informed;
+      })
+                            : this.informedUsers;
     }
 
     return [];
@@ -607,21 +597,20 @@ export class Minutes {
     this.participants = this.participants || [];
     const additionalParticipants = this.participantsAdditional || [];
 
-    const presentParticipantIds = this.participants
-      .filter((p) => p.present)
-      .map((p) => p.userId);
+    const presentParticipantIds =
+        this.participants.filter((p) => p.present).map((p) => p.userId);
 
     const presentParticipants = Meteor.users.find({
-      _id: { $in: presentParticipantIds },
+      _id : {$in : presentParticipantIds},
     });
 
     const names = presentParticipants
-      .map((p) => {
-        const user = new User(p);
-        return user.profileNameWithFallback();
-      })
-      .concat(additionalParticipants)
-      .join("; ");
+                      .map((p) => {
+                        const user = new User(p);
+                        return user.profileNameWithFallback();
+                      })
+                      .concat(additionalParticipants)
+                      .join("; ");
 
     if (maxChars && names.length > maxChars) {
       return `${names.substring(0, maxChars)}...`;
@@ -666,9 +655,9 @@ export class Minutes {
    */
   static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
     responsible.fullname =
-      isProfileAvaliable && responsible.profile && responsible.profile.name
-        ? `${responsible[usernameField]} - ${responsible.profile.name}`
-        : responsible[usernameField];
+        isProfileAvaliable && responsible.profile && responsible.profile.name
+            ? `${responsible[usernameField]} - ${responsible.profile.name}`
+            : responsible[usernameField];
     return responsible;
   }
 }

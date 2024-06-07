@@ -1,17 +1,17 @@
-import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
-import { MinutesSchema } from "/imports/collections/minutes.schema";
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { formatDateISO8601Time } from "/imports/helpers/date";
-import { FinalizeMailHandler } from "/imports/mail/FinalizeMailHandler";
-import { Minutes } from "/imports/minutes";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { User } from "/imports/user";
-import { UserRoles } from "/imports/userroles";
-import { check } from "meteor/check";
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
+import {MeetingSeriesSchema} from "/imports/collections/meetingseries.schema";
+import {MinutesSchema} from "/imports/collections/minutes.schema";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {formatDateISO8601Time} from "/imports/helpers/date";
+import {FinalizeMailHandler} from "/imports/mail/FinalizeMailHandler";
+import {Minutes} from "/imports/minutes";
+import {MinutesFinder} from "/imports/services/minutesFinder";
+import {User} from "/imports/user";
+import {UserRoles} from "/imports/userroles";
+import {check} from "meteor/check";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
-import { TopicsFinalizer } from "./topicsFinalizer";
+import {TopicsFinalizer} from "./topicsFinalizer";
 
 /**
  * Checks if the user is available and is a moderator of the specified meeting
@@ -26,8 +26,8 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   // Make sure the user is logged in before changing collections
   if (!Meteor.userId()) {
     throw new Meteor.Error(
-      "not-authorized",
-      "You are not authorized to perform this action.",
+        "not-authorized",
+        "You are not authorized to perform this action.",
     );
   }
 
@@ -35,8 +35,8 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   const userRoles = new UserRoles(Meteor.userId());
   if (!userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
-      "Cannot modify this minutes/series",
-      "You are not a moderator of the meeting series.",
+        "Cannot modify this minutes/series",
+        "You are not a moderator of the meeting series.",
     );
   }
 }
@@ -53,21 +53,21 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
 function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
   if (!GlobalSettings.isEMailDeliveryEnabled()) {
     console.log(
-      "Skip sending mails because email delivery is not enabled. To enable email delivery set " +
-        "enableMailDelivery to true in your settings.json file",
+        "Skip sending mails because email delivery is not enabled. To enable email delivery set " +
+            "enableMailDelivery to true in your settings.json file",
     );
     return;
   }
 
   const emails = Meteor.user().emails;
-  const i18nLocale = i18n.getLocale(); // we have to remember this, as it will not
+  const i18nLocale =
+      i18n.getLocale(); // we have to remember this, as it will not
   // survive the Meteor.defer()
   Meteor.defer(() => {
     // server background tasks after successfully updated the minute doc
-    const senderEmail =
-      emails && emails.length > 0
-        ? emails[0].address
-        : GlobalSettings.getDefaultEmailSenderAddress();
+    const senderEmail = emails && emails.length > 0
+                            ? emails[0].address
+                            : GlobalSettings.getDefaultEmailSenderAddress();
     i18n.setLocale(i18nLocale);
     const finalizeMailHandler = new FinalizeMailHandler(minutes, senderEmail);
     finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
@@ -115,11 +115,11 @@ function compileFinalizedInfo(minutes) {
 
   const finalizedTimestamp = formatDateISO8601Time(minutes.finalizedAt);
   const finalizedString = minutes.isFinalized ? "Finalized" : "Unfinalized";
-  const version = minutes.finalizedVersion
-    ? `Version ${minutes.finalizedVersion}. `
-    : "";
+  const version =
+      minutes.finalizedVersion ? `Version ${minutes.finalizedVersion}. ` : "";
 
-  return `${version}${finalizedString} on ${finalizedTimestamp} by ${minutes.finalizedBy}`;
+  return `${version}${finalizedString} on ${finalizedTimestamp} by ${
+      minutes.finalizedBy}`;
 }
 
 Meteor.methods({
@@ -131,8 +131,8 @@ Meteor.methods({
     // check if minute is already finalized
     if (minutes.isFinalized) {
       throw new Meteor.Error(
-        "runtime-error",
-        "The minute is already finalized",
+          "runtime-error",
+          "The minute is already finalized",
       );
     }
 
@@ -151,18 +151,18 @@ Meteor.methods({
 
     // first we copy the topics of the finalize-minute to the parent series
     TopicsFinalizer.mergeTopicsForFinalize(
-      minutes.parentMeetingSeries(),
-      minutes.visibleFor,
+        minutes.parentMeetingSeries(),
+        minutes.visibleFor,
     );
 
     // then we tag the minute as finalized
     const version = minutes.finalizedVersion + 1 || 1;
 
     const doc = {
-      finalizedAt: new Date(),
-      finalizedBy: User.profileNameWithFallback(Meteor.user()),
-      isFinalized: true,
-      finalizedVersion: version,
+      finalizedAt : new Date(),
+      finalizedBy : User.profileNameWithFallback(Meteor.user()),
+      isFinalized : true,
+      finalizedVersion : version,
     };
 
     // update minutes object to generate new history entry
@@ -172,7 +172,7 @@ Meteor.methods({
     history.push(compileFinalizedInfo(minutes));
     doc.finalizedHistory = history;
 
-    const affectedDocs = MinutesSchema.update(id, { $set: doc });
+    const affectedDocs = MinutesSchema.update(id, {$set : doc});
     if (affectedDocs === 1 && !Meteor.isClient) {
       sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
     }
@@ -196,17 +196,17 @@ Meteor.methods({
     const parentSeries = minutes.parentMeetingSeries();
     if (!Finalizer.isUnfinalizeMinutesAllowed(id)) {
       throw new Meteor.Error(
-        "not-allowed",
-        "This minutes is not allowed to be un-finalized.",
+          "not-allowed",
+          "This minutes is not allowed to be un-finalized.",
       );
     }
 
     TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries, minutes.visibleFor);
 
     const doc = {
-      finalizedAt: new Date(),
-      finalizedBy: User.profileNameWithFallback(Meteor.user()),
-      isFinalized: false,
+      finalizedAt : new Date(),
+      finalizedBy : User.profileNameWithFallback(Meteor.user()),
+      isFinalized : false,
     };
 
     // update minutes object to generate new history entry
@@ -217,7 +217,7 @@ Meteor.methods({
     doc.finalizedHistory = history;
 
     console.log("workflow.unfinalizeMinute DONE.");
-    const result = MinutesSchema.update(id, { $set: doc });
+    const result = MinutesSchema.update(id, {$set : doc});
 
     // update meeting series fields to correctly resemble the finalized status
     // of the minute
@@ -242,22 +242,22 @@ export class Finalizer {
    */
   static finalize(minutesId, sendActionItems, sendInfoItems, onErrorCallback) {
     Meteor.call(
-      "workflow.finalizeMinute",
-      minutesId,
-      sendActionItems,
-      sendInfoItems,
+        "workflow.finalizeMinute",
+        minutesId,
+        sendActionItems,
+        sendInfoItems,
     );
     // save protocol if enabled
     if (Meteor.settings.public.docGeneration.enabled) {
       Meteor.call(
-        "documentgeneration.createAndStoreFile",
-        minutesId,
-        (error) => {
-          if (error) {
-            error.reason = error.reason ? error.reason : error.error;
-            onErrorCallback(error);
-          }
-        },
+          "documentgeneration.createAndStoreFile",
+          minutesId,
+          (error) => {
+            if (error) {
+              error.reason = error.reason ? error.reason : error.error;
+              onErrorCallback(error);
+            }
+          },
       );
     }
   }
