@@ -1,20 +1,20 @@
-import {MeetingSeriesSchema} from "/imports/collections/meetingseries.schema";
-import {TopicSchema} from "/imports/collections/topic.schema";
+import { MeetingSeriesSchema } from "/imports/collections/meetingseries.schema";
+import { TopicSchema } from "/imports/collections/topic.schema";
 
 export class MigrateV22 {
   static up() {
     const handler = new TopicsHandler(
-        TopicSchema.getCollection(),
-        MeetingSeriesSchema.getCollection(),
+      TopicSchema.getCollection(),
+      MeetingSeriesSchema.getCollection(),
     );
     handler.iterateOverTopics();
   }
 
   static down() {
     TopicSchema.getCollection().update(
-        {},
-        {$unset : {visibleFor : ""}},
-        {bypassCollection2 : true, multi : true},
+      {},
+      { $unset: { visibleFor: "" } },
+      { bypassCollection2: true, multi: true },
     );
   }
 }
@@ -47,7 +47,9 @@ class TopicsHandler {
     return visibleFor;
   }
 
-  _getCachedVisibleForUsers(seriesId) { return this.visibilityDict[seriesId]; }
+  _getCachedVisibleForUsers(seriesId) {
+    return this.visibilityDict[seriesId];
+  }
 
   _queryVisibleFor(seriesId) {
     const series = this.meetingSeriesCollection.findOne(seriesId);
@@ -57,9 +59,9 @@ class TopicsHandler {
 
   _updateTopicsVisibleForField(topic, visibleFor) {
     this.topicsCollection.update(
-        topic._id,
-        {$set : {visibleFor}},
-        {bypassCollection2 : true},
+      topic._id,
+      { $set: { visibleFor } },
+      { bypassCollection2: true },
     );
   }
 }
