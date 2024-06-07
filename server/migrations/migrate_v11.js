@@ -5,7 +5,10 @@ export class MigrateV11 {
   static async up() {
     const demoUser = await Meteor.users.findOneAsync({ username: "demo" });
     if (demoUser) {
-      await Meteor.users.updateAsync({ username: "demo" }, { $set: { isDemoUser: true } });
+      await Meteor.users.updateAsync(
+        { username: "demo" },
+        { $set: { isDemoUser: true } },
+      );
       if (demoUser.isInactive === undefined) {
         await Meteor.users.updateAsync(
           { username: "demo" },

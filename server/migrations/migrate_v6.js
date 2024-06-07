@@ -17,7 +17,9 @@ export class MigrateV6 {
             oneResp = oneResp.trim();
             // let's try if this is a valid username.
             // If yes: we store this user's _id instead of its name!
-            const userTry = await Meteor.users.findOneAsync({ username: oneResp });
+            const userTry = await Meteor.users.findOneAsync({
+              username: oneResp,
+            });
             if (userTry) {
               oneResp = userTry._id;
             }

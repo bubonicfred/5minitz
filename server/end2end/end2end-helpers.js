@@ -33,18 +33,19 @@ if (Meteor.settings.isEnd2EndTest) {
         `Count AttachmentsCollection after reset:${await AttachmentsCollection.find().countAsync()}`,
       );
       // remove the meeting series attachment dir
-      (await MeetingSeriesSchema.getCollection()
-        .find()
-        .fetchAsync())
-        .forEach((ms) => {
+      (await MeetingSeriesSchema.getCollection().find().fetchAsync()).forEach(
+        (ms) => {
           removeMeetingSeriesAttachmentDir(ms._id); // eslint-disable-line
-        });
+        },
+      );
       MeetingSeriesSchema.remove({});
       console.log(
         `Count MeetingSeries after reset:${await MeetingSeriesSchema.find().countAsync()}`,
       );
       MinutesSchema.remove({});
-      console.log(`Count Minutes after reset:${await MinutesSchema.find().countAsync()}`);
+      console.log(
+        `Count Minutes after reset:${await MinutesSchema.find().countAsync()}`,
+      );
       TestMailCollection.remove({});
       console.log(
         `Count saved test mails after reset:${await TestMailCollection.find().countAsync()}`,

@@ -132,7 +132,7 @@ describe("workflow.finalizeMinute", function () {
   let minutes;
   let secondToLastMinutes;
   // skipcq: JS-0241
-  beforeEach(async function() {
+  beforeEach(async function () {
     minutes = {
       meetingSeries_id: "AaBbCc01",
       _id: "AaBbCc02",
@@ -162,7 +162,7 @@ describe("workflow.finalizeMinute", function () {
     await Meteor.userAsync.returns(user);
   });
   // skipcq: JS-0241
-  afterEach(async function() {
+  afterEach(async function () {
     Meteor.isClient = true;
 
     Minutes.resetHistory();
@@ -264,7 +264,7 @@ describe("workflow.unfinalizeMinute", function () {
   let secondToLastMinutes;
   let meetingSeries;
   // skipcq: JS-0241
-  beforeEach(async function() {
+  beforeEach(async function () {
     const minutesId = "AaBbCc02";
 
     meetingSeries = {
@@ -308,7 +308,7 @@ describe("workflow.unfinalizeMinute", function () {
     await Meteor.userAsync.returns(user);
   });
   // skipcq: JS-0241
-  afterEach(async function() {
+  afterEach(async function () {
     Meteor.isClient = true;
 
     Minutes.resetHistory();

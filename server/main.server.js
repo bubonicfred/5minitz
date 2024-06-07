@@ -54,7 +54,7 @@ const findDemoUser = async (additionalCriteria = {}) => {
  *
  * @param {Object} updates - The updates to apply to the demo user.
  */
-const updateDemoUser = async updates => {
+const updateDemoUser = async (updates) => {
   await Meteor.users.updateAsync({ username: "demo" }, { $set: updates });
 };
 /**

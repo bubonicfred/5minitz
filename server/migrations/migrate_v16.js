@@ -27,7 +27,7 @@ export class MigrateV16 {
   static async down() {
     await MeetingSeriesSchema.getCollection()
       .find()
-      .forEachAsync(async series => {
+      .forEachAsync(async (series) => {
         const topicsOfSeries = [];
         const openTopicsOfSeries = [];
         await TopicSchema.getCollection()
