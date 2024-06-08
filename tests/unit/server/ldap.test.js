@@ -1,20 +1,20 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
-import sinon from "sinon";
+import { mock, stub, spy } from "sinon";
 
 const Meteor = {
-  startup: sinon.mock(),
+  startup: mock(),
   settings: {
     ldap: {},
   },
 };
 const LDAP = {};
 const LdapSettings = {
-  ldapEnabled: sinon.stub(),
-  usernameAttribute: sinon.stub(),
-  searchFilter: sinon.stub(),
-  serverDn: sinon.stub(),
-  allowSelfSignedTLS: sinon.stub().returns(false),
+  ldapEnabled: stub(),
+  usernameAttribute: stub(),
+  searchFilter: stub(),
+  serverDn: stub(),
+  allowSelfSignedTLS: stub().returns(false),
 };
 
 const { ldap } = proxyquire("../../../server/ldap", {
@@ -180,9 +180,9 @@ describe("ldap", () => {
 
   describe("#log", () => {
     beforeEach(() => {
-      sinon.spy(console, "log");
-      sinon.spy(console, "error");
-      sinon.spy(console, "warn");
+      spy(console, "log");
+      spy(console, "error");
+      spy(console, "warn");
     });
 
     afterEach(() => {
