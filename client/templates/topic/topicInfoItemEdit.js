@@ -154,7 +154,7 @@ Template.topicInfoItemEdit.helpers({
 });
 
 Template.topicInfoItemEdit.events({
-  async "submit #frmDlgAddInfoItem"(evt, tmpl) {
+  "submit #frmDlgAddInfoItem"(evt, tmpl) {
     const saveButton = document.querySelector("#btnInfoItemSave");
 
     try {
