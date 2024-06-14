@@ -562,7 +562,7 @@ Template.minutesedit.events({
     aMin.update({ globalNote }).catch(handleError);
   },
 
-  async "click #btn_sendAgenda"(evt, tmpl) {
+  "click #btn_sendAgenda"(evt, tmpl) {
     evt.preventDefault();
     const sendBtn = tmpl.$("#btn_sendAgenda");
     const aMin = new Minutes(_minutesID);

@@ -111,7 +111,7 @@ export class InfoItem {
     return this._infoItemDoc.subject;
   }
 
-  addDetails(minuteId, text) {
+  async addDetails(minuteId, text) {
     if (text === undefined) text = "";
 
     const date = formatDateISO8601(new Date());
@@ -122,9 +122,9 @@ export class InfoItem {
       _id: Random.id(),
       createdInMinute: minuteId,
       createdAt: new Date(),
-      createdBy: User.profileNameWithFallback(Meteor.user()),
+      createdBy: User.profileNameWithFallback(await Meteor.userAsync()),
       updatedAt: new Date(),
-      updatedBy: User.profileNameWithFallback(Meteor.user()),
+      updatedBy: User.profileNameWithFallback(await Meteor.userAsync()),
       date,
       text,
       isNew: true,
@@ -135,7 +135,7 @@ export class InfoItem {
     this._infoItemDoc.details.splice(index, 1);
   }
 
-  updateDetails(index, text) {
+  async updateDetails(index, text) {
     if (text === "") {
       throw new Meteor.Error(
         "invalid-argument",
@@ -150,7 +150,7 @@ export class InfoItem {
     this._infoItemDoc.details[index].text = text;
     this._infoItemDoc.details[index].updatedAt = new Date();
     this._infoItemDoc.details[index].updatedBy = User.profileNameWithFallback(
-      Meteor.user(),
+      await Meteor.userAsync(),
     );
   }
 
@@ -189,10 +189,10 @@ export class InfoItem {
     if (!this._infoItemDoc._id) {
       // it is a new one
       this._infoItemDoc.createdAt = new Date();
-      this._infoItemDoc.createdBy = User.profileNameWithFallback(Meteor.user());
+      this._infoItemDoc.createdBy = User.profileNameWithFallback(await Meteor.userAsync());
     }
     this._infoItemDoc.updatedAt = new Date();
-    this._infoItemDoc.updatedBy = User.profileNameWithFallback(Meteor.user());
+    this._infoItemDoc.updatedBy = User.profileNameWithFallback(await Meteor.userAsync());
     this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
       this._infoItemDoc,
       true,
@@ -201,7 +201,7 @@ export class InfoItem {
   }
 
   async saveAtBottom() {
-    return this.saveAsync(false);
+    await this.saveAsync(false);
   }
 
   getParentTopic() {

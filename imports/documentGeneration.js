@@ -17,7 +17,7 @@ import { ResponsibleResolver } from "./services/responsibleResolver";
 
 export class DocumentGeneration {
   // ********** static methods ****************
-  static async downloadMinuteProtocol(minuteID, noProtocolExistsDialog) {
+  static downloadMinuteProtocol(minuteID, noProtocolExistsDialog) {
     // This Function dynamically generates an HTML document for instant-download
     const generateAndDownloadHTML = async function () {
       const minuteID = FlowRouter.getParam("_id"); // eslint-disable-line
@@ -101,8 +101,8 @@ export class DocumentGeneration {
       return;
     }
     const attachments = Attachment.findForMinutes(minuteID).fetch();
-    attachments.forEach((file) => {
-      const usr = Meteor.users.findOne(file.userId);
+    attachments.forEach(async file => {
+      const usr = await Meteor.users.findOneAsync(file.userId);
       file.username = usr.username;
     });
     return attachments;
