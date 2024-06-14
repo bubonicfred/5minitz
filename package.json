@@ -18,7 +18,7 @@
     "test": "test"
   },
   "scripts": {
-        "eslint": "eslint client/helpers imports/** server/**",
+    "eslint": "eslint client/helpers imports/** server/**",
     "eslint:fix": "eslint --fix client/** imports/** server/**",
     "mdlint": "markdownlint -- ./*.md ./doc/**/*.md || true",
     "test": "npm run test:unit",
