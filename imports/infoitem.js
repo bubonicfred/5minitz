@@ -183,10 +183,13 @@ export class InfoItem {
     }
   }
 
- async saveAsync(insertPlacementTop = true) {
-    // Explain why the entire topics array is updated from the parent minutes of the parent topic.
+  async saveAsync(insertPlacementTop = true) {
+    // Explain why the entire topics array is updated from the parent minutes of
+    // the parent topic.
     try {
-      const currentUserProfileName = User.profileNameWithFallback(Meteor.user());
+      const currentUserProfileName = User.profileNameWithFallback(
+        Meteor.user(),
+      );
 
       if (!this._infoItemDoc._id) {
         // If it's a new info item, set creation details.
@@ -199,7 +202,8 @@ export class InfoItem {
       this._infoItemDoc.updatedBy = currentUserProfileName;
 
       // Upsert the info item document in the parent topic.
-      // The second parameter 'true' could be replaced with a named constant for clarity.
+      // The second parameter 'true' could be replaced with a named constant for
+      // clarity.
       this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
         this._infoItemDoc,
         true, // Consider replacing with a named constant for clarity.

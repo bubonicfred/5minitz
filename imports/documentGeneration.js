@@ -101,7 +101,7 @@ export class DocumentGeneration {
       return;
     }
     const attachments = Attachment.findForMinutes(minuteID).fetch();
-    attachments.forEach(async file => {
+    attachments.forEach(async (file) => {
       const usr = await Meteor.users.findOneAsync(file.userId);
       file.username = usr.username;
     });
