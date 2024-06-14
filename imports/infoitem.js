@@ -111,7 +111,7 @@ export class InfoItem {
     return this._infoItemDoc.subject;
   }
 
-  async addDetails(minuteId, text) {
+  addDetails(minuteId, text) {
     if (text === undefined) text = "";
 
     const date = formatDateISO8601(new Date());
@@ -122,9 +122,9 @@ export class InfoItem {
       _id: Random.id(),
       createdInMinute: minuteId,
       createdAt: new Date(),
-      createdBy: User.profileNameWithFallback(await Meteor.userAsync()),
+      createdBy: User.profileNameWithFallback(Meteor.user()),
       updatedAt: new Date(),
-      updatedBy: User.profileNameWithFallback(await Meteor.userAsync()),
+      updatedBy: User.profileNameWithFallback(Meteor.user()),
       date,
       text,
       isNew: true,
@@ -135,7 +135,7 @@ export class InfoItem {
     this._infoItemDoc.details.splice(index, 1);
   }
 
-  async updateDetails(index, text) {
+  updateDetails(index, text) {
     if (text === "") {
       throw new Meteor.Error(
         "invalid-argument",
@@ -150,7 +150,7 @@ export class InfoItem {
     this._infoItemDoc.details[index].text = text;
     this._infoItemDoc.details[index].updatedAt = new Date();
     this._infoItemDoc.details[index].updatedBy = User.profileNameWithFallback(
-      await Meteor.userAsync(),
+      Meteor.user(),
     );
   }
 
@@ -183,25 +183,37 @@ export class InfoItem {
     }
   }
 
-  async saveAsync(insertPlacementTop = true) {
-    // caution: this will update the entire topics array from
-    // the parent minutes of the parent topic!
-    if (!this._infoItemDoc._id) {
-      // it is a new one
-      this._infoItemDoc.createdAt = new Date();
-      this._infoItemDoc.createdBy = User.profileNameWithFallback(await Meteor.userAsync());
+ async saveAsync(insertPlacementTop = true) {
+    // Explain why the entire topics array is updated from the parent minutes of the parent topic.
+    try {
+      const currentUserProfileName = User.profileNameWithFallback(Meteor.user());
+
+      if (!this._infoItemDoc._id) {
+        // If it's a new info item, set creation details.
+        this._infoItemDoc.createdAt = new Date();
+        this._infoItemDoc.createdBy = currentUserProfileName;
+      }
+
+      // Always update the last modification details.
+      this._infoItemDoc.updatedAt = new Date();
+      this._infoItemDoc.updatedBy = currentUserProfileName;
+
+      // Upsert the info item document in the parent topic.
+      // The second parameter 'true' could be replaced with a named constant for clarity.
+      this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
+        this._infoItemDoc,
+        true, // Consider replacing with a named constant for clarity.
+        insertPlacementTop,
+      );
+    } catch (error) {
+      // Handle or log the error appropriately.
+      console.error("Error saving info item:", error);
+      throw error; // Rethrow or handle as needed.
     }
-    this._infoItemDoc.updatedAt = new Date();
-    this._infoItemDoc.updatedBy = User.profileNameWithFallback(await Meteor.userAsync());
-    this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
-      this._infoItemDoc,
-      true,
-      insertPlacementTop,
-    );
   }
 
-  async saveAtBottom() {
-    await this.saveAsync(false);
+  saveAtBottom() {
+    return this.saveAsync(false);
   }
 
   getParentTopic() {
