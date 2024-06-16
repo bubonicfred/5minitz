@@ -15,14 +15,14 @@ const createUser = (id, username, name) => {
 const USER_1 = createUser(generateId(), "user1", "First User");
 const USER_2 = createUser(generateId(), "user2", "Second User");
 const USER_3 = createUser(generateId(), "user3", "Third User");
-
+// skipcq: JS-0241
 describe("ParticipantsPreparer", function () {
   let preparer,
     fakeMinutes,
     fakeParentSeries,
     fakeTopicOrItem,
     fakeUserCollection;
-
+  // skipcq: JS-0241
   beforeEach(function () {
     fakeMinutes = {
       participants: [],
@@ -71,20 +71,20 @@ describe("ParticipantsPreparer", function () {
     );
     preparer._init();
   });
-
+  // skipcq: JS-0241
   describe("#getPossibleResponsibles", function () {
     const ADDITIONAL_RESP_TEXT = "guest";
     const ADDITIONAL_RESP_MAIL = "guest@mail.de";
     const FORMER_RESP_TEXT = "old guest";
     const FORMER_RESP_MAIL = "old_guest@mail.de";
-
+    // skipcq: JS-0241
     beforeEach(function () {
       fakeMinutes.participants = [
         { userId: USER_2._id },
         { userId: USER_1._id },
       ];
     });
-
+    // skipcq: JS-0241
     it("returns all participants of the current minutes", function () {
       preparer._prepareResponsibles();
       const result = preparer.getPossibleResponsibles();
@@ -98,7 +98,7 @@ describe("ParticipantsPreparer", function () {
         text: `${USER_2.username} - ${USER_2.profile.name}`,
       });
     });
-
+    // skipcq: JS-0241
     it("returns the additional responsible, too", function () {
       fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
       preparer._prepareResponsibles();
@@ -113,7 +113,7 @@ describe("ParticipantsPreparer", function () {
         text: ADDITIONAL_RESP_MAIL,
       });
     });
-
+    // skipcq: JS-0241
     it("returns the former responsible, too", function () {
       fakeParentSeries.additionalResponsibles = [
         FORMER_RESP_TEXT,
@@ -131,7 +131,7 @@ describe("ParticipantsPreparer", function () {
         text: FORMER_RESP_MAIL,
       });
     });
-
+    // skipcq: JS-0241
     it("returns only valid entries from the former/additional responsible if desired", function () {
       fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
       fakeParentSeries.additionalResponsibles = [
@@ -153,7 +153,7 @@ describe("ParticipantsPreparer", function () {
         text: FORMER_RESP_MAIL,
       });
     });
-
+    // skipcq: JS-0241
     it("returns also the responsible of the current topic/item", function () {
       fakeTopicOrItem._topicDoc.responsibles = [
         { id: "free-text-entry", text: "free-text-entry" },

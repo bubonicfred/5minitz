@@ -5,7 +5,7 @@ import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
 require("../../imports/helpers/date");
-
+// skipcq: JS-0241
 describe("ActionItems", function () {
   const aProjectName = "E2E ActionItems";
   let aMeetingCounter = 0;
@@ -43,15 +43,16 @@ describe("ActionItems", function () {
 
     return actionItemName;
   }
-
+  // skipcq: JS-0241
   before("reload page and reset app", function () {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
   });
-
+  // skipcq: JS-0241
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
+    // skipcq: JS-0241
     function () {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
@@ -65,7 +66,7 @@ describe("ActionItems", function () {
       E2ETopics.addTopicToMinutes(aTopicName);
     },
   );
-
+  // skipcq: JS-0241
   it("can add an info item", function () {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
@@ -94,7 +95,7 @@ describe("ActionItems", function () {
       "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
-
+  // skipcq: JS-0241
   it("can edit an existing action item", function () {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
@@ -131,6 +132,7 @@ describe("ActionItems", function () {
   });
 
   // This was broken before bugfix of github issue #228
+  // skipcq: JS-0241
   it("can edit an existing action item after an info item was added", function () {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
@@ -166,7 +168,9 @@ describe("ActionItems", function () {
       responsible: newResponsible,
     });
 
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(${actionItemIndex})`;
+    const selector = `#topicPanel .well:nth-child(${
+      topicIndex
+    }) .topicInfoItem:nth-child(${actionItemIndex})`;
     expect(
       browser.isVisible(selector),
       "Action item should be visible after edit",
@@ -185,7 +189,7 @@ describe("ActionItems", function () {
       "AI responsible should have changed after edit",
     ).to.contain(newResponsible);
   });
-
+  // skipcq: JS-0241
   it("can add an action item by pressing enter in the topic field", function () {
     const topicIndex = 1;
     E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
@@ -215,7 +219,7 @@ describe("ActionItems", function () {
       "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
-
+  // skipcq: JS-0241
   it("can add an action item and set the priority field", function () {
     const topicIndex = 1;
 
@@ -244,7 +248,7 @@ describe("ActionItems", function () {
       "Action item visible text should match",
     ).to.have.string(actionItemName);
   });
-
+  // skipcq: JS-0241
   it("toggles the open-state of the first AI", function () {
     addActionItemToFirstTopic();
 
@@ -253,7 +257,7 @@ describe("ActionItems", function () {
     expect(E2ETopics.isActionItemClosed(1, 1), "the AI should be closed").to.be
       .true;
   });
-
+  // skipcq: JS-0241
   it("toggles the open-state of the second AI", function () {
     addActionItemToFirstTopic();
 
@@ -269,7 +273,7 @@ describe("ActionItems", function () {
     expect(E2ETopics.isActionItemClosed(1, 2), "the AI should be closed").to.be
       .true;
   });
-
+  // skipcq: JS-0241
   it("shows security question before deleting action items", function () {
     const actionItemName = addActionItemToFirstTopic();
 
@@ -298,7 +302,7 @@ describe("ActionItems", function () {
     // close dialog otherwise beforeEach-hook will fail!
     E2EApp.confirmationDialogAnswer(false);
   });
-
+  // skipcq: JS-0241
   it("can delete an action item", function () {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
@@ -320,7 +324,7 @@ describe("ActionItems", function () {
     expect(browser.isVisible(selector), "Info item should be deleted").to.be
       .false;
   });
-
+  // skipcq: JS-0241
   it('can cancel a "delete action item"', function () {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
