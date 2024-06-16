@@ -82,7 +82,7 @@ jobs:
             ${{ runner.os }}-node14-
       - run: npm install
       - run: mkdir ./tests/mongodump
-      - run: ./tests/run_e2e.sh tests/end2end/${{ matrix.e2etest }}
+      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
       - name: Upload E2E Artifacts
         if: always()
         uses: actions/upload-artifact@v4
