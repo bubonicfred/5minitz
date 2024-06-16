@@ -49,10 +49,10 @@ const { ActionItem } = proxyquire("../../../imports/actionitem", {
   "/imports/priority": { Priority, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
 });
-
+// skipcq: JS-0241
 describe("ActionItem", function () {
   let dummyTopic, infoItemDoc;
-
+// skipcq: JS-0241
   beforeEach(function () {
     dummyTopic = {
       _id: "AaBbCcDd",
@@ -73,34 +73,35 @@ describe("ActionItem", function () {
       ],
     };
   });
-
+// skipcq: JS-0241
   describe("#constructor", function () {
+    // skipcq: JS-0241
     it("sets the reference to the parent topic correctly", function () {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
       // the infoItem should have a reference of our dummyTopic
       expect(myActionItem._parentTopic).to.equal(dummyTopic);
     });
-
+// skipcq: JS-0241
     it("sets the document correctly", function () {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the doc should be equal to our initial document
       expect(myActionItem._infoItemDoc).to.deep.equal(infoItemDoc);
     });
-
+// skipcq: JS-0241
     it("sets the initial value for the isOpen-flag correctly", function () {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the isOpen-filed should be initially true for a new actionItem
       expect(myActionItem._infoItemDoc.isOpen).to.be.true;
     });
-
+// skipcq: JS-0241
     it("sets the initial value for the isNew-flag correctly", function () {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the isOpen-filed should be initially true for a new actionItem
       expect(myActionItem._infoItemDoc.isNew).to.be.true;
     });
   });
-
+// skipcq: JS-0241
   it("#getDateFromDetails", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
@@ -108,7 +109,7 @@ describe("ActionItem", function () {
       infoItemDoc.details[0].date,
     );
   });
-
+// skipcq: JS-0241
   it("#getTextFromDetails", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
@@ -116,7 +117,7 @@ describe("ActionItem", function () {
       infoItemDoc.details[0].text,
     );
   });
-
+// skipcq: JS-0241
   it("#toggleState", function () {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 

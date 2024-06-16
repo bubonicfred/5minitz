@@ -277,7 +277,7 @@ describe("Topic", function () {
   describe("#upsertInfoItem", function () {
     let myTopic;
     let topicItemDoc;
-
+// skipcq: JS-0241
     beforeEach(function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
 

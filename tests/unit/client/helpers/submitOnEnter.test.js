@@ -10,7 +10,7 @@ const $ = sinon.stub().returns({
 const submitOnEnter = proxyquire("../../../../client/helpers/submitOnEnter", {
   "meteor/jquery": { $, "@noCallThru": true },
 }).default;
-
+// skipcq: JS-0241
 describe("submitOnEnter", function () {
   const action = sinon.stub();
 
@@ -22,13 +22,13 @@ describe("submitOnEnter", function () {
       preventDefault: sinon.stub(),
     };
   }
-
+// skipcq: JS-0241
   beforeEach(function () {
     jQueryOnStub.resetHistory();
     $.resetHistory();
     action.resetHistory();
   });
-
+// skipcq: JS-0241
   it("attaches event handlers to the given textareas", function () {
     let textareas = ["one", "two"],
       numberOfTextareas = textareas.length;
@@ -42,7 +42,7 @@ describe("submitOnEnter", function () {
     sinon.assert.calledWith($, "one");
     sinon.assert.calledWith($, "two");
   });
-
+// skipcq: JS-0241
   it("action is not triggered when control is not pressed for textarea", function () {
     let input = ["one"],
       event = fakeEnterPressed(false);
@@ -54,7 +54,7 @@ describe("submitOnEnter", function () {
 
     expect(action.calledOnce).to.be.false;
   });
-
+// skipcq: JS-0241
   it("action is triggered when control is pressed for textareas", function () {
     let input = ["one"],
       event = fakeEnterPressed(true);
@@ -66,7 +66,7 @@ describe("submitOnEnter", function () {
 
     expect(action.calledOnce).to.be.true;
   });
-
+// skipcq: JS-0241
   it("action is not triggered for textareas when something other than enter is entered", function () {
     let input = ["one"],
       event = fakeEnterPressed(true);
