@@ -252,6 +252,7 @@ export class I18nHelper {
    *     preference.
    * @returns {void}
    */
+
   static async _persistLanguagePreference(localeCode) {
     if (!(await Meteor.userAsync()) || (await Meteor.userAsync()).isDemoUser) {
       return;

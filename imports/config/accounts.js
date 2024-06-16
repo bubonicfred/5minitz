@@ -18,7 +18,7 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 const availLanguages = getLocaleCodes();
 
 for (const lang of availLanguages) {
-  T9n.map(lang, {
+  T9n.forEach(lang, {
     custom: {
       usernamePlaceholder: i18n.__("Accounts.usernamePlaceholder", {
         _locale: lang,
