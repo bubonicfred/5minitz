@@ -18,7 +18,7 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 const availLanguages = getLocaleCodes();
 
 for (const lang of availLanguages) {
-  T9n.map(lang, {
+  T9n.forEach(lang, {
     custom: {
       usernamePlaceholder: i18n.__("Accounts.usernamePlaceholder", {
         _locale: lang,
@@ -160,7 +160,7 @@ if (Meteor.isServer) {
     await I18nHelper.setLanguageLocale();
   });
 
-  Accounts.onLogout(async function () {
+  Accounts.onLogout(async () => {
     // reset to browser's locale after logout of user
     await I18nHelper.setLanguageLocale();
   });
