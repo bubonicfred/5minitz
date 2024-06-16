@@ -1,3 +1,17 @@
+import { _ } from "lodash";
+import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
+import moment from "moment/moment";
+import isEmail from "validator/lib/isEmail";
+import { IsEditedService } from "../../../imports/services/isEditedService";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { isEditedHandling } from "../../helpers/isEditedHelpers";
+import { configureSelect2Labels } from "./helpers/configure-select2-labels";
+import { createItem } from "./helpers/create-item";
+import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
 import { handleError } from "/client/helpers/handleError";
 import { ActionItem } from "/imports/actionitem";
 import { configureSelect2Responsibles } from "/imports/client/ResponsibleSearch";
@@ -7,22 +21,6 @@ import { Minutes } from "/imports/minutes";
 import { Priority } from "/imports/priority";
 import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
-import { _ } from "lodash";
-import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
-import { ReactiveDict } from "meteor/reactive-dict";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
-import moment from "moment/moment";
-import isEmail from "validator/lib/isEmail";
-
-import { IsEditedService } from "../../../imports/services/isEditedService";
-import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
-import { isEditedHandling } from "../../helpers/isEditedHelpers";
-
-import { configureSelect2Labels } from "./helpers/configure-select2-labels";
-import { createItem } from "./helpers/create-item";
-import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
 
 ReactiveDict.setDefault("topicInfoItemEditTopicId", null);
 ReactiveDict.setDefault("topicInfoItemEditInfoItemId", null);
@@ -58,6 +56,10 @@ Template.topicInfoItemEdit.onRendered(function () {
   });
 });
 
+/**
+ * Retrieves the related topic based on the current minutes ID and topic ID.
+ * @returns {Topic|boolean} The related topic object if both minutes ID and topic ID are not null, otherwise false.
+ */
 const getRelatedTopic = () => {
   const minutesId = _minutesID;
   const topicId = ReactiveDict.get("topicInfoItemEditTopicId");
@@ -69,6 +71,10 @@ const getRelatedTopic = () => {
   return new Topic(minutesId, topicId);
 };
 
+/**
+ * Retrieves the edit info item based on the currently selected info item ID.
+ * @returns {boolean|object} The edit info item object if found, otherwise false.
+ */
 const getEditInfoItem = () => {
   const id = ReactiveDict.get("topicInfoItemEditInfoItemId");
 
@@ -77,13 +83,25 @@ const getEditInfoItem = () => {
   return getRelatedTopic().findInfoItem(id);
 };
 
+/**
+ * Toggles the mode of the item based on the given type.
+ * @param {string} type - The type of the item.
+ * @param {object} tmpl - The template instance.
+ */
 const toggleItemMode = (type, tmpl) => {
   const actionItemOnlyElements = tmpl.$(".actionItemOnly");
   ReactiveDict.set("topicInfoItemType", type);
   const editItem = getEditInfoItem();
+
+  /**
+   * Validates the given text using the isEmail function.
+   * @param {string} text - The text to be validated.
+   * @returns {boolean} - True if the text is a valid email, false otherwise.
+   */
   const freeTextValidator = (text) => {
     return isEmail(text);
   };
+
   switch (type) {
     case "actionItem":
       actionItemOnlyElements.show();
@@ -104,6 +122,10 @@ const toggleItemMode = (type, tmpl) => {
   }
 };
 
+/**
+ * Resizes a textarea element based on the number of new lines in its value.
+ * @param {jQuery} element - The textarea element to resize.
+ */
 const resizeTextarea = (element) => {
   const newLineRegEx = new RegExp(/\n/g);
   const textAreaValue = element.val();
@@ -116,6 +138,9 @@ const resizeTextarea = (element) => {
   }
 };
 
+/**
+ * Closes the popup and unsets the "isEdited" flag for the topic info item.
+ */
 function closePopupAndUnsetIsEdited() {
   IsEditedService.removeIsEditedInfoItem(
     _minutesID,
@@ -263,6 +288,9 @@ Template.topicInfoItemEdit.events({
       toggleItemMode(type, tmpl);
 
       const element = editItem._infoItemDoc;
+      /**
+       * Removes the edited information item and displays the "dlgAddInfoItem" element.
+       */
       const unset = () => {
         IsEditedService.removeIsEditedInfoItem(
           _minutesID,
@@ -272,6 +300,9 @@ Template.topicInfoItemEdit.events({
         );
         document.getElementById("dlgAddInfoItem").style.display = "block";
       };
+      /**
+       * Sets the edited status for a topic info item.
+       */
       const setIsEdited = () => {
         IsEditedService.setIsEditedInfoItem(
           _minutesID,
