@@ -1,6 +1,6 @@
 import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { LdapSettings } from "/imports/config/LdapSettings";
-import { I18nHelper } from "/imports/helpers/i18n";
+import { I18nHelper, getLocaleCodes } from "/imports/helpers/i18n";
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor/softwarerero:accounts-t9n";
@@ -15,7 +15,7 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 // currently selected language. In case you'd like to specify a key which is not
 // already provided by accounts-t9n you can always map your own keys.
 
-const availLanguages = i18n.getLanguages();
+const availLanguages = getLocaleCodes();
 
 for (const lang of availLanguages) {
   T9n.map(lang, {

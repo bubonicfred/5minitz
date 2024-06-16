@@ -2,32 +2,57 @@ import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor/softwarerero:accounts-t9n";
 import { i18n } from "meteor/universe:i18n";
 
+/**
+ * Retrieves the canonical locale codes for the supported locales, this array is taken from the current translation files and should be updated if new languages ares added.
+ * @returns {string[]} An array of canonical locale codes.
+ */
+const getLocaleCodes = () => {
+  const locales = ["af", "ar", "ca", "cs", "da", "de", "de-LI", "el", "en", "es", "fi", "fr", "he", "hi", "hu", "it", "ja", "ko", "nl", "no", "pl", "pt", "pt-BR", "ro", "ru", "sr", "sr", "sv", "tr", "uk", "vi", "zh-CN", "zh-TW"];
+  return Intl.getCanonicalLocales(locales);
+};
+// Special case disabled until rest of code is confirmed to work
+ // if (code.toLowerCase() === "de-li") {
+     //   return {
+     //     code,
+     //     codeUI: "de-Fr",
+     //     name: "German (Franconian)",
+     //     nameNative: "Deutsch (Fränggisch)",
 // Only server can provide all available languages via server-side method
 Meteor.methods({
+  /**
+   * Retrieves the available locales.
+   *
+   * @returns {Array} An array of locale objects containing the code, codeUI, name, and nameNative properties.
+   */
   getAvailableLocales() {
     // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
-    return i18n.getLanguages().map((code) => {
-      if (code.toLowerCase() === "de-li") {
-        return {
-          code,
-          codeUI: "de-Fr",
-          name: "German (Franconian)",
-          nameNative: "Deutsch (Fränggisch)",
-        };
-      }
+    const languageNamesInEnglish = new Intl.DisplayNames(["en"], { type: "language" });
+    const languageNamesInNativeLanguage = {};
+
+    const localeCodes = getLocaleCodes();
+
+    /**
+     * Returns a locale object based on the provided code.
+     *
+     * @param {string} code - The code representing the locale.
+     * @returns {Object} The locale object containing the code, codeUI, name, and nameNative properties.
+     */
+    const getLocaleObject = (code) => {
+      languageNamesInNativeLanguage[code] = new Intl.DisplayNames([code], {
+        type: "language",
+      });
       return {
         code,
         codeUI: code,
-        name: i18n.getLanguageName(code),
-        nameNative:
-          i18n.getLanguageNativeName(code)[0].toUpperCase() +
-          i18n.getLanguageNativeName(code).slice(1),
+        name: languageNamesInEnglish.of(code),
+        nameNative: languageNamesInNativeLanguage[code].of(code),
       };
-    });
+    };
+    return localeCodes.map(getLocaleObject);
   },
   getAvailableLocaleCodes() {
     // ["el", "de", "zh-CN", "zh-TW"]
-    return i18n.getLanguages();
+    return getLocaleCodes();
   },
 });
 
@@ -167,3 +192,4 @@ export class I18nHelper {
     }
   }
 }
+export { getLocaleCodes };
