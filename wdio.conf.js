@@ -21,7 +21,7 @@ exports.config = {
     // of the config file unless it's absolute.
     //
     specs: [
-run        './tests/end2end/*'
+       './tests/end2end/*'
     ],
     // Patterns to exclude.
     exclude: [
