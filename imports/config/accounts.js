@@ -18,7 +18,7 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 const availLanguages = getLocaleCodes();
 // TODO Check if NPM version of meteor T9n needs more configuration
 for (const lang of availLanguages) {
-  T9n.forEach(lang, {
+  T9n.map(lang, {
     custom: {
       usernamePlaceholder: i18n.__("Accounts.usernamePlaceholder", {
         _locale: lang,
