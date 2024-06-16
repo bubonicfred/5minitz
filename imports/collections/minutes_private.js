@@ -50,7 +50,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  "minutes.sendAgenda"(id) {
+  async "minutes.sendAgenda"(id) {
     check(id, String);
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
@@ -72,7 +72,7 @@ Meteor.methods({
       }
 
       if (!Meteor.isClient) {
-        const emails = Meteor.user().emails;
+        const emails = (await Meteor.userAsync()).emails;
         const senderEmail =
           emails && emails.length > 0
             ? emails[0].address
@@ -156,7 +156,7 @@ Meteor.methods({
    * @param doc
    * @returns {*|any}
    */
-  "minutes.updateTopic"(topicId, doc) {
+  async "minutes.updateTopic"(topicId, doc) {
     check(topicId, String);
     console.log(`updateTopic: ${topicId}`);
 
@@ -169,7 +169,7 @@ Meteor.methods({
     }
 
     doc.updatedAt = new Date();
-    doc.updatedBy = User.profileNameWithFallback(Meteor.user());
+    doc.updatedBy = User.profileNameWithFallback(await Meteor.userAsync());
 
     const modifierDoc = {};
     for (const property in doc) {
@@ -200,7 +200,7 @@ Meteor.methods({
     );
   },
 
-  "minutes.addTopic"(minutesId, doc, insertPlacementTop) {
+  async "minutes.addTopic"(minutesId, doc, insertPlacementTop) {
     check(minutesId, String);
     console.log(`addTopic to minute: ${minutesId}`);
 
@@ -226,9 +226,9 @@ Meteor.methods({
 
       doc.createdInMinute = minutesId;
       doc.createdAt = new Date();
-      doc.createdBy = User.profileNameWithFallback(Meteor.user());
+      doc.createdBy = User.profileNameWithFallback(await Meteor.userAsync());
       doc.updatedAt = new Date();
-      doc.updatedBy = User.profileNameWithFallback(Meteor.user());
+      doc.updatedBy = User.profileNameWithFallback(await Meteor.userAsync());
 
       const topicModifier = {
         topics: {
@@ -317,7 +317,7 @@ Meteor.methods({
     }
   },
 
-  responsiblesSearch(partialName, participants) {
+  async responsiblesSearch(partialName, participants) {
     check(partialName, String);
     const results_participants = []; // get all the participants for the minute
     const foundPartipantsNames = [];
@@ -344,14 +344,14 @@ Meteor.methods({
       searchFields = { _id: 1, username: 1, "profile.name": 1 };
     }
 
-    let results_otherUser = Meteor.users
+    let results_otherUser = await Meteor.users
       .find(searchSettings, {
         limit: 10 + results_participants.length, // we want to show 10 "Other user"
         // as it is not known, if a user a participant or not -> get
         // 10+participants
         fields: searchFields,
       })
-      .fetch();
+      .fetchAsync();
 
     results_otherUser = results_otherUser.filter((user) => {
       // remove duplicates
