@@ -17,7 +17,7 @@ if (Meteor.isServer) {
 
   // #Security: Admin sees all messages, active & inactive
   // and even messages dismissed by herself!
-  Meteor.publish("broadcastmessageAdmin", async function() {
+  Meteor.publish("broadcastmessageAdmin", async function () {
     if (this.userId) {
       const usr = await Meteor.users.findOneAsync(this.userId);
       if (usr.isAdmin) {
@@ -34,12 +34,14 @@ Meteor.methods({
     }
     console.log(`Dismissing BroadcastMessages for user: ${Meteor.userId()}`);
 
-    await BroadcastMessageSchema.find({ isActive: true }).forEachAsync((msg) => {
-      BroadcastMessageSchema.update(
-        { _id: msg._id },
-        { $addToSet: { dismissForUserIDs: Meteor.userId() } },
-      );
-    });
+    await BroadcastMessageSchema.find({ isActive: true }).forEachAsync(
+      (msg) => {
+        BroadcastMessageSchema.update(
+          { _id: msg._id },
+          { $addToSet: { dismissForUserIDs: Meteor.userId() } },
+        );
+      },
+    );
   },
 
   async "broadcastmessage.show"(message, active = true) {

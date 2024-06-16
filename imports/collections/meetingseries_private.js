@@ -1,15 +1,18 @@
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { Roles } from "meteor/alanning:roles";
+import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { check } from "meteor/check";
-import { MeetingSeriesSchema } from "./meetingseries.schema";
-import { Roles } from "meteor/alanning:roles";
-import { UserRoles } from "./../userroles";
+
 import { GlobalSettings } from "../config/GlobalSettings";
-import { formatDateISO8601 } from "/imports/helpers/date";
 import { RoleChangeMailHandler } from "../mail/RoleChangeMailHandler";
 
+import { UserRoles } from "./../userroles";
+import { MeetingSeriesSchema } from "./meetingseries.schema";
+
 if (Meteor.isServer) {
-  // this will publish a light-weighted overview of the meeting series, necessary for the meeting series list
+  // this will publish a light-weighted overview of the meeting series,
+  // necessary for the meeting series list
   Meteor.publish("meetingSeriesOverview", function meetingSeriesPublication() {
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [this.userId] } },
@@ -27,7 +30,7 @@ if (Meteor.isServer) {
     );
   });
 
-  //this will publish the full information for a single meeting series
+  // this will publish the full information for a single meeting series
   Meteor.publish(
     "meetingSeriesDetails",
     function meetingSeriesPublication(meetingSeriesId) {
@@ -57,7 +60,8 @@ Meteor.methods({
       );
     }
 
-    // the user should not be able to define the date when this series was create - or should he?
+    // the user should not be able to define the date when this series was
+    // create - or should he?
     // -> so we overwrite this field if it was set previously
     const currentDate = new Date();
     doc.createdAt = currentDate;
@@ -151,7 +155,12 @@ Meteor.methods({
     }
   },
 
-  async "meetingseries.sendRoleChange"(userId, oldRole, newRole, meetingSeriesId) {
+  async "meetingseries.sendRoleChange"(
+    userId,
+    oldRole,
+    newRole,
+    meetingSeriesId,
+  ) {
     // Make sure the user is logged in before trying to send mails
     if (!Meteor.userId()) {
       throw new Meteor.Error("not-authorized");

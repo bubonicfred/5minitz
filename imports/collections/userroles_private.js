@@ -23,7 +23,7 @@ if (Meteor.isServer) {
     );
 
     console.log("*** Admin IDs:");
-    adminIDs.forEach(async id => {
+    adminIDs.forEach(async (id) => {
       const user = await Meteor.users.findOneAsync(id);
       if (user) {
         console.log(`    ${user._id}: ${user.username}`);
@@ -63,7 +63,7 @@ if (Meteor.isServer) {
   });
 
   // #Security: Publish all user fields only to admin user
-  Meteor.publish("userAdmin", async function() {
+  Meteor.publish("userAdmin", async function () {
     if (this.userId) {
       const usr = await Meteor.users.findOneAsync(this.userId);
       if (usr.isAdmin) {

@@ -48,7 +48,9 @@ Meteor.methods({
     const hasMailChanged = eMail !== targetUser.emails[0].address;
 
     if (hasMailChanged) {
-      const ifEmailExists = await Meteor.users.findOneAsync({ "emails.0.address": eMail });
+      const ifEmailExists = await Meteor.users.findOneAsync({
+        "emails.0.address": eMail,
+      });
       if (ifEmailExists !== undefined) {
         throw new Meteor.Error(
           "Invalid E-Mail",
@@ -63,9 +65,13 @@ Meteor.methods({
 
     if (hasMailChanged) {
       if ((await Meteor.userAsync()).isAdmin) {
-        await Meteor.users.updateAsync(userId, { $set: { "emails.0.verified": true } });
+        await Meteor.users.updateAsync(userId, {
+          $set: { "emails.0.verified": true },
+        });
       } else {
-        await Meteor.users.updateAsync(userId, { $set: { "emails.0.verified": false } });
+        await Meteor.users.updateAsync(userId, {
+          $set: { "emails.0.verified": false },
+        });
         if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail) {
           Accounts.sendVerificationEmail(userId);
         }
@@ -106,7 +112,15 @@ Meteor.methods({
     Accounts.setPassword(userId, password1, { logout: false });
   },
 
-  async "users.admin.registerUser"(username, longname, email, password1, password2, sendMail, sendPassword) {
+  async "users.admin.registerUser"(
+    username,
+    longname,
+    email,
+    password1,
+    password2,
+    sendMail,
+    sendPassword,
+  ) {
     console.log(`users.admin.registerUser for user: ${username}`);
     // #Security: Only logged in admin may invoke this method:
     // users.admin.registerUser
@@ -154,7 +168,10 @@ Meteor.methods({
       profile: { name: longname },
     });
 
-    await Meteor.users.updateAsync({ username }, { $set: { "emails.0.verified": true } });
+    await Meteor.users.updateAsync(
+      { username },
+      { $set: { "emails.0.verified": true } },
+    );
 
     if (Meteor.isServer && newUserId && sendMail) {
       const mailer = new AdminRegisterUserMailHandler(
@@ -179,9 +196,15 @@ Meteor.methods({
     const usr = await Meteor.users.findOneAsync(userId);
     if (usr) {
       if (usr.isInactive) {
-        await Meteor.users.updateAsync({ _id: userId }, { $unset: { isInactive: "" } });
+        await Meteor.users.updateAsync(
+          { _id: userId },
+          { $unset: { isInactive: "" } },
+        );
       } else {
-        await Meteor.users.updateAsync({ _id: userId }, { $set: { isInactive: true } });
+        await Meteor.users.updateAsync(
+          { _id: userId },
+          { $set: { isInactive: true } },
+        );
         // Logout user
         await Meteor.users.updateAsync(
           { _id: userId },
