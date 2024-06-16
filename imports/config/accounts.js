@@ -3,7 +3,7 @@ import { LdapSettings } from "/imports/config/LdapSettings";
 import { getLocaleCodes, I18nHelper } from "/imports/helpers/i18n";
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
-import { T9n } from "meteor/softwarerero:accounts-t9n";
+import { T9n } from "meteor-accounts-t9n";
 import { i18n } from "meteor/universe:i18n";
 import { AccountsTemplates } from "meteor/useraccounts:core";
 
@@ -16,7 +16,7 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 // already provided by accounts-t9n you can always map your own keys.
 
 const availLanguages = getLocaleCodes();
-
+// TODO Check if NPM version of meteor T9n needs more configuration
 for (const lang of availLanguages) {
   T9n.forEach(lang, {
     custom: {

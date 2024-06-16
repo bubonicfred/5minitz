@@ -66,6 +66,7 @@
     "ldapjs": "^3.0.7",
     "lodash": "^4.17.10",
     "md5-file": "^5.0.0",
+    "meteor-accounts-t9n": "^2.6.0",
     "meteor-node-stubs": "^1.2.9",
     "moment": "^2.30.1",
     "mongo-uri": "^0.1.2",
