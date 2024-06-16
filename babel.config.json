@@ -1,9 +1,7 @@
 {
   "env": {
     "end2end": {
-      "presets": [
-        "@babel/preset-env"
-      ],
+      "presets": ["@babel/preset-env"],
       "targets": {
         "node": 14
       }
