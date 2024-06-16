@@ -47,6 +47,5 @@ mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
 mkdir versions
 npm ls >./versions/npm.txt
 google-chrome --version >./versions/chrome.txt
-./node_modules/chromedriver/bin/chromedriver --version >./versions/chrome_driver.txt
 
 exit "$WDIO_RESULT"
