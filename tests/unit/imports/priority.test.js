@@ -20,50 +20,53 @@ const i18n = {
 const { Priority } = proxyquire("../../../imports/priority", {
   "meteor/universe:i18n": { i18n, "@noCallThru": true },
 });
-
-describe("Priority", () => {
-  describe("#constructor", () => {
-    it("should assign the given value as a property", () => {
+  // skipcq: JS-0241
+describe("Priority", function() {
+    // skipcq: JS-0241
+  describe("#constructor", function() {
+      // skipcq: JS-0241
+    it("should assign the given value as a property", function() {
       const value = 2;
       const prio = new Priority(value);
       expect(prio.value).to.equal(value);
     });
-
-    it("should convert a numeric string value to an integer", () => {
+  // skipcq: JS-0241
+    it("should convert a numeric string value to an integer", function() {
       const value = "2";
       const prio = new Priority(value);
       expect(prio.value).to.equal(parseInt(value, 10));
     });
-
-    it("should throw an exception for values below 1", () => {
+  // skipcq: JS-0241
+    it("should throw an exception for values below 1", function() {
       AssertHelper.shouldThrow(
         () => new Priority(0),
         "Constructor should throw an exception for the value 0",
       );
     });
-
-    it("should throw an exception for values over 5", () => {
+  // skipcq: JS-0241
+    it("should throw an exception for values over 5", function() {
       AssertHelper.shouldThrow(
         () => new Priority(6),
         "Constructor should throw an exception for the value 6",
       );
     });
-
-    it("should throw an exception for values of an invalid type", () => {
+  // skipcq: JS-0241
+    it("should throw an exception for values of an invalid type", function() {
       AssertHelper.shouldThrow(
         () => new Priority("b"),
         "Constructor should throw an exception for the value of type string",
       );
     });
   });
-
-  describe("#toString", () => {
-    it("should return the string representation of the value", () => {
+  // skipcq: JS-0241
+  describe("#toString", function() {
+      // skipcq: JS-0241
+    it("should return the string representation of the value", function() {
       const prio = new Priority(2);
       expect(prio.toString()).to.equal(EXPECTED_PRIORITY_MAP[2]);
     });
-
-    it("should throw for an invalid value", () => {
+  // skipcq: JS-0241
+    it("should throw for an invalid value", function() {
       const prio = new Priority(3);
       prio.value = 7;
       AssertHelper.shouldThrow(
@@ -72,26 +75,28 @@ describe("Priority", () => {
       );
     });
   });
-
-  describe("#GET_DEFAULT_PRIORITY", () => {
-    it("should return an object of type Priority", () => {
+  // skipcq: JS-0241
+  describe("#GET_DEFAULT_PRIORITY", function() {
+      // skipcq: JS-0241
+    it("should return an object of type Priority", function() {
       const defaultPrio = Priority.GET_DEFAULT_PRIORITY();
       expect(defaultPrio instanceof Priority).to.be.true;
     });
-
-    it("should return priority with value 3", () => {
+  // skipcq: JS-0241
+    it("should return priority with value 3", function() {
       const defaultPrio = Priority.GET_DEFAULT_PRIORITY();
       expect(defaultPrio.value).to.equal(3);
     });
   });
-
-  describe("#GET_PRIORITIES", () => {
-    it("should return an array with five elements", () => {
+  // skipcq: JS-0241
+  describe("#GET_PRIORITIES", function() {
+      // skipcq: JS-0241
+    it("should return an array with five elements", function() {
       const prios = Priority.GET_PRIORITIES();
       expect(prios).to.have.length(5);
     });
-
-    it("should return an array of Priorities", () => {
+  // skipcq: JS-0241
+    it("should return an array of Priorities", function() {
       const prios = Priority.GET_PRIORITIES();
       prios.forEach((prio) => expect(prio instanceof Priority).to.be.true);
     });
