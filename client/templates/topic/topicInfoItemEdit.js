@@ -9,8 +9,8 @@ import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
 import { ReactiveVar } from "meteor/reactive-var";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 import moment from "moment/moment";
@@ -24,9 +24,9 @@ import { configureSelect2Labels } from "./helpers/configure-select2-labels";
 import { createItem } from "./helpers/create-item";
 import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
 
-Session.setDefault("topicInfoItemEditTopicId", null);
-Session.setDefault("topicInfoItemEditInfoItemId", null);
-Session.setDefault("topicInfoItemType", "infoItem");
+ReactiveDict.setDefault("topicInfoItemEditTopicId", null);
+ReactiveDict.setDefault("topicInfoItemEditInfoItemId", null);
+ReactiveDict.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for
@@ -58,9 +58,14 @@ Template.topicInfoItemEdit.onRendered(function () {
   });
 });
 
+/**
+ * Retrieves the related topic based on the current minutes ID and topic ID.
+ * @returns {Topic|boolean} The related topic object if both minutes ID and
+ *     topic ID are not null, otherwise false.
+ */
 const getRelatedTopic = () => {
   const minutesId = _minutesID;
-  const topicId = Session.get("topicInfoItemEditTopicId");
+  const topicId = ReactiveDict.get("topicInfoItemEditTopicId");
 
   if (minutesId === null || topicId === null) {
     return false;
@@ -69,21 +74,38 @@ const getRelatedTopic = () => {
   return new Topic(minutesId, topicId);
 };
 
+/**
+ * Retrieves the edit info item based on the currently selected info item ID.
+ * @returns {boolean|object} The edit info item object if found, otherwise
+ *     false.
+ */
 const getEditInfoItem = () => {
-  const id = Session.get("topicInfoItemEditInfoItemId");
+  const id = ReactiveDict.get("topicInfoItemEditInfoItemId");
 
   if (!id) return false;
 
   return getRelatedTopic().findInfoItem(id);
 };
 
+/**
+ * Toggles the mode of the item based on the given type.
+ * @param {string} type - The type of the item.
+ * @param {object} tmpl - The template instance.
+ */
 const toggleItemMode = (type, tmpl) => {
   const actionItemOnlyElements = tmpl.$(".actionItemOnly");
-  Session.set("topicInfoItemType", type);
+  ReactiveDict.set("topicInfoItemType", type);
   const editItem = getEditInfoItem();
+
+  /**
+   * Validates the given text using the isEmail function.
+   * @param {string} text - The text to be validated.
+   * @returns {boolean} - True if the text is a valid email, false otherwise.
+   */
   const freeTextValidator = (text) => {
     return isEmail(text);
   };
+
   switch (type) {
     case "actionItem":
       actionItemOnlyElements.show();
@@ -99,11 +121,15 @@ const toggleItemMode = (type, tmpl) => {
       actionItemOnlyElements.hide();
       break;
     default:
-      Session.set("topicInfoItemType", null);
+      ReactiveDict.set("topicInfoItemType", null);
       throw new Meteor.Error("Unknown type!");
   }
 };
 
+/**
+ * Resizes a textarea element based on the number of new lines in its value.
+ * @param {jQuery} element - The textarea element to resize.
+ */
 const resizeTextarea = (element) => {
   const newLineRegEx = new RegExp(/\n/g);
   const textAreaValue = element.val();
@@ -116,11 +142,14 @@ const resizeTextarea = (element) => {
   }
 };
 
+/**
+ * Closes the popup and unsets the "isEdited" flag for the topic info item.
+ */
 function closePopupAndUnsetIsEdited() {
   IsEditedService.removeIsEditedInfoItem(
     _minutesID,
-    Session.get("topicInfoItemEditTopicId"),
-    Session.get("topicInfoItemEditInfoItemId"),
+    ReactiveDict.get("topicInfoItemEditTopicId"),
+    ReactiveDict.get("topicInfoItemEditInfoItemId"),
     false,
   );
 
@@ -141,7 +170,7 @@ Template.topicInfoItemEdit.helpers({
   },
 
   getTopicItemType() {
-    const type = Session.get("topicInfoItemType");
+    const type = ReactiveDict.get("topicInfoItemType");
     return type === "infoItem"
       ? i18n.__("Item.editItemModelTypeInfoItem")
       : i18n.__("Item.editItemModelTypeActionItem");
@@ -167,16 +196,16 @@ Template.topicInfoItemEdit.events({
           "IllegalState: We have no related topic object!",
         );
       }
-      if (Session.get("topicInfoItemEditInfoItemId") !== null)
+      if (ReactiveDict.equals("topicInfoItemEditInfoItemId", null))
         IsEditedService.removeIsEditedInfoItem(
           _minutesID,
-          Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId"),
+          ReactiveDict.get("topicInfoItemEditTopicId"),
+          ReactiveDict.get("topicInfoItemEditInfoItemId"),
           true,
         );
       const editItem = getEditInfoItem();
 
-      const type = Session.get("topicInfoItemType");
+      const type = ReactiveDict.get("topicInfoItemType");
       const newSubject = tmpl.find("#id_item_subject").value;
       const newDetail = editItem
         ? false
@@ -185,7 +214,7 @@ Template.topicInfoItemEdit.events({
 
       const doc = {};
       if (editItem) {
-        _.extend(doc, editItem._infoItemDoc);
+        _.assignIn(doc, editItem._infoItemDoc);
       }
 
       doc.subject = newSubject;
@@ -263,20 +292,27 @@ Template.topicInfoItemEdit.events({
       toggleItemMode(type, tmpl);
 
       const element = editItem._infoItemDoc;
+      /**
+       * Removes the edited information item and displays the "dlgAddInfoItem"
+       * element.
+       */
       const unset = () => {
         IsEditedService.removeIsEditedInfoItem(
           _minutesID,
-          Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId"),
+          ReactiveDict.get("topicInfoItemEditTopicId"),
+          ReactiveDict.get("topicInfoItemEditInfoItemId"),
           true,
         );
         document.getElementById("dlgAddInfoItem").style.display = "block";
       };
+      /**
+       * Sets the edited status for a topic info item.
+       */
       const setIsEdited = () => {
         IsEditedService.setIsEditedInfoItem(
           _minutesID,
-          Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId"),
+          ReactiveDict.get("topicInfoItemEditTopicId"),
+          ReactiveDict.get("topicInfoItemEditInfoItemId"),
         );
       };
 
@@ -306,7 +342,7 @@ Template.topicInfoItemEdit.events({
       if (selectLabels) {
         selectLabels.value = "";
       }
-      const infoItemType = Session.get("topicInfoItemType");
+      const infoItemType = ReactiveDict.get("topicInfoItemType");
       toggleItemMode(infoItemType, tmpl);
 
       const itemSubject = document.querySelector("#id_item_subject");
@@ -326,9 +362,9 @@ Template.topicInfoItemEdit.events({
 
   "hidden.bs.modal #dlgAddInfoItem"() {
     // reset the session var to indicate that edit mode has been closed
-    Session.set("topicInfoItemEditTopicId", null);
-    Session.set("topicInfoItemEditInfoItemId", null);
-    Session.set("topicInfoItemType", null);
+    ReactiveDict.set("topicInfoItemEditTopicId", null);
+    ReactiveDict.set("topicInfoItemEditInfoItemId", null);
+    ReactiveDict.set("topicInfoItemType", null);
   },
 
   "select2:selecting #id_selResponsibleActionItem"(evt) {
