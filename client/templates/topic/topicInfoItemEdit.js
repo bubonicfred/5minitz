@@ -1,17 +1,3 @@
-import { _ } from "lodash";
-import { Meteor } from "meteor/meteor";
-import { ReactiveDict } from "meteor/reactive-dict";
-import { ReactiveVar } from "meteor/reactive-var";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
-import moment from "moment/moment";
-import isEmail from "validator/lib/isEmail";
-import { IsEditedService } from "../../../imports/services/isEditedService";
-import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
-import { isEditedHandling } from "../../helpers/isEditedHelpers";
-import { configureSelect2Labels } from "./helpers/configure-select2-labels";
-import { createItem } from "./helpers/create-item";
-import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
 import { handleError } from "/client/helpers/handleError";
 import { ActionItem } from "/imports/actionitem";
 import { configureSelect2Responsibles } from "/imports/client/ResponsibleSearch";
@@ -21,6 +7,22 @@ import { Minutes } from "/imports/minutes";
 import { Priority } from "/imports/priority";
 import { Topic } from "/imports/topic";
 import { User, userSettings } from "/imports/user";
+import { _ } from "lodash";
+import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
+import moment from "moment/moment";
+import isEmail from "validator/lib/isEmail";
+
+import { IsEditedService } from "../../../imports/services/isEditedService";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { isEditedHandling } from "../../helpers/isEditedHelpers";
+
+import { configureSelect2Labels } from "./helpers/configure-select2-labels";
+import { createItem } from "./helpers/create-item";
+import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
 
 ReactiveDict.setDefault("topicInfoItemEditTopicId", null);
 ReactiveDict.setDefault("topicInfoItemEditInfoItemId", null);
@@ -58,7 +60,8 @@ Template.topicInfoItemEdit.onRendered(function () {
 
 /**
  * Retrieves the related topic based on the current minutes ID and topic ID.
- * @returns {Topic|boolean} The related topic object if both minutes ID and topic ID are not null, otherwise false.
+ * @returns {Topic|boolean} The related topic object if both minutes ID and
+ *     topic ID are not null, otherwise false.
  */
 const getRelatedTopic = () => {
   const minutesId = _minutesID;
@@ -73,7 +76,8 @@ const getRelatedTopic = () => {
 
 /**
  * Retrieves the edit info item based on the currently selected info item ID.
- * @returns {boolean|object} The edit info item object if found, otherwise false.
+ * @returns {boolean|object} The edit info item object if found, otherwise
+ *     false.
  */
 const getEditInfoItem = () => {
   const id = ReactiveDict.get("topicInfoItemEditInfoItemId");
@@ -289,7 +293,8 @@ Template.topicInfoItemEdit.events({
 
       const element = editItem._infoItemDoc;
       /**
-       * Removes the edited information item and displays the "dlgAddInfoItem" element.
+       * Removes the edited information item and displays the "dlgAddInfoItem"
+       * element.
        */
       const unset = () => {
         IsEditedService.removeIsEditedInfoItem(
