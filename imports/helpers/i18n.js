@@ -1,5 +1,5 @@
-import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor-accounts-t9n";
+import { Meteor } from "meteor/meteor";
 import { i18n } from "meteor/universe:i18n";
 
 /**
