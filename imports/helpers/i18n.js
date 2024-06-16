@@ -154,11 +154,11 @@ export class I18nHelper {
    * returned.
    * @returns {string} The language locale.
    */
-  static getLanguageLocale() {
+  static async getLanguageLocale() {
     if (
-      !Meteor.user() ||
-      !Meteor.user().profile ||
-      !Meteor.user().profile.locale
+      !(await Meteor.userAsync()) ||
+      !(await Meteor.userAsync()).profile ||
+      !(await Meteor.userAsync()).profile.locale
     ) {
       return "auto";
     }
@@ -173,14 +173,14 @@ export class I18nHelper {
    *
    * @returns {string} The preferred user locale.
    */
-  static _getPreferredUserLocale() {
+  static async _getPreferredUserLocale() {
     if (Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest) {
       return "en-US";
     }
     return (
-      (Meteor.user() &&
-        Meteor.user().profile &&
-        Meteor.user().profile.locale) ||
+      ((await Meteor.userAsync()) &&
+        (await Meteor.userAsync()).profile &&
+        (await Meteor.userAsync()).profile.locale) ||
       I18nHelper._getPreferredBrowserLocale()
     );
   }
@@ -256,17 +256,18 @@ export class I18nHelper {
    *     preference.
    * @returns {void}
    */
-  static _persistLanguagePreference(localeCode) {
-    if (!Meteor.user() || Meteor.user().isDemoUser) {
+
+  static async _persistLanguagePreference(localeCode) {
+    if (!(await Meteor.userAsync()) || (await Meteor.userAsync()).isDemoUser) {
       return;
     }
     if (localeCode === "auto") {
-      Meteor.users.update(
+      await Meteor.users.updateAsync(
         { _id: Meteor.userId() },
         { $unset: { "profile.locale": "" } },
       );
     } else {
-      Meteor.users.update(
+      await Meteor.users.updateAsync(
         { _id: Meteor.userId() },
         { $set: { "profile.locale": localeCode } },
       );
