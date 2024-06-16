@@ -66,10 +66,10 @@ const { Minutes } = proxyquire("../../../imports/minutes", {
   lodash: { _, "@noCallThru": true },
 });
 // skipcq: JS-0241
-describe("Minutes", function() {
+describe("Minutes", function () {
   let minutesDoc, minute;
-// skipcq: JS-0241
-  beforeEach(function() {
+  // skipcq: JS-0241
+  beforeEach(function () {
     minutesDoc = {
       meetingSeries_id: "AaBbCc01",
       _id: "AaBbCc02",
@@ -83,8 +83,8 @@ describe("Minutes", function() {
 
     minute = new Minutes(minutesDoc);
   });
-// skipcq: JS-0241
-  afterEach(function() {
+  // skipcq: JS-0241
+  afterEach(function () {
     MinutesSchema.find.resetHistory();
     MinutesSchema.findOne.resetHistory();
     Meteor.call.resetHistory();
@@ -93,14 +93,14 @@ describe("Minutes", function() {
     updateLastMinutesFieldsStub.resetHistory();
     topicGetOpenActionItemsStub.resetHistory();
   });
-// skipcq: JS-0241
-  describe("#constructor", function() {
+  // skipcq: JS-0241
+  describe("#constructor", function () {
     // skipcq: JS-0241
-    it("sets the properties correctly", function() {
+    it("sets the properties correctly", function () {
       expect(JSON.stringify(minute)).to.equal(JSON.stringify(minutesDoc));
     });
-// skipcq: JS-0241
-    it("fetches the minute from the database if the id was given", function() {
+    // skipcq: JS-0241
+    it("fetches the minute from the database if the id was given", function () {
       new Minutes(minutesDoc._id);
       expect(MinutesSchema.findOne.calledOnce, "findOne should be called once")
         .to.be.true;
@@ -109,8 +109,8 @@ describe("Minutes", function() {
         "findOne should be called with the id",
       ).to.be.true;
     });
-// skipcq: JS-0241
-    it("throws exception if constructor will be called without any arguments", function() {
+    // skipcq: JS-0241
+    it("throws exception if constructor will be called without any arguments", function () {
       let exceptionThrown;
       try {
         new Minutes();
@@ -122,10 +122,10 @@ describe("Minutes", function() {
       expect(exceptionThrown).to.be.true;
     });
   });
-// skipcq: JS-0241
-  describe("find", function() {
+  // skipcq: JS-0241
+  describe("find", function () {
     // skipcq: JS-0241
-    it("#find", function() {
+    it("#find", function () {
       Minutes.find("myArg");
       expect(MinutesSchema.find.calledOnce, "find-Method should be called once")
         .to.be.true;
@@ -134,8 +134,8 @@ describe("Minutes", function() {
         "arguments should be passed",
       ).to.be.true;
     });
-// skipcq: JS-0241
-    it("#findOne", function() {
+    // skipcq: JS-0241
+    it("#findOne", function () {
       Minutes.findOne("myArg");
       expect(
         MinutesSchema.findOne.calledOnce,
@@ -146,25 +146,25 @@ describe("Minutes", function() {
         "arguments should be passed",
       ).to.be.true;
     });
-// skipcq: JS-0241
-    describe("#findAllIn", function() {
+    // skipcq: JS-0241
+    describe("#findAllIn", function () {
       let minIdArray;
       let limit;
-// skipcq: JS-0241
-      beforeEach(function() {
+      // skipcq: JS-0241
+      beforeEach(function () {
         minIdArray = ["1", "2"];
         limit = 3;
       });
-// skipcq: JS-0241
-      it("calls the find-Method of the Collection", function() {
+      // skipcq: JS-0241
+      it("calls the find-Method of the Collection", function () {
         Minutes.findAllIn(minIdArray, limit);
         expect(
           MinutesSchema.find.calledOnce,
           "find-Method should be called once",
         ).to.be.true;
       });
-// skipcq: JS-0241
-      it("sets the id selector correctly", function() {
+      // skipcq: JS-0241
+      it("sets the id selector correctly", function () {
         Minutes.findAllIn(minIdArray, limit);
         const selector = MinutesSchema.find.getCall(0).args[0];
         expect(selector, "Selector has the property _id").to.have.ownProperty(
@@ -178,15 +178,15 @@ describe("Minutes", function() {
           minIdArray,
         );
       });
-// skipcq: JS-0241
-      it("sets the option correctly (sort, no limit)", function() {
+      // skipcq: JS-0241
+      it("sets the option correctly (sort, no limit)", function () {
         const expectedOption = { sort: { date: -1 } };
         Minutes.findAllIn(minIdArray);
         const options = MinutesSchema.find.getCall(0).args[1];
         expect(options).to.deep.equal(expectedOption);
       });
-// skipcq: JS-0241
-      it("sets the option correctly (sort and limit)", function() {
+      // skipcq: JS-0241
+      it("sets the option correctly (sort and limit)", function () {
         const expectedOption = { sort: { date: -1 }, limit };
         Minutes.findAllIn(minIdArray, limit);
         const options = MinutesSchema.find.getCall(0).args[1];
@@ -194,36 +194,36 @@ describe("Minutes", function() {
       });
     });
   });
-// skipcq: JS-0241
-  describe("#remove", function() {
+  // skipcq: JS-0241
+  describe("#remove", function () {
     // skipcq: JS-0241
-    it("calls the meteor method minutes.remove", function() {
+    it("calls the meteor method minutes.remove", function () {
       Minutes.remove(minute._id);
       expect(Meteor.callAsync.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("sends the minutes id to the meteor method minutes.remove", function() {
+    // skipcq: JS-0241
+    it("sends the minutes id to the meteor method minutes.remove", function () {
       Minutes.remove(minute._id);
       expect(
         Meteor.callAsync.calledWithExactly("workflow.removeMinute", minute._id),
       ).to.be.true;
     });
   });
-// skipcq: JS-0241
-  describe("#syncVisibilityAndParticipants", function() {
+  // skipcq: JS-0241
+  describe("#syncVisibilityAndParticipants", function () {
     let visibleForArray, parentSeriesId;
-// skipcq: JS-0241
-    beforeEach(function() {
+    // skipcq: JS-0241
+    beforeEach(function () {
       visibleForArray = ["1", "2"];
       parentSeriesId = minute.meetingSeries_id;
     });
-// skipcq: JS-0241
-    it("calls the meteor method minutes.syncVisibilityAndParticipants", function() {
+    // skipcq: JS-0241
+    it("calls the meteor method minutes.syncVisibilityAndParticipants", function () {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
       expect(Meteor.callAsync.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants", function() {
+    // skipcq: JS-0241
+    it("sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants", function () {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
       expect(
         Meteor.callAsync.calledWithExactly(
@@ -234,22 +234,22 @@ describe("Minutes", function() {
       ).to.be.true;
     });
   });
-// skipcq: JS-0241
-  describe("#update", function() {
+  // skipcq: JS-0241
+  describe("#update", function () {
     let updateDocPart;
-// skipcq: JS-0241
-    beforeEach(function() {
+    // skipcq: JS-0241
+    beforeEach(function () {
       updateDocPart = {
         date: "2016-05-07",
       };
     });
-// skipcq: JS-0241
-    it("calls the meteor method minutes.update", function() {
+    // skipcq: JS-0241
+    it("calls the meteor method minutes.update", function () {
       minute.update(updateDocPart);
       expect(Meteor.callAsync.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("sends the doc part and the minutes id to the meteor method minutes.update", function() {
+    // skipcq: JS-0241
+    it("sends the doc part and the minutes id to the meteor method minutes.update", function () {
       minute.update(updateDocPart);
       const sentObj = JSON.parse(JSON.stringify(updateDocPart));
       sentObj._id = minute._id;
@@ -261,22 +261,22 @@ describe("Minutes", function() {
         ),
       ).to.be.true;
     });
-// skipcq: JS-0241
+    // skipcq: JS-0241
     it("updates the changed property of the minute object", async function () {
       await minute.update(updateDocPart);
       expect(minute.date).to.equal(updateDocPart.date);
     });
   });
-// skipcq: JS-0241
-  describe("#save", function() {
+  // skipcq: JS-0241
+  describe("#save", function () {
     // skipcq: JS-0241
-    it("calls the meteor method minutes.insert if a new minute will be saved", function() {
+    it("calls the meteor method minutes.insert if a new minute will be saved", function () {
       delete minute._id;
       minute.save();
       expect(Meteor.call.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("uses the workflow.addMinutes method to save a new minutes document", function() {
+    // skipcq: JS-0241
+    it("uses the workflow.addMinutes method to save a new minutes document", function () {
       delete minute._id;
       minute.save();
       expect(
@@ -288,27 +288,27 @@ describe("Minutes", function() {
         ),
       ).to.be.true;
     });
-// skipcq: JS-0241
-    it("sets the createdAt-property if it is not set", function() {
+    // skipcq: JS-0241
+    it("sets the createdAt-property if it is not set", function () {
       delete minute._id;
       delete minute.createdAt;
       minute.save();
       expect(minute).to.have.ownProperty("createdAt");
     });
-// skipcq: JS-0241
-    it("calls the meteor method minutes.update if a existing minute will be saved", function() {
+    // skipcq: JS-0241
+    it("calls the meteor method minutes.update if a existing minute will be saved", function () {
       minute.save();
       expect(Meteor.call.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("sends the minutes object to the meteor method minutes.update", function() {
+    // skipcq: JS-0241
+    it("sends the minutes object to the meteor method minutes.update", function () {
       minute.save();
       expect(Meteor.call.calledWithExactly("minutes.update", minute)).to.be
         .true;
     });
   });
-// skipcq: JS-0241
-  it("#parentMeetingSeries", function() {
+  // skipcq: JS-0241
+  it("#parentMeetingSeries", function () {
     const parentSeries = minute.parentMeetingSeries();
     expect(
       parentSeries instanceof MeetingSeries,
@@ -319,15 +319,15 @@ describe("Minutes", function() {
       "created meeting series object should have the correct series id",
     ).to.equal(minute.meetingSeries_id);
   });
-// skipcq: JS-0241
-  it("#parentMeetingSeriesID", function() {
+  // skipcq: JS-0241
+  it("#parentMeetingSeriesID", function () {
     expect(minute.parentMeetingSeriesID()).to.equal(minute.meetingSeries_id);
   });
-// skipcq: JS-0241
-  describe("topic related methods", function() {
+  // skipcq: JS-0241
+  describe("topic related methods", function () {
     let topic1, topic2, topic3, topic4;
-// skipcq: JS-0241
-    beforeEach(function() {
+    // skipcq: JS-0241
+    beforeEach(function () {
       topic1 = {
         _id: "01",
         subject: "firstTopic",
@@ -357,53 +357,53 @@ describe("Minutes", function() {
       minute.topics.push(topic3);
       minute.topics.push(topic4);
     });
-// skipcq: JS-0241
-    describe("#findTopic", function() {
+    // skipcq: JS-0241
+    describe("#findTopic", function () {
       // skipcq: JS-0241
-      it("finds the correct topic identified by its id", function() {
+      it("finds the correct topic identified by its id", function () {
         expect(minute.findTopic(topic1._id)).to.deep.equal(topic1);
       });
-// skipcq: JS-0241
-      it("returns undefined if topic was not found", function() {
+      // skipcq: JS-0241
+      it("returns undefined if topic was not found", function () {
         expect(minute.findTopic("unknownId")).to.be.undefined;
       });
     });
-// skipcq: JS-0241
-    describe("#removeTopic", function() {
+    // skipcq: JS-0241
+    describe("#removeTopic", function () {
       // skipcq: JS-0241
-      it("removes the topic from the topics array", function() {
+      it("removes the topic from the topics array", function () {
         const oldLength = minute.topics.length;
         minute.removeTopic(topic1._id);
         expect(minute.topics).to.have.length(oldLength - 1);
       });
-// skipcq: JS-0241
-      it("calls the meteor method minutes.update", function() {
+      // skipcq: JS-0241
+      it("calls the meteor method minutes.update", function () {
         minute.removeTopic(topic1._id);
         expect(Meteor.callAsync.calledOnce).to.be.true;
       });
     });
-// skipcq: JS-0241
-    describe("#getNewTopics", function() {
+    // skipcq: JS-0241
+    describe("#getNewTopics", function () {
       // skipcq: JS-0241
-      it("returns the correct amount of topics", function() {
+      it("returns the correct amount of topics", function () {
         expect(minute.getNewTopics()).to.have.length(2);
       });
-// skipcq: JS-0241
-      it("returns only new topics", function() {
+      // skipcq: JS-0241
+      it("returns only new topics", function () {
         const newTopics = minute.getNewTopics();
         newTopics.forEach((topic) => {
           expect(topic.isNew, "isNew-flag should be set").to.be.true;
         });
       });
     });
-// skipcq: JS-0241
-    describe("#getOldClosedTopics", function() {
+    // skipcq: JS-0241
+    describe("#getOldClosedTopics", function () {
       // skipcq: JS-0241
-      it("returns the correct amount of topics", function() {
+      it("returns the correct amount of topics", function () {
         expect(minute.getOldClosedTopics()).to.have.length(1);
       });
-// skipcq: JS-0241
-      it("returns only old and closed topics", function() {
+      // skipcq: JS-0241
+      it("returns only old and closed topics", function () {
         const oldClosedTopics = minute.getOldClosedTopics();
         oldClosedTopics.forEach((topic) => {
           expect(
@@ -413,17 +413,17 @@ describe("Minutes", function() {
         });
       });
     });
-// skipcq: JS-0241
-    describe("#getOpenActionItems", function() {
+    // skipcq: JS-0241
+    describe("#getOpenActionItems", function () {
       // skipcq: JS-0241
-      it("calls the getOpenActionItems method for each topic", function() {
+      it("calls the getOpenActionItems method for each topic", function () {
         minute.getOpenActionItems();
         expect(topicGetOpenActionItemsStub.callCount).to.equal(
           minute.topics.length,
         );
       });
-// skipcq: JS-0241
-      it("concatenates all results of each getOpenActionItems-call", function() {
+      // skipcq: JS-0241
+      it("concatenates all results of each getOpenActionItems-call", function () {
         topicGetOpenActionItemsStub.returns([5, 7]);
         expect(minute.getOpenActionItems()).to.have.length(
           minute.topics.length * 2,
@@ -431,17 +431,17 @@ describe("Minutes", function() {
       });
     });
   });
-// skipcq: JS-0241
-  describe("#upsertTopic", function() {
+  // skipcq: JS-0241
+  describe("#upsertTopic", function () {
     let topicDoc;
-// skipcq: JS-0241
-    beforeEach(function() {
+    // skipcq: JS-0241
+    beforeEach(function () {
       topicDoc = {
         subject: "myTopic",
       };
     });
-// skipcq: JS-0241
-    it("adds a new topic to the topic array", function() {
+    // skipcq: JS-0241
+    it("adds a new topic to the topic array", function () {
       minute.upsertTopic(topicDoc);
       expect(Meteor.callAsync.calledOnce).to.be.true;
       expect(
@@ -452,8 +452,8 @@ describe("Minutes", function() {
         ),
       );
     });
-// skipcq: JS-0241
-    it("adds a new topic which already has an id", function() {
+    // skipcq: JS-0241
+    it("adds a new topic which already has an id", function () {
       topicDoc._id = "myId";
       minute.upsertTopic(topicDoc);
       expect(Meteor.callAsync.calledOnce).to.be.true;
@@ -465,8 +465,8 @@ describe("Minutes", function() {
         ),
       );
     });
-// skipcq: JS-0241
-    it("updates an existing topic correctly", function() {
+    // skipcq: JS-0241
+    it("updates an existing topic correctly", function () {
       topicDoc._id = "myId";
       minute.topics.unshift(topicDoc);
       topicDoc.subject = "changedSubject";
@@ -480,13 +480,13 @@ describe("Minutes", function() {
         "the subject should have been updated",
       ).to.equal(topicDoc.subject);
     });
-// skipcq: JS-0241
-    it("calls the meteor method minutes.update", function() {
+    // skipcq: JS-0241
+    it("calls the meteor method minutes.update", function () {
       minute.upsertTopic(topicDoc);
       expect(Meteor.callAsync.calledOnce).to.be.true;
     });
-// skipcq: JS-0241
-    it("sends the minutes id and the topic doc to the meteor method minutes.addTopic", function() {
+    // skipcq: JS-0241
+    it("sends the minutes id and the topic doc to the meteor method minutes.addTopic", function () {
       minute.upsertTopic(topicDoc);
       const callArgs = Meteor.callAsync.getCall(0).args;
       expect(
@@ -505,8 +505,8 @@ describe("Minutes", function() {
       ).to.equal(topicDoc);
     });
   });
-// skipcq: JS-0241
-  it("#isCurrentUserModerator", function() {
+  // skipcq: JS-0241
+  it("#isCurrentUserModerator", function () {
     minute.isCurrentUserModerator();
 
     expect(isCurrentUserModeratorStub.calledOnce).to.be.true;
