@@ -1,6 +1,6 @@
 import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { LdapSettings } from "/imports/config/LdapSettings";
-import { I18nHelper, getLocaleCodes } from "/imports/helpers/i18n";
+import { getLocaleCodes, I18nHelper } from "/imports/helpers/i18n";
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
 import { T9n } from "meteor/softwarerero:accounts-t9n";
