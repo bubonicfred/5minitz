@@ -15,37 +15,37 @@
  * @requires ./minutes.schema
  * @requires ./topic.schema
  */
-import {check} from "meteor/check";
-import {Meteor} from "meteor/meteor";
+import { check } from "meteor/check";
+import { Meteor } from "meteor/meteor";
 
-import {GlobalSettings} from "../config/GlobalSettings";
-import {SendAgendaMailHandler} from "../mail/SendAgendaMailHandler";
-import {Minutes} from "../minutes";
-import {User} from "../user";
-import {UserRoles} from "../userroles";
+import { GlobalSettings } from "../config/GlobalSettings";
+import { SendAgendaMailHandler } from "../mail/SendAgendaMailHandler";
+import { Minutes } from "../minutes";
+import { User } from "../user";
+import { UserRoles } from "../userroles";
 
-import {MinutesSchema} from "./minutes.schema";
-import {TopicSchema} from "./topic.schema";
+import { MinutesSchema } from "./minutes.schema";
+import { TopicSchema } from "./topic.schema";
 
 if (Meteor.isServer) {
   Meteor.publish(
-      "minutes",
-      function minutesPublication(meetingSeriesId, minuteId) {
-        if (minuteId) {
-          return MinutesSchema.find({
-            $and : [ {visibleFor : {$in : [ this.userId ]}}, {_id : minuteId} ],
-          });
-        }
-        if (meetingSeriesId) {
-          return MinutesSchema.find({
-            $and : [
-              {visibleFor : {$in : [ this.userId ]}},
-              {meetingSeries_id : meetingSeriesId},
-            ],
-          });
-        }
-        return this.ready();
-      },
+    "minutes",
+    function minutesPublication(meetingSeriesId, minuteId) {
+      if (minuteId) {
+        return MinutesSchema.find({
+          $and: [{ visibleFor: { $in: [this.userId] } }, { _id: minuteId }],
+        });
+      }
+      if (meetingSeriesId) {
+        return MinutesSchema.find({
+          $and: [
+            { visibleFor: { $in: [this.userId] } },
+            { meetingSeries_id: meetingSeriesId },
+          ],
+        });
+      }
+      return this.ready();
+    },
   );
 }
 
@@ -63,36 +63,37 @@ Meteor.methods({
     if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
       if (!GlobalSettings.isEMailDeliveryEnabled()) {
         console.log(
-            "Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file",
+          "Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file",
         );
         throw new Meteor.Error(
-            "Cannot send agenda",
-            "Email delivery is not enabled in your 4minitz installation.",
+          "Cannot send agenda",
+          "Email delivery is not enabled in your 4minitz installation.",
         );
       }
 
       if (!Meteor.isClient) {
         const emails = (await Meteor.userAsync()).emails;
-        const senderEmail = emails && emails.length > 0
-                                ? emails[0].address
-                                : GlobalSettings.getDefaultEmailSenderAddress();
+        const senderEmail =
+          emails && emails.length > 0
+            ? emails[0].address
+            : GlobalSettings.getDefaultEmailSenderAddress();
         const sendAgendaMailHandler = new SendAgendaMailHandler(
-            senderEmail,
-            aMin,
+          senderEmail,
+          aMin,
         );
         sendAgendaMailHandler.send();
 
         MinutesSchema.update(
-            {_id : aMin._id, isFinalized : false},
-            {$set : {agendaSentAt : new Date()}},
+          { _id: aMin._id, isFinalized: false },
+          { $set: { agendaSentAt: new Date() } },
         );
 
         return sendAgendaMailHandler.getCountRecipients();
       }
     } else {
       throw new Meteor.Error(
-          "Cannot send agenda",
-          "You are not moderator of the parent meeting series.",
+        "Cannot send agenda",
+        "You are not moderator of the parent meeting series.",
       );
     }
   },
@@ -122,8 +123,10 @@ Meteor.methods({
     delete doc.finalizedHistory;
 
     const aMin = new Minutes(id);
-    if (doc.date &&
-        !aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
+    if (
+      doc.date &&
+      !aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)
+    ) {
       return;
     }
 
@@ -133,13 +136,13 @@ Meteor.methods({
       // Ensure user can not update finalized minutes
 
       return MinutesSchema.update(
-          {_id : id, isFinalized : false},
-          {$set : doc},
+        { _id: id, isFinalized: false },
+        { $set: doc },
       );
     }
     throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -160,8 +163,8 @@ Meteor.methods({
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
       throw new Meteor.Error(
-          "not-authorized",
-          "You are not authorized to perform this action.",
+        "not-authorized",
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -176,8 +179,8 @@ Meteor.methods({
     }
 
     const minDoc = MinutesSchema.findOne({
-      isFinalized : false,
-      "topics._id" : topicId,
+      isFinalized: false,
+      "topics._id": topicId,
     });
     const aMin = new Minutes(minDoc);
 
@@ -187,13 +190,13 @@ Meteor.methods({
       // Ensure user can not update finalized minutes
 
       return MinutesSchema.update(
-          {_id : aMin._id, isFinalized : false, "topics._id" : topicId},
-          {$set : modifierDoc},
+        { _id: aMin._id, isFinalized: false, "topics._id": topicId },
+        { $set: modifierDoc },
       );
     }
     throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -204,8 +207,8 @@ Meteor.methods({
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
       throw new Meteor.Error(
-          "not-authorized",
-          "You are not authorized to perform this action.",
+        "not-authorized",
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -228,8 +231,8 @@ Meteor.methods({
       doc.updatedBy = User.profileNameWithFallback(await Meteor.userAsync());
 
       const topicModifier = {
-        topics : {
-          $each : [ doc ],
+        topics: {
+          $each: [doc],
         },
       };
 
@@ -238,13 +241,13 @@ Meteor.methods({
       }
 
       return MinutesSchema.update(
-          {_id : minutesId, isFinalized : false},
-          {$push : topicModifier},
+        { _id: minutesId, isFinalized: false },
+        { $push: topicModifier },
       );
     }
     throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -258,8 +261,8 @@ Meteor.methods({
     }
 
     const minDoc = MinutesSchema.findOne({
-      isFinalized : false,
-      "topics._id" : topicId,
+      isFinalized: false,
+      "topics._id": topicId,
     });
     const aMin = new Minutes(minDoc);
 
@@ -267,8 +270,8 @@ Meteor.methods({
     const userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
       throw new Meteor.Error(
-          "Cannot delete topic",
-          "You are not moderator of the parent meeting series.",
+        "Cannot delete topic",
+        "You are not moderator of the parent meeting series.",
       );
     }
 
@@ -277,19 +280,19 @@ Meteor.methods({
     const topic = aMin.findTopic(topicId);
     if (topic.createdInMinute !== aMin._id) {
       throw new Meteor.Error(
-          "Cannot delete topic",
-          "The topic was not created in this minutes.",
+        "Cannot delete topic",
+        "The topic was not created in this minutes.",
       );
     }
 
     // Ensure user can not update finalized minutes
     return MinutesSchema.update(
-        {_id : aMin._id, isFinalized : false},
-        {
-          $pull : {
-            topics : {_id : topicId},
-          },
+      { _id: aMin._id, isFinalized: false },
+      {
+        $pull: {
+          topics: { _id: topicId },
         },
+      },
     );
   },
 
@@ -298,18 +301,18 @@ Meteor.methods({
     const userRoles = new UserRoles(Meteor.userId());
     if (userRoles.isModeratorOf(parentSeriesID)) {
       Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
-          parentSeriesID,
-          visibleForArray,
+        parentSeriesID,
+        visibleForArray,
       );
       TopicSchema.update(
-          {parentId : parentSeriesID},
-          {$set : {visibleFor : visibleForArray}},
-          {multi : true},
+        { parentId: parentSeriesID },
+        { $set: { visibleFor: visibleForArray } },
+        { multi: true },
       );
     } else {
       throw new Meteor.Error(
-          "Cannot sync visibility of minutes",
-          "You are not moderator of the parent meeting series.",
+        "Cannot sync visibility of minutes",
+        "You are not moderator of the parent meeting series.",
       );
     }
   },
@@ -329,28 +332,26 @@ Meteor.methods({
       foundPartipantsNames.push(name[0]);
     });
 
-    let searchSettings = {username : {$regex : partialName, $options : "i"}};
-    let searchFields = {_id : 1, username : 1};
+    let searchSettings = { username: { $regex: partialName, $options: "i" } };
+    let searchFields = { _id: 1, username: 1 };
     if (GlobalSettings.isTrustedIntranetInstallation()) {
       searchSettings = {
-        $or : [
-          {username : {$regex : partialName, $options : "i"}},
-          {"profile.name" : {$regex : partialName, $options : "i"}},
+        $or: [
+          { username: { $regex: partialName, $options: "i" } },
+          { "profile.name": { $regex: partialName, $options: "i" } },
         ],
       };
-      searchFields = {_id : 1, username : 1, "profile.name" : 1};
+      searchFields = { _id: 1, username: 1, "profile.name": 1 };
     }
 
-    let results_otherUser =
-        await Meteor.users
-            .find(searchSettings, {
-              limit : 10 + results_participants
-                               .length, // we want to show 10 "Other user"
-              // as it is not known, if a user a participant or not -> get
-              // 10+participants
-              fields : searchFields,
-            })
-            .fetchAsync();
+    let results_otherUser = await Meteor.users
+      .find(searchSettings, {
+        limit: 10 + results_participants.length, // we want to show 10 "Other user"
+        // as it is not known, if a user a participant or not -> get
+        // 10+participants
+        fields: searchFields,
+      })
+      .fetchAsync();
 
     results_otherUser = results_otherUser.filter((user) => {
       // remove duplicates
@@ -360,13 +361,13 @@ Meteor.methods({
 
     results_otherUser = results_otherUser.map((otherUser) => {
       return Minutes.formatResponsibles(
-          otherUser,
-          "username",
-          GlobalSettings.isTrustedIntranetInstallation(),
+        otherUser,
+        "username",
+        GlobalSettings.isTrustedIntranetInstallation(),
       );
     });
     return {
-      results : results_participants.concat(results_otherUser),
+      results: results_participants.concat(results_otherUser),
     };
   },
 });

@@ -1,15 +1,15 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
-import {BroadcastMessageSchema} from "./broadcastmessages.schema";
+import { BroadcastMessageSchema } from "./broadcastmessages.schema";
 
 if (Meteor.isServer) {
-  Meteor.publish("broadcastmessage", function() {
+  Meteor.publish("broadcastmessage", function () {
     if (this.userId) {
       // publish only messages, that the current user has NOT yet dismissed
       return BroadcastMessageSchema.find({
-        $and : [
-          {isActive : true},
-          {dismissForUserIDs : {$nin : [ this.userId ]}},
+        $and: [
+          { isActive: true },
+          { dismissForUserIDs: { $nin: [this.userId] } },
         ],
       });
     }
@@ -17,7 +17,7 @@ if (Meteor.isServer) {
 
   // #Security: Admin sees all messages, active & inactive
   // and even messages dismissed by herself!
-  Meteor.publish("broadcastmessageAdmin", async function() {
+  Meteor.publish("broadcastmessageAdmin", async function () {
     if (this.userId) {
       const usr = await Meteor.users.findOneAsync(this.userId);
       if (usr.isAdmin) {
@@ -34,12 +34,14 @@ Meteor.methods({
     }
     console.log(`Dismissing BroadcastMessages for user: ${Meteor.userId()}`);
 
-    await BroadcastMessageSchema.find({isActive : true}).forEachAsync((msg) => {
-      BroadcastMessageSchema.update(
-          {_id : msg._id},
-          {$addToSet : {dismissForUserIDs : Meteor.userId()}},
-      );
-    });
+    await BroadcastMessageSchema.find({ isActive: true }).forEachAsync(
+      (msg) => {
+        BroadcastMessageSchema.update(
+          { _id: msg._id },
+          { $addToSet: { dismissForUserIDs: Meteor.userId() } },
+        );
+      },
+    );
   },
 
   async "broadcastmessage.show"(message, active = true) {
@@ -57,10 +59,10 @@ Meteor.methods({
     console.log(`New BroadcastMessage from Admin: >${message}<`);
 
     const id = BroadcastMessageSchema.insert({
-      text : message,
-      isActive : active,
-      createdAt : new Date(),
-      dismissForUserIDs : [],
+      text: message,
+      isActive: active,
+      createdAt: new Date(),
+      dismissForUserIDs: [],
     });
     return id;
   },
@@ -91,13 +93,13 @@ Meteor.methods({
     const msg = BroadcastMessageSchema.findOne(messageId);
     if (msg) {
       if (msg.isActive) {
-        BroadcastMessageSchema.update(messageId, {$set : {isActive : false}});
+        BroadcastMessageSchema.update(messageId, { $set: { isActive: false } });
       } else {
         BroadcastMessageSchema.update(messageId, {
-          $set : {
-            isActive : true,
-            createdAt : new Date(),
-            dismissForUserIDs : [],
+          $set: {
+            isActive: true,
+            createdAt: new Date(),
+            dismissForUserIDs: [],
           },
         });
       }
