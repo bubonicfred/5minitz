@@ -177,8 +177,12 @@ export class I18nHelper {
     if (Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest) {
       return "en-US";
     }
-    return (((await Meteor.userAsync()) &&
-      (await Meteor.userAsync()).profile && (await Meteor.userAsync()).profile.locale) || I18nHelper._getPreferredBrowserLocale());
+    return (
+      ((await Meteor.userAsync()) &&
+        (await Meteor.userAsync()).profile &&
+        (await Meteor.userAsync()).profile.locale) ||
+      I18nHelper._getPreferredBrowserLocale()
+    );
   }
 
   /**
