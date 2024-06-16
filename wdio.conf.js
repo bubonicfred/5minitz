@@ -80,8 +80,8 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: "chrome",
-      "goog:chromeOptions": {
+      browserName: 'chrome',
+      'wdio:chromedriverOptions': {
         prefs: {
           "profile.default_content_settings.popups": 0,
           // "download.default_directory" is for Attachments E2E tests to
