@@ -167,7 +167,7 @@ Template.topicInfoItemEdit.events({
           "IllegalState: We have no related topic object!",
         );
       }
-      if (Session.get("topicInfoItemEditInfoItemId") !== null)
+      if (Session.equals("topicInfoItemEditInfoItemId", null))
         IsEditedService.removeIsEditedInfoItem(
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
@@ -185,7 +185,7 @@ Template.topicInfoItemEdit.events({
 
       const doc = {};
       if (editItem) {
-        _.extend(doc, editItem._infoItemDoc);
+        _.assignIn(doc, editItem._infoItemDoc);
       }
 
       doc.subject = newSubject;
