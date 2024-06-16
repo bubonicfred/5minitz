@@ -1,11 +1,10 @@
 {
-    "env": {
-        "end2end": {
-            "presets": ["@babel/preset-env"],
-                "targets": {
-                "node": 14
-            }
-
-        }
+  "env": {
+    "end2end": {
+      "presets": ["@babel/preset-env"],
+      "targets": {
+        "node": 14
+      }
     }
+  }
 }
