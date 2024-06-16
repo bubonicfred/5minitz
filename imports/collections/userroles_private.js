@@ -7,7 +7,7 @@ import { UserRoles } from "../userroles";
 if (Meteor.isServer) {
   // #Security: first reset all admins, then set "isAdmin:true" for IDs in
   // settings.json
-  Meteor.users.update(
+  await Meteor.users.updateAsync(
     { isAdmin: true },
     { $unset: { isAdmin: false } },
     { multi: true },
@@ -16,15 +16,15 @@ if (Meteor.isServer) {
   const adminIDs = GlobalSettings.getAdminIDs();
   if (adminIDs.length > 0) {
     // set admins
-    Meteor.users.update(
+    await Meteor.users.updateAsync(
       { _id: { $in: adminIDs } },
       { $set: { isAdmin: true } },
       { multi: true },
     );
 
     console.log("*** Admin IDs:");
-    adminIDs.forEach((id) => {
-      const user = Meteor.users.findOne(id);
+    adminIDs.forEach(async (id) => {
+      const user = await Meteor.users.findOneAsync(id);
       if (user) {
         console.log(`    ${user._id}: ${user.username}`);
       } else {
@@ -63,9 +63,9 @@ if (Meteor.isServer) {
   });
 
   // #Security: Publish all user fields only to admin user
-  Meteor.publish("userAdmin", function () {
+  Meteor.publish("userAdmin", async function () {
     if (this.userId) {
-      const usr = Meteor.users.findOne(this.userId);
+      const usr = await Meteor.users.findOneAsync(this.userId);
       if (usr.isAdmin) {
         return Meteor.users.find({});
       }

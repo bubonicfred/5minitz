@@ -57,7 +57,7 @@ function checkUserMayLeave(meetingSeriesId) {
 }
 
 Meteor.methods({
-  "workflow.addMinutes"(doc, clientCallback) {
+  async "workflow.addMinutes"(doc, clientCallback) {
     checkUserAvailableAndIsModeratorOf(doc.meetingSeries_id);
 
     // It is not allowed to insert new minutes if the last minute was not
@@ -90,7 +90,7 @@ Meteor.methods({
 
     doc.isFinalized = false;
     doc.createdAt = new Date();
-    doc.createdBy = User.profileNameWithFallback(Meteor.user());
+    doc.createdBy = User.profileNameWithFallback(await Meteor.userAsync());
     delete doc.finalizedAt;
     delete doc.topics;
     doc.finalizedVersion = 0;
@@ -151,7 +151,7 @@ Meteor.methods({
     }
   },
 
-  "workflow.removeMinute"(minutes_id) {
+  async "workflow.removeMinute"(minutes_id) {
     check(minutes_id, String);
     if (minutes_id === undefined || minutes_id === "") {
       throw new Meteor.Error("illegal-arguments", "Minutes id required");
@@ -175,9 +175,9 @@ Meteor.methods({
       // remove all uploaded attachments for meeting series, if any exist
       if (
         Meteor.isServer &&
-        AttachmentsCollection.find({
+        (await AttachmentsCollection.find({
           "meta.meetingminutes_id": minutes_id,
-        }).count() > 0
+        }).countAsync()) > 0
       ) {
         AttachmentsCollection.remove(
           { "meta.meetingminutes_id": minutes_id },
@@ -193,7 +193,7 @@ Meteor.methods({
     }
   },
 
-  "workflow.removeMeetingSeries"(meetingseries_id) {
+  async "workflow.removeMeetingSeries"(meetingseries_id) {
     console.log(`workflow.removeMeetingSeries: ${meetingseries_id}`);
     check(meetingseries_id, String);
     if (meetingseries_id === undefined || meetingseries_id === "") return;
@@ -212,9 +212,9 @@ Meteor.methods({
     // remove all uploaded attachments for meeting series, if any exist
     if (
       Meteor.isServer &&
-      AttachmentsCollection.find({
+      (await AttachmentsCollection.find({
         "meta.parentseries_id": meetingseries_id,
-      }).count() > 0
+      }).countAsync()) > 0
     ) {
       AttachmentsCollection.remove(
         { "meta.parentseries_id": meetingseries_id },
@@ -263,7 +263,7 @@ Meteor.methods({
     );
   },
 
-  "workflow.reopenTopicFromMeetingSeries"(meetingSeries_id, topic_id) {
+  async "workflow.reopenTopicFromMeetingSeries"(meetingSeries_id, topic_id) {
     // ensure parameters are complete
     check(meetingSeries_id, String);
     if (meetingSeries_id === undefined || meetingSeries_id === "") {
@@ -289,7 +289,7 @@ Meteor.methods({
     const topicDoc = topicsUpdater.getTopicById(topic_id);
     const topicObject = new Topic(meetingSeries, topicDoc);
     topicObject.tailorTopic();
-    Meteor.call(
+    await Meteor.callAsync(
       "minutes.addTopic",
       lastMinute._id,
       topicObject.getDocument(),

@@ -17,9 +17,9 @@ if (Meteor.isServer) {
 
   // #Security: Admin sees all messages, active & inactive
   // and even messages dismissed by herself!
-  Meteor.publish("broadcastmessageAdmin", function () {
+  Meteor.publish("broadcastmessageAdmin", async function () {
     if (this.userId) {
-      const usr = Meteor.users.findOne(this.userId);
+      const usr = await Meteor.users.findOneAsync(this.userId);
       if (usr.isAdmin) {
         return BroadcastMessageSchema.find({});
       }
@@ -28,26 +28,28 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  "broadcastmessage.dismiss"() {
+  async "broadcastmessage.dismiss"() {
     if (!Meteor.userId()) {
       return;
     }
     console.log(`Dismissing BroadcastMessages for user: ${Meteor.userId()}`);
 
-    BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
-      BroadcastMessageSchema.update(
-        { _id: msg._id },
-        { $addToSet: { dismissForUserIDs: Meteor.userId() } },
-      );
-    });
+    await BroadcastMessageSchema.find({ isActive: true }).forEachAsync(
+      (msg) => {
+        BroadcastMessageSchema.update(
+          { _id: msg._id },
+          { $addToSet: { dismissForUserIDs: Meteor.userId() } },
+        );
+      },
+    );
   },
 
-  "broadcastmessage.show"(message, active = true) {
+  async "broadcastmessage.show"(message, active = true) {
     if (!Meteor.userId()) {
       return;
     }
     // #Security: Only admin may broadcast messages
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error("Cannot broadcast message", "You are not admin.");
     }
     if (!message) {
@@ -65,26 +67,26 @@ Meteor.methods({
     return id;
   },
 
-  "broadcastmessage.remove"(messageId) {
+  async "broadcastmessage.remove"(messageId) {
     console.log(`broadcastmessage.remove: ${messageId}`);
     if (!Meteor.userId()) {
       return;
     }
     // #Security: Only admin may remove messages
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error("Cannot remove message", "You are not admin.");
     }
 
     BroadcastMessageSchema.remove(messageId);
   },
 
-  "broadcastmessage.toggleActive"(messageId) {
+  async "broadcastmessage.toggleActive"(messageId) {
     console.log(`broadcastmessage.toggleActive: ${messageId}`);
     if (!Meteor.userId()) {
       return;
     }
     // #Security: Only admin may remove messages
-    if (!Meteor.user().isAdmin) {
+    if (!(await Meteor.userAsync()).isAdmin) {
       throw new Meteor.Error("Cannot remove message", "You are not admin.");
     }
 
