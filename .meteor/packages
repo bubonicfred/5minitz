@@ -46,9 +46,7 @@ dynamic-import@0.7.3
 msavin:mongol@10.0.1
 ostrio:flow-router-extra
 accounts-password@2.4.0
-universe:i18n
-universe:i18n-blaze
-softwarerero:accounts-t9n
+universe:i18n@2.0.0
 babrahams:accounts-ldap
 promise@0.12.2
 accounts-base@2.2.11

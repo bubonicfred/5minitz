@@ -1,9 +1,9 @@
 import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { LdapSettings } from "/imports/config/LdapSettings";
-import { I18nHelper } from "/imports/helpers/i18n";
+import { getLocaleCodes, I18nHelper } from "/imports/helpers/i18n";
+import { T9n } from "meteor-accounts-t9n";
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
-import { T9n } from "meteor/softwarerero:accounts-t9n";
 import { i18n } from "meteor/universe:i18n";
 import { AccountsTemplates } from "meteor/useraccounts:core";
 
@@ -15,8 +15,8 @@ import { AccountsTemplates } from "meteor/useraccounts:core";
 // currently selected language. In case you'd like to specify a key which is not
 // already provided by accounts-t9n you can always map your own keys.
 
-const availLanguages = i18n.getLanguages();
-
+const availLanguages = getLocaleCodes();
+// TODO Check if NPM version of meteor T9n needs more configuration
 for (const lang of availLanguages) {
   T9n.map(lang, {
     custom: {
@@ -160,7 +160,7 @@ if (Meteor.isServer) {
     await I18nHelper.setLanguageLocale();
   });
 
-  Accounts.onLogout(async function () {
+  Accounts.onLogout(async () => {
     // reset to browser's locale after logout of user
     await I18nHelper.setLanguageLocale();
   });
