@@ -21,7 +21,7 @@ exports.config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './tests/end2end/**/*.js'
+run        './tests/end2end/*'
     ],
     // Patterns to exclude.
     exclude: [
@@ -169,7 +169,7 @@ exports.config = {
     // },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
-     * to manipula te configurations depending on the capability or spec.
+     * to manipulate configurations depending on the capability or spec.
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
