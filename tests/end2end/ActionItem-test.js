@@ -5,7 +5,7 @@ import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
 require("../../imports/helpers/date");
-  // skipcq: JS-0241
+// skipcq: JS-0241
 describe("ActionItems", function () {
   const aProjectName = "E2E ActionItems";
   let aMeetingCounter = 0;
@@ -132,7 +132,7 @@ describe("ActionItems", function () {
   });
 
   // This was broken before bugfix of github issue #228
-    // skipcq: JS-0241
+  // skipcq: JS-0241
   it("can edit an existing action item after an info item was added", function () {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
@@ -168,7 +168,9 @@ describe("ActionItems", function () {
       responsible: newResponsible,
     });
 
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(${actionItemIndex})`;
+    const selector = `#topicPanel .well:nth-child(${
+      topicIndex
+    }) .topicInfoItem:nth-child(${actionItemIndex})`;
     expect(
       browser.isVisible(selector),
       "Action item should be visible after edit",
