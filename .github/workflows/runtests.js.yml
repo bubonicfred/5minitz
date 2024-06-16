@@ -35,11 +35,8 @@ jobs:
       - run: npm run test:unit
       - name: Report results to DeepSource
         run: |
-          # Tests have finished and a test coverage report is available
-          # Install deepsource CLI
-          curl https://deepsource.io/cli | sh
-          # From the root directory, run the report coverage command
-          ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
+           curl https://deepsource.io/cli | sh
+           ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
         env:
          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
       - run: npm run test:i18n

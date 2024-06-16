@@ -16,7 +16,8 @@ name = "javascript"
     "nodejs",
     "mocha",
     "mongo",
-    "jquery"
+    "jquery",
+    "browser"
   ]
 
 [[analyzers]]
