@@ -97,6 +97,11 @@ Meteor.methods({
 });
 
 export class I18nHelper {
+  /**
+   * Array of supported language codes.
+   *
+   * @type {Array<string>}
+   */
   static supportedCodes = [];
 
   // setLanguageLocale() has two modes:
@@ -143,6 +148,11 @@ export class I18nHelper {
       });
   }
 
+  /**
+   * Get the language locale for the current user.
+   * If the user is not logged in or the locale is not set, "auto" will be returned.
+   * @returns {string} The language locale.
+   */
   static getLanguageLocale() {
     if (
       !Meteor.user() ||
@@ -154,6 +164,13 @@ export class I18nHelper {
     return i18n.getLocale();
   }
 
+  /**
+   * Returns the preferred user locale.
+   * If the application is running in an end-to-end test mode, it returns "en-US".
+   * Otherwise, it checks the user's profile locale, and if not available, falls back to the preferred browser locale.
+   *
+   * @returns {string} The preferred user locale.
+   */
   static _getPreferredUserLocale() {
     if (Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest) {
       return "en-US";
@@ -166,6 +183,18 @@ export class I18nHelper {
     );
   }
 
+  /**
+   * Returns the preferred browser locale.
+   * If running in an end-to-end test environment, it returns "en-US".
+   * Otherwise, it tries to determine the preferred browser locale based on the following priorities:
+   * 1. Locale determined by I18nHelper._getPreferredBrowserLocaleByPrio()
+   * 2. navigator.language
+   * 3. navigator.browserLanguage
+   * 4. navigator.userLanguage
+   * If none of the above are available, it defaults to "en-US".
+   *
+   * @returns {string} The preferred browser locale.
+   */
   static _getPreferredBrowserLocale() {
     if (Meteor.settings.isEnd2EndTest) {
       return "en-US";
@@ -180,9 +209,11 @@ export class I18nHelper {
     );
   }
 
-  // If browser has a prioritized array of preferred languages,
-  // we want to determine the "highest" priority language, that
-  // we actually support
+
+  /**
+   * Retrieves the preferred browser locale based on priority.
+   * @returns {string|undefined} The preferred browser locale or undefined if no browser language is supported.
+   */
   static _getPreferredBrowserLocaleByPrio() {
     if (!navigator.languages || !navigator.languages[0]) {
       return undefined; // no browser language, so we can't support any
@@ -215,6 +246,12 @@ export class I18nHelper {
     return undefined; // we don't support any preferred browser languages
   }
 
+  /**
+   * Persists the language preference for the current user.
+   *
+   * @param {string} localeCode - The locale code representing the language preference.
+   * @returns {void}
+   */
   static _persistLanguagePreference(localeCode) {
     if (!Meteor.user() || Meteor.user().isDemoUser) {
       return;
