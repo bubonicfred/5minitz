@@ -150,7 +150,8 @@ export class I18nHelper {
 
   /**
    * Get the language locale for the current user.
-   * If the user is not logged in or the locale is not set, "auto" will be returned.
+   * If the user is not logged in or the locale is not set, "auto" will be
+   * returned.
    * @returns {string} The language locale.
    */
   static getLanguageLocale() {
@@ -166,8 +167,9 @@ export class I18nHelper {
 
   /**
    * Returns the preferred user locale.
-   * If the application is running in an end-to-end test mode, it returns "en-US".
-   * Otherwise, it checks the user's profile locale, and if not available, falls back to the preferred browser locale.
+   * If the application is running in an end-to-end test mode, it returns
+   * "en-US". Otherwise, it checks the user's profile locale, and if not
+   * available, falls back to the preferred browser locale.
    *
    * @returns {string} The preferred user locale.
    */
@@ -186,7 +188,8 @@ export class I18nHelper {
   /**
    * Returns the preferred browser locale.
    * If running in an end-to-end test environment, it returns "en-US".
-   * Otherwise, it tries to determine the preferred browser locale based on the following priorities:
+   * Otherwise, it tries to determine the preferred browser locale based on the
+   * following priorities:
    * 1. Locale determined by I18nHelper._getPreferredBrowserLocaleByPrio()
    * 2. navigator.language
    * 3. navigator.browserLanguage
@@ -209,10 +212,10 @@ export class I18nHelper {
     );
   }
 
-
   /**
    * Retrieves the preferred browser locale based on priority.
-   * @returns {string|undefined} The preferred browser locale or undefined if no browser language is supported.
+   * @returns {string|undefined} The preferred browser locale or undefined if no
+   *     browser language is supported.
    */
   static _getPreferredBrowserLocaleByPrio() {
     if (!navigator.languages || !navigator.languages[0]) {
@@ -249,7 +252,8 @@ export class I18nHelper {
   /**
    * Persists the language preference for the current user.
    *
-   * @param {string} localeCode - The locale code representing the language preference.
+   * @param {string} localeCode - The locale code representing the language
+   *     preference.
    * @returns {void}
    */
   static _persistLanguagePreference(localeCode) {
