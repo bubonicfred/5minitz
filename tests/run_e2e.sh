@@ -32,7 +32,7 @@ done
 sleep 10
 
 echo Start end2end test runner
-export HEADLESS=1       # evaluated by wdio.conf.js
+export HEADLESS=1 # evaluated by wdio.conf.js
 export CHROME_LOG_FILE="$PWD/$LOGDIR"/chrome_client_console.log
 npm run wdio -- --spec "$TEST"
 WDIO_RESULT=$?
