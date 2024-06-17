@@ -1,5 +1,5 @@
-let spawn = require("child_process").spawn,
-  killTree = require("tree-kill");
+import { spawn } from "child_process";
+import killTree from "tree-kill";
 
 const transformCommand = (command, args) => {
   if (process.platform === "win32") {
@@ -47,6 +47,6 @@ function run(command, args, out) {
   };
 }
 
-module.exports = {
+export default {
   run,
 };

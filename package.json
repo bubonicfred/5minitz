@@ -23,7 +23,7 @@
     "eslint:fix": "eslint --fix client/** imports/** server/**",
     "mdlint": "markdownlint -- ./*.md ./doc/**/*.md || true",
     "test": "npm run test:unit",
-    "test:unit": "npx nyc --reporter=cobertura mocha \"./tests/unit/**/*.test.js\" --require @babel/register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
+    "test:unit": "npx nyc --reporter=cobertura mocha \"./tests/unit/**/*.test.js\" --require @babel/register --require tests/unit/babel.js && npm run test:fixtures:seed-minutes:unit",
     "test:i18n": "node tests/i18n/test_i18n_resources.js",
     "test:ci": "npm run test:unit && npm run test:i18n && npm run test:end2end:headless",
     "test:end2end:ldap": "node tests/support/ldap-server.js                 # used by test:end2end:server",
