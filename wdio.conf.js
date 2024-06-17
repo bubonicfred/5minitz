@@ -23,8 +23,13 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["./tests/end2end/"],
+  specs: ["./tests/end2end/**/*.js"],
   // Patterns to exclude.
+  suites: {
+        basic: [
+            './tests/end2end/MeetingSeries-test.js',
+            './tests/end2end/MeetingSeriesEdit-test.js'
+        ] },
   exclude: [
     // 'path/to/excluded/files'
   ],
