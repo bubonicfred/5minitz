@@ -4,7 +4,7 @@ exports.config = {
   // Runner Configuration
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
-  runner : "local",
+  runner: "local",
   //
   // ==================
   // Specify Test Files
@@ -23,15 +23,15 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs : [ "./tests/end2end/**/*.js" ],
+  specs: ["./tests/end2end/**/*.js"],
   // Patterns to exclude.
-  suites : {
-    basic : [
-      './tests/end2end/MeetingSeries-test.js',
-      './tests/end2end/MeetingSeriesEdit-test.js'
-    ]
+  suites: {
+    basic: [
+      "./tests/end2end/MeetingSeries-test.js",
+      "./tests/end2end/MeetingSeriesEdit-test.js",
+    ],
   },
-  exclude : [
+  exclude: [
     // 'path/to/excluded/files'
   ],
   //
@@ -58,7 +58,7 @@ exports.config = {
   // capabilities
   // from the same test should run tests.
   //
-  maxInstances : 10,
+  maxInstances: 10,
   //
   // If you have trouble getting all important capabilities together, check out
   // the
@@ -66,7 +66,7 @@ exports.config = {
   // capabilities:
   // https://saucelabs.com/platform/platform-configurator
   //
-  capabilities : [ {browserName : "chrome"} ],
+  capabilities: [{ browserName: "chrome" }],
 
   //
   // ===================
@@ -75,7 +75,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel : "info",
+  logLevel: "info",
   //
   // Set specific log levels per logger
   // loggers:
@@ -94,7 +94,7 @@ exports.config = {
   // If you only want to run your tests until a specific amount of tests have
   // failed use
   // bail (default is 0 - don't bail, run all tests).
-  bail : 0,
+  bail: 0,
   //
   // Set a base URL in order to shorten url command calls. If your `url`
   // parameter starts
@@ -106,21 +106,21 @@ exports.config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout : 10000,
+  waitforTimeout: 10000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout : 120000,
+  connectionRetryTimeout: 120000,
   //
   // Default request retries count
-  connectionRetryCount : 3,
+  connectionRetryCount: 3,
   //
   // Test runner services
   // Services take over a specific job you don't want to take care of. They
   // enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services : [ "visual" ],
+  services: ["visual"],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -129,7 +129,7 @@ exports.config = {
   // Make sure you have the wdio adapter package for the specific framework
   // installed
   // before running any tests.
-  framework : "mocha",
+  framework: "mocha",
 
   //
   // The number of times to retry the entire specfile when it fails as a whole
@@ -145,11 +145,11 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters : [ "spec" ],
+  reporters: ["spec"],
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
-  mochaOpts : {ui : "bdd", timeout : 60000},
+  mochaOpts: { ui: "bdd", timeout: 60000 },
 
   //
   // =====
