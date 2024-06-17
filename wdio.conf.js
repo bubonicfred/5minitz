@@ -1,3 +1,5 @@
+const headless = process.env.HEADLESS; // export HEADLESS=1 on shell to trigger
+// headless chrome testing
 exports.config = {
   //
   // ====================
@@ -5,6 +7,7 @@ exports.config = {
   // ====================
   // WebdriverIO supports running e2e tests as well as unit and component tests.
   runner: "local",
+  outputDir: "./tests/end2end/logs",
   //
   // ==================
   // Specify Test Files
@@ -23,7 +26,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ["./tests/end2end/**/*.js"],
+  specs: ["./tests/end2end/**/*-test.js"],
   // Patterns to exclude.
   suites: {
         basic: [
@@ -57,7 +60,7 @@ exports.config = {
   // capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: 1,
   //
   // If you have trouble getting all important capabilities together, check out
   // the
@@ -66,7 +69,18 @@ exports.config = {
   // https://saucelabs.com/platform/platform-configurator
   //
   capabilities: [{ browserName: "chrome" }],
-
+  browserName: "chrome",
+  "goog:chromeOptions": {
+    prefs: {
+      "profile.default_content_settings.popups": 0,
+      // "download.default_directory" is for Attachments E2E tests to
+      // suppress the download pop up and directly save download files to
+      // disk
+      "download.default_directory": "tests/e2e_downloads",
+    },
+    args: [headless ? "--headless" : "--empty", "--window-size=1920x1080"],
+    // args: ['--headless', '--window-size=1920x1080'],
+  },
   //
   // ===================
   // Test Configurations
@@ -102,7 +116,7 @@ exports.config = {
   // If your `url` parameter starts without a scheme or `/` (like `some/path`),
   // the base url
   // gets prepended directly.
-  // baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -148,7 +162,7 @@ exports.config = {
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
-  mochaOpts: { ui: "bdd", timeout: 60000 },
+  mochaOpts: { ui: "bdd", timeout: 60000,    fullTrace: true, },
 
   //
   // =====
@@ -213,6 +227,9 @@ exports.config = {
    * @param {object}         browser      instance of created browser/device
    *     session
    */
+  before: function (capabilities, specs) {
+    const chai = require("chai");
+    global.expect = chai.expect;
   // before: function (capabilities, specs) {
   // },
   /**
@@ -286,6 +303,9 @@ exports.config = {
    */
   // after: function (result, capabilities, specs) {
   // },
+  after: function (result, capabilities, specs) {
+    server.close();
+  },
   /**
    * Gets executed right after terminating the webdriver session.
    * @param {object} config wdio configuration object
