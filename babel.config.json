@@ -1,6 +1,6 @@
 {
   "env": {
-    "end2end": {
+    "tests": {
       "presets": ["@babel/preset-env"],
       "targets": {
         "node": 14
