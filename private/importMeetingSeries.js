@@ -4,31 +4,32 @@
    mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
  */
 
+import { spawnSync } from "child_process";
 import { MongoClient as mongo } from "mongodb";
+import { bindHelp, create, showHelp } from "node-getopt";
+import { ExpImpFileAttachments } from "../imports/server/exportimport/expImpFilesAttachments";
+import { ExpImpFileDocuments } from "../imports/server/exportimport/expImpFilesDocuments";
+import { ExpImpMeetingSeries } from "../imports/server/exportimport/expImpMeetingseries";
+import { ExpImpMinutes } from "../imports/server/exportimport/expImpMinutes";
+import { ExpImpSchema } from "../imports/server/exportimport/expImpSchema";
+import { ExpImpTopics } from "../imports/server/exportimport/expImpTopics";
+import { ExpImpUsers } from "../imports/server/exportimport/expImpUsers";
 
-import ExpImpFileAttachments from "../imports/server/exportimport/expImpFilesAttachments";
-import ExpImpFileDocuments from "../imports/server/exportimport/expImpFilesDocuments";
-import ExpImpMeetingSeries from "../imports/server/exportimport/expImpMeetingseries";
-import ExpImpMinutes from "../imports/server/exportimport/expImpMinutes";
-import ExpImpSchema from "../imports/server/exportimport/expImpSchema";
-import ExpImpTopics from "../imports/server/exportimport/expImpTopics";
-import ExpImpUsers from "../imports/server/exportimport/expImpUsers";
-
-const optionParser = require("node-getopt").create([
+create([
   ["i", "id=[ARG]", "ID of meeting series, e.g. icwrCdJjqWpoH9ugQ"],
   ["m", "mongourl=[ARG]", "Mongo DB url, e.g. mongodb://localhost:3101/meteor"],
   ["f", "force", "Force import even if schema mismatch"],
   ["h", "help", "Display this help"],
 ]);
-const arg = optionParser.bindHelp().parseSystem();
+const arg = bindHelp().parseSystem();
 const mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
 const meetingseriesID = arg.options.id;
 if (!meetingseriesID) {
-  optionParser.showHelp();
+  showHelp();
   throw new Error("No --id set for meeting series");
 }
 if (!mongoUrl) {
-  optionParser.showHelp();
+  showHelp();
   throw new Error("No --mongourl parameter or MONGO_URL in env");
 }
 const _connectMongo = (mongoUrl) =>
@@ -44,17 +45,17 @@ const _connectMongo = (mongoUrl) =>
 
 console.log("");
 console.log(
-  `*** 4Minitz MeetingSeries Import Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`,
+  `*** 4Minitz MeetingSeries Import Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`
 );
 console.log("*** ATTENTION ***");
 console.log(
-  "- This script will import a meeting series and all dependecies to your DB.",
+  "- This script will import a meeting series and all dependecies to your DB."
 );
 console.log(
-  "- This script has to change existing user roles, so users can access the new data.",
+  "- This script has to change existing user roles, so users can access the new data."
 );
 console.log(
-  "- This script may overwrite edited data if you import the same data multiple times.",
+  "- This script may overwrite edited data if you import the same data multiple times."
 );
 console.log("So, this script is DANGEROUS!!!");
 console.log("Experts only!");
@@ -64,7 +65,8 @@ console.log("TL;DR - Make sure you have a backup!");
 console.log("        e.g.: mongodump -h 127.0.0.1 --port 3101 -d meteor");
 console.log("");
 console.log("Press ENTER to continue - or Ctrl+C to quit...");
-require("child_process").spawnSync("read _ ", {
+
+spawnSync("read _ ", {
   shell: true,
   stdio: [0, 1, 2],
 });

@@ -2,7 +2,6 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as Helpers from "../../../../imports/helpers/date";
 
 const MinutesSchema = {
   minutes: [],
@@ -34,15 +33,12 @@ const MeetingSeriesSchema = {
 };
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
-Helpers["@noCallThru"] = true;
-
 const { MigrateV1 } = proxyquire("../../../../server/migrations/migrate_v1", {
   "/imports/collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
   "/imports/collections/meetingseries.schema": {
     MeetingSeriesSchema,
     "@noCallThru": true,
   },
-  "/imports/helpers/date": Helpers,
 });
 
 /**
