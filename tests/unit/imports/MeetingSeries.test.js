@@ -3,7 +3,6 @@ import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 
 const MeetingSeriesSchema = {};
@@ -20,7 +19,6 @@ const MinutesFinder = {
     return this.result;
   },
 };
-DateHelpers["@noCallThru"] = true;
 SubElements["@noCallThru"] = true;
 
 const Random = {
@@ -44,7 +42,6 @@ const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
   "./minutes": { Minutes, "@noCallThru": true },
   "./topic": { Topic, "@noCallThru": true },
   "./userroles": { UserRoles, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
   "/imports/helpers/subElements": SubElements,
   lodash: { _, "@noCallThru": true },
   "./services/topicsFinder": { TopicsFinder, "@noCallThru": true },

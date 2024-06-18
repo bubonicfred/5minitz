@@ -1,6 +1,6 @@
-import { currentDatePlusDeltaDays } from "./helpers/date";
-import { InfoItem } from "./infoitem";
-import { Priority } from "./priority";
+import { currentDatePlusDeltaDays } from "./helpers/date.js";
+import { InfoItem } from "./infoitem.js";
+import Priority from "./priority.js";
 
 /**
  * Represents an action item.

@@ -3,7 +3,6 @@ import { _ } from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as DateHelpers from "../../../imports/helpers/date";
 import * as SubElements from "../../../imports/helpers/subElements";
 
 class MeteorError {}
@@ -54,7 +53,6 @@ const Random = {
 };
 
 SubElements["@noCallThru"] = true;
-DateHelpers["@noCallThru"] = true;
 
 const { Label } = proxyquire("../../../imports/label", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
@@ -65,7 +63,6 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/random": { Random, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
   "./label": { Label, "@noCallThru": true },
 });
 

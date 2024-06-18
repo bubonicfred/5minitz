@@ -3,8 +3,6 @@ import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as DateHelpers from "../../../../../imports/helpers/date";
-
 const MinutesSchema = {
   update: sinon.stub(),
   findOne: sinon.stub(),
@@ -42,7 +40,6 @@ const Meteor = {
   settings: { public: { docGeneration: { enabled: true } } },
 };
 
-DateHelpers["@noCallThru"] = true;
 
 const GlobalSettings = {
   isEMailDeliveryEnabled: sinon.stub().returns(false),
@@ -97,7 +94,6 @@ const { Finalizer } = proxyquire(
       "@noCallThru": true,
     },
     "/imports/config/GlobalSettings": { GlobalSettings, "@noCallThru": true },
-    "/imports/helpers/date": DateHelpers,
     "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
     "./topicsFinalizer": { TopicsFinalizer, "@noCallThru": true },
     "/imports/documentGeneration": { DocumentGeneration, "@noCallThru": true },

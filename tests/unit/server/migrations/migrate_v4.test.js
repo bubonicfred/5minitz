@@ -6,7 +6,6 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-require("../../../../imports/helpers/date");
 
 const MinutesSchema = {
   find: sinon.stub(),
