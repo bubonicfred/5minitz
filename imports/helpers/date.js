@@ -82,3 +82,10 @@ export const extractDateFromString = (string) => {
   const match = regEx.exec(string);
   return match !== null ? match[0] : false;
 };
+export default {
+  formatDateISO8601Time,
+  msToHHMMSS,
+  formatDateISO8601,
+  currentDatePlusDeltaDays,
+  extractDateFromString,
+};

@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import * as Helpers from "../../../imports/helpers/date";
+import { default as Helpers } from "../../../imports/helpers/date";
 
 const doNothing = () => {};
 
