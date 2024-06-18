@@ -3,7 +3,7 @@
  * @module ldap-server
  */
 
-const ldap = require("ldapjs");
+import { createServer, InsufficientAccessRightsError, UnwillingToPerformError, NoSuchObjectError, InvalidCredentialsError } from "ldapjs";
 
 /**
  * Array of user objects representing LDAP users.
@@ -67,7 +67,7 @@ const users = [
  * LDAP server instance.
  * @type {Object}
  */
-const server = ldap.createServer();
+const server = createServer();
 
 /**
  * Middleware function to authorize LDAP requests.
@@ -77,7 +77,7 @@ const server = ldap.createServer();
  */
 function authorize(req, res, next) {
   if (!req.connection.ldap.bindDN.equals("cn=ldapUser1,dc=example,dc=com"))
-    return next(new ldap.InsufficientAccessRightsError());
+    return next(new InsufficientAccessRightsError());
 
   return next();
 }
@@ -113,17 +113,17 @@ server.bind("dc=example,dc=com", (req, res, next) => {
   console.log(matchingUsers);
 
   if (matchingUsers.length > 1) {
-    return next(new ldap.UnwillingToPerformError());
+    return next(new UnwillingToPerformError());
   }
 
   if (matchingUsers.length === 0) {
-    return next(new ldap.NoSuchObjectError(dn));
+    return next(new NoSuchObjectError(dn));
   }
 
   const user = matchingUsers[0];
 
   if (user.password !== password) {
-    return next(new ldap.InvalidCredentialsError());
+    return next(new InvalidCredentialsError());
   }
 
   res.end();
