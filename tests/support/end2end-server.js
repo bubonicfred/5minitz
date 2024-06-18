@@ -1,5 +1,5 @@
-import task from "./lib/task.js";
-
+import run from "./lib/task.js";
+import { createInterface, on } from "readline";
 function logTask(taskname) {
   return (data) => {
     process.stdout.write(`${taskname}: ${data}`);
@@ -7,8 +7,8 @@ function logTask(taskname) {
 }
 
 const tasks = [
-  task.run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
-  task.run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
+  run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
+  run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
 ];
 
 function shutdown() {
@@ -30,12 +30,12 @@ function shutdown() {
 }
 
 if (process.platform === "win32") {
-  const readline = require("readline").createInterface({
+  createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  readline.on("SIGINT", shutdown);
+  on("SIGINT", shutdown);
 }
 
 process.on("uncaughtException", shutdown);

@@ -3,7 +3,8 @@
  * @module ldap-server
  */
 
-import { createServer, InsufficientAccessRightsError, UnwillingToPerformError, NoSuchObjectError, InvalidCredentialsError } from "ldapjs";
+import pkg from 'ldapjs';
+const { createServer, InsufficientAccessRightsError, UnwillingToPerformError, NoSuchObjectError, InvalidCredentialsError } = pkg
 
 /**
  * Array of user objects representing LDAP users.

@@ -12,7 +12,8 @@
         "@babel",
         "promise",
         "deprecate",
-        "jsdoc"
+        "jsdoc",
+        "mocha"
 
 ],
 
@@ -37,8 +38,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "node/no-unsupported-features/es-syntax": "off",
-        "node/no-missing-import": "off",
+        "node/no-unsupported-features/es-syntax": "on",
+        "node/no-missing-import": "on",
         "lodash/prefer-lodash-method": "off",
         "lodash/prefer-lodash-typecheck": "off",
         "lodash/prefer-get": "off",
