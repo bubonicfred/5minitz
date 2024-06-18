@@ -1,4 +1,4 @@
-import task from "./lib/task";
+import task from "./lib/task.js";
 
 function logTask(taskname) {
   return (data) => {
