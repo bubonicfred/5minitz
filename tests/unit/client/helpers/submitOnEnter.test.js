@@ -3,13 +3,12 @@ import sinon from "sinon";
 import esmock from "esmock";
 
 const jQueryOnStub = sinon.stub();
-// This might need .default; or the equivilent after?
 
 const submitOnEnter = await esmock("../../../../client/helpers/submitOnEnter", {
   "meteor/jquery": { $: () => sinon.stub().returns({ on: jQueryOnStub, }) },
 }, {}, {
   isModuleNotFoundError: false
-});
+}).default;
 
 // skipcq: JS-0241
 describe("submitOnEnter", function () {
