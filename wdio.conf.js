@@ -29,10 +29,11 @@ exports.config = {
   specs: ["./tests/end2end/**/*-test.js"],
   // Patterns to exclude.
   suites: {
-        basic: [
-            './tests/end2end/MeetingSeries-test.js',
-            './tests/end2end/MeetingSeriesEdit-test.js'
-        ] },
+    basic: [
+      "./tests/end2end/MeetingSeries-test.js",
+      "./tests/end2end/MeetingSeriesEdit-test.js",
+    ],
+  },
   exclude: [
     // 'path/to/excluded/files'
   ],
