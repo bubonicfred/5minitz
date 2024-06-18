@@ -1,49 +1,54 @@
 import { expect } from "chai";
-import proxyquire from "proxyquire";
+import esmock from "esmock";
 import sinon from "sinon";
 
 const doNothing = () => {};
 
-const Topic = {};
-const Label = {};
-
 class MeteorError {}
 
-const Meteor = {
-  call: sinon.stub(),
-  Error: MeteorError,
-  user: () => {
-    return { username: "unit-test" };
+const { Priority } = await esmock("../../../imports/priority", {
+  "meteor/universe:i18n": {
+    i18n: {
+    setLocale: () => sinon.stub(),
+    getLocale: () => sinon.stub(),
+    __: () => sinon.stub(),
   },
-};
-
-
-const Random = {
-  id: () => {},
-};
-
-const i18n = {
-  setLocale: sinon.stub(),
-  getLocale: sinon.stub(),
-  __: sinon.stub(),
-};
-
-const { Priority } = proxyquire("../../../imports/priority", {
-  "meteor/universe:i18n": { i18n, "@noCallThru": true },
+}
+}, {}, {
+  isModuleNotFoundError: false
 });
 
-const { InfoItem } = proxyquire("../../../imports/infoitem", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "meteor/random": { Random, "@noCallThru": true },
+
+const { InfoItem } = await esmock("../../../imports/infoitem", {
+  "meteor/meteor": {
+    Meteor: {
+      call: () => sinon.stub(),
+      Error: MeteorError,
+      user: () => {
+        return { username: "unit-test" };
+      },
+    }, },
+  "meteor/random": { Random: { id: () => {}, } },
   "/imports/user": { null: null, "@noCallThru": true },
-  "./topic": { Topic, "@noCallThru": true },
-  "./label": { Label, "@noCallThru": true },
+  "./topic": { Topic: {} }, // These might need to be arrows?
+  "./label": { Label: {} },
+}, {}, {
+  isModuleNotFoundError: false
 });
 
-const { ActionItem } = proxyquire("../../../imports/actionitem", {
-  "meteor/meteor": { Meteor, "@noCallThru": true },
-  "/imports/priority": { Priority, "@noCallThru": true },
-  "./infoitem": { InfoItem, "@noCallThru": true },
+const { ActionItem } = await esmock("../../../imports/actionitem", {
+  "meteor/meteor": { // Dunno if I have to repeat this?
+    Meteor: {
+      call: () => sinon.stub(),
+      Error: MeteorError,
+      user: () => {
+        return { username: "unit-test" };
+      },
+    }, },
+ // "/imports/priority": { Priority, "@noCallThru": true }, Unsure if I need to mock these to the constants, or just mock combine mock statements?
+ // "./infoitem": { InfoItem, "@noCallThru": true },
+}, {}, {
+  isModuleNotFoundError: false
 });
 // skipcq: JS-0241
 describe("ActionItem", function () {
