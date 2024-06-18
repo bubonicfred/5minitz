@@ -1,10 +1,7 @@
 import { expect } from "chai";
-import sinon from "sinon";
 import esmock from "esmock";
+import sinon from "sinon";
 import asyncStubs from "../../../support/lib/asyncStubs";
-
-
-
 
 const bulk = {
   find: sinon.stub(),
@@ -38,7 +35,6 @@ const users = [
     password: "p@ssw0rd",
   },
 ];
-
 
 //This may require strict mocking? esmock.strict() or import { strict as esmock } from 'esmock' In which case mongodb should be changed to MongoClient
 const saveUsers = await esmock("../../../../imports/ldap/saveUsers", {

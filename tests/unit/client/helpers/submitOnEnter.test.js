@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import sinon from "sinon";
 import esmock from "esmock";
+import sinon from "sinon";
 
 const jQueryOnStub = sinon.stub();
 
