@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import proxyquire from "proxyquire";
 import sinon from "sinon";
 import esmock from "esmock";
 

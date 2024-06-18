@@ -178,7 +178,7 @@ exports.config = {
   // resolved to continue.
   /**
    * Gets executed once before all workers get launched.
-   * @param {object} config wdio configuration object
+   * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   // onPrepare: function (config, capabilities) {
@@ -211,10 +211,9 @@ exports.config = {
    * Gets executed just before initialising the webdriver session and test
    * framework. It allows you to manipulate configurations depending on the
    * capability or spec.
-   * @param {object} config wdio configuration object
+   * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that are to be run
-   * @param {string} cid worker id (e.g. 0-0)
    */
   // beforeSession: function (config, capabilities, specs, cid) {
   // },
@@ -223,26 +222,24 @@ exports.config = {
    * all global variables like `browser`. It is the perfect place to define
    * custom commands.
    * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {Array.<String>} specs        List of spec file paths that are to be
-   *     run
-   * @param {object}         browser      instance of created browser/device
-   *     session
+   * @param {Array.<String>} specs List of spec file paths that are to be run
+   * @param {object} browser instance of created browser/device session
    */
   before: function (capabilities, specs) {
     const chai = require("chai");
     global.expect = chai.expect;
-  // before: function (capabilities, specs) {
-  // },
+
+
   /**
    * Runs before a WebdriverIO command gets executed.
-   * @param {string} commandName hook command name
+   * @param {String} commandName hook command name
    * @param {Array} args arguments that command would receive
    */
   // beforeCommand: function (commandName, args) {
   // },
   /**
    * Hook that gets executed before the suite starts
-   * @param {object} suite suite details
+   * @param {Object} suite suite details
    */
   // beforeSuite: function (suite) {
   // },
@@ -282,34 +279,32 @@ exports.config = {
 
   /**
    * Hook that gets executed after the suite has ended
-   * @param {object} suite suite details
+   * @param {Object} suite suite details
    */
   // afterSuite: function (suite) {
   // },
   /**
    * Runs after a WebdriverIO command gets executed
-   * @param {string} commandName hook command name
+   * @param {String} commandName hook command name
    * @param {Array} args arguments that command would receive
-   * @param {number} result 0 - command success, 1 - command error
-   * @param {object} error error object if any
+   * @param {Number} result 0 - command success, 1 - command error
+   * @param {Object} error error object if any
    */
   // afterCommand: function (commandName, args, result, error) {
   // },
   /**
    * Gets executed after all tests are done. You still have access to all global
    * variables from the test.
-   * @param {number} result 0 - test pass, 1 - test fail
+   * @param {Number} result 0 - test pass, 1 - test fail
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  // after: function (result, capabilities, specs) {
-  // },
   after: function (result, capabilities, specs) {
     server.close();
   },
   /**
    * Gets executed right after terminating the webdriver session.
-   * @param {object} config wdio configuration object
+   * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
@@ -319,8 +314,8 @@ exports.config = {
    * Gets executed after all workers got shut down and the process is about to
    * exit. An error thrown in the onComplete hook will result in the test run
    * failing.
-   * @param {object} exitCode 0 - success, 1 - fail
-   * @param {object} config wdio configuration object
+   * @param {Object} exitCode 0 - success, 1 - fail
+   * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
@@ -328,8 +323,8 @@ exports.config = {
   // },
   /**
    * Gets executed when a refresh happens.
-   * @param {string} oldSessionId session ID of the old session
-   * @param {string} newSessionId session ID of the new session
+   * @param {String} oldSessionId session ID of the old session
+   * @param {String} newSessionId session ID of the new session
    */
   // onReload: function(oldSessionId, newSessionId) {
   // }
