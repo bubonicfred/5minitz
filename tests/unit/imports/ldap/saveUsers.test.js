@@ -1,53 +1,53 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import esmock from "esmock";
 import sinon from "sinon";
 
 import asyncStubs from "../../../support/lib/asyncStubs";
 
 const bulk = {
-  find : sinon.stub(),
-  execute : sinon.stub(),
+  find: sinon.stub(),
+  execute: sinon.stub(),
 };
 
 const client = {
   db() {
     return {
-      collection : sinon.stub().returns({
-        initializeUnorderedBulkOp : sinon.stub().returns(bulk),
+      collection: sinon.stub().returns({
+        initializeUnorderedBulkOp: sinon.stub().returns(bulk),
       }),
     };
   },
-  close : sinon.stub(),
+  close: sinon.stub(),
 };
 
 const upsert = {
-  upsert : sinon.stub(),
+  upsert: sinon.stub(),
 };
 
 const updateOne = {
-  updateOne : sinon.stub(),
+  updateOne: sinon.stub(),
 };
 
 const mongoUrl = "mongodb://host:port/db";
 const users = [
   {
-    cn : "username",
-    mail : "user@example.com",
-    password : "p@ssw0rd",
+    cn: "username",
+    mail: "user@example.com",
+    password: "p@ssw0rd",
   },
 ];
 
 // This may require strict mocking? esmock.strict() or import { strict as esmock
 // } from 'esmock' In which case mongodb should be changed to MongoClient
 const saveUsers = await esmock("../../../../imports/ldap/saveUsers", {
-  mongodb : {connect : () => sinon.stub().resolves()},
-  randomstring : {generate : () => sinon.stub().returns("123abc")},
+  mongodb: { connect: () => sinon.stub().resolves() },
+  randomstring: { generate: () => sinon.stub().returns("123abc") },
 });
 // skipcq: JS-0241
-describe("saveUsers", function() {
+describe("saveUsers", function () {
   let settings;
   // skipcq: JS-0241
-  beforeEach(function() {
+  beforeEach(function () {
     MongoClient.connect = asyncStubs.doNothing();
     bulk.find.reset();
     bulk.execute.reset();
@@ -56,48 +56,51 @@ describe("saveUsers", function() {
     updateOne.updateOne.reset();
 
     settings = {
-      propertyMap : {},
-      allowListedFields : [],
-      inactiveUsers : {
-        strategy : "none",
+      propertyMap: {},
+      allowListedFields: [],
+      inactiveUsers: {
+        strategy: "none",
       },
     };
   });
   // skipcq: JS-0241
-  it("inserts users into database", function(done) {
+  it("inserts users into database", function (done) {
     MongoClient.connect = sinon.stub().resolves(client);
     upsert.upsert.returns(updateOne);
     bulk.find.returns(upsert);
     bulk.execute.returns("bulk done");
 
     saveUsers(settings, mongoUrl, users)
-        .then((result) => {
-          try {
-            expect(result).to.deep.equal("bulk done");
-            expect(bulk.find.calledOnce).to.be.true;
-            expect(bulk.execute.calledOnce).to.be.true;
+      .then((result) => {
+        try {
+          expect(result).to.deep.equal("bulk done");
+          expect(bulk.find.calledOnce).to.be.true;
+          expect(bulk.execute.calledOnce).to.be.true;
 
-            done();
-          } catch (error) {
-            done(error);
-          }
-        })
-        .catch((error) => { done(new Error(error)); });
+          done();
+        } catch (error) {
+          done(error);
+        }
+      })
+      .catch((error) => {
+        done(new Error(error));
+      });
   });
   // skipcq: JS-0241
-  it("handles database connection problems", function(done) {
-    MongoClient.connect = sinon.stub().rejects(
-        "Connection error"); // asyncStubs.returnsError(1, 'Connection error');
+  it("handles database connection problems", function (done) {
+    MongoClient.connect = sinon.stub().rejects("Connection error"); // asyncStubs.returnsError(1, 'Connection error');
 
     saveUsers(settings, mongoUrl, users)
-        .then((result) => { done(new Error(`Unexpected result: ${result}`)); })
-        .catch((error) => {
-          try {
-            expect(error.toString()).to.equal("Connection error");
-            done();
-          } catch (error) {
-            done(error);
-          }
-        });
+      .then((result) => {
+        done(new Error(`Unexpected result: ${result}`));
+      })
+      .catch((error) => {
+        try {
+          expect(error.toString()).to.equal("Connection error");
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
   });
 });

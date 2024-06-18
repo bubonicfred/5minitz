@@ -1,34 +1,42 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
 const MinutesSchema = {
-  minutes : [],
+  minutes: [],
 
-  find : function() { return this.minutes; },
+  find: function () {
+    return this.minutes;
+  },
 
-  update : sinon.stub(),
+  update: sinon.stub(),
 
-  insert : function(minute) { this.minutes.push(minute); },
+  insert: function (minute) {
+    this.minutes.push(minute);
+  },
 };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
 const MeetingSeriesSchema = {
-  series : [],
+  series: [],
 
-  find : function() { return this.series; },
+  find: function () {
+    return this.series;
+  },
 
-  update : sinon.stub(),
+  update: sinon.stub(),
 
-  insert : function(aSeries) { this.series.push(aSeries); },
+  insert: function (aSeries) {
+    this.series.push(aSeries);
+  },
 };
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
-const {MigrateV1} = proxyquire("../../../../server/migrations/migrate_v1", {
-  "/imports/collections/minutes.schema" : {MinutesSchema, "@noCallThru" : true},
-  "/imports/collections/meetingseries.schema" : {
+const { MigrateV1 } = proxyquire("../../../../server/migrations/migrate_v1", {
+  "/imports/collections/minutes.schema": { MinutesSchema, "@noCallThru": true },
+  "/imports/collections/meetingseries.schema": {
     MeetingSeriesSchema,
-    "@noCallThru" : true,
+    "@noCallThru": true,
   },
 });
 
@@ -47,8 +55,8 @@ const checkUpdateMinuteCall = (minute, checkUpdatedTopic) => {
   expect(updateCall.args[0]).to.equal(minute._id);
 
   const updateSetter = updateCall.args[1].$set;
-  expect(Object.prototype.hasOwnProperty.call(updateSetter, "topics.0"))
-      .to.be.true;
+  expect(Object.prototype.hasOwnProperty.call(updateSetter, "topics.0")).to.be
+    .true;
 
   const updatedTopic = updateSetter["topics.0"];
   checkUpdatedTopic(updatedTopic);
@@ -70,8 +78,8 @@ const checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
   expect(firstCall.args[0]).to.equal(series._id);
 
   const updateSetter1 = firstCall.args[1].$set;
-  expect(Object.prototype.hasOwnProperty.call(updateSetter1, "openTopics.0"))
-      .to.be.true;
+  expect(Object.prototype.hasOwnProperty.call(updateSetter1, "openTopics.0")).to
+    .be.true;
 
   const updTopic = updateSetter1["openTopics.0"];
   checkUpdatedTopic(updTopic);
@@ -82,7 +90,7 @@ const checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
 
   const updateSetter2 = sndCall.args[1].$set;
   expect(Object.prototype.hasOwnProperty.call(updateSetter2, "closedTopics.0"))
-      .to.be.true;
+    .to.be.true;
 
   const updClosedTopic = updateSetter2["closedTopics.0"];
   checkUpdatedTopic(updClosedTopic);
@@ -93,24 +101,24 @@ describe("Migrate Version 1", () => {
 
   beforeEach(() => {
     topic = {
-      subject : "Topic Subject",
-      responsible : "person",
-      isOpen : true,
-      isNew : true,
-      priority : "High",
-      duedate : "2009-05-06",
-      details : [ {date : "2009-05-03", text : ""} ],
+      subject: "Topic Subject",
+      responsible: "person",
+      isOpen: true,
+      isNew: true,
+      priority: "High",
+      duedate: "2009-05-06",
+      details: [{ date: "2009-05-03", text: "" }],
     };
 
     closedTopic = JSON.parse(JSON.stringify(topic)); // clone topic
     closedTopic.isOpen = false;
 
-    minute = {_id : "AaBbCc01", topics : [ topic ]};
+    minute = { _id: "AaBbCc01", topics: [topic] };
 
     series = {
-      _id : "AaBbCc02",
-      openTopics : [ topic ],
-      closedTopics : [ closedTopic ],
+      _id: "AaBbCc02",
+      openTopics: [topic],
+      closedTopics: [closedTopic],
     };
 
     MinutesSchema.insert(minute);
