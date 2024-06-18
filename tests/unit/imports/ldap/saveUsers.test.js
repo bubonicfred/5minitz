@@ -1,14 +1,11 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
+import esmock from "esmock";
 import asyncStubs from "../../../support/lib/asyncStubs";
 
-const MongoClient = {
-  connect: sinon.stub().resolves(),
-};
 
-const generate = sinon.stub().returns("123abc");
+
 
 const bulk = {
   find: sinon.stub(),
@@ -43,9 +40,11 @@ const users = [
   },
 ];
 
-const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
-  mongodb: { MongoClient, "@noCallThru": true },
-  randomstring: { generate, "@noCallThru": true },
+
+
+const saveUsers = await esmock("../../../../imports/ldap/saveUsers", {
+  mongodb: { connect: () => sinon.stub().resolves() },
+  randomstring: { generate: () => sinon.stub().returns("123abc") },
 });
 // skipcq: JS-0241
 describe("saveUsers", function () {
