@@ -2,14 +2,10 @@ import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
-import * as Helpers from "../../../imports/helpers/date";
 import { subElementsHelper } from "../../../imports/helpers/subElements";
 
 const Topic = {};
 const Label = {};
-
-Helpers["@noCallThru"] = true;
 
 class MeteorError {}
 const Meteor = {
@@ -32,7 +28,6 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/random": { Random, "@noCallThru": true },
   "/imports/user": { User, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
-  "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },
 });
