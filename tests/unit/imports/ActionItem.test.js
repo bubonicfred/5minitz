@@ -2,8 +2,6 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-import { default as Helpers } from "../../../imports/helpers/date";
-
 const doNothing = () => {};
 
 const Topic = {};
@@ -19,7 +17,6 @@ const Meteor = {
   },
 };
 
-Helpers["@noCallThru"] = true;
 
 const Random = {
   id: () => {},
@@ -39,7 +36,6 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },
 });
