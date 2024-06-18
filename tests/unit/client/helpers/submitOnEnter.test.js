@@ -1,15 +1,15 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
+import esmock from "esmock";
 
 const jQueryOnStub = sinon.stub();
-const $ = sinon.stub().returns({
-  on: jQueryOnStub,
+// This might need .default; or the equivilent after?
+
+const submitOnEnter = await esmock("../../../../client/helpers/submitOnEnter", {
+  "meteor/jquery": { $: () => sinon.stub().returns({ on: jQueryOnStub, }) },
 });
 
-const submitOnEnter = proxyquire("../../../../client/helpers/submitOnEnter", {
-  "meteor/jquery": { $, "@noCallThru": true },
-}).default;
 // skipcq: JS-0241
 describe("submitOnEnter", function () {
   const action = sinon.stub();

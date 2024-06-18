@@ -41,7 +41,7 @@ const users = [
 ];
 
 
-
+//This may require strict mocking? esmock.strict() or import { strict as esmock } from 'esmock' In which case mongodb should be changed to MongoClient
 const saveUsers = await esmock("../../../../imports/ldap/saveUsers", {
   mongodb: { connect: () => sinon.stub().resolves() },
   randomstring: { generate: () => sinon.stub().returns("123abc") },
