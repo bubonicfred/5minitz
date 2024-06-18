@@ -7,6 +7,8 @@ const jQueryOnStub = sinon.stub();
 
 const submitOnEnter = await esmock("../../../../client/helpers/submitOnEnter", {
   "meteor/jquery": { $: () => sinon.stub().returns({ on: jQueryOnStub, }) },
+}, {}, {
+  isModuleNotFoundError: false
 });
 
 // skipcq: JS-0241
