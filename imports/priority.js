@@ -1,6 +1,5 @@
-import { i18n } from "meteor/universe:i18n";
-
-const assert = require("assert");
+import { __ } from "meteor/universe:i18n";
+import assert from "assert";
 
 // #I18N - Attention: the below strings with longer texts will be never be used
 // in UI! Instead they will be pulled from translation language files via
@@ -23,7 +22,7 @@ const PRIORITY_MAP = {
  * The priority level is represented as an integer between 1 and 5, where 1 is
  * the highest priority and 5 is the lowest priority.
  */
-export class Priority {
+class Priority {
   static GET_DEFAULT_PRIORITY() {
     return new Priority(3);
   }
@@ -50,14 +49,15 @@ export class Priority {
     if (Object.prototype.hasOwnProperty.call(PRIORITY_MAP, this.value)) {
       switch (this.value) {
         case 1:
-          return i18n.__("Item.Priorities.high");
+          return __("Item.Priorities.high");
         case 3:
-          return i18n.__("Item.Priorities.medium");
+          return __("Item.Priorities.medium");
         case 5:
-          return i18n.__("Item.Priorities.low");
+          return __("Item.Priorities.low");
       }
       return PRIORITY_MAP[this.value];
     }
     throw new Error(`illegal-state: Unknown priority ${this.value}`);
   }
 }
+export default Priority;

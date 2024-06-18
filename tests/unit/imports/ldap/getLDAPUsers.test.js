@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
-
 import asyncStubs from "../../../support/lib/asyncStubs";
 
 const ldap = {

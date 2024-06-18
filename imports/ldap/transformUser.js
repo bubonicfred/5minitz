@@ -1,6 +1,6 @@
-import { _ } from "lodash";
+import { pick, without } from "lodash";
 
-module.exports = (ldapSettings, userData) => {
+export default (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
       ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn",
@@ -32,7 +32,7 @@ module.exports = (ldapSettings, userData) => {
     isInactive: false,
     emails: tmpEMailArray,
     username: username.toLowerCase(),
-    profile: _.pick(userData, _.without(profileFields, "mail")),
+    profile: pick(userData, without(profileFields, "mail")),
   };
 
   // copy over the LDAP user's long name from "cn" field to the meteor accounts

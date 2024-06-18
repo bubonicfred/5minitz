@@ -1,10 +1,10 @@
-const ldap = require("ldapjs");
-const _ = require("lodash");
+import { createClient } from "ldapjs";
+import { get } from "lodash";
 
 const _createLDAPClient = (settings) =>
   new Promise((resolve, reject) => {
     try {
-      const client = ldap.createClient({
+      const client = createClient({
         url: settings.serverUrl,
       });
 
@@ -73,16 +73,16 @@ const _fetchLDAPUsers = (connection) => {
   const client = connection.client;
   const settings = connection.settings;
   const base = settings.serverDn;
-  const searchDn = _.get(settings, "propertyMap.username", "cn");
-  const userLongNameAttribute = _.get(
+  const searchDn = get(settings, "propertyMap.username", "cn");
+  const userLongNameAttribute = get(
     settings,
     "propertyMap.longname",
     searchDn,
   );
-  const emailAttribute = _.get(settings, "propertyMap.email", searchDn);
+  const emailAttribute = get(settings, "propertyMap.email", searchDn);
   const filter = `(&(${searchDn}=*)${settings.searchFilter})`;
   const scope = "sub";
-  const allowListedFields = _.get(settings, "allowListedFields", []);
+  const allowListedFields = get(settings, "allowListedFields", []);
   const attributes = allowListedFields.concat([
     "userAccountControl",
     searchDn,
@@ -149,4 +149,4 @@ const getLDAPUsers = (settings) =>
       .catch(reject);
   });
 
-module.exports = getLDAPUsers;
+export default getLDAPUsers;

@@ -1,5 +1,4 @@
 import { expect } from "chai";
-
 import { StringUtils } from "../../../../imports/helpers/string-utils";
 
 // skipcq: JS-0241

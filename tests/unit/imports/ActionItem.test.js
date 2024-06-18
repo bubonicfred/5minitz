@@ -7,17 +7,10 @@ const doNothing = () => {};
 class MeteorError {}
 
 const { Priority } = await esmock("../../../imports/priority", {
-  "meteor/universe:i18n": {
-    i18n: {
-    setLocale: () => sinon.stub(),
-    getLocale: () => sinon.stub(),
-    __: () => sinon.stub(),
-  },
-}
+  "meteor/universe:i18n": { __: () => sinon.stub() }
 }, {}, {
   isModuleNotFoundError: false
 });
-
 
 const { InfoItem } = await esmock("../../../imports/infoitem", {
   "meteor/meteor": {
