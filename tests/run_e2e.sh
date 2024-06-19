@@ -9,7 +9,7 @@ VERSIONS_DIR="./versions"
 
 # Ensure necessary commands are available
 for cmd in npm mongodump google-chrome; do
-  if ! command -v $cmd &> /dev/null; then
+  if ! command -v "$cmd" &>/dev/null; then
     echo "Error: $cmd could not be found"
     exit 1
   fi
@@ -18,22 +18,22 @@ done
 # Function to echo and log
 log() {
   echo "$1"
-  echo "$1" >> "$SERVERLOG"
+  echo "$1" >>"$SERVERLOG"
 }
 echo Remove old log file
 mkdir -p "$LOGDIR"
 rm -f "$SERVERLOG"
 
 log "Starting end2end server"
-npm run test:end2end:server >> "$SERVERLOG" 2>&1 &
+npm run test:end2end:server >>"$SERVERLOG" 2>&1 &
 SERVER_PID=$!
 
 wait_for_server_start() {
   local counter=0
   local max_wait=480
-until grep "=> App running at" "$SERVERLOG"; do
-log "App has not started yet.. Waiting for $counter seconds"
-  sleep 30
+  until grep "=> App running at" "$SERVERLOG"; do
+    log "App has not started yet.. Waiting for $counter seconds"
+    sleep 30
     counter=$((counter + 30))
     if [ "$counter" -gt "$max_wait" ]; then
       log "Meteor takes too long to start, exiting. Server log:"
@@ -45,7 +45,7 @@ log "App has not started yet.. Waiting for $counter seconds"
       cat "$SERVERLOG"
       exit 1
     fi
-done
+  done
 }
 wait_for_server_start
 sleep 10
@@ -63,8 +63,8 @@ mongodump -h "$MONGODB_HOST" -d "$MONGODB_DB" -o ./tests/mongodump
 
 # Archive versions
 mkdir -p "$VERSIONS_DIR"
-npm ls > "$VERSIONS_DIR/npm.txt"
-google-chrome --version > "$VERSIONS_DIR/chrome.txt"
-./node_modules/chromedriver/bin/chromedriver --version > "$VERSIONS_DIR/chrome_driver.txt"
+npm ls >"$VERSIONS_DIR/npm.txt"
+google-chrome --version >"$VERSIONS_DIR/chrome.txt"
+./node_modules/chromedriver/bin/chromedriver --version >"$VERSIONS_DIR/chrome_driver.txt"
 
 exit "$WDIO_RESULT"
