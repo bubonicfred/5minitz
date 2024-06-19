@@ -1,4 +1,4 @@
-import run from "./lib/task.js";
+import task from "./lib/task.js";
 import readline from "readline";
 function logTask(taskname) {
   return (data) => {
@@ -7,8 +7,8 @@ function logTask(taskname) {
 }
 
 const tasks = [
-  run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
-  run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
+  task.run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
+  task.run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
 ];
 
 function shutdown() {
