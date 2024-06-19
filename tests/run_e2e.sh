@@ -6,7 +6,7 @@ echo Remove old log file
 LOGDIR=./tests/end2end/logs
 mkdir -p "$LOGDIR"
 SERVERLOG=$LOGDIR/server.log
-rm "$SERVERLOG"
+rm "$SERVERLOG" | /dev/null
 
 echo Start end2end server
 npm run test:end2end:server >"$SERVERLOG" &
