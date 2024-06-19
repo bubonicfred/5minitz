@@ -1,4 +1,4 @@
-import task from "./lib/task.js";
+import task from "./lib/task.mjs";
 import readline from "readline";
 function logTask(taskname) {
   return (data) => {
