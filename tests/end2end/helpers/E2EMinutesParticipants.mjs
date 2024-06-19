@@ -1,4 +1,4 @@
-import { E2EGlobal } from "./E2EGlobal";
+import { E2EGlobal } from "./E2EGlobal.mjs";
 
 export class E2EMinutesParticipants {
   constructor() {

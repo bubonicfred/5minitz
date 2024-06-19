@@ -1,8 +1,8 @@
-import "./helpers/Server";
-import "./helpers/wdio_v4_to_v5";
-import { E2EGlobal } from "./helpers/E2EGlobal";
-import { E2EApp } from "./helpers/E2EApp";
-import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
+import "./helpers/Server.mjs";
+import "./helpers/wdio_v4_to_v5.mjs";
+import { E2EGlobal } from "./helpers/E2EGlobal.mjs";
+import { E2EApp } from "./helpers/E2EApp.mjs";
+import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries.mjs";
 
 describe("MeetingSeries", () => {
   before("reload page and reset app", () => {

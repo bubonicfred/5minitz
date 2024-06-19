@@ -1,4 +1,4 @@
-import { E2EGlobal } from "./E2EGlobal";
+import { E2EGlobal } from "./E2EGlobal.mjs";
 
 /**
  * The `E2EApp` class represents an end-to-end testing helper for the 4Minitz

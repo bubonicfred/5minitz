@@ -1,4 +1,4 @@
-import { E2EGlobal } from "./E2EGlobal";
+import { E2EGlobal } from "./E2EGlobal.mjs";
 
 browser.elements = (selector) => browser.findElements("css selector", selector);
 browser.isVisible = (selector) => $(selector).isDisplayed();

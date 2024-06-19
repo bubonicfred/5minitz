@@ -1,11 +1,10 @@
-require("./helpers/Server");
-require("./helpers/wdio_v4_to_v5");
-
-import { E2EGlobal } from "./helpers/E2EGlobal";
-import { E2EApp } from "./helpers/E2EApp";
-import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
-import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
-import { E2EMinutes } from "./helpers/E2EMinutes";
+import "./helpers/Server.mjs";
+import "./helpers/wdio_v4_to_v5.mjs";
+import { E2EGlobal } from "./helpers/E2EGlobal.mjs";
+import { E2EApp } from "./helpers/E2EApp.mjs";
+import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries.mjs";
+import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor.mjs";
+import { E2EMinutes } from "./helpers/E2EMinutes.mjs";
 
 describe("MeetingSeries Editor", () => {
   const aProjectName = "E2E MeetingSeries Editor";

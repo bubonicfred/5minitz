@@ -1,5 +1,5 @@
-import { E2EGlobal } from "./E2EGlobal";
-import { E2EMeetingSeries } from "./E2EMeetingSeries";
+import { E2EGlobal } from "./E2EGlobal.mjs";
+import { E2EMeetingSeries } from "./E2EMeetingSeries.mjs";
 
 export class E2EMeetingSeriesEditor {
   static openMeetingSeriesEditor(

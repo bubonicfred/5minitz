@@ -1,5 +1,5 @@
-import { E2EGlobal } from "./E2EGlobal";
-import { E2EApp } from "./E2EApp";
+import { E2EGlobal } from "./E2EGlobal.mjs";
+import { E2EApp } from "./E2EApp.mjs";
 
 export class E2EMeetingSeries {
   static countMeetingSeries(gotToStartPage = true) {
