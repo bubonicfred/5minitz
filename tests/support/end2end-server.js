@@ -1,7 +1,5 @@
-import { createInterface, on } from "readline";
-
 import run from "./lib/task.js";
-
+import readline from "readline";
 function logTask(taskname) {
   return (data) => {
     process.stdout.write(`${taskname}: ${data}`);
@@ -32,12 +30,12 @@ function shutdown() {
 }
 
 if (process.platform === "win32") {
-  createInterface({
+  readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  on("SIGINT", shutdown);
+  readline.on("SIGINT", shutdown);
 }
 
 process.on("uncaughtException", shutdown);
