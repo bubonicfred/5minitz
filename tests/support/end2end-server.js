@@ -1,16 +1,14 @@
-import { createInterface, on } from "readline";
+import {createInterface, on} from "readline";
 
 import run from "./lib/task.js";
 
 function logTask(taskname) {
-  return (data) => {
-    process.stdout.write(`${taskname}: ${data}`);
-  };
+  return (data) => { process.stdout.write(`${taskname}: ${data}`); };
 }
 
 const tasks = [
-  run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
-  run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
+  run("npm", [ "run", "test:end2end:ldap" ], logTask("ldap")),
+  run("npm", [ "run", "test:end2end:meteor" ], logTask("meteor")),
 ];
 
 function shutdown() {
@@ -33,8 +31,8 @@ function shutdown() {
 
 if (process.platform === "win32") {
   createInterface({
-    input: process.stdin,
-    output: process.stdout,
+    input : process.stdin,
+    output : process.stdout,
   });
 
   on("SIGINT", shutdown);

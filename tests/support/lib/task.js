@@ -1,11 +1,11 @@
-import { spawn } from "child_process";
+import {spawn} from "child_process";
 import killTree from "tree-kill";
 
 const transformCommand = (command, args) => {
   if (process.platform === "win32") {
     return {
-      command: "cmd",
-      args: ["/c", command].concat(args),
+      command : "cmd",
+      args : [ "/c", command ].concat(args),
     };
   }
 
@@ -17,24 +17,20 @@ const transformCommand = (command, args) => {
 
 function run(command, args, out) {
   let cmd = transformCommand(command, args),
-    task = spawn(cmd.command, cmd.args),
-    state = "running",
-    pipe = (data) => {
-      if (out) {
-        const str = data.toString();
-        out(str);
-      }
-    };
+      task = spawn(cmd.command, cmd.args), state = "running", pipe = (data) => {
+        if (out) {
+          const str = data.toString();
+          out(str);
+        }
+      };
 
   task.stdout.on("data", pipe);
   task.stderr.on("data", pipe);
 
-  task.on("close", () => {
-    state = "closed";
-  });
+  task.on("close", () => { state = "closed"; });
 
   return {
-    name: command,
+    name : command,
     kill(signal, callback) {
       if (state === "closed") {
         return;
