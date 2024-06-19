@@ -1,6 +1,5 @@
-require("./helpers/Server");
-require("./helpers/wdio_v4_to_v5");
-
+import "./helpers/Server";
+import "./helpers/wdio_v4_to_v5";
 import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
