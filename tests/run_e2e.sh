@@ -30,7 +30,7 @@ SERVER_PID=$!
 
 wait_for_server_start() {
   local counter=0
-  local max_wait=900
+  local max_wait=480
 until grep "=> App running at" "$SERVERLOG"; do
 log "App has not started yet.. Waiting for $counter seconds"
   sleep 30
