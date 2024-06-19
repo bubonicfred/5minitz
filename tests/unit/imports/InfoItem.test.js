@@ -2,6 +2,7 @@ import { expect } from "chai";
 import _ from "lodash";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
+
 import { subElementsHelper } from "../../../imports/helpers/subElements";
 
 const Topic = {};

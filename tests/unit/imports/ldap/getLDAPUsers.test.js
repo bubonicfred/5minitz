@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
+
 import asyncStubs from "../../../support/lib/asyncStubs";
 
 const ldap = {
@@ -369,7 +370,9 @@ describe("getLDAPUsers", function () {
       const value = Math.pow(2, i),
         expectedResult = i === 1 ? inactiveUsers : activeUsers;
       it(
-        `uAC property set to ${value}: returns user object with isInactive === ${expectedResult}`,
+        `uAC property set to ${
+          value
+        }: returns user object with isInactive === ${expectedResult}`,
         generateTestCase(value, expectedResult),
       );
     }

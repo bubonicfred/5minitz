@@ -6,7 +6,7 @@ export function createLabelIdsReceiver(parentMeetingSeriesId) {
     const label = Label.findLabelsContainingSubstring(
       parentMeetingSeriesId,
       labelName,
-      caseSensitive
+      caseSensitive,
     );
     if (label !== null) {
       return label.map((label) => {
@@ -17,9 +17,10 @@ export function createLabelIdsReceiver(parentMeetingSeriesId) {
   };
 }
 export function createUserIdsReceiver(userName) {
-  const users = userName === "me"
-    ? [Meteor.user()]
-    : Meteor.users.find({ username: { $regex: userName } }).fetch();
+  const users =
+    userName === "me"
+      ? [Meteor.user()]
+      : Meteor.users.find({ username: { $regex: userName } }).fetch();
   if (users) {
     return users.map((user) => {
       return user._id;

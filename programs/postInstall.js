@@ -1,5 +1,5 @@
 "use strict";
-import pkg from 'fs-extra';
+import pkg from "fs-extra";
 const { copySync, removeSync } = pkg;
 
 console.log("copy bootstrap fonts to the public folder");

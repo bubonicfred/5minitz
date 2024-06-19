@@ -2,14 +2,18 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-
 const FIRST_MIN_ID = "#Min01";
 const SND_MIN_ID = "#Min02";
 
-const MinutesSchema = { update: sinon.stub(), find: sinon.stub() };
+const MinutesSchema = {
+  update: sinon.stub(),
+  find: sinon.stub(),
+};
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
-const MeetingSeriesSchema = { update: sinon.stub() };
+const MeetingSeriesSchema = {
+  update: sinon.stub(),
+};
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
 const MinutesFinder = {
@@ -28,7 +32,9 @@ const MinutesFinder = {
   },
 };
 class MeteorError {}
-const Meteor = { Error: MeteorError };
+const Meteor = {
+  Error: MeteorError,
+};
 
 const { MigrateV10 } = proxyquire("../../../../server/migrations/migrate_v10", {
   "meteor/meteor": { Meteor, "@noCallThru": true },

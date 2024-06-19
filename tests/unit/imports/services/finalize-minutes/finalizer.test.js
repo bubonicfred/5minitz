@@ -40,7 +40,6 @@ const Meteor = {
   settings: { public: { docGeneration: { enabled: true } } },
 };
 
-
 const GlobalSettings = {
   isEMailDeliveryEnabled: sinon.stub().returns(false),
   getDefaultEmailSenderAddress: sinon.stub().returns("noreply@example.com"),

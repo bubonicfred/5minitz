@@ -1,5 +1,5 @@
-import { writeFileSync, readFileSync } from "fs";
-import { stringify, parse } from "bson";
+import { parse, stringify } from "bson";
+import { readFileSync, writeFileSync } from "fs";
 
 class ExpImpSchema {
   static get MADE_FOR_SCHEMA() {
@@ -20,10 +20,14 @@ class ExpImpSchema {
             if (ExpImpSchema.MADE_FOR_SCHEMA !== doc.version) {
               console.log("*** WARNING *** Schema mismatch!");
               console.log(
-                `                This exporter is made for database schema version: ${ExpImpSchema.MADE_FOR_SCHEMA}`,
+                `                This exporter is made for database schema version: ${
+                  ExpImpSchema.MADE_FOR_SCHEMA
+                }`,
               );
               console.log(
-                `                But your database has schema version             : ${doc.version}`,
+                `                But your database has schema version             : ${
+                  doc.version
+                }`,
               );
               console.log(
                 "                Alyways migrate to the most recent DB schema before export!",
@@ -72,13 +76,19 @@ class ExpImpSchema {
             ) {
               console.log("*** WARNING *** Schema mismatch!");
               console.log(
-                `                This importer is made for database schema version: ${ExpImpSchema.MADE_FOR_SCHEMA}`,
+                `                This importer is made for database schema version: ${
+                  ExpImpSchema.MADE_FOR_SCHEMA
+                }`,
               );
               console.log(
-                `                Your database has schema version                 : ${doc.version}`,
+                `                Your database has schema version                 : ${
+                  doc.version
+                }`,
               );
               console.log(
-                `                Your exported data has schema version            : ${exportedSchema.version}`,
+                `                Your exported data has schema version            : ${
+                  exportedSchema.version
+                }`,
               );
               console.log(
                 "                Alyways migrate to the most recent DB schema before export/import!",

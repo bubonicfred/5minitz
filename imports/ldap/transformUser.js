@@ -7,11 +7,11 @@ import { pick } from "lodash";
  * @param {...*} args - The values to exclude from the filtered array.
  * @returns {Array} - A new array with the values excluded.
  */
-const without = (arr, ...args) => arr.filter(item => !args.includes(item))
+const without = (arr, ...args) => arr.filter((item) => !args.includes(item));
 export default (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
-  ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
+    ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn";
   const longnameAttribute = ldapSettings.propertyMap.longname;
   const mailAttribute = ldapSettings.propertyMap.email || "mail";
 

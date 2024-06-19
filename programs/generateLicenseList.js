@@ -1,7 +1,7 @@
-import { dumpLicenses } from "npm-license-crawler";
+import { createWriteStream } from "fs";
 import { get as _get } from "http";
 import { get as __get } from "https";
-import { createWriteStream } from "fs";
+import { dumpLicenses } from "npm-license-crawler";
 
 const meteorPackages = {
   meteor: {

@@ -1,9 +1,10 @@
-import { MongoClient as mongo } from "mongodb";
+import { forEach, map } from "lodash";
 import { parse } from "mongo-uri";
-import transformUser from "./transformUser";
+import { MongoClient as mongo } from "mongodb";
 
-import { map, forEach } from "lodash";
 import { generateId } from "../../tests/performance/fixtures/lib/random";
+
+import transformUser from "./transformUser";
 
 const _transformUsers = (settings, users) =>
   map(users, (user) => transformUser(settings, user));
@@ -55,7 +56,9 @@ const _insertUsers = (client, mongoUri, users) => {
         } else {
           const stringifiedUser = JSON.stringify(user, null, 2);
           console.log(
-            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`,
+            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${
+              stringifiedUser
+            }`,
           );
         }
       });

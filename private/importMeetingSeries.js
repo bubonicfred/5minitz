@@ -7,6 +7,7 @@
 import { spawnSync } from "child_process";
 import { MongoClient as mongo } from "mongodb";
 import { bindHelp, create, showHelp } from "node-getopt";
+
 import { ExpImpFileAttachments } from "../imports/server/exportimport/expImpFilesAttachments";
 import { ExpImpFileDocuments } from "../imports/server/exportimport/expImpFilesDocuments";
 import { ExpImpMeetingSeries } from "../imports/server/exportimport/expImpMeetingseries";
@@ -45,17 +46,19 @@ const _connectMongo = (mongoUrl) =>
 
 console.log("");
 console.log(
-  `*** 4Minitz MeetingSeries Import Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`
+  `*** 4Minitz MeetingSeries Import Tool *** (made for schema version: ${
+    ExpImpSchema.MADE_FOR_SCHEMA
+  })`,
 );
 console.log("*** ATTENTION ***");
 console.log(
-  "- This script will import a meeting series and all dependecies to your DB."
+  "- This script will import a meeting series and all dependecies to your DB.",
 );
 console.log(
-  "- This script has to change existing user roles, so users can access the new data."
+  "- This script has to change existing user roles, so users can access the new data.",
 );
 console.log(
-  "- This script may overwrite edited data if you import the same data multiple times."
+  "- This script may overwrite edited data if you import the same data multiple times.",
 );
 console.log("So, this script is DANGEROUS!!!");
 console.log("Experts only!");

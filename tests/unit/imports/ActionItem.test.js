@@ -6,43 +6,58 @@ const doNothing = () => {};
 
 class MeteorError {}
 
-const { Priority } = await esmock("../../../imports/priority", {
-  "meteor/universe:i18n": { __: () => sinon.stub() }
-}, {}, {
-  isModuleNotFoundError: false
-});
+const { Priority } = await esmock(
+  "../../../imports/priority",
+  { "meteor/universe:i18n": { __: () => sinon.stub() } },
+  {},
+  { isModuleNotFoundError: false },
+);
 
-const { InfoItem } = await esmock("../../../imports/infoitem", {
-  "meteor/meteor": {
-    Meteor: {
-      call: () => sinon.stub(),
-      Error: MeteorError,
-      user: () => {
-        return { username: "unit-test" };
+const { InfoItem } = await esmock(
+  "../../../imports/infoitem",
+  {
+    "meteor/meteor": {
+      Meteor: {
+        call: () => sinon.stub(),
+        Error: MeteorError,
+        user: () => {
+          return { username: "unit-test" };
+        },
       },
-    }, },
-  "meteor/random": { Random: { id: () => {}, } },
-  "/imports/user": { null: null, "@noCallThru": true },
-  "./topic": { Topic: {} }, // These might need to be arrows?
-  "./label": { Label: {} },
-}, {}, {
-  isModuleNotFoundError: false
-});
+    },
+    "meteor/random": {
+      Random: {
+        id: () => {},
+      },
+    },
+    "/imports/user": { null: null, "@noCallThru": true },
+    "./topic": { Topic: {} }, // These might need to be arrows?
+    "./label": { Label: {} },
+  },
+  {},
+  { isModuleNotFoundError: false },
+);
 
-const { ActionItem } = await esmock("../../../imports/actionitem", {
-  "meteor/meteor": { // Dunno if I have to repeat this?
-    Meteor: {
-      call: () => sinon.stub(),
-      Error: MeteorError,
-      user: () => {
-        return { username: "unit-test" };
+const { ActionItem } = await esmock(
+  "../../../imports/actionitem",
+  {
+    "meteor/meteor": {
+      // Dunno if I have to repeat this?
+      Meteor: {
+        call: () => sinon.stub(),
+        Error: MeteorError,
+        user: () => {
+          return { username: "unit-test" };
+        },
       },
-    }, },
- // "/imports/priority": { Priority, "@noCallThru": true }, Unsure if I need to mock these to the constants, or just mock combine mock statements?
- // "./infoitem": { InfoItem, "@noCallThru": true },
-}, {}, {
-  isModuleNotFoundError: false
-});
+    },
+    // "/imports/priority": { Priority, "@noCallThru": true }, Unsure if I need to
+    // mock these to the constants, or just mock combine mock statements?
+    // "./infoitem": { InfoItem, "@noCallThru": true },
+  },
+  {},
+  { isModuleNotFoundError: false },
+);
 // skipcq: JS-0241
 describe("ActionItem", function () {
   let dummyTopic, infoItemDoc;

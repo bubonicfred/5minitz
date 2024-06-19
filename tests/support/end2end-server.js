@@ -1,5 +1,7 @@
-import run from "./lib/task.js";
 import { createInterface, on } from "readline";
+
+import run from "./lib/task.js";
+
 function logTask(taskname) {
   return (data) => {
     process.stdout.write(`${taskname}: ${data}`);

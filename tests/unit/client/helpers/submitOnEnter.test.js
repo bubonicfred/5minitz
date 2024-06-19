@@ -4,11 +4,19 @@ import sinon from "sinon";
 
 const jQueryOnStub = sinon.stub();
 
-const submitOnEnter = await esmock("../../../../client/helpers/submitOnEnter", {
-  "meteor/jquery": { $: () => sinon.stub().returns({ on: jQueryOnStub, }) },
-}, {}, {
-  isModuleNotFoundError: false
-}).default;
+const submitOnEnter = await esmock(
+  "../../../../client/helpers/submitOnEnter",
+  {
+    "meteor/jquery": {
+      $: () =>
+        sinon.stub().returns({
+          on: jQueryOnStub,
+        }),
+    },
+  },
+  {},
+  { isModuleNotFoundError: false },
+).default;
 
 // skipcq: JS-0241
 describe("submitOnEnter", function () {

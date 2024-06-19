@@ -1,5 +1,5 @@
-import { writeFileSync, readFileSync } from "fs";
-import { stringify, parse } from "bson";
+import { parse, stringify } from "bson";
+import { readFileSync, writeFileSync } from "fs";
 
 class ExpImpUsers {
   static get FILENAME_POSTFIX() {
@@ -108,11 +108,15 @@ class ExpImpUsers {
           if (doc) {
             console.log(`Found ${doc.length} target users in current user DB.`);
             console.log(
-              `Will copy over ${usrCopyIDs.length} export users to current user DB.`,
+              `Will copy over ${
+                usrCopyIDs.length
+              } export users to current user DB.`,
             );
             if (doc.length !== usrMapTargetIDs.length) {
               return reject(
-                `Not all to-be patched target users found in current user DB: ${usrMapTargetIDs}`,
+                `Not all to-be patched target users found in current user DB: ${
+                  usrMapTargetIDs
+                }`,
               );
             }
             // Check#2: All copy-users MUST NOT exist!

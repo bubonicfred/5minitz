@@ -1,5 +1,7 @@
 import { expect } from "chai";
+
 import { subElementsHelper } from "../../../../imports/helpers/subElements";
+
 // skipcq JS-0241
 describe("subElementsHelper", function () {
   // skipcq JS-0241

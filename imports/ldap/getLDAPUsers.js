@@ -74,11 +74,7 @@ const _fetchLDAPUsers = (connection) => {
   const settings = connection.settings;
   const base = settings.serverDn;
   const searchDn = get(settings, "propertyMap.username", "cn");
-  const userLongNameAttribute = get(
-    settings,
-    "propertyMap.longname",
-    searchDn,
-  );
+  const userLongNameAttribute = get(settings, "propertyMap.longname", searchDn);
   const emailAttribute = get(settings, "propertyMap.email", searchDn);
   const filter = `(&(${searchDn}=*)${settings.searchFilter})`;
   const scope = "sub";

@@ -5,15 +5,19 @@
  */
 
 import { MongoClient as mongo } from "mongodb";
-import { MADE_FOR_SCHEMA, exportCheck } from "../imports/server/exportimport/expImpSchema";
-import { doExport } from "../imports/server/exportimport/expImpMeetingseries";
-import { doExport as _doExport } from "../imports/server/exportimport/expImpMinutes";
-import { doExport as __doExport } from "../imports/server/exportimport/expImpTopics";
+import { bindHelp, create, showHelp } from "node-getopt";
+
 import { doExport as ___doExport } from "../imports/server/exportimport/expImpFilesAttachments";
 import { doExport as ____doExport } from "../imports/server/exportimport/expImpFilesDocuments";
+import { doExport } from "../imports/server/exportimport/expImpMeetingseries";
+import { doExport as _doExport } from "../imports/server/exportimport/expImpMinutes";
+import {
+  exportCheck,
+  MADE_FOR_SCHEMA,
+} from "../imports/server/exportimport/expImpSchema";
+import { doExport as __doExport } from "../imports/server/exportimport/expImpTopics";
 import { doExport as _____doExport } from "../imports/server/exportimport/expImpUsers";
 
-import { create, bindHelp, showHelp } from "node-getopt";
 create([
   ["i", "id=[ARG]", "ID of meeting series, e.g. icwrCdJjqWpoH9ugQ"],
   ["m", "mongourl=[ARG]", "Mongo DB url, e.g. mongodb://localhost:3101/meteor"],
@@ -43,7 +47,9 @@ const _connectMongo = function (mongoUrl) {
 
 console.log("");
 console.log(
-  `*** 4Minitz MeetingSeries Export Tool *** (made for schema version: ${MADE_FOR_SCHEMA})`,
+  `*** 4Minitz MeetingSeries Export Tool *** (made for schema version: ${
+    MADE_FOR_SCHEMA
+  })`,
 );
 _connectMongo(mongoUrl)
   .then((db) => {
