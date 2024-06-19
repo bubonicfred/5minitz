@@ -22,7 +22,7 @@ log() {
 }
 echo Remove old log file
 mkdir -p "$LOGDIR"
-rm "$SERVERLOG" >> /dev/null # Clear the log file
+rm -f "$SERVERLOG"
 
 log "Starting end2end server"
 npm run test:end2end:server >> "$SERVERLOG" 2>&1 &
