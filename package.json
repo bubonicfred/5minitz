@@ -13,7 +13,6 @@
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
-  "type": "module",
   "directories": {
     "doc": "doc",
     "test": "tests"
