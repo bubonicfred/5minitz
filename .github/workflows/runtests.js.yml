@@ -77,15 +77,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Cache Chromedriver
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/work/4minitz/4minitz/node_modules/chromedriver
-          key: chromedriver-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-           chromedriver-${{ runner.os }}-
-      - run: npm install chromedriver@^123.0.1
-      - run: google-chrome --version
       - run: npm install
       - run: mkdir ./tests/mongodump
       - run: ./tests/run_e2e.sh tests/end2end/${{ matrix.e2etest }}
