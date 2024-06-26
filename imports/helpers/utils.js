@@ -5,7 +5,7 @@ export class Util {
     for (const source of sources) {
       for (const key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
-          this.target[key] = source[key];
+          target[key] = source[key]; // Corrected line
         }
       }
     }
