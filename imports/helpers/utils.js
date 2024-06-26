@@ -1,5 +1,5 @@
 export class Util {
-  assignIn(target, ...sources) {
+ static assignIn(target, ...sources) {
     const length = sources.length;
     if (length < 1 || target == null) return target;
     for (const source of sources) {
@@ -10,5 +10,5 @@ export class Util {
       }
     }
     return target;
-  }
-}
+  };
+};
