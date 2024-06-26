@@ -30,8 +30,8 @@ exports.config = {
   // Patterns to exclude.
   suites: {
         basic: [
-            './tests/end2end/MeetingSeries-test.js',
-            './tests/end2end/MeetingSeriesEdit-test.js'
+            './tests/end2end/MeetingSeries-test.mjs',
+            './tests/end2end/MeetingSeriesEdit-test.mjs'
         ] },
   exclude: [
     // 'path/to/excluded/files'
