@@ -47,13 +47,13 @@ jobs:
       fail-fast: true # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
       matrix: # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
         e2etest:
-          - MeetingSeries-test.js
-          - MeetingSeriesEdit-test.js
+          - MeetingSeries-test.mjs
+          - MeetingSeriesEdit-test.mjs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "^14.21.3"
+          node-version: "^16.20.0"
           cache: "npm"
           cache-dependency-path: "package-lock.json"
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
@@ -74,21 +74,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node14-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node18-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node14-
-      - name: Cache Chromedriver
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/work/4minitz/4minitz/node_modules/chromedriver
-          key: chromedriver-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-           chromedriver-${{ runner.os }}-
-      - run: npm install chromedriver@^123.0.1
-      - run: google-chrome --version
+            ${{ runner.os }}-node18-
       - run: npm install
       - run: mkdir ./tests/mongodump
-      - run: ./tests/run_e2e.sh tests/end2end/${{ matrix.e2etest }}
+      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
       - name: Upload E2E Artifacts
         if: always()
         uses: actions/upload-artifact@v4

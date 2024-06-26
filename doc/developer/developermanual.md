@@ -98,7 +98,7 @@ npm run test:end2end:watchheadless  # invisible browser, tests re-run when any t
 
 To run any of the above scripts with a specific test file, you may append that test spec like so:
 
-`npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js`
+`npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.mjs`
 
 #### Headless debugging with screenshots
 
