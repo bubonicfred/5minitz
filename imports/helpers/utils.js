@@ -1,17 +1,14 @@
-class _ {
-  assignIn = (target, ...sources) => {
+export class Util {
+  assignIn(target, ...sources) {
     const length = sources.length;
     if (length < 1 || target == null) return target;
-    for (let i = 0; i < length; i++) {
-      const source = sources[i];
+    for (const source of sources) {
       for (const key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
+          this.target[key] = source[key];
         }
       }
     }
     return target;
-  };
+  }
 }
-
-export { _ };
