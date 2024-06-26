@@ -9,7 +9,7 @@ const doNothing = () => {};
 const Topic = {};
 const Label = {};
 
-class MeteorError {}
+const MeteorError = {};
 
 const Meteor = {
   call: sinon.stub(),
@@ -38,15 +38,15 @@ const { Priority } = proxyquire("../../../imports/priority", {
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": Helpers,
+  "./user.js": { null: null, "@noCallThru": true },
+  "./helpers/date.js": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },
 });
 
 const { ActionItem } = proxyquire("../../../imports/actionitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
-  "/imports/priority": { Priority, "@noCallThru": true },
+  "./priority": { Priority, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
 });
 // skipcq: JS-0241

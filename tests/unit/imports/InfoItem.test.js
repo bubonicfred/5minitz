@@ -30,9 +30,9 @@ const User = {
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
-  "/imports/user": { User, "@noCallThru": true },
+  "./user": { User, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
-  "/imports/helpers/date": Helpers,
+  "./helpers/date": Helpers,
   "./topic": { Topic, "@noCallThru": true },
   "./label": { Label, "@noCallThru": true },
 });
