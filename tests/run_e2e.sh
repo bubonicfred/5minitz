@@ -9,7 +9,7 @@ VERSIONS_DIR="./versions"
 
 # Ensure necessary commands are available
 for cmd in npm mongodump google-chrome; do
-  if ! command -v $cmd &> /dev/null; then
+  if ! command -v "$cmd" &> /dev/null; then
     echo "Error: $cmd could not be found"
     exit 1
   fi
