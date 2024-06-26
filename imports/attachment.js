@@ -1,4 +1,4 @@
-import { Util _ } from "./helpers/utils";
+import { Util as _ } from "./helpers/utils";
 
 import { AttachmentsCollection } from "./collections/attachments_private";
 import { Minutes } from "./minutes";
@@ -18,7 +18,6 @@ export class Attachment {
     }
   }
 
-  // ********** static methods ****************
   static findForMinutes(minID) {
     return AttachmentsCollection.find({ "meta.meetingminutes_id": minID });
   }
@@ -77,7 +76,7 @@ export class Attachment {
     upload.start();
   }
 
-  // ********** object methods ****************
+
   isUploaderAndFileOwner() {
     return (
       this._roles.isUploaderFor(this._file.meta.parentseries_id) &&
