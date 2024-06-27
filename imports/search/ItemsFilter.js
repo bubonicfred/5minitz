@@ -1,4 +1,3 @@
-import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 
 import { ITEM_KEYWORDS } from "./FilterKeywords";
@@ -53,8 +52,8 @@ export class ItemsFilter {
   }
 
   docMatchesSearchTokens(doc, searchTokens) {
-    for (let i = 0; i < searchTokens.length; i++) {
-      const token = this._toUpper(searchTokens[i]);
+    for (const searchToken of searchTokens) {
+      const token = this._toUpper(searchToken);
       const subject = this._toUpper(doc.subject);
       const infos = doc.details
         ? this._toUpper(
@@ -77,11 +76,10 @@ export class ItemsFilter {
   }
 
   docMatchesLabelTokens(doc, labelTokens) {
-    for (let i = 0; i < labelTokens.length; i++) {
-      const labelToken = labelTokens[i];
+    for (const labelToken of labelTokens) {
       const labelIds = labelToken.ids;
 
-      if (_.intersection(doc.labels, labelIds).length === 0) {
+      if (labelIds.intersection(doc.labels).length === 0) {
         return false;
       }
     }
@@ -140,7 +138,7 @@ export class ItemsFilter {
       return acc + resp;
     }, "");
     return (
-      (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0) ||
+      (filter.ids && filter.ids.intersection(doc.responsibles).length > 0) ||
       (filter.value &&
         this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1)
     );

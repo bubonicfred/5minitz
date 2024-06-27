@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Validator } from "meteor/jagi:astronomy";
 
 /**
@@ -25,15 +24,15 @@ Validator.create({
    * @returns {boolean} - True if the value is a valid meteor id, false
    *     otherwise.
    */
-  isValid({ value }) {
-    if (Array.isArray(value)) {
-      return _.map(value, (a) => regExId.test(a)).reduce(
-        (previous, current) => previous && current,
-        true,
-      );
-    }
-    return regExId.test(value);
-  },
+isValid({ value }) {
+  if (Array.isArray(value)) {
+    return value.map(a => regExId.test(a)).reduce(
+      (previous, current) => previous && current,
+      true,
+    );
+  }
+  return regExId.test(value);
+},
 
   /**
    * Resolves the error message for an invalid meteor id.

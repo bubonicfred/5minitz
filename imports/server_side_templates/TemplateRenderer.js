@@ -1,4 +1,4 @@
-import { _ } from "lodash";
+import { Util as _ } from "../helpers/utils";
 import { ServerTemplate } from "meteor/felixble:server-templates";
 import { Meteor } from "meteor/meteor";
 
