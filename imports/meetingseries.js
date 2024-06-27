@@ -7,16 +7,16 @@
  * @exports MeetingSeries
  */
 
-import "./collections/meetingseries_private";
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { MinutesFinder } from "./services/minutesFinder";
-import { Util as _ } from "./helpers/utils";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import moment from "moment/moment";
 import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
+import "./collections/meetingseries_private";
+import { formatDateISO8601 } from "./helpers/date";
+import { subElementsHelper } from "./helpers/subElements";
+import { Util as _ } from "./helpers/utils";
 import { Minutes } from "./minutes";
+import { MinutesFinder } from "./services/minutesFinder";
 import { TopicsFinder } from "./services/topicsFinder";
 import { UserRoles } from "./userroles";
 
@@ -39,8 +39,6 @@ export class MeetingSeries {
       _.assignIn(this, source);
     }
   }
-
-
 
   /**
    * Finds documents in the MeetingSeries collection based on the provided
@@ -100,10 +98,9 @@ export class MeetingSeries {
     // we return an array with just a list of visible meeting series IDs
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [userId] } },
-      { _id: 1 },
+      { _id: 1 }
     ).map((item) => item._id);
   }
-
 
   /**
    * Retrieves the record associated with the current MeetingSeries instance.
@@ -234,14 +231,14 @@ export class MeetingSeries {
    * @returns {boolean} - True if a minute with the given ID exists, false
    *   otherwise.
    */
-hasMinute(id) {
-  for (const minuteId of this.minutes) {
-    if (minuteId === id) {
-      return true;
+  hasMinute(id) {
+    for (const minuteId of this.minutes) {
+      if (minuteId === id) {
+        return true;
+      }
     }
+    return false;
   }
-  return false;
-}
 
   /**
    * Counts the number of minutes in the meeting series.
@@ -260,7 +257,7 @@ hasMinute(id) {
    * @returns {Promise} A promise that resolves with the result of the update.
    */
   async updateLastMinutesFields(callback) {
-    callback = callback || (() => {});
+    callback = callback || (() => { });
 
     try {
       const result = await this.updateLastMinutesFieldsAsync();
@@ -317,7 +314,7 @@ hasMinute(id) {
       return new Date(lastMinutes.date);
     }
     return null;
-}
+  }
 
   /**
    * Get the date of the latest minute excluding the given minuteId.
@@ -340,7 +337,7 @@ hasMinute(id) {
       return;
     }
     const firstNonMatchingMinute = latestMinutes.find(
-      (minute) => minute._id !== minuteId,
+      (minute) => minute._id !== minuteId
     );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
@@ -401,7 +398,7 @@ hasMinute(id) {
     if (!this._id) {
       throw new Meteor.Error(
         "MeetingSeries not saved.",
-        "Call save() before using addVisibleUser()",
+        "Call save() before using addVisibleUser()"
       );
     }
     if (!Array.isArray(newVisibleForArray)) {
@@ -475,7 +472,7 @@ hasMinute(id) {
     return subElementsHelper.getElementById(
       labelName,
       this.availableLabels,
-      "name",
+      "name"
     );
   }
 
@@ -504,7 +501,7 @@ hasMinute(id) {
   removeLabel(id) {
     const index = subElementsHelper.findIndexById(
       id,
-      this.getAvailableLabels(),
+      this.getAvailableLabels()
     );
     if (undefined === index) {
       return;
