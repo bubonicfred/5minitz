@@ -1,5 +1,4 @@
 import { Meteor } from "meteor/meteor";
-
 import { ITEM_KEYWORDS } from "./FilterKeywords";
 
 /**
@@ -52,8 +51,8 @@ export class ItemsFilter {
   }
 
   docMatchesSearchTokens(doc, searchTokens) {
-    for (const searchToken of searchTokens) {
-      const token = this._toUpper(searchToken);
+    for (let i = 0; i < searchTokens.length; i++) {
+      const token = this._toUpper(searchTokens[i]);
       const subject = this._toUpper(doc.subject);
       const infos = doc.details
         ? this._toUpper(
@@ -79,7 +78,7 @@ export class ItemsFilter {
     for (const labelToken of labelTokens) {
       const labelIds = labelToken.ids;
 
-      if (labelIds.intersection(doc.labels).length === 0) {
+      if (doc.labels.filter(label => labelIds.includes(label)).length === 0) {
         return false;
       }
     }
@@ -88,8 +87,7 @@ export class ItemsFilter {
   }
 
   docMatchesFilterTokens(doc, filterTokens) {
-    for (let i = 0; i < filterTokens.length; i++) {
-      const filter = filterTokens[i];
+    for (const filter of filterTokens) {
 
       switch (filter.key) {
         case ITEM_KEYWORDS.IS.key: {
@@ -138,7 +136,7 @@ export class ItemsFilter {
       return acc + resp;
     }, "");
     return (
-      (filter.ids && filter.ids.intersection(doc.responsibles).length > 0) ||
+      (filter.ids && doc.responsibles.some(id => filter.ids.includes(id))) ||
       (filter.value &&
         this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1)
     );
