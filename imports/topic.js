@@ -67,7 +67,7 @@ function resolveTopic(parentElement, source) {
     }
   }
 
-  source = Object.assign({
+  Object.assign({
     isOpen: true,
     isNew: true,
     isRecurring: false,
