@@ -7,13 +7,16 @@
  * system. It provides methods for resolving parent elements, resolving topics,
  * finding topic index in an array, checking if a topic has open action items,
  * and more.
+ * @module Topic
  */
 
 import "./collections/minutes_private";
 
-import { subElementsHelper } from "./helpers/subElements";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
+
 import { InfoItem } from "./infoitem";
 import { InfoItemFactory } from "./InfoItemFactory";
 import { MeetingSeries } from "./meetingseries";
@@ -67,19 +70,20 @@ function resolveTopic(parentElement, source) {
     }
   }
 
-  Object.assign({
+  _.defaults(source, {
     isOpen: true,
     isNew: true,
     isRecurring: false,
     labels: [],
     isSkipped: false,
-  }, source);
+  });
 
   return source;
 }
 
 /**
  * Represents a topic in a meeting or minute.
+ * @class
  */
 export class Topic {
   /**
@@ -111,6 +115,7 @@ export class Topic {
     }
   }
 
+  // ################### static methods
   /**
    * Finds the index of a topic in an array based on its ID.
    *
@@ -141,6 +146,7 @@ export class Topic {
     return false;
   }
 
+  // ################### object methods
 
   /**
    * Returns a string representation of the Topic object.
@@ -172,13 +178,12 @@ export class Topic {
   }
 
   /**
-   * Checks if the topic is finally completed (will not show up in future minutes).
-   * A topic is considered finally completed if:
-   * - The document is not open
-   * - There are no open action items
-   * - The topic is not recurring
-   *
-   * @returns {boolean} True if the topic is finally completed, false otherwise.
+   * A topic is finally completed (and will not show up in future minutes) if it
+   * is
+   *    - not checked as dicussed and
+   *    - has no more open AIs and
+   *    - is not marked as recurring
+   * @returns {boolean}
    */
   isFinallyCompleted() {
     return (
@@ -311,7 +316,9 @@ export class Topic {
   }
 
   /**
-   * Filters the infoItems in the topic document based on a condition.
+   * Removes all fire-and-forget elements as well
+   * as closed AIs from this topic (info items which are
+   * no action items)
    */
   tailorTopic() {
     this._topicDoc.infoItems = this._topicDoc.infoItems.filter(
@@ -366,6 +373,11 @@ export class Topic {
     });
   }
 
+  /**
+   * Returns an array of open action items from the topic document.
+   *
+   * @returns {Array} An array of open action items.
+   */
   /**
    * Returns an array of open action items from the topic document.
    *
