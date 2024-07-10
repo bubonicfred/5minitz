@@ -44,45 +44,47 @@ const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
   "./minutes": { Minutes, "@noCallThru": true },
   "./topic": { Topic, "@noCallThru": true },
   "./userroles": { UserRoles, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
-  "/imports/helpers/subElements": SubElements,
+  "./helpers/date": DateHelpers,
+  "./helpers/subElements": SubElements,
   lodash: { _, "@noCallThru": true },
   "./services/topicsFinder": { TopicsFinder, "@noCallThru": true },
-  "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
+  "./services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
-
-describe("MeetingSeries", () => {
-  describe("#constructor", () => {
+// skipcq: JS-0241
+describe("MeetingSeries", function () {
+  // skipcq: JS-0241
+  describe("#constructor", function () {
     let meetingSeries;
-
-    beforeEach(() => {
+    // skipcq: JS-0241
+    beforeEach(function () {
       meetingSeries = {
         project: "foo",
         name: "bar",
       };
     });
-
-    it("sets the project correctly", () => {
+    // skipcq: JS-0241
+    it("sets the project correctly", function () {
       const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.project).to.equal(meetingSeries.project);
     });
-
-    it("sets the name correctly", () => {
+    // skipcq: JS-0241
+    it("sets the name correctly", function () {
       const ms = new MeetingSeries(meetingSeries);
 
       expect(ms.name).to.equal(meetingSeries.name);
     });
   });
-
-  describe("#getMinimumAllowedDateForMinutes", () => {
+  // skipcq: JS-0241
+  describe("#getMinimumAllowedDateForMinutes", function () {
     let series;
 
-    beforeEach(() => {
+    // skipcq: JS-0241
+    beforeEach(function () {
       series = new MeetingSeries();
     });
-
-    afterEach(() => {
+    // skipcq: JS-0241
+    afterEach(function () {
       if (Object.prototype.hasOwnProperty.call(Minutes, "findAllIn")) {
         delete Minutes.findAllIn;
       }
@@ -99,8 +101,8 @@ describe("MeetingSeries", () => {
         expectedDate.getDay(),
       );
     }
-
-    it("retrieves the date of the lastMinutes() if no id is given", () => {
+    // skipcq: JS-0241
+    it("retrieves the date of the lastMinutes() if no id is given", function () {
       const expectedDate = new Date();
 
       MinutesFinder.result = { date: expectedDate };
@@ -109,10 +111,10 @@ describe("MeetingSeries", () => {
 
       compareDates(actualDate, expectedDate);
     });
-
-    it("gets the date from the second to last minute if id of last minute is given", () => {
-      let lastMinuteId = "lastMinuteId",
-        expectedDate = new Date();
+    // skipcq: JS-0241
+    it("gets the date from the second to last minute if id of last minute is given", function () {
+      const lastMinuteId = "lastMinuteId";
+      const expectedDate = new Date();
 
       Minutes.findAllIn = sinon.stub().returns([
         {
@@ -129,10 +131,10 @@ describe("MeetingSeries", () => {
 
       compareDates(actualDate, expectedDate);
     });
-
-    it("gets the date from the last minute if id of second to last minute is given", () => {
-      let secondToLastMinuteId = "minuteId",
-        expectedDate = new Date();
+    // skipcq: JS-0241
+    it("gets the date from the last minute if id of second to last minute is given", function () {
+      const secondToLastMinuteId = "minuteId";
+      const expectedDate = new Date();
 
       Minutes.findAllIn = sinon.stub().returns([
         {
@@ -151,24 +153,24 @@ describe("MeetingSeries", () => {
       compareDates(actualDate, expectedDate);
     });
   });
-
-  describe("#save", () => {
+  // skipcq: JS-0241
+  describe("#save", function () {
     let meetingSeries;
-
-    beforeEach(() => {
+    // skipcq: JS-0241
+    beforeEach(function () {
       meetingSeries = new MeetingSeries({
         project: "foo",
         name: "bar",
       });
     });
-
-    it("calls the meteor method meetingseries.insert", () => {
+    // skipcq: JS-0241
+    it("calls the meteor method meetingseries.insert", function () {
       meetingSeries.save();
 
       expect(Meteor.callAsync.calledOnce).to.be.true;
     });
-
-    it("sends the document to the meteor method meetingseries.insert", () => {
+    // skipcq: JS-0241
+    it("sends the document to the meteor method meetingseries.insert", function () {
       meetingSeries.save();
 
       expect(Meteor.callAsync.calledWith("meetingseries.insert", meetingSeries))

@@ -28,7 +28,11 @@ class MeetingSeries {
     return undefined;
   }
 }
-
+const i18n = {
+  setLocale: sinon.stub(),
+  getLocale: sinon.stub(),
+  __: sinon.stub(),
+};
 const minuteId = "AaBbCcDd02";
 class Minutes {
   constructor(id) {
@@ -55,22 +59,26 @@ const Random = {
 
 SubElements["@noCallThru"] = true;
 DateHelpers["@noCallThru"] = true;
-
+const { Priority } = proxyquire("../../../imports/priority", {
+  "meteor/universe:i18n": { i18n, "@noCallThru": true },
+});
 const { Label } = proxyquire("../../../imports/label", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
+  "./meetingseries": { MeetingSeries, "@noCallThru": true },
 });
 
 const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
   "meteor/random": { Random, "@noCallThru": true },
   lodash: { _, "@noCallThru": true },
-  "/imports/user": { null: null, "@noCallThru": true },
-  "/imports/helpers/date": DateHelpers,
+  "./user": { null: null, "@noCallThru": true },
+  "./helpers/date": DateHelpers,
   "./label": { Label, "@noCallThru": true },
 });
 
 const { ActionItem } = proxyquire("../../../imports/actionitem", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
+  "./priority": { Priority, "@noCallThru": true },
   "./infoitem": { InfoItem, "@noCallThru": true },
 });
 

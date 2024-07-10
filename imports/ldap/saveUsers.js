@@ -1,12 +1,11 @@
-let mongo = require("mongodb").MongoClient,
-  mongoUriParser = require("mongo-uri"),
-  transformUser = require("./transformUser");
+const mongo = require("mongodb").MongoClient;
+const mongoUriParser = require("mongo-uri");
+const transformUser = require("./transformUser");
 
-import { _ } from "lodash";
 import { Random } from "../../tests/performance/fixtures/lib/random";
 
 const _transformUsers = (settings, users) =>
-  _.map(users, (user) => transformUser(settings, user));
+  users.map((user) => transformUser(settings, user));
 
 const _connectMongo = (mongoUrl) => mongo.connect(mongoUrl);
 
@@ -30,7 +29,7 @@ const _insertUsers = (client, mongoUri, users) => {
         .db(mongoConnection.database)
         .collection("users")
         .initializeUnorderedBulkOp();
-      _.forEach(users, (user) => {
+      users.forEach((user) => {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           const usrRegExp = new RegExp(
@@ -52,12 +51,14 @@ const _insertUsers = (client, mongoUri, users) => {
               },
               $set: user,
             });
-        } else {
-          const stringifiedUser = JSON.stringify(user, null, 2);
-          console.log(
-            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`,
-          );
+          return;
         }
+        const stringifiedUser = JSON.stringify(user, null, 2);
+        console.log(
+          `SKIPPED INVALID USER (no username or no valid emails[0].address): ${
+            stringifiedUser
+          }`,
+        );
       });
       const bulkResult = bulk.execute();
 
@@ -69,9 +70,9 @@ const _insertUsers = (client, mongoUri, users) => {
 };
 
 const _closeMongo = (data) => {
-  let force = false,
-    client = data.client,
-    result = data.bulkResult;
+  const force = false;
+  const client = data.client;
+  const result = data.bulkResult;
 
   return new Promise((resolve) => {
     client.close(force);

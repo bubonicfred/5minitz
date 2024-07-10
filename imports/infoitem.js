@@ -1,16 +1,16 @@
 /**
  * A InfoItem is a sub-element of
- * a topic which has a subject,
+ * a topic which has a subject,>
  * a date when is was created
  * and a list of associated tags.
  */
-import { User } from "/imports/user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
-import { formatDateISO8601 } from "./helpers/date";
-import { StringUtils } from "./helpers/string-utils";
+import { formatDateISO8601 } from "./helpers/date.js";
+import { StringUtils } from "./helpers/string-utils.js";
+import { User } from "./user.js";
 
 /**
  * The InfoItem class represents an information item in a topic.
@@ -58,7 +58,6 @@ export class InfoItem {
     this._infoItemDoc = source;
   }
 
-  // ################### static methods
   /**
    * Checks if the given infoItem document is an action item.
    *
@@ -81,7 +80,9 @@ export class InfoItem {
     return infoItemDoc.createdInMinute === minutesId;
   }
 
-  // ################### object methods
+  /**
+   * Invalidates the isNew flag of the info item.
+   */
   invalidateIsNewFlag() {
     this._infoItemDoc.isNew = false;
   }
@@ -95,22 +96,47 @@ export class InfoItem {
     return this._infoItemDoc._id;
   }
 
+  /**
+   * Checks if the info item is sticky.
+   * @returns {boolean} True if the info item is sticky, false otherwise.
+   */
   isSticky() {
     return this._infoItemDoc.isSticky;
   }
 
+  /**
+   * Checks if the deletion of the info item is allowed.
+   *
+   * @param {string} currentMinutesId - The ID of the current minutes.
+   * @returns {boolean} - Returns true if the deletion is allowed, false
+   *     otherwise.
+   */
   isDeleteAllowed(currentMinutesId) {
     return this._infoItemDoc.createdInMinute === currentMinutesId;
   }
 
+  /**
+   * Toggles the sticky state of the info item.
+   */
   toggleSticky() {
     this._infoItemDoc.isSticky = !this.isSticky();
   }
 
+  /**
+   * Returns the subject of the info item.
+   *
+   * @returns {string} The subject of the info item.
+   */
   getSubject() {
     return this._infoItemDoc.subject;
   }
 
+  /**
+   * Adds details to the info item.
+   * @param {string} minuteId - The ID of the minute.
+   * @param {string} [text] - The text of the details. Defaults to an empty
+   *     string if not provided.
+   */
   addDetails(minuteId, text) {
     if (text === undefined) text = "";
 
@@ -131,10 +157,26 @@ export class InfoItem {
     });
   }
 
+  /**
+   * Removes a detail from the info item's details array at the specified index.
+   *
+   * @param {number} index - The index of the detail to remove.
+   * @returns {void}
+   */
   removeDetails(index) {
     this._infoItemDoc.details.splice(index, 1);
   }
 
+  /**
+   * Updates the details of an info item at the specified index.
+   * If the text is empty, an error is thrown.
+   * If the text is the same as the existing details, no update is performed.
+   * The date, text, updatedAt, and updatedBy fields of the details are updated.
+   *
+   * @param {number} index - The index of the details to update.
+   * @param {string} text - The new text for the details.
+   * @throws {Meteor.Error} If the text is empty.
+   */
   updateDetails(index, text) {
     if (text === "") {
       throw new Meteor.Error(
@@ -154,6 +196,12 @@ export class InfoItem {
     );
   }
 
+  /**
+   * Retrieves the details of the info item.
+   * If the details are not already initialized, an empty array is assigned to
+   * it.
+   * @returns {Array} The details of the info item.
+   */
   getDetails() {
     if (!this._infoItemDoc.details) {
       this._infoItemDoc.details = [];
@@ -162,6 +210,14 @@ export class InfoItem {
     return this._infoItemDoc.details;
   }
 
+  /**
+   * Retrieves the details at the specified index.
+   *
+   * @param {number} index - The index of the details to retrieve.
+   * @returns {*} The details at the specified index.
+   * @throws {Meteor.Error} Throws an error if the index is out of bounds or if
+   *     the details are not available.
+   */
   getDetailsAt(index) {
     if (
       !this._infoItemDoc.details ||
@@ -174,6 +230,15 @@ export class InfoItem {
     return this._infoItemDoc.details[index];
   }
 
+  /**
+   * Saves the current instance asynchronously.
+   * @todo factor out callback
+   * @param {Function} callback - The callback function to be called after the
+  save operation completes.
+   * @returns {Promise} A promise that resolves with the result of the save
+  operation.
+  //
+*/
   async save(callback = () => {}) {
     try {
       const result = await this.saveAsync();
@@ -183,62 +248,87 @@ export class InfoItem {
     }
   }
 
+  /**
+   * Saves the info item asynchronously.
+   *
+   * @param {boolean} [insertPlacementTop=true] - Determines whether to insert
+   *     the info item at the top or bottom.
+   * @returns {Promise<string>} - A promise that resolves with the ID of the
+   *     saved info item.
+   * @throws {Error} - If there is an error while saving the info item.
+   */
   async saveAsync(insertPlacementTop = true) {
-    // Explain why the entire topics array is updated from the parent minutes of
-    // the parent topic.
     try {
       const currentUserProfileName = User.profileNameWithFallback(
         Meteor.user(),
       );
 
       if (!this._infoItemDoc._id) {
-        // If it's a new info item, set creation details.
         this._infoItemDoc.createdAt = new Date();
         this._infoItemDoc.createdBy = currentUserProfileName;
       }
 
-      // Always update the last modification details.
       this._infoItemDoc.updatedAt = new Date();
       this._infoItemDoc.updatedBy = currentUserProfileName;
 
-      // Upsert the info item document in the parent topic.
-      // The second parameter 'true' could be replaced with a named constant for
-      // clarity.
       this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
         this._infoItemDoc,
-        true, // Consider replacing with a named constant for clarity.
+        true,
         insertPlacementTop,
       );
     } catch (error) {
-      // Handle or log the error appropriately.
       console.error("Error saving info item:", error);
-      throw error; // Rethrow or handle as needed.
+      throw error;
     }
   }
 
+  /**
+   * Saves the item at the bottom.
+   * @returns {Promise} A promise that resolves when the save operation is
+   *     complete.
+   */
   saveAtBottom() {
     return this.saveAsync(false);
   }
 
+  /**
+   * Get the parent topic of this info item.
+   *
+   * @returns {Object} The parent topic object.
+   */
   getParentTopic() {
     return this._parentTopic;
   }
 
+  /**
+   * Checks if the info item is an action item.
+   * @returns {boolean} True if the info item is an action item, false
+   *     otherwise.
+   */
   isActionItem() {
     return InfoItem.isActionItem(this._infoItemDoc);
   }
 
+  /**
+   * Retrieves the document associated with the info item.
+   * @returns {Object} The document associated with the info item.
+   */
   getDocument() {
     return this._infoItemDoc;
   }
 
+  /**
+   * Sets the subject of the info item.
+   *
+   * @param {string} newSubject - The new subject to set.
+   */
   setSubject(newSubject) {
     this._infoItemDoc.subject = newSubject;
   }
 
   /**
    * Adds labels to the info item by their IDs.
-   * @param {Array} labelIds - An array of label IDs to be added.
+   * @param {Array<string>} labelIds - An array of label IDs to be added.
    */
   addLabelsById(labelIds) {
     labelIds.forEach((id) => {
@@ -248,6 +338,13 @@ export class InfoItem {
     });
   }
 
+  /**
+   * Checks if the info item has a label with the specified ID.
+   *
+   * @param {string} labelId - The ID of the label to check.
+   * @returns {boolean} - Returns true if the info item has a label with the
+   *     specified ID, false otherwise.
+   */
   hasLabelWithId(labelId) {
     let i;
     for (i = 0; i < this._infoItemDoc.labels.length; i++) {
@@ -258,6 +355,12 @@ export class InfoItem {
     return false;
   }
 
+  /**
+   * Returns an array of labels for the info item.
+   * If no labels are present, an empty array is returned.
+   *
+   * @returns {Array} The array of labels for the info item.
+   */
   getLabelsRawArray() {
     if (!this._infoItemDoc.labels) {
       return [];
@@ -278,6 +381,9 @@ export class InfoItem {
     return `InfoItem: ${JSON.stringify(this._infoItemDoc, null, 4)}`;
   }
 
+  /**
+   * Description placeholder
+   */
   log() {
     console.log(this.toString());
   }

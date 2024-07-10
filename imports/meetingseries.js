@@ -1,5 +1,4 @@
 /**
- * @module meetingseries
  * @file This file contains the implementation of the MeetingSeries class. The
  *   MeetingSeries class represents a series of meetings and provides methods
  *   for managing and manipulating meeting data. It includes static methods for
@@ -10,34 +9,27 @@
 
 import "./collections/meetingseries_private";
 
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import moment from "moment/moment";
 
 import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
+import { formatDateISO8601 } from "./helpers/date";
+import { subElementsHelper } from "./helpers/subElements";
+import { Util as _ } from "./helpers/utils";
 import { Minutes } from "./minutes";
+import { MinutesFinder } from "./services/minutesFinder";
 import { TopicsFinder } from "./services/topicsFinder";
 import { UserRoles } from "./userroles";
 
-/**
- * Represents a meeting series.
- *
- * @class
- */
 export class MeetingSeries {
   /**
    * Represents a MeetingSeries object.
    *
-   * @class
    * @param {string | object} source - The source of the MeetingSeries object.
    *   It can be either a Mongo ID or a Mongo document.
    */
   constructor(source) {
-    // constructs obj from Mongo ID or Mongo document
     if (!source) return;
 
     if (typeof source === "string") {
@@ -49,8 +41,6 @@ export class MeetingSeries {
       _.assignIn(this, source);
     }
   }
-
-  // ################### static methods
 
   /**
    * Finds documents in the MeetingSeries collection based on the provided
@@ -113,8 +103,6 @@ export class MeetingSeries {
       { _id: 1 },
     ).map((item) => item._id);
   }
-
-  // ################### object methods
 
   /**
    * Retrieves the record associated with the current MeetingSeries instance.
@@ -251,6 +239,7 @@ export class MeetingSeries {
         return true;
       }
     }
+    return false;
   }
 
   /**
@@ -318,9 +307,8 @@ export class MeetingSeries {
 
   /**
    * Returns the date of the latest minute in the meeting series.
-   *
-   * @returns {Date} The date of the latest minute, or undefined if there are no
-   *   minutes.
+   * @returns {Date|null} The date of the latest minute, or null if no minutes
+   *     are found.
    */
   _getDateOfLatestMinute() {
     const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
@@ -328,6 +316,7 @@ export class MeetingSeries {
     if (lastMinutes) {
       return new Date(lastMinutes.date);
     }
+    return null;
   }
 
   /**
@@ -350,7 +339,6 @@ export class MeetingSeries {
     if (!latestMinutes) {
       return;
     }
-
     const firstNonMatchingMinute = latestMinutes.find(
       (minute) => minute._id !== minuteId,
     );
